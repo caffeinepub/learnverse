@@ -1,0 +1,163 @@
+import { useNavigate } from "@tanstack/react-router";
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "../../components/ui/button";
+import {
+  getCurrentUser,
+  playAudio,
+  saveGameResult,
+  syncToBackend,
+  updatePoints,
+} from "../../store";
+
+const EMOJIS = ["🐯", "🦁", "🐸", "🦊", "🐧", "🦋"];
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+export default function MemoryGame() {
+  const navigate = useNavigate();
+  const profile = getCurrentUser();
+  const [cards, setCards] = useState(() =>
+    shuffle(
+      [...EMOJIS, ...EMOJIS].map((e, i) => ({
+        id: i,
+        emoji: e,
+        flipped: false,
+        matched: false,
+      })),
+    ),
+  );
+  const [flipped, setFlipped] = useState<number[]>([]);
+  const [moves, setMoves] = useState(0);
+  const [time, setTime] = useState(0);
+  const [done, setDone] = useState(false);
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    if (done) return;
+    const t = setInterval(() => setTime((tt) => tt + 1), 1000);
+    return () => clearInterval(t);
+  }, [done]);
+
+  const handleFlip = useCallback(
+    (id: number) => {
+      if (flipped.length === 2) return;
+      const card = cards.find((c) => c.id === id);
+      if (!card || card.flipped || card.matched) return;
+      const newFlipped = [...flipped, id];
+      setCards((cs) =>
+        cs.map((c) => (c.id === id ? { ...c, flipped: true } : c)),
+      );
+      setFlipped(newFlipped);
+      if (newFlipped.length === 2) {
+        setMoves((m) => m + 1);
+        const [a, b] = newFlipped.map(
+          (fid) => cards.find((c) => c.id === fid)!,
+        );
+        if (a.emoji === b.emoji) {
+          playAudio("correct_answer");
+          setCards((cs) =>
+            cs.map((c) =>
+              newFlipped.includes(c.id) ? { ...c, matched: true } : c,
+            ),
+          );
+          setFlipped([]);
+          if (cards.filter((c) => c.matched).length + 2 === cards.length) {
+            const s = Math.max(10, 100 - moves * 2 - Math.floor(time / 10));
+            setScore(s);
+            setDone(true);
+          }
+        } else {
+          playAudio("wrong_answer");
+          setTimeout(() => {
+            setCards((cs) =>
+              cs.map((c) =>
+                newFlipped.includes(c.id) ? { ...c, flipped: false } : c,
+              ),
+            );
+            setFlipped([]);
+          }, 800);
+        }
+      }
+    },
+    [flipped, cards, moves, time],
+  );
+
+  const finish = () => {
+    if (!profile) return;
+    saveGameResult({
+      studentNumber: profile.studentNumber,
+      gameType: "memory",
+      score,
+      date: new Date().toISOString(),
+    });
+    updatePoints(profile.studentNumber, score);
+    syncToBackend(profile.studentNumber);
+    navigate({ to: "/games" });
+  };
+
+  if (done)
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center p-4">
+        <div className="bg-white rounded-3xl p-8 text-center max-w-xs w-full shadow-2xl">
+          <div className="text-5xl mb-3">🎉</div>
+          <h2 className="text-2xl font-black mb-2">Tebrikler!</h2>
+          <p className="text-gray-600 mb-1">
+            {moves} hamle, {time}s
+          </p>
+          <div className="text-4xl font-black text-pink-600 my-4">
+            +{score} Puan
+          </div>
+          <Button
+            data-ocid="memory.finish_button"
+            onClick={finish}
+            className="w-full bg-pink-500 text-white"
+          >
+            Bitir
+          </Button>
+        </div>
+      </div>
+    );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-pink-500 to-rose-600 p-4">
+      <div className="flex items-center justify-between mb-4">
+        <Button
+          data-ocid="memory.back_button"
+          variant="ghost"
+          onClick={() => navigate({ to: "/games" })}
+          className="text-white"
+        >
+          ←
+        </Button>
+        <div className="text-white font-bold">💞 Hafıza Oyunu</div>
+        <div className="text-white text-sm">
+          {moves} hamle | {time}s
+        </div>
+      </div>
+      <div className="grid grid-cols-4 gap-3 max-w-xs mx-auto">
+        {cards.map((card) => (
+          <button
+            type="button"
+            key={card.id}
+            data-ocid={`memory.card.${card.id + 1}`}
+            onClick={() => handleFlip(card.id)}
+            className={`aspect-square rounded-2xl text-3xl flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 ${
+              card.flipped || card.matched
+                ? "bg-white"
+                : "bg-pink-800 hover:bg-pink-700"
+            } ${card.matched ? "opacity-60" : ""}`}
+          >
+            {card.flipped || card.matched ? card.emoji : "❓"}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
