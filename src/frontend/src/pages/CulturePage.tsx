@@ -1,10 +1,11 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import {
   getCurrentUser,
   getReadTopics,
   markTopicRead,
+  trackContentVisit,
   updatePoints,
 } from "../store";
 
@@ -38,6 +39,36 @@ const people = [
     icon: "🎨",
     name: "Abidin Dino",
     desc: "Türkiye'nin önemli ressam ve yazarı. Paris sanat dünyasında nam salmıştır.",
+  },
+  {
+    key: "fatma_aliye",
+    icon: "📖",
+    name: "Fatma Aliye Topuz",
+    desc: "Türkiye'nin ilk kadın romancısı. Kadın hakları savunucusu ve düşünür.",
+  },
+  {
+    key: "ihsan_dogramaci",
+    icon: "🏥",
+    name: "İhsan Doğramacı",
+    desc: "Türk çocuk hekimi ve Bilkent Üniversitesi'nin kurucusu. Dünya Sağlık Örgütü'nde görev yaptı.",
+  },
+  {
+    key: "celal_sengor",
+    icon: "🌋",
+    name: "A.M. Celâl Şengör",
+    desc: "Dünyaca tanınan Türk jeolog ve jeotektonikçi. Tethys Okyanusu araştırmalarıyla öne çıkmıştır.",
+  },
+  {
+    key: "yunus_emre",
+    icon: "📜",
+    name: "Yunus Emre",
+    desc: "Anadolu'nun büyük şairi ve mutasavvıfı. Sevgi ve hoşgörü üzerine kalıcı şiirler yazdı.",
+  },
+  {
+    key: "seyfi_dursunoglu",
+    icon: "🎖️",
+    name: "Kurtuluş Savaşı Kahramanları",
+    desc: "Türk Kurtuluş Savaşı'nda vatanları için canlarını feda eden kahraman askerler ve komutanlar.",
   },
 ];
 
@@ -100,6 +131,11 @@ const fire = [
 export default function CulturePage() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
+  useEffect(() => {
+    if (profile) trackContentVisit(profile.studentNumber, "culture");
+  }, []);
   const [tab, setTab] = useState<"people" | "rules" | "emergency">("people");
   const [readTopics, setReadTopics] = useState<string[]>(() =>
     profile ? getReadTopics(profile.studentNumber) : [],

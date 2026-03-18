@@ -1,4 +1,11 @@
-import type { BadgeLevel, GameResult, Profile, QuizResult } from "./types";
+import type {
+  BadgeLevel,
+  ContentVisit,
+  GameResult,
+  Profile,
+  QuizResult,
+  WrongAnswer,
+} from "./types";
 
 const KEYS = {
   profiles: "learnverse_profiles",
@@ -123,7 +130,6 @@ export function playAudio(category: string): void {
     } catch {}
     return;
   }
-  // Web Audio API fallback
   try {
     const ctx = new (
       window.AudioContext || (window as any).webkitAudioContext
@@ -173,7 +179,6 @@ export function playAudio(category: string): void {
   } catch {}
 }
 
-// Günlük quiz kontrol
 export function hasPlayedQuizToday(studentNumber: string): boolean {
   const key = `learnverse_quiz_today_${studentNumber}`;
   const val = localStorage.getItem(key);
@@ -185,7 +190,6 @@ export function markQuizPlayedToday(studentNumber: string): void {
   localStorage.setItem(key, new Date().toDateString());
 }
 
-// Kültür sayfası okuma takibi
 export function getReadTopics(studentNumber: string): string[] {
   try {
     return JSON.parse(
@@ -207,6 +211,116 @@ export function markTopicRead(studentNumber: string, topicKey: string): void {
   }
 }
 
+// Streak
+export function getStreak(studentNumber: string): {
+  current: number;
+  lastDate: string;
+} {
+  try {
+    return JSON.parse(
+      localStorage.getItem(`learnverse_streak_${studentNumber}`) ||
+        '{"current":0,"lastDate":""}',
+    );
+  } catch {
+    return { current: 0, lastDate: "" };
+  }
+}
+
+export function updateStreak(studentNumber: string): void {
+  const streak = getStreak(studentNumber);
+  const today = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (streak.lastDate === today) return;
+  if (streak.lastDate === yesterday) {
+    streak.current += 1;
+  } else {
+    streak.current = 1;
+  }
+  streak.lastDate = today;
+  localStorage.setItem(
+    `learnverse_streak_${studentNumber}`,
+    JSON.stringify(streak),
+  );
+}
+
+// Wrong answers
+export function getWrongAnswers(studentNumber: string): WrongAnswer[] {
+  try {
+    return JSON.parse(
+      localStorage.getItem(`learnverse_wrong_${studentNumber}`) || "[]",
+    );
+  } catch {
+    return [];
+  }
+}
+
+export function saveWrongAnswer(answer: WrongAnswer): void {
+  const list = getWrongAnswers(answer.studentNumber);
+  if (!list.find((a) => a.question === answer.question)) {
+    list.push(answer);
+    localStorage.setItem(
+      `learnverse_wrong_${answer.studentNumber}`,
+      JSON.stringify(list),
+    );
+  }
+}
+
+export function removeWrongAnswer(studentNumber: string, id: string): void {
+  const list = getWrongAnswers(studentNumber).filter((a) => a.id !== id);
+  localStorage.setItem(
+    `learnverse_wrong_${studentNumber}`,
+    JSON.stringify(list),
+  );
+}
+
+export function clearWrongAnswers(studentNumber: string): void {
+  localStorage.removeItem(`learnverse_wrong_${studentNumber}`);
+}
+
+// Content visits
+export function trackContentVisit(studentNumber: string, page: string): void {
+  const key = `learnverse_visits_${studentNumber}`;
+  try {
+    const visits: Record<string, ContentVisit> = JSON.parse(
+      localStorage.getItem(key) || "{}",
+    );
+    if (!visits[page]) visits[page] = { page, count: 0, lastVisit: "" };
+    visits[page].count += 1;
+    visits[page].lastVisit = new Date().toISOString();
+    localStorage.setItem(key, JSON.stringify(visits));
+  } catch {}
+}
+
+export function getContentVisits(
+  studentNumber: string,
+): Record<string, ContentVisit> {
+  try {
+    return JSON.parse(
+      localStorage.getItem(`learnverse_visits_${studentNumber}`) || "{}",
+    );
+  } catch {
+    return {};
+  }
+}
+
+// Recommendation (store last quiz score)
+export function setLastQuizScore(studentNumber: string, pct: number): void {
+  localStorage.setItem(`learnverse_lastquiz_${studentNumber}`, String(pct));
+}
+
+export function getLastQuizScore(studentNumber: string): number | null {
+  const v = localStorage.getItem(`learnverse_lastquiz_${studentNumber}`);
+  return v !== null ? Number(v) : null;
+}
+
+// Sync timestamps
+function getSyncTimestamp(studentNumber: string): string {
+  return localStorage.getItem(`learnverse_synced_${studentNumber}`) || "";
+}
+function setSyncTimestamp(studentNumber: string, ts: string): void {
+  localStorage.setItem(`learnverse_synced_${studentNumber}`, ts);
+}
+
 // Backend sync
 export async function syncToBackend(studentNumber: string): Promise<void> {
   try {
@@ -220,12 +334,15 @@ export async function syncToBackend(studentNumber: string): Promise<void> {
       (r) => r.studentNumber === studentNumber,
     );
     if (profile) {
-      await backend.saveStudentData(
+      const now = new Date().toISOString();
+      await (backend as any).saveStudentData(
         studentNumber,
         JSON.stringify(profile),
         JSON.stringify(quizResults),
         JSON.stringify(gameResults),
+        now,
       );
+      setSyncTimestamp(studentNumber, now);
     }
   } catch (_) {}
 }
@@ -236,6 +353,7 @@ export async function getStudentDataFromBackend(
   profile: Profile | null;
   quizResults: QuizResult[];
   gameResults: GameResult[];
+  lastSyncedAt?: string;
 }> {
   try {
     const { createActorWithConfig } = await import("./config");
@@ -246,8 +364,109 @@ export async function getStudentDataFromBackend(
       profile: JSON.parse(data.profileJson),
       quizResults: JSON.parse(data.quizResultsJson),
       gameResults: JSON.parse(data.gameResultsJson),
+      lastSyncedAt: (data as any).lastSyncedAt || "",
     };
   } catch (_) {
     return { profile: null, quizResults: [], gameResults: [] };
   }
+}
+
+export async function syncFromBackendIfNewer(
+  studentNumber: string,
+): Promise<void> {
+  try {
+    const backendData = await getStudentDataFromBackend(studentNumber);
+    if (!backendData.profile) return;
+
+    const localSyncTs = getSyncTimestamp(studentNumber);
+    const backendSyncTs = backendData.lastSyncedAt || "";
+
+    // Merge quiz results: dedup by date
+    const localQuizResults = getQuizResults().filter(
+      (r) => r.studentNumber === studentNumber,
+    );
+    const allQuiz = [...localQuizResults, ...backendData.quizResults];
+    const quizMap = new Map<string, QuizResult>();
+    for (const q of allQuiz) quizMap.set(q.date, q);
+    const mergedQuiz = [...quizMap.values()].sort((a, b) =>
+      a.date < b.date ? -1 : 1,
+    );
+
+    // Merge game results: dedup by date+gameType
+    const localGameResults = getGameResults().filter(
+      (r) => r.studentNumber === studentNumber,
+    );
+    const allGame = [...localGameResults, ...backendData.gameResults];
+    const gameMap = new Map<string, GameResult>();
+    for (const g of allGame) gameMap.set(`${g.date}_${g.gameType}`, g);
+    const mergedGame = [...gameMap.values()].sort((a, b) =>
+      a.date < b.date ? -1 : 1,
+    );
+
+    // Save merged results
+    const allQuizResults = getQuizResults().filter(
+      (r) => r.studentNumber !== studentNumber,
+    );
+    localStorage.setItem(
+      KEYS.quizResults,
+      JSON.stringify([...allQuizResults, ...mergedQuiz]),
+    );
+
+    const allGameResults = getGameResults().filter(
+      (r) => r.studentNumber !== studentNumber,
+    );
+    localStorage.setItem(
+      KEYS.gameResults,
+      JSON.stringify([...allGameResults, ...mergedGame]),
+    );
+
+    // Decide which profile to keep
+    const localProfile = getProfileByStudentNumber(studentNumber);
+    const useBackend =
+      backendSyncTs > localSyncTs ||
+      !localProfile ||
+      (localProfile &&
+        backendData.profile.totalPoints > localProfile.totalPoints);
+
+    if (useBackend) {
+      saveProfile(backendData.profile);
+      if (backendSyncTs) setSyncTimestamp(studentNumber, backendSyncTs);
+    }
+  } catch (_) {}
+}
+
+// Daily Goals
+export interface DailyGoals {
+  date: string;
+  quizDone: boolean;
+  contentReads: number; // count for today
+  bonusAwarded: boolean;
+}
+
+export function getDailyGoals(studentNumber: string): DailyGoals {
+  const today = new Date().toDateString();
+  const key = `learnverse_dailygoals_${studentNumber}`;
+  try {
+    const stored: DailyGoals = JSON.parse(localStorage.getItem(key) || "null");
+    if (stored && stored.date === today) return stored;
+  } catch {}
+  return { date: today, quizDone: false, contentReads: 0, bonusAwarded: false };
+}
+
+export function updateDailyGoals(
+  studentNumber: string,
+  update: Partial<Omit<DailyGoals, "date">>,
+): DailyGoals {
+  const goals = getDailyGoals(studentNumber);
+  const updated = { ...goals, ...update };
+  const key = `learnverse_dailygoals_${studentNumber}`;
+  localStorage.setItem(key, JSON.stringify(updated));
+  return updated;
+}
+
+export function incrementDailyContentRead(studentNumber: string): DailyGoals {
+  const goals = getDailyGoals(studentNumber);
+  return updateDailyGoals(studentNumber, {
+    contentReads: goals.contentReads + 1,
+  });
 }

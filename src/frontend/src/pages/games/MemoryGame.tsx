@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "../../components/ui/button";
 import {
   getCurrentUser,
@@ -9,7 +9,23 @@ import {
   updatePoints,
 } from "../../store";
 
-const EMOJIS = ["🐯", "🦁", "🐸", "🦊", "🐧", "🦋"];
+const EMOJI_SETS = [
+  ["🐯", "🦁", "🐸", "🦊", "🐧", "🦋"],
+  ["🍎", "🍌", "🍓", "🍇", "🍉", "🥝"],
+  ["🚀", "🌍", "⭐", "🌙", "☀️", "🪐"],
+  ["🎸", "🎹", "🎺", "🥁", "🎻", "🎷"],
+  ["🚗", "✈️", "🚂", "🚢", "🚁", "🚲"],
+  ["🦅", "🦉", "🦜", "🐦", "🕊️", "🦚"],
+  ["🌹", "🌻", "🌷", "🌸", "🌺", "🌼"],
+  ["🍕", "🍔", "🌮", "🍣", "🍩", "🎂"],
+  ["🌲", "🌴", "🌵", "🍀", "🌾", "🌿"],
+  ["🌈", "⚡", "❄️", "🌊", "🔥", "🌪️"],
+  ["🏖️", "🏕️", "🎡", "🎢", "⛷️", "🏄"],
+  ["🏆", "🥇", "🎯", "🎳", "🏹", "🥋"],
+  ["🚀", "🌠", "🛸", "🌌", "☄️", "🔭"],
+  ["🐙", "🦈", "🐬", "🦀", "🐡", "🦞"],
+  ["🥦", "🥕", "🌽", "🧅", "🥔", "🫑"],
+];
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -23,9 +39,13 @@ function shuffle<T>(arr: T[]): T[] {
 export default function MemoryGame() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
+  const emojis = useMemo(
+    () => EMOJI_SETS[Math.floor(Math.random() * EMOJI_SETS.length)],
+    [],
+  );
   const [cards, setCards] = useState(() =>
     shuffle(
-      [...EMOJIS, ...EMOJIS].map((e, i) => ({
+      [...emojis, ...emojis].map((e, i) => ({
         id: i,
         emoji: e,
         flipped: false,
@@ -38,6 +58,7 @@ export default function MemoryGame() {
   const [time, setTime] = useState(0);
   const [done, setDone] = useState(false);
   const [score, setScore] = useState(0);
+  const [setIndex, setSetIndex] = useState(0);
 
   useEffect(() => {
     if (done) return;
@@ -102,6 +123,27 @@ export default function MemoryGame() {
     navigate({ to: "/games" });
   };
 
+  const playAgain = () => {
+    const nextSet = (setIndex + 1) % EMOJI_SETS.length;
+    setSetIndex(nextSet);
+    const nextEmojis = EMOJI_SETS[nextSet];
+    setCards(
+      shuffle(
+        [...nextEmojis, ...nextEmojis].map((e, i) => ({
+          id: i,
+          emoji: e,
+          flipped: false,
+          matched: false,
+        })),
+      ),
+    );
+    setFlipped([]);
+    setMoves(0);
+    setTime(0);
+    setDone(false);
+    setScore(0);
+  };
+
   if (done)
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center p-4">
@@ -114,13 +156,22 @@ export default function MemoryGame() {
           <div className="text-4xl font-black text-pink-600 my-4">
             +{score} Puan
           </div>
-          <Button
-            data-ocid="memory.finish_button"
-            onClick={finish}
-            className="w-full bg-pink-500 text-white"
-          >
-            Bitir
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              data-ocid="memory.play_again_button"
+              onClick={playAgain}
+              className="flex-1 bg-purple-500 text-white"
+            >
+              Tekrar Oyna
+            </Button>
+            <Button
+              data-ocid="memory.finish_button"
+              onClick={finish}
+              className="flex-1 bg-pink-500 text-white"
+            >
+              Bitir
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -141,6 +192,9 @@ export default function MemoryGame() {
           {moves} hamle | {time}s
         </div>
       </div>
+      <p className="text-white/70 text-center text-xs mb-2">
+        Set {setIndex + 1}/{EMOJI_SETS.length}
+      </p>
       <div className="grid grid-cols-4 gap-3 max-w-xs mx-auto">
         {cards.map((card) => (
           <button

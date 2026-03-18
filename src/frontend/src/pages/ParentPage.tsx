@@ -3,10 +3,18 @@ import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../components/ui/tabs";
+import {
   getBadgeLevel,
+  getContentVisits,
   getGameResults,
   getProfileByStudentNumber,
   getQuizResults,
+  getStreak,
   getStudentDataFromBackend,
   saveProfile,
 } from "../store";
@@ -30,7 +38,6 @@ export default function ParentPage() {
     setLoading(true);
     setResult(null);
 
-    // Önce backend'den çek
     const backendData = await getStudentDataFromBackend(clean);
     if (backendData.profile) {
       saveProfile(backendData.profile);
@@ -43,7 +50,6 @@ export default function ParentPage() {
       return;
     }
 
-    // Backend'de yoksa localStorage'a bak
     const localProfile = getProfileByStudentNumber(clean);
     if (localProfile) {
       setResult({
@@ -67,9 +73,18 @@ export default function ParentPage() {
       >
         ← Geri
       </Button>
-      <h1 className="text-2xl font-black text-white mb-2">
-        👨‍👩‍👧 Veli / Öğretmen Paneli
-      </h1>
+      <div className="flex justify-between items-center mb-2">
+        <h1 className="text-2xl font-black text-white">
+          👨‍👩‍👧 Veli / Öğretmen Paneli
+        </h1>
+        <Button
+          data-ocid="parent.secondary_button"
+          onClick={() => navigate({ to: "/classes" })}
+          className="bg-white/20 hover:bg-white/30 text-white font-bold text-sm"
+        >
+          🏫 Sınıflar
+        </Button>
+      </div>
       <p className="text-white/70 text-sm mb-6">
         Öğrenci numarasıyla sorgulama yapın
       </p>
@@ -119,8 +134,118 @@ export default function ParentPage() {
             gameResults: games,
           } = result as StudentData;
           const badge = getBadgeLevel(p.totalPoints);
+          const streak = getStreak(p.studentNumber);
+          const contentVisits = getContentVisits(p.studentNumber);
+
+          const avgScore =
+            quizzes.length > 0
+              ? Math.round(
+                  quizzes.reduce((s, q) => s + (q.correct / q.total) * 100, 0) /
+                    quizzes.length,
+                )
+              : 0;
+          const maxScore =
+            quizzes.length > 0
+              ? Math.max(
+                  ...quizzes.map((q) =>
+                    Math.round((q.correct / q.total) * 100),
+                  ),
+                )
+              : 0;
+          const minScore =
+            quizzes.length > 0
+              ? Math.min(
+                  ...quizzes.map((q) =>
+                    Math.round((q.correct / q.total) * 100),
+                  ),
+                )
+              : 0;
+          const totalCorrect = quizzes.reduce((s, q) => s + q.correct, 0);
+          const totalQuestions = quizzes.reduce((s, q) => s + q.total, 0);
+
+          const gameTypeMap: Record<
+            string,
+            { count: number; totalScore: number }
+          > = {};
+          for (const g of games) {
+            if (!gameTypeMap[g.gameType])
+              gameTypeMap[g.gameType] = { count: 0, totalScore: 0 };
+            gameTypeMap[g.gameType].count += 1;
+            gameTypeMap[g.gameType].totalScore += g.score;
+          }
+
+          const visitList = Object.values(contentVisits).sort(
+            (a, b) => b.count - a.count,
+          );
+
           return (
             <div data-ocid="parent.success_state" className="space-y-4">
+              {/* Alert cards */}
+              {(() => {
+                const alerts: { icon: string; msg: string; color: string }[] =
+                  [];
+                const streak = getStreak(p.studentNumber);
+                const lastLogin = streak.lastDate;
+                const today = new Date().toDateString();
+                const yesterday = new Date(
+                  Date.now() - 86400000,
+                ).toDateString();
+                const twoDaysAgo = new Date(
+                  Date.now() - 2 * 86400000,
+                ).toDateString();
+                if (
+                  lastLogin &&
+                  lastLogin !== today &&
+                  lastLogin !== yesterday &&
+                  lastLogin !== twoDaysAgo
+                ) {
+                  alerts.push({
+                    icon: "⚠️",
+                    msg: "Öğrenci 3+ gündür giriş yapmadı",
+                    color: "border-orange-400/60 bg-orange-500/10",
+                  });
+                }
+                if (streak.current === 0 && lastLogin && lastLogin !== today) {
+                  alerts.push({
+                    icon: "💔",
+                    msg: "Günlük seri kırıldı",
+                    color: "border-red-400/60 bg-red-500/10",
+                  });
+                }
+                if (streak.current >= 7) {
+                  alerts.push({
+                    icon: "🔥",
+                    msg: `Harika! ${streak.current} günlük seri devam ediyor`,
+                    color: "border-green-400/60 bg-green-500/10",
+                  });
+                }
+                const badge = getBadgeLevel(p.totalPoints);
+                if (badge >= 3) {
+                  alerts.push({
+                    icon: "🏅",
+                    msg: `Yeni rozet kazandı: ${BADGE_NAMES[badge - 1]}`,
+                    color: "border-yellow-400/60 bg-yellow-500/10",
+                  });
+                }
+                if (alerts.length === 0) return null;
+                return (
+                  <div className="space-y-2">
+                    {alerts.map((a) => (
+                      <div
+                        key={a.msg}
+                        className={`border rounded-2xl p-3 flex items-center gap-3 ${a.color}`}
+                      >
+                        <span className="text-2xl">{a.icon}</span>
+                        <span className="text-white text-sm font-bold">
+                          {a.msg}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+
+              {/* Profile card */}
               <div className="bg-white/10 rounded-3xl p-5 flex gap-4">
                 <span className="text-5xl">{AVATARS[p.avatarIndex]}</span>
                 <div>
@@ -134,48 +259,292 @@ export default function ParentPage() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-white/10 rounded-2xl p-3 text-center">
-                  <div className="text-2xl font-black text-white">
-                    {quizzes.length}
-                  </div>
-                  <div className="text-white/70 text-sm">Quiz Tamamlandı</div>
-                </div>
-                <div className="bg-white/10 rounded-2xl p-3 text-center">
-                  <div className="text-2xl font-black text-white">
-                    {games.length}
-                  </div>
-                  <div className="text-white/70 text-sm">Oyun Oynandı</div>
-                </div>
-              </div>
-              {quizzes.length > 0 && (
-                <div className="bg-white/10 rounded-2xl p-4">
-                  <div className="text-white font-bold mb-3">
-                    Son Quiz Sonuçları
-                  </div>
-                  <div className="space-y-2">
-                    {quizzes
-                      .slice(-10)
-                      .reverse()
-                      .map((q) => (
-                        <div
-                          key={q.date}
-                          className="flex justify-between text-sm"
-                        >
-                          <span className="text-white/70">
-                            {new Date(q.date).toLocaleDateString("tr-TR")}
-                          </span>
-                          <span className="text-white">
-                            {q.correct}/{q.total} doğru
-                          </span>
-                          <span className="text-yellow-300">
-                            +{q.score} puan
-                          </span>
+
+              <Tabs defaultValue="genel" className="w-full">
+                <TabsList className="w-full bg-white/10 rounded-2xl p-1 mb-4 grid grid-cols-4 h-auto">
+                  <TabsTrigger
+                    value="genel"
+                    data-ocid="parent.tab"
+                    className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl text-xs py-2 font-bold"
+                  >
+                    Genel
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="quiz"
+                    data-ocid="parent.tab"
+                    className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl text-xs py-2 font-bold"
+                  >
+                    Quiz
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="icerik"
+                    data-ocid="parent.tab"
+                    className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl text-xs py-2 font-bold"
+                  >
+                    İçerik
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="oyunlar"
+                    data-ocid="parent.tab"
+                    className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl text-xs py-2 font-bold"
+                  >
+                    Oyunlar
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* Tab 1: Genel */}
+                <TabsContent value="genel">
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-white/10 rounded-2xl p-3 text-center">
+                        <div className="text-2xl font-black text-white">
+                          {quizzes.length}
                         </div>
-                      ))}
+                        <div className="text-white/70 text-sm">
+                          Quiz Tamamlandı
+                        </div>
+                      </div>
+                      <div className="bg-white/10 rounded-2xl p-3 text-center">
+                        <div className="text-2xl font-black text-white">
+                          {games.length}
+                        </div>
+                        <div className="text-white/70 text-sm">
+                          Oyun Oynandı
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-2xl p-4 flex items-center gap-3">
+                      <span className="text-3xl">🔥</span>
+                      <div>
+                        <div className="text-white font-black text-lg">
+                          {streak.current} günlük seri
+                        </div>
+                        <div className="text-white/60 text-xs">
+                          Arka arkaya giriş yapılan gün sayısı
+                        </div>
+                      </div>
+                    </div>
+                    {quizzes.length > 0 && (
+                      <div className="bg-white/10 rounded-2xl p-4">
+                        <div className="text-white font-bold mb-3 text-sm">
+                          Son Quiz Sonuçları
+                        </div>
+                        <div className="space-y-2">
+                          {quizzes
+                            .slice(-5)
+                            .reverse()
+                            .map((q) => (
+                              <div
+                                key={q.date}
+                                className="flex justify-between text-sm"
+                              >
+                                <span className="text-white/70">
+                                  {new Date(q.date).toLocaleDateString("tr-TR")}
+                                </span>
+                                <span className="text-white">
+                                  {q.correct}/{q.total} doğru
+                                </span>
+                                <span className="text-yellow-300">
+                                  +{q.score} puan
+                                </span>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              )}
+                </TabsContent>
+
+                {/* Tab 2: Quiz Analizi */}
+                <TabsContent value="quiz">
+                  <div className="space-y-3">
+                    {quizzes.length === 0 ? (
+                      <div
+                        data-ocid="parent.empty_state"
+                        className="bg-white/10 rounded-2xl p-6 text-center text-white/60"
+                      >
+                        Henüz quiz yapılmadı.
+                      </div>
+                    ) : (
+                      <>
+                        <div className="grid grid-cols-3 gap-2">
+                          <div className="bg-white/10 rounded-2xl p-3 text-center">
+                            <div className="text-xl font-black text-white">
+                              %{avgScore}
+                            </div>
+                            <div className="text-white/60 text-xs">
+                              Ortalama
+                            </div>
+                          </div>
+                          <div className="bg-white/10 rounded-2xl p-3 text-center">
+                            <div className="text-xl font-black text-green-400">
+                              %{maxScore}
+                            </div>
+                            <div className="text-white/60 text-xs">
+                              En Yüksek
+                            </div>
+                          </div>
+                          <div className="bg-white/10 rounded-2xl p-3 text-center">
+                            <div className="text-xl font-black text-red-400">
+                              %{minScore}
+                            </div>
+                            <div className="text-white/60 text-xs">
+                              En Düşük
+                            </div>
+                          </div>
+                        </div>
+                        <div className="bg-white/10 rounded-2xl p-4">
+                          <div className="text-white font-bold mb-3 text-sm">
+                            Doğru / Yanlış Oranı
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="flex-1 bg-white/20 rounded-full h-4 overflow-hidden">
+                              <div
+                                className="h-full bg-green-500 rounded-full"
+                                style={{
+                                  width: `${totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0}%`,
+                                }}
+                              />
+                            </div>
+                            <span className="text-white text-xs font-bold">
+                              {totalCorrect}/{totalQuestions}
+                            </span>
+                          </div>
+                          <div className="flex justify-between text-xs mt-1">
+                            <span className="text-green-400">
+                              {totalCorrect} Doğru
+                            </span>
+                            <span className="text-red-400">
+                              {totalQuestions - totalCorrect} Yanlış
+                            </span>
+                          </div>
+                        </div>
+                        <div className="bg-white/10 rounded-2xl p-4">
+                          <div className="text-white font-bold mb-3 text-sm">
+                            Son 10 Quiz
+                          </div>
+                          <div className="space-y-2">
+                            {quizzes
+                              .slice(-10)
+                              .reverse()
+                              .map((q, i) => {
+                                const pct = Math.round(
+                                  (q.correct / q.total) * 100,
+                                );
+                                return (
+                                  <div
+                                    key={q.date}
+                                    className="flex items-center gap-2"
+                                  >
+                                    <span className="text-white/50 text-xs w-4">
+                                      {i + 1}
+                                    </span>
+                                    <div className="flex-1 bg-white/10 rounded-full h-3 overflow-hidden">
+                                      <div
+                                        className={`h-full rounded-full ${
+                                          pct >= 70
+                                            ? "bg-green-500"
+                                            : pct >= 40
+                                              ? "bg-yellow-500"
+                                              : "bg-red-500"
+                                        }`}
+                                        style={{ width: `${pct}%` }}
+                                      />
+                                    </div>
+                                    <span className="text-white text-xs w-10 text-right">
+                                      %{pct}
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </TabsContent>
+
+                {/* Tab 3: İçerik Aktivitesi */}
+                <TabsContent value="icerik">
+                  <div className="space-y-3">
+                    {visitList.length === 0 ? (
+                      <div
+                        data-ocid="parent.empty_state"
+                        className="bg-white/10 rounded-2xl p-6 text-center text-white/60"
+                      >
+                        Henüz içerik ziyareti yok.
+                      </div>
+                    ) : (
+                      <div className="bg-white/10 rounded-2xl p-4">
+                        <div className="text-white font-bold mb-3 text-sm">
+                          Ziyaret Edilen Sayfalar
+                        </div>
+                        <div className="space-y-2">
+                          {visitList.map((v) => (
+                            <div
+                              key={v.page}
+                              className="flex justify-between items-center text-sm"
+                            >
+                              <span className="text-white capitalize">
+                                {v.page}
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="bg-white/20 rounded-full h-2 w-16 overflow-hidden">
+                                  <div
+                                    className="h-full bg-cyan-400 rounded-full"
+                                    style={{
+                                      width: `${Math.min(100, (v.count / (visitList[0]?.count || 1)) * 100)}%`,
+                                    }}
+                                  />
+                                </div>
+                                <span className="text-white/80 text-xs">
+                                  {v.count}x
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </TabsContent>
+
+                {/* Tab 4: Oyunlar */}
+                <TabsContent value="oyunlar">
+                  <div className="space-y-3">
+                    {Object.keys(gameTypeMap).length === 0 ? (
+                      <div
+                        data-ocid="parent.empty_state"
+                        className="bg-white/10 rounded-2xl p-6 text-center text-white/60"
+                      >
+                        Henüz oyun oynanmadı.
+                      </div>
+                    ) : (
+                      <div className="bg-white/10 rounded-2xl p-4">
+                        <div className="text-white font-bold mb-3 text-sm">
+                          Oyun İstatistikleri
+                        </div>
+                        <div className="space-y-3">
+                          {Object.entries(gameTypeMap).map(([type, stats]) => (
+                            <div
+                              key={type}
+                              className="bg-white/10 rounded-xl p-3"
+                            >
+                              <div className="text-white font-bold text-sm capitalize">
+                                {type}
+                              </div>
+                              <div className="flex justify-between text-xs text-white/70 mt-1">
+                                <span>{stats.count} kez oynandı</span>
+                                <span>Toplam: {stats.totalScore} puan</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           );
         })()}

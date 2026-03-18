@@ -58,6 +58,22 @@ export interface GameResult {
   date: string;
 }
 
+export interface WrongAnswer {
+  studentNumber: string;
+  question: string;
+  choices: string[];
+  correctIndex: number;
+  userIndex: number;
+  savedAt: string;
+  id: string;
+}
+
+export interface ContentVisit {
+  page: string;
+  count: number;
+  lastVisit: string;
+}
+
 export const AUDIO_CATEGORIES = [
   { key: "correct_answer", label: "Doğru Cevap" },
   { key: "wrong_answer", label: "Yanlış Cevap" },

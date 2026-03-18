@@ -1,10 +1,12 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import {
   getCurrentUser,
   getReadTopics,
+  incrementDailyContentRead,
   markTopicRead,
+  trackContentVisit,
   updatePoints,
 } from "../store";
 
@@ -65,6 +67,193 @@ const experiments: Record<Level, Experiment[]> = {
       ],
       science:
         "Sirke ve kabartma tozu tepkimeye girince karbondioksit gazı çıkar. Bu gaz balonu şişirir!",
+    },
+    {
+      key: "exp_yeni_o1",
+      title: "Süt ve Limon",
+      emoji: "🥛",
+      materials: ["1 bardak süt", "1 yemek kaşığı limon suyu", "1 kap"],
+      steps: [
+        "Sütü kaba dök.",
+        "Limon suyunu sütün üzerine ekle.",
+        "Karıştır ve bekle.",
+        "Sütün pıhtılaştığını gözlemle.",
+      ],
+      science:
+        "Limon asittir. Asit sütün proteinlerini (kazein) birleştirir. Bu yüzden süt pıhtılaşır. Peynir bu yöntemle yapılır!",
+    },
+    {
+      key: "exp_yeni_o2",
+      title: "Su ve Yağ",
+      emoji: "💧",
+      materials: ["1 bardak su", "Biraz yemek yağı", "Gıda boyası"],
+      steps: [
+        "Bardağa su doldur.",
+        "Üzerine yağ ekle.",
+        "Boya ekleyip karıştır.",
+        "Yağın hep üstte kaldığını gözlemle.",
+      ],
+      science:
+        "Su ve yağ karışmaz çünkü moleküler yapıları farklıdır. Yağ daha hafif olduğu için üste çıkar.",
+    },
+    {
+      key: "exp_yeni_o3",
+      title: "Nefes Balonumuz",
+      emoji: "💨",
+      materials: ["1 balon", "1 kağıt tüp ya da pipet"],
+      steps: [
+        "Balonu ağzına tak.",
+        "Derin bir nefes al.",
+        "Balona üfle.",
+        "Balonu serbest bırak ve uçuşunu izle.",
+      ],
+      science:
+        "Nefes verdiğimizde karbondioksit gazı çıkar. Bu gaz balonu şişirir. Balonun içindeki hava dışarı çıkınca balon uçar.",
+    },
+    {
+      key: "exp_yeni_o4",
+      title: "Çiçek Boyama",
+      emoji: "🌸",
+      materials: [
+        "Beyaz çiçek (karanfil)",
+        "Renkli su",
+        "Gıda boyası",
+        "Bardak",
+      ],
+      steps: [
+        "Bardağa su doldur.",
+        "Gıda boyası ekle.",
+        "Çiçeğin sapını suya daldır.",
+        "Birkaç saat bekle.",
+        "Çiçeğin renk değiştirdiğini gözlemle.",
+      ],
+      science:
+        "Bitkiler su ve mineral taşımak için kök ve saplarındaki borucukları (ksilem) kullanır. Renkli su da aynı yoldan geçerek çiçeği boyar.",
+    },
+    {
+      key: "exp_t9_renk_karistirma",
+      title: "Renk Karıştırma",
+      emoji: "🎨",
+      materials: ["Kırmızı boya", "Sarı boya", "Mavi boya", "Beyaz kağıt"],
+      steps: [
+        "1. Kırmızı ve sarıyı karıştırın.",
+        "2. Turuncu rengi görün.",
+        "3. Mavi ve sarıyı karıştırın.",
+        "4. Yeşil rengi görün.",
+      ],
+      science:
+        "Işık üç temel renkten oluşur. Boyalar ise ışığı yansıtır; karıştırıldığında yeni renkler ortaya çıkar. Bu olaya renk sentezi denir.",
+    },
+    {
+      key: "exp_t9_mum_alev",
+      title: "Mum Işığı",
+      emoji: "🕯️",
+      materials: ["Mum", "Çakmak (yetişkin ile)", "Kavanoz"],
+      steps: [
+        "1. Mumu yak (yetişkinle).",
+        "2. Kavanozu üzerine koy.",
+        "3. Alevin söndüğünü izle.",
+      ],
+      science:
+        "Yanma için oksijen gerekir. Kavanoz içindeki oksijen bitince alev söner. Bu yanma kimyasının temelidir.",
+    },
+    {
+      key: "exp_t9_nefes_testi",
+      title: "Nefes Testi",
+      emoji: "🫁",
+      materials: ["Bir bardak su", "Pipet"],
+      steps: [
+        "1. Bardağa su doldurun.",
+        "2. Pipet koyun.",
+        "3. İçine üfleyin, baloncukları sayın.",
+      ],
+      science:
+        "Akciğerlerimiz havadan oksijen alır ve karbondioksit geri verir. Suya üflediğimizde karbondioksit baloncuklar oluşturur.",
+    },
+    {
+      key: "exp_t9_tuz_buz",
+      title: "Tuzlu Buz",
+      emoji: "🧊",
+      materials: ["Buz küpü", "Tuz", "İp"],
+      steps: [
+        "1. Buz üzerine ipi koyun.",
+        "2. Tuz serpin.",
+        "3. Birkaç saniye bekleyin, ipi kaldırın.",
+      ],
+      science:
+        "Tuz buzun erime noktasını düşürür. Yüzey önce erir sonra tekrar donar ve ipi sıkıştırır. Bu yüzden kışın yollara tuz atılır.",
+    },
+    {
+      key: "exp_gomlek_boya",
+      title: "Doğal Boyalarla Boyama",
+      emoji: "🎨",
+      materials: [
+        "Beyaz bez parçası",
+        "Pancar suyu",
+        "Zerdeçal",
+        "Ispanak suyu",
+      ],
+      steps: [
+        "Beyaz bezi düz bir yüzeye yay.",
+        "Farklı doğal boyaları beze damlatın.",
+        "Parmak uçlarıyla yayın.",
+        "Kurumaya bırakın.",
+      ],
+      science:
+        "Doğal bitkiler içlerindeki pigmentler sayesinde renk verirler. Bu, boyaların kimyası hakkında ilk keşfinizdir!",
+    },
+    {
+      key: "exp_sel_etkisi",
+      title: "Toprak ve Yağmur Deneyi",
+      emoji: "🌧️",
+      materials: ["İki tepsi", "Toprak", "Taşlar ve çakıllar", "Su şişesi"],
+      steps: [
+        "Bir tepsiye sadece toprak, diğerine taş ve toprak koy.",
+        "Her iki tepsiye eşit miktarda su dök.",
+        "Hangi tepsideki su daha hızlı aktı gözlemle.",
+      ],
+      science:
+        "Taşlar ve bitkiler toprağın erozyonunu engeller. Bu yüzden ormanlarda sel daha az olur!",
+    },
+    {
+      key: "exp_seker_kristal",
+      title: "Şeker Kristali",
+      emoji: "🍬",
+      materials: ["2 su bardağı şeker", "1 su bardağı sıcak su", "İp", "Kalem"],
+      steps: [
+        "Sıcak suya şekeri ekle ve karıştır.",
+        "İpi kaleme bağla ve şişeye daldır.",
+        "Birkaç gün bekle.",
+        "İpin üzerinde oluşan kristalleri gözlemle!",
+      ],
+      science:
+        "Soğuyan suda şeker çözünemez ve kristaller oluşur. Bu, kristalizasyon sürecidir.",
+    },
+    {
+      key: "exp_p13_mum_sondurme",
+      title: "Mumun Sönmesi",
+      emoji: "🕯️",
+      materials: ["Mum", "Kavanoz", "Çakmak (yetişkin ile)"],
+      steps: [
+        "1. Mumu yak ve bir süre yanmasını izle.",
+        "2. Kavanozla mumun üstünü kapat.",
+        "3. Mumun söndüğünü gözlemle.",
+      ],
+      science:
+        "Yanma için oksijen gereklidir. Kavanoz hava girişini kestiğinde oksijen tükenir ve mum söner.",
+    },
+    {
+      key: "exp_p14_renk_sihri",
+      title: "Sihirli Renk Süzgeci",
+      emoji: "🌈",
+      materials: ["Beyaz kahve filtresi", "Siyah keçeli kalem", "Su", "Bardak"],
+      steps: [
+        "1. Filtre kağıdının altını siyah keçeli kalemle boya.",
+        "2. Kağıdı suya değecek şekilde bardağa daldır.",
+        "3. Renklerin yükselişini izle.",
+      ],
+      science:
+        "Siyah mürekkep farklı renklerin karışımıdır. Su emilirken renkler ayrışır ve gökkuşağı gibi görünür.",
     },
   ],
   ilkokul: [
@@ -131,6 +320,196 @@ const experiments: Record<Level, Experiment[]> = {
       science:
         "Mıknatısla sürtülünce iğne manyetikleşir. Dünya'nın manyetik alanıyla etkileşerek Kuzey'i gösterir.",
     },
+    {
+      key: "exp_yeni_i1",
+      title: "Suyun Isınması",
+      emoji: "🌡️",
+      materials: ["Su", "Tencere", "Termometre", "Ocak"],
+      steps: [
+        "Tencereye su doldur.",
+        "Termometre ile sıcaklığı ölç.",
+        "Ocağı açarak suyu ısıt.",
+        "Her dakika sıcaklığı kaydet.",
+        "Su kaynayınca gözlemle.",
+      ],
+      science:
+        "Su 100°C'de kaynar. Isı eklendikçe su molekülleri hızlanır ve sonunda gaz fazına (buhar) geçer. Bu hal değişimidir.",
+    },
+    {
+      key: "exp_yeni_i2",
+      title: "Güneş Saati",
+      emoji: "☀️",
+      materials: ["Düz bir kağıt", "Kalem", "Cisim (kalem gibi)"],
+      steps: [
+        "Kağıdı düz bir yere koy.",
+        "Ortasına kalem dik koy.",
+        "Gölgenin ucunu her saat işaretle.",
+        "Günün sonunda işaretlere bak.",
+        "Güneşin hareketini gözlemle.",
+      ],
+      science:
+        "Dünya kendi ekseni etrafında döndükçe güneş farklı açılardan gelir. Gölge uzunluğu ve yönü bize saati söyler.",
+    },
+    {
+      key: "exp_yeni_i3",
+      title: "Mıknatıs ve Demir",
+      emoji: "🧲",
+      materials: ["Bir mıknatıs", "Demir tozu ya da iğne", "Kağıt", "Kum"],
+      steps: [
+        "Kağıdın üzerine biraz demir tozu koy.",
+        "Kağıdın altına mıknatısı tut.",
+        "Mıknatısı hareket ettir.",
+        "Demir tozunun hareket ettiğini gözlemle.",
+      ],
+      science:
+        "Mıknatıslar manyetik alan oluşturur. Demir gibi ferromanyetik maddeler bu alandan etkilenerek mıknatısa çekilir.",
+    },
+    {
+      key: "exp_yeni_i4",
+      title: "Hava Basıncı Deneyi",
+      emoji: "🌬️",
+      materials: ["Plastik şişe", "Balonlu duman çıkışı ya da sıcak su"],
+      steps: [
+        "Plastik şişeyi sıcak suyla doldur.",
+        "Hemen kapağını kapat.",
+        "Soğuk suya daldır.",
+        "Şişenin ezildiğini gözlemle.",
+      ],
+      science:
+        "Sıcak hava ısındıkça genişler ve dışarı çıkar. Soğuyunca hava sıkışır ve dış basınç şişeyi ezer. Bu hava basıncının gücüdür.",
+    },
+    {
+      key: "exp_t9_kristal",
+      title: "Kristal Yetiştirme",
+      emoji: "💎",
+      materials: ["Tuz", "Sıcak su", "Kap", "İp"],
+      steps: [
+        "1. Suyu ısıtın.",
+        "2. Tuz ekleyip eritin.",
+        "3. İpi kaba sarkıtın.",
+        "4. Birkaç gün bekleyin.",
+      ],
+      science:
+        "Doymuş çözelti soğuyunca çözünmüş madde çözünmez hale gelir ve katı kristal oluşturur. Bu kristalizasyon sürecidir.",
+    },
+    {
+      key: "exp_t9_kol_kuvvet",
+      title: "Kol Kuvveti",
+      emoji: "💪",
+      materials: ["Cetvel", "Ağırlık", "Kalem"],
+      steps: [
+        "1. Cetvelin altına kalem koyun.",
+        "2. Bir uca ağırlık koyun.",
+        "3. Diğer ucu bastırın.",
+        "4. Kaldıraç etkisini gözlemleyin.",
+      ],
+      science:
+        "Bu basit bir kaldıraçtır. Kalem dayanak noktasıdır. Uzak noktaya bastırarak yakın taraftaki yükü daha az kuvvetle kaldırırsınız.",
+    },
+    {
+      key: "exp_t9_hava_balon",
+      title: "Şişen Balon",
+      emoji: "🎈",
+      materials: ["Şişe", "Balon", "Karbonat", "Sirke"],
+      steps: [
+        "1. Şişeye sirke dökün.",
+        "2. Balona karbonat koyun.",
+        "3. Balonu şişenin ağzına takın.",
+        "4. Karbonatı içine dökün, balonu izleyin.",
+      ],
+      science:
+        "Asit (sirke) ve baz (karbonat) reaksiyona girince karbondioksit gazı açığa çıkar. Bu gaz balonu şişirir.",
+    },
+    {
+      key: "exp_t9_ses_frekans",
+      title: "Ses Tonu",
+      emoji: "🎵",
+      materials: ["Bardaklar", "Su", "Kaşık"],
+      steps: [
+        "1. Bardaklara farklı miktarda su doldurun.",
+        "2. Kaşıkla vurarak ses çıkarın.",
+        "3. Sesleri karşılaştırın.",
+      ],
+      science:
+        "Az su: uzun titreşim dalgası, düşük ses. Çok su: kısa titreşim dalgası, yüksek ses. Ses frekansı titreşim hızıyla belirlenir.",
+    },
+    {
+      key: "exp_manyetik_alan",
+      title: "Mıknatısın Gücü",
+      emoji: "🧲",
+      materials: [
+        "Güçlü mıknatıs",
+        "Küçük metal nesneler",
+        "Plastik ve ahşap nesneler",
+        "Kağıt",
+      ],
+      steps: [
+        "Mıknatısı metal nesnelere yaklaştır.",
+        "Plastik ve ahşaba da dene.",
+        "Kağıt arkasından metal çekmeyi dene.",
+        "Hangileri çekildi not al.",
+      ],
+      science:
+        "Mıknatıslar demir ve çelik gibi ferromanyetik maddeleri çeker. Plastik veya ahşap çekilmez çünkü manyetik özellikleri yoktur.",
+    },
+    {
+      key: "exp_hava_basinci",
+      title: "Hava Basıncı Deneyi",
+      emoji: "🌀",
+      materials: ["Boş plastik şişe", "Sıcak su", "Buz"],
+      steps: [
+        "Şişeye çok az sıcak su koy ve salla.",
+        "Sıcak suyu dök ve kapağı hızlıca kapat.",
+        "Şişeyi buz dolu kaba koy.",
+        "Şişenin içine çökmesini gözlemle!",
+      ],
+      science:
+        "Soğuma hava basıncını düşürür. Dış hava basıncı daha yüksek olduğundan şişeyi içeriden iter ve çöker.",
+    },
+    {
+      key: "exp_renk_ayirma",
+      title: "Kromotografi ile Renk Ayrıştırma",
+      emoji: "🖊️",
+      materials: [
+        "Beyaz kağıt havlu",
+        "Siyah kalemler (farklı markalar)",
+        "Su bardağı",
+        "Su",
+      ],
+      steps: [
+        "Kağıt havlunun altına kalemle leke yap.",
+        "Kağıdı suya değecek şekilde bardağa daldır.",
+        "Suyun yükselmesini ve renklerin ayrışmasını gözlemle.",
+      ],
+      science:
+        "Siyah mürekkep aslında birçok rengin karışımıdır. Kromotografi bu renkleri ayırır çünkü her pigment suya farklı hızda çözünür.",
+    },
+    {
+      key: "exp_i13_kursun_kalem",
+      title: "Kurşun Kalem Devresi",
+      emoji: "✏️",
+      materials: ["Kurşun kalem", "Pil", "Kablo", "LED"],
+      steps: [
+        "1. Kurşun kalem grafit içerir ve elektrik iletir.",
+        "2. Kabloları kalemin iki ucuna bağla.",
+        "3. LED'i devreye ekle ve gözlemle.",
+      ],
+      science:
+        "Grafit, bir karbon türüdür ve elektriği iletir. Bu yüzden kurşun kalemler devre elemanı olarak kullanılabilir.",
+    },
+    {
+      key: "exp_i14_kil_elektrik",
+      title: "Kil ile Elektrik",
+      emoji: "🎨",
+      materials: ["Oyun hamuru", "Pil", "LED", "Kablo"],
+      steps: [
+        "1. Oyun hamurundan iki ayrı şekil yap.",
+        "2. Kablo ve LED ile devreyi kur.",
+        "3. İki hamuru birleştir ve LED'i izle.",
+      ],
+      science:
+        "Tuzlu oyun hamuru elektriği iletir. Tuz içindeki iyonlar akım taşır.",
+    },
   ],
   ortaokul: [
     {
@@ -185,9 +564,190 @@ const experiments: Record<Level, Experiment[]> = {
       science:
         "Elektrik akımının akabilmesi için devrenin kapalı olması gerekir. Elektronlar pil negatifinden çıkar, ampülü yakar ve pozitife döner.",
     },
+    {
+      key: "exp_yeni_m1",
+      title: "Elektroliz Deneyi",
+      emoji: "⚡",
+      materials: ["Su", "Tuz", "2 demir tel/kalem", "Pil", "Kablo"],
+      steps: [
+        "Kaba su doldur ve tuz ekle.",
+        "İki demir teli kablolarla pile bağla.",
+        "Telleri suya daldır.",
+        "Kabarcık oluşumunu gözlemle.",
+      ],
+      science:
+        "Elektroliz ile su, oksijen ve hidrojene ayrışır. Artı elektrotta oksijen, eksi elektrotta hidrojen gaz kabarcıkları oluşur.",
+    },
+    {
+      key: "exp_yeni_m2",
+      title: "pH İndikatör",
+      emoji: "🔴",
+      materials: [
+        "Kırmızı lahana",
+        "Su",
+        "Çeşitli sıvılar (sirke, sabun, limon)",
+      ],
+      steps: [
+        "Kırmızı lahanayı suda kaynat.",
+        "Mor renkli suyu süz ve kaplara koy.",
+        "Her kaba farklı sıvı ekle.",
+        "Renk değişimlerini gözlemle.",
+      ],
+      science:
+        "Kırmızı lahana, asit ve baz karşısında farklı renkler verir. Asit kırmızıya, baz yeşile-sarıya döner. Doğal pH indikatörüdür.",
+    },
+    {
+      key: "exp_yeni_m3",
+      title: "Yoğunluk Kulesi",
+      emoji: "🏗️",
+      materials: ["Bal", "Yağ", "Su", "Alkol", "Uzun bir bardak", "Boya"],
+      steps: [
+        "Bardağa önce bal dök.",
+        "Yavaşça renkli su ekle.",
+        "Yağı yavaşça ekle.",
+        "Alkolü son olarak ekle.",
+        "Katmanları gözlemle.",
+      ],
+      science:
+        "Her sıvının farklı yoğunluğu vardır. Yoğunluğu fazla olan alta çöker. Karışmayan sıvılar ayrı katmanlar oluşturur.",
+    },
+    {
+      key: "exp_yeni_m4",
+      title: "Ses Dalgaları",
+      emoji: "🔊",
+      materials: ["Tuz", "Plastik folyo", "Kase", "Hoparlör ya da müzik aleti"],
+      steps: [
+        "Kaseye plastik folyo gerdirin.",
+        "Üzerine tuz serpin.",
+        "Hoparlörü yaklaştırın.",
+        "Müzik çalın ve tuzu gözlemleyin.",
+      ],
+      science:
+        "Ses dalgaları titreşimdir. Bu titreşimler havayı ve plastik folyoyu titreştirerek tuzu hareket ettirir. Frekans arttıkça desen değişir.",
+    },
+    {
+      key: "exp_t9_elektroliz",
+      title: "Suyun Elektrolizi",
+      emoji: "⚡",
+      materials: ["Su", "Tuz", "Pil", "Tel", "Kaşık"],
+      steps: [
+        "1. Suya tuz ekleyin.",
+        "2. İki tel ucunu kaşıklara bağlayın.",
+        "3. Diğer uçları pil kutuplarına bağlayın.",
+        "4. Kaşıklarda baloncukları gözlemleyin.",
+      ],
+      science:
+        "Elektrik akımı suyu ayrıştırır: pozitif uçta oksijen, negatif uçta hidrojen gazı çıkar. Bu elektroliz reaksiyonudur ve H₂O → H₂ + O₂ denklemiyle gösterilir.",
+    },
+    {
+      key: "exp_t9_asit_baz",
+      title: "Kırmızı Lahana pH Testi",
+      emoji: "🧪",
+      materials: [
+        "Kırmızı lahana",
+        "Su",
+        "Bardaklar",
+        "Sirke",
+        "Karbonat",
+        "Limon",
+      ],
+      steps: [
+        "1. Lahanayı suda kaynatın.",
+        "2. Mavi-mor sıvıyı süzün.",
+        "3. Her bardağa farklı madde ekleyin.",
+        "4. Renk değişimlerini gözlemleyin.",
+      ],
+      science:
+        "Kırmızı lahana doğal bir pH indikatörüdür. Asit ortamda kırmızı, bazik ortamda sarı-yeşil renk alır. Bu renk değişimi antosiyaninler sayesinde olur.",
+    },
+    {
+      key: "exp_t9_manyetik_alan",
+      title: "Manyetik Alan Haritası",
+      emoji: "🧲",
+      materials: ["Güçlü mıknatıs", "Demir tozu", "Kağıt"],
+      steps: [
+        "1. Kağıdı mıknatısın üzerine koyun.",
+        "2. Demir tozunu kağıda serpin.",
+        "3. Kağıdı hafifçe sallayın.",
+        "4. Manyetik alan çizgilerini görün.",
+      ],
+      science:
+        "Demir tozları manyetik alan yönünde dizilir ve alan çizgilerini görünür kılar. Kutuplar arasındaki güçlü alan daha sık çizgilerle temsil edilir.",
+    },
+    {
+      key: "exp_t9_osmoz",
+      title: "Osmoz Deneyi",
+      emoji: "🥒",
+      materials: ["Salatalık", "Tuz", "İki kap", "Su"],
+      steps: [
+        "1. Birinci kaba tatlı su, ikinciye tuzlu su koyun.",
+        "2. Her iki kaba birer dilim salatalık koyun.",
+        "3. 30 dakika bekleyin.",
+        "4. Salatalıkların sertliğini karşılaştırın.",
+      ],
+      science:
+        "Osmoz, yarı geçirgen zardan düşük derişimli taraftan yüksek derişimli tarafa su geçişidir. Tuzlu suda salatalık yumuşar çünkü hücrelerden su çekilir.",
+    },
+    {
+      key: "exp_o10_asit_baz",
+      title: "Asit-Baz Göstergesi",
+      emoji: "🧴",
+      materials: [
+        "Mor lahana",
+        "Bardaklar",
+        "Limon suyu",
+        "Kabartma tozu",
+        "Su",
+      ],
+      steps: [
+        "1. Mor lahanayı suda kaynat ve suyunu süz.",
+        "2. Farklı bardaklara limon suyu ve kabartma tozu çözeltisi koy.",
+        "3. Her bardağa lahana suyu ekle ve renk değişimini gözlemle.",
+      ],
+      science:
+        "Mor lahana antosyanin içerir. Asitli ortamda kırmızı, bazik ortamda yeşil/sarı olur. Bu doğal bir pH göstergesidir.",
+    },
+    {
+      key: "exp_o11_sabun_film",
+      title: "Sabun Filmi ile Optik",
+      emoji: "🫧",
+      materials: ["Bulaşık deterjanı", "Su", "Gliserin", "Tel halka"],
+      steps: [
+        "1. Su, deterjan ve gliserin karıştır.",
+        "2. Tel halkayı daldır ve çek.",
+        "3. Film üzerindeki renkleri gözlemle.",
+      ],
+      science:
+        "Sabun filmi ince bir tabakadır. Işık hem dışından hem içinden yansır; bu iki dalganın interferansı renkli görüntü oluşturur.",
+    },
+    {
+      key: "exp_o12_fotosentez",
+      title: "Fotosentez Gözlemi",
+      emoji: "🌿",
+      materials: ["Suluboya, ışık kaynağı, bitki yaprağı, su dolu kap"],
+      steps: [
+        "1. Yaprağı suya daldır.",
+        "2. Işık kaynağını yaprağa tut.",
+        "3. Yaprak yüzeyinde kabarcık oluşumunu gözlemle.",
+      ],
+      science:
+        "Fotosentezde CO2 ve su kullanılarak oksijen ve glikoz üretilir. Kabarcıklar oluşan oksijendir.",
+    },
+    {
+      key: "exp_o13_elektroliz",
+      title: "Suyun Elektrolizi",
+      emoji: "⚡",
+      materials: ["Su", "Tuz", "9V pil", "İki kalem ucu (grafit)", "Kablo"],
+      steps: [
+        "1. Suya tuz ekle ve karıştır.",
+        "2. Grafit uçları suya daldır ve pile bağla.",
+        "3. Her elektrot etrafındaki kabarcıkları gözlemle.",
+      ],
+      science:
+        "Elektroliz ile su H2 ve O2'ye ayrışır. Negatif elektrot (katot) hidrojen, pozitif elektrot (anot) oksijen üretir.",
+    },
   ],
 };
-
 const levelTabs: { key: Level; label: string }[] = [
   { key: "okul_oncesi", label: "🌈 Okul Öncesi" },
   { key: "ilkokul", label: "📗 İlkokul" },
@@ -197,6 +757,11 @@ const levelTabs: { key: Level; label: string }[] = [
 export default function ExperimentsPage() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
+  useEffect(() => {
+    if (profile) trackContentVisit(profile.studentNumber, "experiments");
+  }, []);
   const [level, setLevel] = useState<Level>(
     (profile?.level as Level) || "ilkokul",
   );
@@ -204,11 +769,19 @@ export default function ExperimentsPage() {
     profile ? getReadTopics(profile.studentNumber) : [],
   );
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredExperiments = experiments[level].filter(
+    (e) =>
+      e.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      e.science.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   const handleDone = (key: string) => {
     if (!profile || readTopics.includes(key)) return;
     markTopicRead(profile.studentNumber, key);
     updatePoints(profile.studentNumber, 15);
+    incrementDailyContentRead(profile.studentNumber);
     setReadTopics((prev) => [...prev, key]);
   };
 
@@ -237,88 +810,132 @@ export default function ExperimentsPage() {
             </button>
           ))}
         </div>
-        <div className="space-y-4">
-          {experiments[level].map((exp) => {
-            const isDone = readTopics.includes(exp.key);
-            const isOpen = expanded === exp.key;
-            return (
-              <div
-                key={exp.key}
-                className={`bg-white/20 backdrop-blur rounded-2xl overflow-hidden transition-all ${isDone ? "border-2 border-yellow-300" : ""}`}
-              >
-                <button
-                  type="button"
-                  className="w-full p-4 text-left flex items-center gap-3"
-                  onClick={() => setExpanded(isOpen ? null : exp.key)}
-                >
-                  <span className="text-3xl">{exp.emoji}</span>
-                  <div className="flex-1">
-                    <div className="text-white font-black">{exp.title}</div>
-                    <div className="text-white/70 text-xs">
-                      {exp.materials.length} malzeme • {exp.steps.length} adım
-                    </div>
-                  </div>
-                  {isDone && <span className="text-yellow-300">✓</span>}
-                  <span className="text-white/60">{isOpen ? "▲" : "▼"}</span>
-                </button>
-                {isOpen && (
-                  <div className="px-4 pb-4">
-                    <div className="mb-3">
-                      <div className="text-white font-bold mb-1 text-sm">
-                        🧪 Malzemeler:
-                      </div>
-                      <ul className="space-y-1">
-                        {exp.materials.map((m) => (
-                          <li
-                            key={m}
-                            className="text-white/80 text-xs flex gap-2"
-                          >
-                            <span className="text-green-300">•</span> {m}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="mb-3">
-                      <div className="text-white font-bold mb-1 text-sm">
-                        📋 Adımlar:
-                      </div>
-                      <ol className="space-y-1">
-                        {exp.steps.map((step, idx) => (
-                          <li key={step} className="text-white/80 text-xs">
-                            <span className="text-yellow-300 font-bold">
-                              {idx + 1}.{" "}
-                            </span>
-                            {step}
-                          </li>
-                        ))}
-                      </ol>
-                    </div>
-                    <div className="bg-white/10 rounded-xl p-3 mb-3">
-                      <div className="text-white font-bold text-xs mb-1">
-                        🔭 Bilim Açıklaması:
-                      </div>
-                      <p className="text-white/80 text-xs">{exp.science}</p>
-                    </div>
-                    {!isDone && profile && (
-                      <button
-                        type="button"
-                        data-ocid="experiments.done_button"
-                        onClick={() => handleDone(exp.key)}
-                        className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
-                      >
-                        ✅ Yaptım! +15 puan
-                      </button>
-                    )}
-                    {isDone && (
-                      <span className="text-yellow-300 text-xs font-bold">
-                        ✅ Tamamlandı (+15 puan kazanıldı)
-                      </span>
-                    )}
-                  </div>
-                )}
+        {/* Progress indicator */}
+        {(() => {
+          const total = experiments[level].length;
+          const done = experiments[level].filter((e) =>
+            readTopics.includes(e.key),
+          ).length;
+          const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+          return (
+            <div className="bg-white/20 rounded-2xl p-3 mb-4 flex items-center gap-3">
+              <span className="text-2xl">🔬</span>
+              <div className="flex-1">
+                <div className="flex justify-between text-white text-xs mb-1">
+                  <span className="font-bold">Bu seviyedeki ilerleme</span>
+                  <span className="font-black">
+                    {done}/{total}
+                  </span>
+                </div>
+                <div className="bg-white/20 rounded-full h-3 overflow-hidden">
+                  <div
+                    className="h-full bg-cyan-300 rounded-full transition-all duration-500"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
-            );
-          })}
+              <span className="text-white font-black text-sm">{pct}%</span>
+            </div>
+          );
+        })()}
+        <div className="relative mb-4">
+          <input
+            type="text"
+            data-ocid="experiments.search_input"
+            placeholder="🔍 Ara..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full bg-white/20 text-white placeholder-white/50 rounded-2xl px-4 py-3 text-sm font-medium outline-none focus:bg-white/30 transition-all"
+          />
+        </div>
+        <div className="space-y-4">
+          {filteredExperiments.length === 0 ? (
+            <div className="text-center text-white/60 py-8">
+              Sonuç bulunamadı 🔍
+            </div>
+          ) : (
+            filteredExperiments.map((exp) => {
+              const isDone = readTopics.includes(exp.key);
+              const isOpen = expanded === exp.key;
+              return (
+                <div
+                  key={exp.key}
+                  className={`bg-white/20 backdrop-blur rounded-2xl overflow-hidden transition-all ${isDone ? "border-2 border-yellow-300" : ""}`}
+                >
+                  <button
+                    type="button"
+                    className="w-full p-4 text-left flex items-center gap-3"
+                    onClick={() => setExpanded(isOpen ? null : exp.key)}
+                  >
+                    <span className="text-3xl">{exp.emoji}</span>
+                    <div className="flex-1">
+                      <div className="text-white font-black">{exp.title}</div>
+                      <div className="text-white/70 text-xs">
+                        {exp.materials.length} malzeme • {exp.steps.length} adım
+                      </div>
+                    </div>
+                    {isDone && <span className="text-yellow-300">✓</span>}
+                    <span className="text-white/60">{isOpen ? "▲" : "▼"}</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-4 pb-4">
+                      <div className="mb-3">
+                        <div className="text-white font-bold mb-1 text-sm">
+                          🧪 Malzemeler:
+                        </div>
+                        <ul className="space-y-1">
+                          {exp.materials.map((m) => (
+                            <li
+                              key={m}
+                              className="text-white/80 text-xs flex gap-2"
+                            >
+                              <span className="text-green-300">•</span> {m}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="mb-3">
+                        <div className="text-white font-bold mb-1 text-sm">
+                          📋 Adımlar:
+                        </div>
+                        <ol className="space-y-1">
+                          {exp.steps.map((step, idx) => (
+                            <li key={step} className="text-white/80 text-xs">
+                              <span className="text-yellow-300 font-bold">
+                                {idx + 1}.{" "}
+                              </span>
+                              {step}
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                      <div className="bg-white/10 rounded-xl p-3 mb-3">
+                        <div className="text-white font-bold text-xs mb-1">
+                          🔭 Bilim Açıklaması:
+                        </div>
+                        <p className="text-white/80 text-xs">{exp.science}</p>
+                      </div>
+                      {!isDone && profile && (
+                        <button
+                          type="button"
+                          data-ocid="experiments.done_button"
+                          onClick={() => handleDone(exp.key)}
+                          className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
+                        >
+                          ✅ Yaptım! +15 puan
+                        </button>
+                      )}
+                      {isDone && (
+                        <span className="text-yellow-300 text-xs font-bold">
+                          ✅ Tamamlandı (+15 puan kazanıldı)
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

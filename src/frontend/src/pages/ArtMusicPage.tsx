@@ -1,10 +1,12 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import {
   getCurrentUser,
   getReadTopics,
+  incrementDailyContentRead,
   markTopicRead,
+  trackContentVisit,
   updatePoints,
 } from "../store";
 
@@ -128,11 +130,66 @@ const artists = [
     desc: "İspanyol ressam. Kübizm akımının kurucusu. Nesneleri birden fazla açıdan göstererek devrim yarattı.",
     color: "from-blue-500 to-indigo-600",
   },
+  {
+    key: "art_monet",
+    name: "Claude Monet",
+    emoji: "🌸",
+    period: "19. Yüzyıl",
+    style: "İzlenimcilik",
+    work: "Nilüfer Havuzları, Sabah Sisi",
+    desc: "Fransız ressam. İzlenimcilik akımının öncüsü. Işık ve renklerin doğada nasıl değiştiğini yakalamak için açık havada resim yaptı.",
+    color: "from-purple-400 to-pink-500",
+  },
+  {
+    key: "art_mimar_sinan",
+    name: "Mimar Sinan",
+    emoji: "🕌",
+    period: "16. Yüzyıl",
+    style: "Osmanlı Mimarisi",
+    work: "Süleymaniye Camii, Selimiye Camii",
+    desc: "Osmanlı'nın en büyük mimarı. 400'den fazla yapı tasarladı. Selimiye Camii, UNESCO Dünya Mirası Listesi'nde yer alır.",
+    color: "from-teal-500 to-green-600",
+  },
+  {
+    key: "art_beethoven",
+    name: "Ludwig van Beethoven",
+    emoji: "🎵",
+    period: "18-19. Yüzyıl",
+    style: "Klasizm / Romantizm",
+    work: "9. Senfoni, Ay Işığı Sonatı",
+    desc: "Alman besteci. İşitme yetisini kaybetmesine rağmen en güzel eserlerini bu dönemde yarattı. 9. Senfoni'nin korosu 'Sevinç Marşı' tüm dünyada bilinir.",
+    color: "from-gray-600 to-slate-700",
+  },
+  {
+    key: "art_ahmet_adnan",
+    name: "Ahmet Adnan Saygun",
+    emoji: "🎼",
+    period: "20. Yüzyıl",
+    style: "Türk Çağdaş Müziği",
+    work: "Yunus Emre Oratoryosu, Kerem Operası",
+    desc: "Türk müziğini Batı formlarıyla harmanlayan çağdaş besteci. Bartók ile birlikte Türk halk müziği derlemesi yaptı. Türk Beşleri'nin en önemli temsilcisi.",
+    color: "from-red-600 to-rose-700",
+  },
+  {
+    key: "art_osman_hamdi",
+    name: "Osman Hamdi Bey",
+    emoji: "🎨",
+    period: "19. Yüzyıl",
+    style: "Oryantalizm",
+    work: "Kaplumbağa Terbiyecisi, Silah Taciri",
+    desc: "Türk resminin öncüsü ve ilk Türk müzecisi. Paris'te eğitim aldı. 'Kaplumbağa Terbiyecisi' Türkiye'nin en pahalı tablosu. İstanbul Arkeoloji Müzesi'nin kurucusu.",
+    color: "from-brown-500 to-amber-800",
+  },
 ];
 
 export default function ArtMusicPage() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
+  useEffect(() => {
+    if (profile) trackContentVisit(profile.studentNumber, "art-music");
+  }, []);
   const [tab, setTab] = useState<"music" | "art">("music");
   const [readTopics, setReadTopics] = useState<string[]>(() =>
     profile ? getReadTopics(profile.studentNumber) : [],
@@ -142,8 +199,18 @@ export default function ArtMusicPage() {
     if (!profile || readTopics.includes(key)) return;
     markTopicRead(profile.studentNumber, key);
     updatePoints(profile.studentNumber, 5);
+    incrementDailyContentRead(profile.studentNumber);
     setReadTopics((prev) => [...prev, key]);
   };
+
+  const currentItems = tab === "music" ? musicNotes : artists;
+  const doneCount = currentItems.filter((i) =>
+    readTopics.includes(i.key),
+  ).length;
+  const pct =
+    currentItems.length > 0
+      ? Math.round((doneCount / currentItems.length) * 100)
+      : 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-blue-500">
@@ -159,7 +226,7 @@ export default function ArtMusicPage() {
         <h1 className="text-3xl font-black text-white mb-4">
           🎵 Müzik & Sanat
         </h1>
-        <div className="grid grid-cols-2 gap-2 mb-6">
+        <div className="grid grid-cols-2 gap-2 mb-4">
           <button
             type="button"
             data-ocid="artmusic.tab"
@@ -176,6 +243,26 @@ export default function ArtMusicPage() {
           >
             🎨 Sanat
           </button>
+        </div>
+
+        {/* Progress bar */}
+        <div className="bg-white/20 rounded-2xl p-3 mb-4 flex items-center gap-3">
+          <span className="text-2xl">{tab === "music" ? "🎵" : "🎨"}</span>
+          <div className="flex-1">
+            <div className="flex justify-between text-white text-xs mb-1">
+              <span className="font-bold">Bu bölümdeki ilerleme</span>
+              <span className="font-black">
+                {doneCount}/{currentItems.length}
+              </span>
+            </div>
+            <div className="bg-white/20 rounded-full h-3 overflow-hidden">
+              <div
+                className="h-full bg-green-400 rounded-full transition-all duration-500"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          </div>
+          <span className="text-white font-black text-sm">{pct}%</span>
         </div>
 
         {tab === "music" && (
@@ -250,7 +337,7 @@ export default function ArtMusicPage() {
                   </div>
                   <p className="text-white/90 text-xs mb-1">{a.desc}</p>
                   <p className="text-white/70 text-xs italic mb-3">
-                    Unlu eseri: {a.work}
+                    Ünlü eseri: {a.work}
                   </p>
                   {!isDone && profile && (
                     <button

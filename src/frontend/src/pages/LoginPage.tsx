@@ -12,6 +12,8 @@ import {
   playAudio,
   saveProfile,
   setCurrentUser,
+  syncFromBackendIfNewer,
+  updateStreak,
 } from "../store";
 import {
   AVATARS,
@@ -22,24 +24,60 @@ import {
   type Profile,
 } from "../types";
 
+const PLACEMENT_QUESTIONS = [
+  {
+    q: "2 + 3 = ?",
+    options: ["3", "5", "7"],
+    correct: 1,
+    score: 1,
+  },
+  {
+    q: "Türkiye'nin başkenti neresidir?",
+    options: ["İstanbul", "İzmir", "Ankara"],
+    correct: 2,
+    score: 2,
+  },
+  {
+    q: "4 × 7 = ?",
+    options: ["11", "28", "32"],
+    correct: 1,
+    score: 2,
+  },
+  {
+    q: "Fotosentez bitkiler için ne üretir?",
+    options: ["Oksijen ve besin", "Su ve toprak", "Güneş enerjisi"],
+    correct: 0,
+    score: 3,
+  },
+  {
+    q: "48 ÷ 6 - 3 = ?",
+    options: ["5", "12", "3"],
+    correct: 0,
+    score: 3,
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"student" | "parent">("student");
 
-  // Student tab state
   const [showForm, setShowForm] = useState(false);
+  const [showTest, setShowTest] = useState(false);
+  const [testStep, setTestStep] = useState(0);
+  const [testScore, setTestScore] = useState(0);
   const [username, setUsername] = useState("");
   const [avatarIndex, setAvatarIndex] = useState(0);
   const [level, setLevel] = useState<Level>("ilkokul");
   const profiles = getProfiles();
 
-  // Parent tab state
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<Profile | "notfound" | null>(null);
   const [searching, setSearching] = useState(false);
 
   const handleLogin = (studentNumber: string) => {
     setCurrentUser(studentNumber);
+    updateStreak(studentNumber);
+    syncFromBackendIfNewer(studentNumber).catch(() => {});
     playAudio("welcome");
     navigate({ to: "/home" });
   };
@@ -58,15 +96,27 @@ export default function LoginPage() {
     handleLogin(profile.studentNumber);
   };
 
+  const handleTestAnswer = (optionIndex: number) => {
+    const q = PLACEMENT_QUESTIONS[testStep];
+    const newScore = testScore + (optionIndex === q.correct ? q.score : 0);
+    if (testStep < PLACEMENT_QUESTIONS.length - 1) {
+      setTestStep(testStep + 1);
+      setTestScore(newScore);
+    } else {
+      const suggested: Level =
+        newScore <= 3 ? "okul_oncesi" : newScore <= 7 ? "ilkokul" : "ortaokul";
+      setLevel(suggested);
+      setShowTest(false);
+    }
+  };
+
   const handleParentSearch = async () => {
     const clean = query.replace(/\s/g, "");
-    // Önce localStorage'dan ara
     const p = getProfileByStudentNumber(clean);
     if (p) {
       setResult(p);
       return;
     }
-    // Bulunamazsa backend'den dene
     setSearching(true);
     try {
       const { getStudentDataFromBackend } = await import("../store");
@@ -91,11 +141,10 @@ export default function LoginPage() {
           LearnVerse
         </h1>
         <p className="text-white/90 text-lg mt-2">
-          Öğrenmenin En Eğlenceli Yolu
+          Öğfrenmenin En Eğlenceli Yolu
         </p>
       </div>
 
-      {/* Tab switcher */}
       <div className="w-full max-w-sm mb-4">
         <div className="flex rounded-2xl bg-white/20 backdrop-blur p-1 gap-1">
           <button
@@ -125,7 +174,6 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Student Tab */}
       {activeTab === "student" && (
         <div className="w-full max-w-sm">
           {!showForm ? (
@@ -162,12 +210,63 @@ export default function LoginPage() {
               )}
               <Button
                 data-ocid="login.create_profile_button"
-                onClick={() => setShowForm(true)}
+                onClick={() => {
+                  setShowTest(true);
+                  setTestStep(0);
+                  setTestScore(0);
+                  setShowForm(true);
+                }}
                 className="w-full bg-white text-purple-600 hover:bg-white/90 font-bold text-lg py-6 rounded-2xl shadow-xl"
               >
                 + Yeni Profil Oluştur
               </Button>
             </>
+          ) : showTest ? (
+            <div className="w-full bg-white/20 backdrop-blur rounded-3xl p-6 space-y-4">
+              <div className="text-center">
+                <div className="text-white/60 text-xs font-bold uppercase tracking-wide mb-1">
+                  Seviye Belirleme Testi
+                </div>
+                <div className="text-white/50 text-xs">
+                  Soru {testStep + 1}/{PLACEMENT_QUESTIONS.length}
+                </div>
+                <div className="bg-white/20 rounded-full h-2 mt-2 overflow-hidden">
+                  <div
+                    className="h-full bg-yellow-400 rounded-full transition-all"
+                    style={{
+                      width: `${(testStep / PLACEMENT_QUESTIONS.length) * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="bg-white/20 rounded-2xl p-4 text-center">
+                <div className="text-white font-black text-xl mb-4">
+                  {PLACEMENT_QUESTIONS[testStep].q}
+                </div>
+                <div className="space-y-2">
+                  {PLACEMENT_QUESTIONS[testStep].options.map((opt, i) => (
+                    <button
+                      type="button"
+                      // biome-ignore lint/suspicious/noArrayIndexKey: stable list
+                      key={i}
+                      data-ocid={`login.test_option.${i}`}
+                      onClick={() => handleTestAnswer(i)}
+                      className="w-full bg-white/30 hover:bg-white/50 text-white font-bold py-3 rounded-xl transition-all hover:scale-105"
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button
+                type="button"
+                data-ocid="login.skip_test"
+                onClick={() => setShowTest(false)}
+                className="w-full text-white/50 hover:text-white text-xs underline"
+              >
+                Testi atla
+              </button>
+            </div>
           ) : (
             <div className="w-full bg-white/20 backdrop-blur rounded-3xl p-6 space-y-4">
               <h2 className="text-white font-black text-xl text-center">
@@ -210,7 +309,14 @@ export default function LoginPage() {
                 </div>
               </div>
               <div>
-                <p className="text-white text-sm font-semibold mb-2">Seviye</p>
+                <p className="text-white text-sm font-semibold mb-2">
+                  Seviye
+                  {level && (
+                    <span className="ml-2 text-yellow-300 text-xs">
+                      (Önerilen: {LEVEL_NAMES[level]})
+                    </span>
+                  )}
+                </p>
                 <div className="grid grid-cols-3 gap-2">
                   {(["okul_oncesi", "ilkokul", "ortaokul"] as Level[]).map(
                     (l) => (
@@ -254,7 +360,6 @@ export default function LoginPage() {
         </div>
       )}
 
-      {/* Parent Tab */}
       {activeTab === "parent" && (
         <div className="w-full max-w-sm">
           <div className="bg-white/20 backdrop-blur rounded-3xl p-6 space-y-4">

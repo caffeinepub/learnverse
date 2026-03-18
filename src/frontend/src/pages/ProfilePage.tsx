@@ -6,14 +6,43 @@ import {
   getCurrentUser,
   getGameResults,
   getQuizResults,
+  getStreak,
 } from "../store";
 import { AVATARS, BADGE_EMOJIS, BADGE_NAMES, LEVEL_NAMES } from "../types";
 import type { Profile } from "../types";
+
+function getSeenBadge(studentNumber: string): number {
+  return Number(
+    localStorage.getItem(`learnverse_badge_seen_${studentNumber}`) || "1",
+  );
+}
+function setSeenBadge(studentNumber: string, level: number): void {
+  localStorage.setItem(`learnverse_badge_seen_${studentNumber}`, String(level));
+}
+
+function getProgressItems(key: string): string[] {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+const CONTENT_SECTIONS = [
+  { icon: "📖", label: "Hikayeler", key: "stories" },
+  { icon: "🎭", label: "Şiirler", key: "poems" },
+  { icon: "🔬", label: "Deneyler", key: "experiments" },
+  { icon: "🧩", label: "Bulmacalar", key: "puzzles" },
+  { icon: "🗺️", label: "Türkiye Haritası", key: "turkeymap" },
+  { icon: "🎵", label: "Müzik & Sanat", key: "artmusic" },
+];
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(getCurrentUser());
   const [copied, setCopied] = useState(false);
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [shareMsg, setShareMsg] = useState("");
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: navigate is stable
   useEffect(() => {
@@ -23,6 +52,14 @@ export default function ProfilePage() {
       return;
     }
     setProfile(p);
+
+    // Auto-show certificate on badge upgrade
+    const currentBadge = getBadgeLevel(p.totalPoints);
+    const seenBadge = getSeenBadge(p.studentNumber);
+    if (currentBadge > seenBadge) {
+      setShowCertificate(true);
+      setSeenBadge(p.studentNumber, currentBadge);
+    }
   }, []);
 
   if (!profile) return null;
@@ -34,11 +71,36 @@ export default function ProfilePage() {
   const gameResults = getGameResults().filter(
     (r) => r.studentNumber === profile.studentNumber,
   );
+  const streak = getStreak(profile.studentNumber);
+
+  // Content progress
+  const readTopics = getProgressItems(
+    `learnverse_read_${profile.studentNumber}`,
+  );
+  const contentProgress = CONTENT_SECTIONS.map((s) => ({
+    ...s,
+    count: getProgressItems(
+      `learnverse_progress_${s.key}_${profile.studentNumber}`,
+    ).length,
+  }));
 
   const copyNumber = () => {
     navigator.clipboard.writeText(profile.studentNumber);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const shareCertificate = async () => {
+    const text = `🎓 LearnVerse Başarı Sertifikası\n${profile.username} — ${LEVEL_NAMES[profile.level]}\nRozet: ${BADGE_EMOJIS[badge - 1]} ${BADGE_NAMES[badge - 1]}\nToplam Puan: ${profile.totalPoints}\nTarih: ${new Date().toLocaleDateString("tr-TR")}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "LearnVerse Sertifikası", text });
+      } catch {}
+    } else {
+      await navigator.clipboard.writeText(text);
+      setShareMsg("Sertifika metni kopyalandı!");
+      setTimeout(() => setShareMsg(""), 3000);
+    }
   };
 
   return (
@@ -52,6 +114,7 @@ export default function ProfilePage() {
         ← Geri
       </Button>
       <div className="max-w-sm mx-auto space-y-4">
+        {/* Avatar & Badge */}
         <div className="bg-white/20 backdrop-blur rounded-3xl p-6 text-center">
           <div className="text-8xl mb-3">{AVATARS[profile.avatarIndex]}</div>
           <h1 className="text-3xl font-black text-white">{profile.username}</h1>
@@ -62,7 +125,18 @@ export default function ProfilePage() {
               {BADGE_NAMES[badge - 1]}
             </span>
           </div>
+          <div className="mt-3">
+            <Button
+              data-ocid="profile.open_modal_button"
+              onClick={() => setShowCertificate(true)}
+              className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold px-6 py-2 rounded-xl text-sm shadow-lg hover:shadow-xl transition-all"
+            >
+              🎓 Sertifikamı Gör
+            </Button>
+          </div>
         </div>
+
+        {/* Student Number */}
         <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
           <div className="text-white/70 text-sm mb-1">Öğrenci Numarası</div>
           <div className="flex items-center gap-2">
@@ -79,6 +153,8 @@ export default function ProfilePage() {
             </Button>
           </div>
         </div>
+
+        {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white/20 backdrop-blur rounded-2xl p-3 text-center">
             <div className="text-2xl font-black text-white">
@@ -99,6 +175,93 @@ export default function ProfilePage() {
             <div className="text-white/70 text-xs">Oyun</div>
           </div>
         </div>
+
+        {/* Streak */}
+        <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
+          <h3 className="text-white font-bold mb-3">🔥 Günlük Seri</h3>
+          {streak.current > 0 ? (
+            <div className="flex items-center gap-3">
+              <span className="text-5xl">🔥</span>
+              <div>
+                <div className="text-3xl font-black text-orange-200">
+                  {streak.current} gün
+                </div>
+                <div className="text-white/70 text-sm">
+                  arka arkaya aktifsin!
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-2">
+              <div className="text-3xl mb-1">💤</div>
+              <div className="text-white/60 text-sm">Henüz seri yok</div>
+              <div className="text-white/40 text-xs mt-1">
+                Her gün giriş yaparak seri başlat!
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* All Badges */}
+        <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
+          <h3 className="text-white font-bold mb-3">🏅 Tüm Rozetler</h3>
+          <div className="grid grid-cols-5 gap-2">
+            {BADGE_NAMES.map((name, i) => {
+              const earned = badge > i;
+              return (
+                <div
+                  key={name}
+                  className={`flex flex-col items-center gap-1 rounded-2xl p-2 transition-all ${
+                    earned ? "bg-white/20" : "bg-white/5 opacity-40"
+                  }`}
+                >
+                  <span className="text-2xl">{BADGE_EMOJIS[i]}</span>
+                  <span className="text-white text-xs text-center leading-tight font-bold">
+                    {name}
+                  </span>
+                  {earned && <span className="text-green-300 text-xs">✓</span>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Content Completion Summary */}
+        <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
+          <h3 className="text-white font-bold mb-3">📊 Tamamlanan İçerikler</h3>
+          <div className="grid grid-cols-2 gap-2">
+            {contentProgress.map((s) => (
+              <div
+                key={s.key}
+                className="bg-white/10 rounded-2xl p-3 flex items-center gap-2"
+              >
+                <span className="text-xl">{s.icon}</span>
+                <div>
+                  <div className="text-white font-bold text-sm leading-tight">
+                    {s.label}
+                  </div>
+                  <div className="text-white/60 text-xs">
+                    {s.count} tamamlandı
+                  </div>
+                </div>
+              </div>
+            ))}
+            {/* General Knowledge */}
+            <div className="bg-white/10 rounded-2xl p-3 flex items-center gap-2">
+              <span className="text-xl">🌍</span>
+              <div>
+                <div className="text-white font-bold text-sm leading-tight">
+                  Genel Kültür
+                </div>
+                <div className="text-white/60 text-xs">
+                  {readTopics.length} okundu
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Quizzes */}
         {quizResults.length > 0 && (
           <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
             <h3 className="text-white font-bold mb-3">Son Quizler</h3>
@@ -126,6 +289,110 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
+
+      {/* Certificate Modal */}
+      {showCertificate && (
+        <div
+          data-ocid="profile.modal"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowCertificate(false);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setShowCertificate(false);
+          }}
+          tabIndex={-1}
+        >
+          <div className="relative bg-white rounded-3xl max-w-sm w-full shadow-2xl overflow-hidden">
+            <div className="h-3 bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500" />
+
+            <div className="p-6 text-center">
+              <div className="text-2xl mb-2">⭐ ⭐ ⭐</div>
+
+              <h2 className="text-xl font-black text-gray-800 mb-1">
+                LearnVerse
+              </h2>
+              <h3 className="text-sm font-bold text-orange-500 uppercase tracking-widest mb-4">
+                Başarı Sertifikası
+              </h3>
+
+              <div className="text-7xl mb-3">
+                {AVATARS[profile.avatarIndex]}
+              </div>
+
+              <div className="text-2xl font-black text-gray-800 mb-1">
+                {profile.username}
+              </div>
+              <div className="text-sm text-gray-500 mb-4">
+                {LEVEL_NAMES[profile.level]}
+              </div>
+
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-yellow-400 rounded-2xl px-5 py-2 mb-4">
+                <span className="text-3xl">{BADGE_EMOJIS[badge - 1]}</span>
+                <div className="text-left">
+                  <div className="text-xs text-gray-500">Rozet</div>
+                  <div className="font-black text-gray-800">
+                    {BADGE_NAMES[badge - 1]}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="bg-orange-50 rounded-2xl p-3">
+                  <div className="text-2xl font-black text-orange-500">
+                    {profile.totalPoints}
+                  </div>
+                  <div className="text-xs text-gray-500">Toplam Puan</div>
+                </div>
+                <div className="bg-pink-50 rounded-2xl p-3">
+                  <div className="text-sm font-bold text-pink-500">
+                    {new Date().toLocaleDateString("tr-TR")}
+                  </div>
+                  <div className="text-xs text-gray-500">Tarih</div>
+                </div>
+              </div>
+
+              {shareMsg && (
+                <div
+                  data-ocid="profile.success_state"
+                  className="text-green-600 text-sm mb-2"
+                >
+                  {shareMsg}
+                </div>
+              )}
+
+              <div className="flex gap-2">
+                <Button
+                  data-ocid="profile.secondary_button"
+                  onClick={shareCertificate}
+                  className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold rounded-xl"
+                >
+                  📤 Paylaş
+                </Button>
+                <Button
+                  data-ocid="profile.close_button"
+                  variant="outline"
+                  onClick={() => setShowCertificate(false)}
+                  className="flex-1 rounded-xl"
+                >
+                  Kapat
+                </Button>
+              </div>
+            </div>
+
+            <div className="h-3 bg-gradient-to-r from-pink-500 via-orange-400 to-yellow-400" />
+
+            <button
+              type="button"
+              data-ocid="profile.close_button"
+              onClick={() => setShowCertificate(false)}
+              className="absolute top-4 right-4 w-7 h-7 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 text-sm font-bold flex items-center justify-center"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

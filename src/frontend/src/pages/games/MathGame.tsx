@@ -26,8 +26,15 @@ function generateProblem(level: string): { question: string; answer: number } {
       answer: op === "+" ? a + b : a - b,
     };
   }
-  const ops = ["+", "-", "×"];
-  const op = ops[Math.floor(Math.random() * 3)];
+  // ortaokul: includes division
+  const ops = ["+", "-", "×", "÷"];
+  const op = ops[Math.floor(Math.random() * 4)];
+  if (op === "÷") {
+    const b2 = Math.floor(Math.random() * 10) + 1;
+    const ans2 = Math.floor(Math.random() * 12) + 1;
+    const a2 = b2 * ans2;
+    return { question: `${a2} ÷ ${b2} = ?`, answer: ans2 };
+  }
   let a = Math.floor(Math.random() * 50) + 1;
   let b = Math.floor(Math.random() * 20) + 1;
   if (op === "-" && b > a) [a, b] = [b, a];

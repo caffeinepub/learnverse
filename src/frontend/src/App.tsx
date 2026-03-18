@@ -7,18 +7,26 @@ import {
 } from "@tanstack/react-router";
 import AdminPage from "./pages/AdminPage";
 import ArtMusicPage from "./pages/ArtMusicPage";
+import ClassesPage from "./pages/ClassesPage";
 import CulturePage from "./pages/CulturePage";
 import ExperimentsPage from "./pages/ExperimentsPage";
 import GamesPage from "./pages/GamesPage";
+import GrammarPage from "./pages/GrammarPage";
+import HealthPage from "./pages/HealthPage";
 import HomePage from "./pages/HomePage";
+import LeaderboardPage from "./pages/LeaderboardPage";
 import LoginPage from "./pages/LoginPage";
+import MathPracticePage from "./pages/MathPracticePage";
 import ParentPage from "./pages/ParentPage";
 import PoemsPage from "./pages/PoemsPage";
 import ProfilePage from "./pages/ProfilePage";
+import ProverbsPage from "./pages/ProverbsPage";
 import PuzzlesPage from "./pages/PuzzlesPage";
 import QuizPage from "./pages/QuizPage";
 import StoriesPage from "./pages/StoriesPage";
 import TurkeyMapPage from "./pages/TurkeyMapPage";
+import VocabularyPage from "./pages/VocabularyPage";
+import WrongAnswersPage from "./pages/WrongAnswersPage";
 import MatchingGame from "./pages/games/MatchingGame";
 import MathGame from "./pages/games/MathGame";
 import MemoryGame from "./pages/games/MemoryGame";
@@ -81,6 +89,11 @@ const parentRoute = createRoute({
   path: "/parent",
   component: ParentPage,
 });
+const classesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/classes",
+  component: ClassesPage,
+});
 const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/admin",
@@ -116,6 +129,42 @@ const artMusicRoute = createRoute({
   path: "/art-music",
   component: ArtMusicPage,
 });
+const wrongAnswersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/wrong-answers",
+  component: WrongAnswersPage,
+});
+const leaderboardRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/leaderboard",
+  component: LeaderboardPage,
+});
+
+const proverbsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/proverbs",
+  component: ProverbsPage,
+});
+const grammarRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/grammar",
+  component: GrammarPage,
+});
+const vocabularyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/vocabulary",
+  component: VocabularyPage,
+});
+const mathPracticeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/math-practice",
+  component: MathPracticePage,
+});
+const healthRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/health",
+  component: HealthPage,
+});
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
@@ -129,6 +178,7 @@ const routeTree = rootRoute.addChildren([
   wordSearchRoute,
   cultureRoute,
   parentRoute,
+  classesRoute,
   adminRoute,
   storiesRoute,
   poemsRoute,
@@ -136,6 +186,13 @@ const routeTree = rootRoute.addChildren([
   puzzlesRoute,
   turkeyMapRoute,
   artMusicRoute,
+  wrongAnswersRoute,
+  leaderboardRoute,
+  proverbsRoute,
+  grammarRoute,
+  vocabularyRoute,
+  mathPracticeRoute,
+  healthRoute,
 ]);
 
 const router = createRouter({ routeTree });

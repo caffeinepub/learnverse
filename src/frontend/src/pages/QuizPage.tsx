@@ -1,24 +1,30 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
-import { getDailyQuestions } from "../data/questions";
+import { getAdaptiveDailyQuestions } from "../data/questions";
 import {
   getCurrentUser,
+  getLastQuizScore,
   hasPlayedQuizToday,
   markQuizPlayedToday,
   playAudio,
   saveQuizResult,
+  saveWrongAnswer,
+  setLastQuizScore,
   syncToBackend,
+  updateDailyGoals,
   updatePoints,
+  updateStreak,
 } from "../store";
-import type { Question } from "../types";
+import type { Question, WrongAnswer } from "../types";
 
 export default function QuizPage() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
-  const [questions] = useState<Question[]>(() =>
-    getDailyQuestions(profile?.level || "ilkokul"),
-  );
+  const [questions] = useState<Question[]>(() => {
+    const lastScore = getLastQuizScore(profile?.studentNumber || "");
+    return getAdaptiveDailyQuestions(profile?.level || "ilkokul", lastScore);
+  });
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [correct, setCorrect] = useState(0);
@@ -50,14 +56,26 @@ export default function QuizPage() {
   }, [timer, phase, nextQuestion]);
 
   const handleAnswer = (idx: number) => {
-    if (phase !== "question") return;
+    if (phase !== "question" || !profile) return;
     setSelected(idx);
     const isCorrect = idx === questions[current].correctIndex;
     setFeedbackCorrect(isCorrect);
     if (isCorrect) {
       setCorrect((c) => c + 1);
       playAudio("correct_answer");
-    } else playAudio("wrong_answer");
+    } else {
+      playAudio("wrong_answer");
+      const wa: WrongAnswer = {
+        id: Date.now().toString(),
+        studentNumber: profile.studentNumber,
+        question: questions[current].text,
+        choices: questions[current].choices,
+        correctIndex: questions[current].correctIndex,
+        userIndex: idx,
+        savedAt: new Date().toISOString(),
+      };
+      saveWrongAnswer(wa);
+    }
     setPhase("feedback");
     setTimeout(nextQuestion, 1200);
   };
@@ -75,6 +93,12 @@ export default function QuizPage() {
     });
     updatePoints(profile.studentNumber, score);
     markQuizPlayedToday(profile.studentNumber);
+    updateDailyGoals(profile.studentNumber, { quizDone: true });
+    updateStreak(profile.studentNumber);
+    setLastQuizScore(
+      profile.studentNumber,
+      Math.round((correct / questions.length) * 100),
+    );
     syncToBackend(profile.studentNumber);
     playAudio("game_end");
     navigate({ to: "/home" });
@@ -82,7 +106,6 @@ export default function QuizPage() {
 
   if (!profile) return null;
 
-  // Günlük quiz kontrolü
   if (hasPlayedQuizToday(profile.studentNumber)) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center p-4">
