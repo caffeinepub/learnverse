@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
   getReadTopics,
@@ -130,6 +131,7 @@ const fire = [
 
 export default function CulturePage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -157,7 +159,7 @@ export default function CulturePage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4"
         >
-          ← Geri
+          ← {t("back")}
         </Button>
         <h1 className="text-3xl font-black text-white mb-4">🌍 Genel Kültür</h1>
 

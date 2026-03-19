@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "../components/ui/button";
+import { useLanguage } from "../i18n/LanguageContext";
 import { getBadgeLevel, getCurrentUser, getProfiles } from "../store";
 import { AVATARS, BADGE_EMOJIS, LEVEL_NAMES, type Level } from "../types";
 
@@ -14,6 +15,7 @@ const rankIcons = ["🥇", "🥈", "🥉"];
 
 export default function LeaderboardPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const currentUser = getCurrentUser();
   const [level, setLevel] = useState<Level>(currentUser?.level || "ilkokul");
 
@@ -32,10 +34,10 @@ export default function LeaderboardPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4"
         >
-          ← Geri
+          ← {t("back")}
         </Button>
         <h1 className="text-3xl font-black text-white mb-6">
-          🏆 Sınıf Sıralaması
+          🏆 {t("leaderboard_title")}
         </h1>
 
         <div className="grid grid-cols-3 gap-2 mb-6">
@@ -63,7 +65,7 @@ export default function LeaderboardPage() {
           >
             <div className="text-4xl mb-3">🏜️</div>
             <div className="text-white font-black text-lg">
-              Henüz bu seviyede öğrenci yok
+              {t("leaderboard_empty")}
             </div>
             <div className="text-white/70 text-sm mt-2">İlk sen ol!</div>
           </div>

@@ -8,6 +8,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
+import { useLanguage } from "../i18n/LanguageContext";
 import { getBadgeLevel, getProfileByStudentNumber } from "../store";
 import { AVATARS, BADGE_EMOJIS, LEVEL_NAMES } from "../types";
 import type { Profile } from "../types";
@@ -44,6 +45,7 @@ function deleteClass(classKey: string): void {
 
 export default function ClassesPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [classes, setClasses] = useState<Record<string, ClassData>>(getClasses);
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
   const [newName, setNewName] = useState("");
@@ -135,7 +137,9 @@ export default function ClassesPage() {
       >
         ← Geri
       </Button>
-      <h1 className="text-2xl font-black text-white mb-1">🏫 Sınıf Grupları</h1>
+      <h1 className="text-2xl font-black text-white mb-1">
+        🏫 {t("classes_title")}
+      </h1>
       <p className="text-white/60 text-sm mb-6">Öğrenci gruplarını yönetin</p>
 
       <Tabs defaultValue="siniflarim" className="w-full">

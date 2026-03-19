@@ -5,14 +5,19 @@ import {
   createRoute,
   createRouter,
 } from "@tanstack/react-router";
+import { LanguageProvider } from "./i18n/LanguageContext";
 import AdminPage from "./pages/AdminPage";
 import ArtMusicPage from "./pages/ArtMusicPage";
 import ClassesPage from "./pages/ClassesPage";
+import CodingPage from "./pages/CodingPage";
 import CulturePage from "./pages/CulturePage";
+import EnglishPage from "./pages/EnglishPage";
 import ExperimentsPage from "./pages/ExperimentsPage";
 import GamesPage from "./pages/GamesPage";
+import GeographyPage from "./pages/GeographyPage";
 import GrammarPage from "./pages/GrammarPage";
 import HealthPage from "./pages/HealthPage";
+import HistoryPage from "./pages/HistoryPage";
 import HomePage from "./pages/HomePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import LoginPage from "./pages/LoginPage";
@@ -23,6 +28,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ProverbsPage from "./pages/ProverbsPage";
 import PuzzlesPage from "./pages/PuzzlesPage";
 import QuizPage from "./pages/QuizPage";
+import SciencePage from "./pages/SciencePage";
 import StoriesPage from "./pages/StoriesPage";
 import TurkeyMapPage from "./pages/TurkeyMapPage";
 import VocabularyPage from "./pages/VocabularyPage";
@@ -139,7 +145,6 @@ const leaderboardRoute = createRoute({
   path: "/leaderboard",
   component: LeaderboardPage,
 });
-
 const proverbsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/proverbs",
@@ -164,6 +169,31 @@ const healthRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/health",
   component: HealthPage,
+});
+const geographyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/geography",
+  component: GeographyPage,
+});
+const historyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/history",
+  component: HistoryPage,
+});
+const scienceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/science",
+  component: SciencePage,
+});
+const englishRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/english",
+  component: EnglishPage,
+});
+const codingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/coding",
+  component: CodingPage,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -193,6 +223,11 @@ const routeTree = rootRoute.addChildren([
   vocabularyRoute,
   mathPracticeRoute,
   healthRoute,
+  geographyRoute,
+  historyRoute,
+  scienceRoute,
+  englishRoute,
+  codingRoute,
 ]);
 
 const router = createRouter({ routeTree });
@@ -204,5 +239,9 @@ declare module "@tanstack/react-router" {
 }
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <LanguageProvider>
+      <RouterProvider router={router} />
+    </LanguageProvider>
+  );
 }

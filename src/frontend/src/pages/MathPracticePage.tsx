@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { useLanguage } from "../i18n/LanguageContext";
 import { getCurrentUser, trackContentVisit, updatePoints } from "../store";
 
 type Level = "okul_oncesi" | "ilkokul" | "ortaokul";
@@ -217,6 +218,7 @@ const problems: Record<Level, Problem[]> = {
 
 export default function MathPracticePage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const profile = getCurrentUser();
   const [level, setLevel] = useState<Level>("ilkokul");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -288,7 +290,7 @@ export default function MathPracticePage() {
             onClick={() => navigate({ to: "/home" })}
             data-ocid="mathpractice.back_button"
           >
-            ← Geri
+            ← {t("back")}
           </Button>
           <h1 className="text-2xl font-bold text-white">
             🔢 Matematik Alıştırmaları

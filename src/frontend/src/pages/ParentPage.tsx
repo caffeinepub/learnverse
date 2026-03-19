@@ -8,6 +8,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   getBadgeLevel,
   getContentVisits,
@@ -29,6 +30,7 @@ type StudentData = {
 
 export default function ParentPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<StudentData | "notfound" | null>(null);
   const [loading, setLoading] = useState(false);
@@ -71,11 +73,11 @@ export default function ParentPage() {
         onClick={() => navigate({ to: "/home" })}
         className="text-white mb-4"
       >
-        ← Geri
+        ← {t("back")}
       </Button>
       <div className="flex justify-between items-center mb-2">
         <h1 className="text-2xl font-black text-white">
-          👨‍👩‍👧 Veli / Öğretmen Paneli
+          👨‍👩‍👧 {t("parent_panel")}
         </h1>
         <Button
           data-ocid="parent.secondary_button"
@@ -85,15 +87,13 @@ export default function ParentPage() {
           🏫 Sınıflar
         </Button>
       </div>
-      <p className="text-white/70 text-sm mb-6">
-        Öğrenci numarasıyla sorgulama yapın
-      </p>
+      <p className="text-white/70 text-sm mb-6">{t("parent_panel_desc")}</p>
       <div className="flex gap-2 mb-6">
         <Input
           data-ocid="parent.search_input"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="16 haneli numara..."
+          placeholder={t("student_number_placeholder")}
           className="flex-1 bg-white/10 border-white/20 text-white placeholder-white/40"
           onKeyDown={(e) => e.key === "Enter" && !loading && search()}
         />

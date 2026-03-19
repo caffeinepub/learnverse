@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
   getReadTopics,
@@ -184,6 +185,7 @@ const artists = [
 
 export default function ArtMusicPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -298,7 +300,7 @@ export default function ArtMusicPage() {
                       onClick={() => handleLearn(n.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-3 py-1 rounded-full transition-all"
                     >
-                      🎵 Öğrendim! +5 puan
+                      🎵 {t("learned")} +5 puan
                     </button>
                   )}
                   {isDone && (
@@ -346,7 +348,7 @@ export default function ArtMusicPage() {
                       onClick={() => handleLearn(a.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-3 py-1 rounded-full transition-all"
                     >
-                      🎨 Öğrendim! +5 puan
+                      🎨 {t("learned")} +5 puan
                     </button>
                   )}
                   {isDone && (

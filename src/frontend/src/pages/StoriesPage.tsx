@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
   getReadTopics,
@@ -535,6 +536,7 @@ const levelTabs: { key: Level; label: string }[] = [
 
 export default function StoriesPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -595,7 +597,9 @@ export default function StoriesPage() {
         >
           ← Geri
         </Button>
-        <h1 className="text-3xl font-black text-white mb-4">📖 Hikayeler</h1>
+        <h1 className="text-3xl font-black text-white mb-4">
+          📖 {t("stories_title")}
+        </h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((t) => (
             <button
@@ -641,7 +645,7 @@ export default function StoriesPage() {
           <input
             type="text"
             data-ocid="stories.search_input"
-            placeholder="🔍 Ara..."
+            placeholder={`🔍 ${t("search_placeholder")}`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-white/20 text-white placeholder-white/50 rounded-2xl px-4 py-3 text-sm font-medium outline-none focus:bg-white/30 transition-all"
@@ -678,7 +682,9 @@ export default function StoriesPage() {
                     onClick={() => handleSpeak(s.key, s.text)}
                     className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
                   >
-                    {speakingId === s.key ? "⏹ Durdur" : "🔊 Dinle"}
+                    {speakingId === s.key
+                      ? `⏹ ${t("stop")}`
+                      : `🔊 ${t("listen")}`}
                   </button>
                   {!isRead && profile && (
                     <button

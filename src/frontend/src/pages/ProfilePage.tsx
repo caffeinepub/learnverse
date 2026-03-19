@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   getBadgeLevel,
   getCurrentUser,
@@ -39,6 +40,7 @@ const CONTENT_SECTIONS = [
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [profile, setProfile] = useState<Profile | null>(getCurrentUser());
   const [copied, setCopied] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
@@ -91,7 +93,7 @@ export default function ProfilePage() {
   };
 
   const shareCertificate = async () => {
-    const text = `🎓 LearnVerse Başarı Sertifikası\n${profile.username} — ${LEVEL_NAMES[profile.level]}\nRozet: ${BADGE_EMOJIS[badge - 1]} ${BADGE_NAMES[badge - 1]}\nToplam Puan: ${profile.totalPoints}\nTarih: ${new Date().toLocaleDateString("tr-TR")}`;
+    const text = `🎓 LearnVerse Başarı Sertifikası\n${profile.username} — ${LEVEL_NAMES[profile.level]}\nRozet: ${BADGE_EMOJIS[badge - 1]} ${BADGE_NAMES[badge - 1]}\n{t("profile_total_points")}: ${profile.totalPoints}\nTarih: ${new Date().toLocaleDateString("tr-TR")}`;
     if (navigator.share) {
       try {
         await navigator.share({ title: "LearnVerse Sertifikası", text });
@@ -111,7 +113,7 @@ export default function ProfilePage() {
         onClick={() => navigate({ to: "/home" })}
         className="text-white mb-4"
       >
-        ← Geri
+        ← {t("back")}
       </Button>
       <div className="max-w-sm mx-auto space-y-4">
         {/* Avatar & Badge */}
@@ -160,7 +162,9 @@ export default function ProfilePage() {
             <div className="text-2xl font-black text-white">
               {profile.totalPoints}
             </div>
-            <div className="text-white/70 text-xs">Toplam Puan</div>
+            <div className="text-white/70 text-xs">
+              {t("profile_total_points")}
+            </div>
           </div>
           <div className="bg-white/20 backdrop-blur rounded-2xl p-3 text-center">
             <div className="text-2xl font-black text-white">
@@ -178,7 +182,9 @@ export default function ProfilePage() {
 
         {/* Streak */}
         <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
-          <h3 className="text-white font-bold mb-3">🔥 Günlük Seri</h3>
+          <h3 className="text-white font-bold mb-3">
+            🔥 {t("profile_streak")}
+          </h3>
           {streak.current > 0 ? (
             <div className="flex items-center gap-3">
               <span className="text-5xl">🔥</span>
@@ -204,7 +210,9 @@ export default function ProfilePage() {
 
         {/* All Badges */}
         <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
-          <h3 className="text-white font-bold mb-3">🏅 Tüm Rozetler</h3>
+          <h3 className="text-white font-bold mb-3">
+            🏅 {t("profile_badges")}
+          </h3>
           <div className="grid grid-cols-5 gap-2">
             {BADGE_NAMES.map((name, i) => {
               const earned = badge > i;
@@ -228,7 +236,9 @@ export default function ProfilePage() {
 
         {/* Content Completion Summary */}
         <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
-          <h3 className="text-white font-bold mb-3">📊 Tamamlanan İçerikler</h3>
+          <h3 className="text-white font-bold mb-3">
+            📊 {t("profile_content_completed")}
+          </h3>
           <div className="grid grid-cols-2 gap-2">
             {contentProgress.map((s) => (
               <div
@@ -264,7 +274,9 @@ export default function ProfilePage() {
         {/* Recent Quizzes */}
         {quizResults.length > 0 && (
           <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
-            <h3 className="text-white font-bold mb-3">Son Quizler</h3>
+            <h3 className="text-white font-bold mb-3">
+              {t("profile_quiz_history")}
+            </h3>
             <div className="space-y-2">
               {quizResults
                 .slice(-5)
@@ -342,7 +354,9 @@ export default function ProfilePage() {
                   <div className="text-2xl font-black text-orange-500">
                     {profile.totalPoints}
                   </div>
-                  <div className="text-xs text-gray-500">Toplam Puan</div>
+                  <div className="text-xs text-gray-500">
+                    {t("profile_total_points")}
+                  </div>
                 </div>
                 <div className="bg-pink-50 rounded-2xl p-3">
                   <div className="text-sm font-bold text-pink-500">

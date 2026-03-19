@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   getAdminAuth,
   getAudioUrls,
@@ -12,6 +13,7 @@ import { AUDIO_CATEGORIES } from "../types";
 
 export default function AdminPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [authed, setAuthed] = useState(getAdminAuth());
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -48,14 +50,14 @@ export default function AdminPage() {
         <div className="bg-white/10 rounded-3xl p-8 w-full max-w-xs">
           <div className="text-4xl text-center mb-4">⚙️</div>
           <h1 className="text-white font-black text-xl text-center mb-6">
-            Admin Paneli
+            {t("admin_title")}
           </h1>
           <Input
             data-ocid="admin.password_input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Şifre..."
+            placeholder={t("admin_password_placeholder")}
             className="bg-white/10 border-white/20 text-white placeholder-white/40 mb-3"
             onKeyDown={(e) => e.key === "Enter" && login()}
           />
@@ -72,7 +74,7 @@ export default function AdminPage() {
             onClick={login}
             className="w-full bg-white text-gray-800 font-bold"
           >
-            Giriş Yap
+            {t("admin_login")}
           </Button>
           <button
             type="button"
@@ -80,7 +82,7 @@ export default function AdminPage() {
             onClick={() => navigate({ to: "/home" })}
             className="w-full text-white/50 text-sm mt-3 text-center block"
           >
-            ← Geri Dön
+            ← {t("back")}
           </button>
         </div>
       </div>
@@ -97,7 +99,9 @@ export default function AdminPage() {
         >
           ← Geri
         </Button>
-        <h1 className="text-white font-black">⚙️ Ses Yönetimi</h1>
+        <h1 className="text-white font-black">
+          ⚙️ {t("admin_audio_management")}
+        </h1>
         <button
           type="button"
           data-ocid="admin.logout_button"

@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "../../components/ui/button";
+import { useLanguage } from "../../i18n/LanguageContext";
 import {
   getCurrentUser,
   playAudio,
@@ -38,6 +39,7 @@ function shuffle<T>(arr: T[]): T[] {
 
 export default function MemoryGame() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const profile = getCurrentUser();
   const emojis = useMemo(
     () => EMOJI_SETS[Math.floor(Math.random() * EMOJI_SETS.length)],
@@ -162,7 +164,7 @@ export default function MemoryGame() {
               onClick={playAgain}
               className="flex-1 bg-purple-500 text-white"
             >
-              Tekrar Oyna
+              {t("game_play_again")}
             </Button>
             <Button
               data-ocid="memory.finish_button"

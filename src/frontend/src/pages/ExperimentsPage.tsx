@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
   getReadTopics,
@@ -756,6 +757,7 @@ const levelTabs: { key: Level; label: string }[] = [
 
 export default function ExperimentsPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -796,7 +798,9 @@ export default function ExperimentsPage() {
         >
           ← Geri
         </Button>
-        <h1 className="text-3xl font-black text-white mb-4">🔬 Deneyler</h1>
+        <h1 className="text-3xl font-black text-white mb-4">
+          🔬 {t("experiments_title")}
+        </h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((t) => (
             <button
@@ -842,7 +846,7 @@ export default function ExperimentsPage() {
           <input
             type="text"
             data-ocid="experiments.search_input"
-            placeholder="🔍 Ara..."
+            placeholder={`🔍 ${t("search_placeholder")}`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-white/20 text-white placeholder-white/50 rounded-2xl px-4 py-3 text-sm font-medium outline-none focus:bg-white/30 transition-all"

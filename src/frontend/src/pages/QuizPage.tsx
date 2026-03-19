@@ -3,6 +3,12 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { getAdaptiveDailyQuestions } from "../data/questions";
 import {
+  questionsEnMiddle,
+  questionsEnPreschool,
+  questionsEnPrimary,
+} from "../data/questions-en";
+import { useLanguage } from "../i18n/LanguageContext";
+import {
   getCurrentUser,
   getLastQuizScore,
   hasPlayedQuizToday,
@@ -21,7 +27,14 @@ import type { Question, WrongAnswer } from "../types";
 export default function QuizPage() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
+  const { t, lang } = useLanguage();
   const [questions] = useState<Question[]>(() => {
+    if (lang === "en") {
+      const level = profile?.level || "ilkokul";
+      if (level === "okul_oncesi") return questionsEnPreschool;
+      if (level === "ortaokul") return questionsEnMiddle;
+      return questionsEnPrimary;
+    }
     const lastScore = getLastQuizScore(profile?.studentNumber || "");
     return getAdaptiveDailyQuestions(profile?.level || "ilkokul", lastScore);
   });
@@ -51,8 +64,8 @@ export default function QuizPage() {
       nextQuestion();
       return;
     }
-    const t = setTimeout(() => setTimer((tt) => tt - 1), 1000);
-    return () => clearTimeout(t);
+    const tid = setTimeout(() => setTimer((tt) => tt - 1), 1000);
+    return () => clearTimeout(tid);
   }, [timer, phase, nextQuestion]);
 
   const handleAnswer = (idx: number) => {
@@ -77,24 +90,24 @@ export default function QuizPage() {
       saveWrongAnswer(wa);
     }
     setPhase("feedback");
-    setTimeout(nextQuestion, 1200);
+    setTimeout(() => nextQuestion(), 1500);
   };
 
-  const finishQuiz = () => {
+  const handleFinish = () => {
     if (!profile) return;
     const score = correct * 10;
+    updatePoints(profile.studentNumber, score);
+    markQuizPlayedToday(profile.studentNumber);
+    updateStreak(profile.studentNumber);
+    updateDailyGoals(profile.studentNumber, { quizDone: true });
     saveQuizResult({
       studentNumber: profile.studentNumber,
       date: new Date().toISOString(),
-      score,
+      score: correct * 10,
       total: questions.length,
       correct,
       level: profile.level,
     });
-    updatePoints(profile.studentNumber, score);
-    markQuizPlayedToday(profile.studentNumber);
-    updateDailyGoals(profile.studentNumber, { quizDone: true });
-    updateStreak(profile.studentNumber);
     setLastQuizScore(
       profile.studentNumber,
       Math.round((correct / questions.length) * 100),
@@ -112,17 +125,20 @@ export default function QuizPage() {
         <div className="bg-white rounded-3xl p-8 text-center max-w-sm w-full shadow-2xl">
           <div className="text-6xl mb-4">🌙</div>
           <h2 className="text-2xl font-black text-gray-800 mb-2">
-            Bugünkü Quiz Tamamlandı!
+            {t("quiz_already_done")}
           </h2>
           <p className="text-gray-600 mb-6">
-            Yarın yeni sorularla geri dön. Her gün 1 quiz hakkın var!
+            {t("quiz_next_quiz")}.{" "}
+            {lang === "en"
+              ? "You have 1 quiz per day!"
+              : "Her gün 1 quiz hakkın var!"}
           </p>
           <Button
             data-ocid="quiz.home_button"
             onClick={() => navigate({ to: "/home" })}
             className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl"
           >
-            Ana Sayfaya Dön
+            {t("quiz_home")}
           </Button>
         </div>
       </div>
@@ -137,25 +153,21 @@ export default function QuizPage() {
           <div className="text-6xl mb-4">
             {correct >= 7 ? "🎉" : correct >= 5 ? "😊" : "💪"}
           </div>
-          <h2 className="text-3xl font-black text-gray-800 mb-2">Tebrikler!</h2>
+          <h2 className="text-3xl font-black text-gray-800 mb-2">
+            {t("quiz_finished")}
+          </h2>
           <p className="text-gray-600 mb-4">
-            {questions.length} sorudan {correct} doğru
+            {t("quiz_score")}: {correct}/{questions.length}
           </p>
-          <div className="text-4xl font-black text-purple-600 mb-6">
-            +{score} Puan
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-4 mb-6">
-            <div
-              className="bg-gradient-to-r from-purple-500 to-pink-500 h-4 rounded-full"
-              style={{ width: `${(correct / questions.length) * 100}%` }}
-            />
-          </div>
+          <p className="text-2xl font-black text-purple-600 mb-6">
+            +{score} {t("points")}
+          </p>
           <Button
             data-ocid="quiz.finish_button"
-            onClick={finishQuiz}
+            onClick={handleFinish}
             className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl"
           >
-            Ana Sayfaya Dön
+            {t("quiz_home")}
           </Button>
         </div>
       </div>
@@ -166,64 +178,77 @@ export default function QuizPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-600 p-4">
-      <div className="max-w-sm mx-auto">
-        <div className="flex items-center justify-between mb-4">
-          <Button
+      <div className="max-w-lg mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <button
+            type="button"
             data-ocid="quiz.back_button"
-            variant="ghost"
             onClick={() => navigate({ to: "/home" })}
-            className="text-white"
+            className="text-white font-bold text-sm"
           >
-            ←
-          </Button>
-          <div className="text-white font-bold">
-            {current + 1} / {questions.length}
-          </div>
-          <div
-            className={`text-white font-bold px-3 py-1 rounded-full ${
-              timer <= 10 ? "bg-red-500 animate-pulse" : "bg-white/20"
-            }`}
-          >
-            ⏱ {timer}s
+            ← {t("back")}
+          </button>
+          <div className="flex items-center gap-3">
+            <span className="text-white font-bold text-sm">
+              {current + 1}/{questions.length}
+            </span>
+            <div
+              className={`w-12 h-12 rounded-full flex items-center justify-center font-black text-lg ${
+                timer <= 10
+                  ? "bg-red-500 text-white animate-pulse"
+                  : "bg-white/30 text-white"
+              }`}
+            >
+              {timer}
+            </div>
           </div>
         </div>
-        <div className="bg-white/20 rounded-full h-2 mb-6">
-          <div
-            className="bg-white h-2 rounded-full transition-all"
-            style={{ width: `${(current / questions.length) * 100}%` }}
-          />
-        </div>
-        <div className="bg-white rounded-3xl p-6 mb-4 shadow-xl">
-          <p className="text-gray-800 font-bold text-lg text-center leading-relaxed">
+
+        <div className="bg-white/20 backdrop-blur rounded-3xl p-6 mb-6">
+          <p className="text-white font-black text-xl leading-relaxed text-center">
             {q.text}
           </p>
         </div>
+
         <div className="space-y-3">
-          {q.choices.map((choice, i) => {
-            let bg = "bg-white/20 text-white hover:bg-white/30";
+          {q.choices.map((choice, idx) => {
+            let cls =
+              "w-full text-left p-4 rounded-2xl font-bold text-base transition-all ";
             if (phase === "feedback") {
-              if (i === q.correctIndex) bg = "bg-green-500 text-white";
-              else if (i === selected && !feedbackCorrect)
-                bg = "bg-red-500 text-white";
-              else bg = "bg-white/10 text-white/50";
+              if (idx === q.correctIndex)
+                cls += "bg-green-500 text-white scale-105";
+              else if (idx === selected) cls += "bg-red-500 text-white";
+              else cls += "bg-white/20 text-white";
+            } else {
+              cls += "bg-white/20 text-white hover:bg-white/40 active:scale-95";
             }
             return (
               <button
-                type="button"
                 key={choice}
-                data-ocid={`quiz.answer_button.${i + 1}`}
-                onClick={() => handleAnswer(i)}
+                type="button"
+                data-ocid={`quiz.choice.${idx + 1}`}
+                className={cls}
+                onClick={() => handleAnswer(idx)}
                 disabled={phase === "feedback"}
-                className={`w-full ${bg} rounded-2xl p-4 text-left font-semibold transition-all text-base`}
               >
-                <span className="mr-2 opacity-60">
-                  {["A", "B", "C", "D"][i]})
-                </span>{" "}
                 {choice}
               </button>
             );
           })}
         </div>
+
+        {phase === "feedback" && (
+          <div
+            data-ocid="quiz.feedback"
+            className={`mt-6 p-4 rounded-2xl text-center font-black text-xl ${
+              feedbackCorrect
+                ? "bg-green-500/80 text-white"
+                : "bg-red-500/80 text-white"
+            }`}
+          >
+            {feedbackCorrect ? `✅ ${t("correct")}` : `❌ ${t("quiz_wrong")}`}
+          </div>
+        )}
       </div>
     </div>
   );

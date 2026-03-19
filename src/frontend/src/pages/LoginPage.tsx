@@ -2,6 +2,8 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
+import { LANGUAGES, useLanguage } from "../i18n/LanguageContext";
+import type { LangCode } from "../i18n/LanguageContext";
 import {
   generateStudentNumber,
   getBadgeLevel,
@@ -25,42 +27,27 @@ import {
 } from "../types";
 
 const PLACEMENT_QUESTIONS = [
-  {
-    q: "2 + 3 = ?",
-    options: ["3", "5", "7"],
-    correct: 1,
-    score: 1,
-  },
+  { q: "2 + 3 = ?", options: ["3", "5", "7"], correct: 1, score: 1 },
   {
     q: "Türkiye'nin başkenti neresidir?",
     options: ["İstanbul", "İzmir", "Ankara"],
     correct: 2,
     score: 2,
   },
-  {
-    q: "4 × 7 = ?",
-    options: ["11", "28", "32"],
-    correct: 1,
-    score: 2,
-  },
+  { q: "4 × 7 = ?", options: ["11", "28", "32"], correct: 1, score: 2 },
   {
     q: "Fotosentez bitkiler için ne üretir?",
     options: ["Oksijen ve besin", "Su ve toprak", "Güneş enerjisi"],
     correct: 0,
     score: 3,
   },
-  {
-    q: "48 ÷ 6 - 3 = ?",
-    options: ["5", "12", "3"],
-    correct: 0,
-    score: 3,
-  },
+  { q: "48 ö 6 - 3 = ?", options: ["5", "12", "3"], correct: 0, score: 3 },
 ];
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { t, lang, setLang } = useLanguage();
   const [activeTab, setActiveTab] = useState<"student" | "parent">("student");
-
   const [showForm, setShowForm] = useState(false);
   const [showTest, setShowTest] = useState(false);
   const [testStep, setTestStep] = useState(0);
@@ -69,7 +56,6 @@ export default function LoginPage() {
   const [avatarIndex, setAvatarIndex] = useState(0);
   const [level, setLevel] = useState<Level>("ilkokul");
   const profiles = getProfiles();
-
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<Profile | "notfound" | null>(null);
   const [searching, setSearching] = useState(false);
@@ -135,14 +121,39 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-500 to-cyan-400 flex flex-col items-center justify-center p-4">
-      <div className="text-center mb-8">
+      {/* Language Selector */}
+      <div className="w-full max-w-sm mb-4">
+        <p className="text-white/80 text-xs text-center mb-2 font-semibold uppercase tracking-wide">
+          {t("select_language")}
+        </p>
+        <div className="grid grid-cols-5 gap-1.5">
+          {LANGUAGES.map((l) => (
+            <button
+              type="button"
+              key={l.code}
+              data-ocid="login.language_select"
+              onClick={() => setLang(l.code as LangCode)}
+              className={`flex flex-col items-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition-all ${
+                lang === l.code
+                  ? "bg-white text-purple-600 shadow-lg scale-105"
+                  : "bg-white/20 text-white hover:bg-white/30"
+              }`}
+            >
+              <span className="text-base">{l.flag}</span>
+              <span className="leading-none text-[9px]">
+                {l.code.toUpperCase()}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="text-center mb-6">
         <div className="text-6xl mb-2">🌟</div>
         <h1 className="text-5xl font-black text-white drop-shadow-lg">
           LearnVerse
         </h1>
-        <p className="text-white/90 text-lg mt-2">
-          Öğfrenmenin En Eğlenceli Yolu
-        </p>
+        <p className="text-white/90 text-lg mt-2">{t("app_tagline")}</p>
       </div>
 
       <div className="w-full max-w-sm mb-4">
@@ -157,7 +168,7 @@ export default function LoginPage() {
                 : "text-white hover:bg-white/20"
             }`}
           >
-            🎒 Öğrenci Girişi
+            🎒 {t("student_login")}
           </button>
           <button
             type="button"
@@ -169,7 +180,7 @@ export default function LoginPage() {
                 : "text-white hover:bg-white/20"
             }`}
           >
-            👨‍👩‍👧 Veli / Öğretmen
+            👨‍👩‍👧 {t("parent_teacher")}
           </button>
         </div>
       </div>
@@ -181,7 +192,7 @@ export default function LoginPage() {
               {profiles.length > 0 && (
                 <div className="mb-4">
                   <h2 className="text-white font-bold text-center mb-3">
-                    Profil Seç
+                    {t("select_profile")}
                   </h2>
                   <div className="space-y-2">
                     {profiles.map((p) => (
@@ -198,7 +209,8 @@ export default function LoginPage() {
                         <div className="text-left">
                           <div className="font-bold">{p.username}</div>
                           <div className="text-sm opacity-80">
-                            {LEVEL_NAMES[p.level]} • {p.totalPoints} puan •{" "}
+                            {LEVEL_NAMES[p.level]} • {p.totalPoints}{" "}
+                            {t("points")} •{" "}
                             {BADGE_EMOJIS[getBadgeLevel(p.totalPoints) - 1]}{" "}
                             {BADGE_NAMES[getBadgeLevel(p.totalPoints) - 1]}
                           </div>
@@ -218,17 +230,17 @@ export default function LoginPage() {
                 }}
                 className="w-full bg-white text-purple-600 hover:bg-white/90 font-bold text-lg py-6 rounded-2xl shadow-xl"
               >
-                + Yeni Profil Oluştur
+                + {t("new_profile")}
               </Button>
             </>
           ) : showTest ? (
             <div className="w-full bg-white/20 backdrop-blur rounded-3xl p-6 space-y-4">
               <div className="text-center">
                 <div className="text-white/60 text-xs font-bold uppercase tracking-wide mb-1">
-                  Seviye Belirleme Testi
+                  {t("level_test_title")}
                 </div>
                 <div className="text-white/50 text-xs">
-                  Soru {testStep + 1}/{PLACEMENT_QUESTIONS.length}
+                  {t("question_of")} {testStep + 1}/{PLACEMENT_QUESTIONS.length}
                 </div>
                 <div className="bg-white/20 rounded-full h-2 mt-2 overflow-hidden">
                   <div
@@ -264,31 +276,31 @@ export default function LoginPage() {
                 onClick={() => setShowTest(false)}
                 className="w-full text-white/50 hover:text-white text-xs underline"
               >
-                Testi atla
+                {t("skip_test")}
               </button>
             </div>
           ) : (
             <div className="w-full bg-white/20 backdrop-blur rounded-3xl p-6 space-y-4">
               <h2 className="text-white font-black text-xl text-center">
-                Yeni Profil
+                {t("new_profile")}
               </h2>
               <div>
                 <p className="text-white text-sm font-semibold mb-1">
-                  Kullanıcı Adı
+                  {t("username")}
                 </p>
                 <Input
                   id="username-input"
                   data-ocid="login.username_input"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Adını yaz..."
+                  placeholder={t("username_placeholder")}
                   className="bg-white/80 border-0 rounded-xl text-gray-800"
                   onKeyDown={(e) => e.key === "Enter" && handleCreate()}
                 />
               </div>
               <div>
                 <p className="text-white text-sm font-semibold mb-2">
-                  Avatar Seç
+                  {t("select_avatar")}
                 </p>
                 <div className="grid grid-cols-8 gap-1">
                   {AVATARS.map((avatar, i) => (
@@ -310,10 +322,10 @@ export default function LoginPage() {
               </div>
               <div>
                 <p className="text-white text-sm font-semibold mb-2">
-                  Seviye
+                  {t("level")}
                   {level && (
                     <span className="ml-2 text-yellow-300 text-xs">
-                      (Önerilen: {LEVEL_NAMES[level]})
+                      ({t("recommended")}: {LEVEL_NAMES[level]})
                     </span>
                   )}
                 </p>
@@ -344,7 +356,7 @@ export default function LoginPage() {
                   onClick={() => setShowForm(false)}
                   className="bg-white/20 border-white/40 text-white hover:bg-white/30"
                 >
-                  Geri
+                  {t("back")}
                 </Button>
                 <Button
                   data-ocid="login.submit_button"
@@ -352,7 +364,7 @@ export default function LoginPage() {
                   disabled={!username.trim()}
                   className="bg-white text-purple-600 hover:bg-white/90 font-bold"
                 >
-                  Oluştur
+                  {t("create")}
                 </Button>
               </div>
             </div>
@@ -365,10 +377,10 @@ export default function LoginPage() {
           <div className="bg-white/20 backdrop-blur rounded-3xl p-6 space-y-4">
             <div>
               <h2 className="text-white font-black text-xl text-center mb-1">
-                👨‍👩‍👧 Veli Paneli
+                👨‍👩‍👧 {t("parent_panel")}
               </h2>
               <p className="text-white/70 text-sm text-center">
-                Öğrenci numarasıyla sorgulama yapın
+                {t("parent_panel_desc")}
               </p>
             </div>
             <div className="flex gap-2">
@@ -376,7 +388,7 @@ export default function LoginPage() {
                 data-ocid="login.parent_search_input"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="16 haneli numara..."
+                placeholder={t("student_number_placeholder")}
                 className="flex-1 bg-white/30 border-white/30 text-white placeholder:text-white/50"
                 onKeyDown={(e) => e.key === "Enter" && handleParentSearch()}
               />
@@ -386,7 +398,7 @@ export default function LoginPage() {
                 disabled={searching}
                 className="bg-white text-purple-600 font-bold hover:bg-white/90"
               >
-                {searching ? "Aranıyor..." : "Ara"}
+                {searching ? t("searching") : t("search")}
               </Button>
             </div>
 
@@ -395,7 +407,7 @@ export default function LoginPage() {
                 data-ocid="login.parent_error_state"
                 className="bg-red-500/20 border border-red-400/40 rounded-2xl p-4 text-white text-center text-sm"
               >
-                ❌ Öğrenci bulunamadı. Lütfen numarayı kontrol edin.
+                ❌ {t("not_found_error")}
               </div>
             )}
 
@@ -425,7 +437,7 @@ export default function LoginPage() {
                           {LEVEL_NAMES[p.level]}
                         </div>
                         <div className="text-yellow-300 text-sm">
-                          ⭐ {p.totalPoints} puan
+                          ⭐ {p.totalPoints} {t("points")}
                         </div>
                         <div className="text-white/80 text-sm">
                           {BADGE_EMOJIS[badge - 1]} {BADGE_NAMES[badge - 1]}
@@ -438,7 +450,7 @@ export default function LoginPage() {
                           {quizzes.length}
                         </div>
                         <div className="text-white/70 text-xs">
-                          Quiz Tamamlandı
+                          {t("quiz_completed_label")}
                         </div>
                       </div>
                       <div className="bg-white/20 rounded-2xl p-3 text-center">
@@ -446,14 +458,14 @@ export default function LoginPage() {
                           {games.length}
                         </div>
                         <div className="text-white/70 text-xs">
-                          Oyun Oynandı
+                          {t("games_played_label")}
                         </div>
                       </div>
                     </div>
                     {quizzes.length > 0 && (
                       <div className="bg-white/20 rounded-2xl p-4">
                         <div className="text-white font-bold mb-2 text-sm">
-                          Son Quiz Sonuçları
+                          {t("recent_quiz_results")}
                         </div>
                         <div className="space-y-1">
                           {quizzes
@@ -468,10 +480,10 @@ export default function LoginPage() {
                                   {new Date(q.date).toLocaleDateString("tr-TR")}
                                 </span>
                                 <span className="text-white">
-                                  {q.correct}/{q.total} doğru
+                                  {q.correct}/{q.total} {t("correct")}
                                 </span>
                                 <span className="text-yellow-300">
-                                  +{q.score} puan
+                                  +{q.score} {t("points")}
                                 </span>
                               </div>
                             ))}

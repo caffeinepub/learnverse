@@ -1,5 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useLanguage } from "../i18n/LanguageContext";
+import { contentTranslationsEn } from "../i18n/content-translations";
 import {
   getCurrentUser,
   getReadTopics,
@@ -213,6 +215,7 @@ const levelTabs: { key: Level; label: string }[] = [
 
 export default function ProverbsPage() {
   const navigate = useNavigate();
+  const { t, lang } = useLanguage();
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -235,26 +238,47 @@ export default function ProverbsPage() {
     };
   }, []);
 
-  const handleSpeak = (id: string, text: string) => {
+  const getTtsLang = () => {
+    if (lang === "en") return "en-US";
+    if (lang === "ar") return "ar-SA";
+    if (lang === "fr") return "fr-FR";
+    if (lang === "es") return "es-ES";
+    if (lang === "ru") return "ru-RU";
+    if (lang === "zh") return "zh-CN";
+    if (lang === "pt") return "pt-PT";
+    if (lang === "hi") return "hi-IN";
+    if (lang === "bn") return "bn-BD";
+    return "tr-TR";
+  };
+
+  const handleSpeak = (id: string, trText: string, enText?: string) => {
+    const speakText = lang === "en" && enText ? enText : trText;
     if (speakingId === id) {
       window.speechSynthesis.cancel();
       setSpeakingId(null);
     } else {
       window.speechSynthesis.cancel();
-      const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = "tr-TR";
+      const utt = new SpeechSynthesisUtterance(speakText);
+      utt.lang = getTtsLang();
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);
     }
   };
 
-  const filteredProverbs = proverbs[level].filter(
-    (p) =>
-      p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.meaning.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredProverbs = proverbs[level].filter((p) => {
+    const enTr = contentTranslationsEn[p.key];
+    const displayTitle = lang === "en" && enTr?.title ? enTr.title : p.title;
+    const displayText = lang === "en" && enTr?.text ? enTr.text : p.text;
+    const displayMeaning =
+      lang === "en" && enTr?.meaning ? enTr.meaning : p.meaning;
+    const q = searchTerm.toLowerCase();
+    return (
+      displayTitle.toLowerCase().includes(q) ||
+      displayText.toLowerCase().includes(q) ||
+      displayMeaning.toLowerCase().includes(q)
+    );
+  });
 
   const handleRead = (key: string) => {
     if (!profile || readTopics.includes(key)) return;
@@ -273,25 +297,25 @@ export default function ProverbsPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4 font-bold text-sm"
         >
-          ← Geri
+          ← {t("back")}
         </button>
         <h1 className="text-3xl font-black text-white mb-4">
-          📜 Atasözleri &amp; Deyimler
+          📜 {lang === "en" ? "Proverbs & Idioms" : "Atasözleri & Deyimler"}
         </h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {levelTabs.map((t) => (
+          {levelTabs.map((tab) => (
             <button
               type="button"
-              key={t.key}
+              key={tab.key}
               data-ocid="proverbs.tab"
-              onClick={() => setLevel(t.key)}
+              onClick={() => setLevel(tab.key)}
               className={`py-3 rounded-2xl font-bold text-xs transition-all ${
-                level === t.key
+                level === tab.key
                   ? "bg-white text-amber-600"
                   : "bg-white/20 text-white hover:bg-white/30"
               }`}
             >
-              {t.label}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -306,7 +330,7 @@ export default function ProverbsPage() {
               <span className="text-2xl">📜</span>
               <div className="flex-1">
                 <div className="flex justify-between text-white text-xs mb-1">
-                  <span className="font-bold">Bu seviyedeki ilerleme</span>
+                  <span className="font-bold">{t("progress_label")}</span>
                   <span className="font-black">
                     {done}/{total}
                   </span>
@@ -326,7 +350,7 @@ export default function ProverbsPage() {
           <input
             type="text"
             data-ocid="proverbs.search_input"
-            placeholder="🔍 Ara..."
+            placeholder={`🔍 ${t("search_placeholder")}`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-white/20 text-white placeholder-white/50 rounded-2xl px-4 py-3 text-sm font-medium outline-none focus:bg-white/30 transition-all"
@@ -338,11 +362,18 @@ export default function ProverbsPage() {
               data-ocid="proverbs.empty_state"
               className="text-center text-white/60 py-8"
             >
-              Sonuç bulunamadı 🔍
+              {lang === "en" ? "No results found" : "Sonuç bulunamadı"} 🔍
             </div>
           ) : (
             filteredProverbs.map((p, idx) => {
               const isRead = readTopics.includes(p.key);
+              const enTr = contentTranslationsEn[p.key];
+              const displayTitle =
+                lang === "en" && enTr?.title ? enTr.title : p.title;
+              const displayText =
+                lang === "en" && enTr?.text ? enTr.text : p.text;
+              const displayMeaning =
+                lang === "en" && enTr?.meaning ? enTr.meaning : p.meaning;
               return (
                 <div
                   key={p.key}
@@ -354,25 +385,27 @@ export default function ProverbsPage() {
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-3xl">{p.emoji}</span>
                     <div className="text-white font-black text-base">
-                      {p.title}
+                      {displayTitle}
                     </div>
                     {isRead && (
                       <span className="ml-auto text-green-300 text-xl">✓</span>
                     )}
                   </div>
                   <p className="text-white font-bold text-sm leading-relaxed mb-2">
-                    &ldquo;{p.text}&rdquo;
+                    &ldquo;{displayText}&rdquo;
                   </p>
                   <p className="text-white/80 text-sm leading-relaxed mb-4">
-                    💡 {p.meaning}
+                    💡 {displayMeaning}
                   </p>
                   <button
                     type="button"
                     data-ocid="proverbs.listen_button"
-                    onClick={() => handleSpeak(p.key, p.text)}
+                    onClick={() => handleSpeak(p.key, p.text, enTr?.text)}
                     className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
                   >
-                    {speakingId === p.key ? "⏹ Durdur" : "🔊 Dinle"}
+                    {speakingId === p.key
+                      ? `⏹ ${t("stop")}`
+                      : `🔊 ${t("listen")}`}
                   </button>
                   {!isRead && profile && (
                     <button
@@ -381,12 +414,12 @@ export default function ProverbsPage() {
                       onClick={() => handleRead(p.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
                     >
-                      📜 Öğrendim! +10 puan
+                      📜 {t("learned")} +10 puan
                     </button>
                   )}
                   {isRead && (
                     <span className="text-green-300 text-xs font-bold">
-                      ✅ Öğrenildi (+10 puan kazanıldı)
+                      ✅ {t("learned")} (+10 puan)
                     </span>
                   )}
                 </div>

@@ -1,0 +1,427 @@
+import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useLanguage } from "../i18n/LanguageContext";
+import {
+  getCurrentUser,
+  getReadTopics,
+  incrementDailyContentRead,
+  markTopicRead,
+  trackContentVisit,
+  updatePoints,
+} from "../store";
+
+type Level = "okul_oncesi" | "ilkokul" | "ortaokul";
+
+const englishData: Record<
+  Level,
+  {
+    key: string;
+    emoji: string;
+    title: string;
+    turkish: string;
+    english: string;
+    example: string;
+  }[]
+> = {
+  okul_oncesi: [
+    {
+      key: "eng_colors",
+      emoji: "🌈",
+      title: "Renkler / Colors",
+      turkish: "Kırmızı, Mavi, Sarı, Yeşil",
+      english: "Red, Blue, Yellow, Green",
+      example: "The apple is red. (Elma kırmızıdır.)",
+    },
+    {
+      key: "eng_numbers",
+      emoji: "🔢",
+      title: "Sayılar / Numbers",
+      turkish: "Bir, İki, Üç, Dört, Beş",
+      english: "One, Two, Three, Four, Five",
+      example: "I have two cats. (İki kedim var.)",
+    },
+    {
+      key: "eng_animals",
+      emoji: "🐶",
+      title: "Hayvanlar / Animals",
+      turkish: "Köpek, Kedi, Kuş, Balık",
+      english: "Dog, Cat, Bird, Fish",
+      example: "The dog is happy. (Köpek mutlu.)",
+    },
+    {
+      key: "eng_family",
+      emoji: "👨‍👩‍👧",
+      title: "Aile / Family",
+      turkish: "Anne, Baba, Kardeş",
+      english: "Mother, Father, Brother, Sister",
+      example: "My mother is kind. (Annem nazik.)",
+    },
+    {
+      key: "eng_food",
+      emoji: "🥗",
+      title: "Yiyecekler / Food",
+      turkish: "Elma, Ekmek, Süt, Yumurta",
+      english: "Apple, Bread, Milk, Egg",
+      example: "I like apples. (Elmaları severim.)",
+    },
+    {
+      key: "eng_greetings",
+      emoji: "👋",
+      title: "Selamlaşma / Greetings",
+      turkish: "Merhaba, Güle güle, Teşekkürler",
+      english: "Hello, Goodbye, Thank you",
+      example: "Hello! How are you? (Merhaba! Nasılsın?)",
+    },
+    {
+      key: "eng_shapes",
+      emoji: "🔷",
+      title: "Şekiller / Shapes",
+      turkish: "Daire, Kare, Ügen",
+      english: "Circle, Square, Triangle",
+      example: "The sun is a circle. (Güneş bir dairedir.)",
+    },
+    {
+      key: "eng_body",
+      emoji: "👀",
+      title: "Vücut / Body Parts",
+      turkish: "Göz, Kulak, Burun, El, Ayak",
+      english: "Eye, Ear, Nose, Hand, Foot",
+      example: "I have two eyes. (İki gözüm var.)",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "eng_school",
+      emoji: "🏫",
+      title: "Okul / School",
+      turkish: "Okul, Öğretmen, Kitap, Kalem",
+      english: "School, Teacher, Book, Pencil",
+      example: "My teacher is nice. (Öğretmenim güzel.)",
+    },
+    {
+      key: "eng_weather",
+      emoji: "☀️",
+      title: "Hava / Weather",
+      turkish: "Güneşli, Yağmurlu, Kar",
+      english: "Sunny, Rainy, Snowy, Cloudy",
+      example: "Today is sunny. (Bugün güneşli.)",
+    },
+    {
+      key: "eng_days",
+      emoji: "🗓️",
+      title: "Günler / Days",
+      turkish: "Pazartesi...Pazar",
+      english: "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",
+      example: "Today is Monday. (Bugün Pazartesi.)",
+    },
+    {
+      key: "eng_months",
+      emoji: "📅",
+      title: "Aylar / Months",
+      turkish: "Ocak, Şubat, Mart...",
+      english: "January, February, March, April, May, June",
+      example: "My birthday is in May. (Doğum günüm Mayıs'ta.)",
+    },
+    {
+      key: "eng_hobbies",
+      emoji: "⚽",
+      title: "Hobiler / Hobbies",
+      turkish: "Okumak, Oynamak, Yrenme",
+      english: "Reading, Playing, Swimming, Drawing",
+      example: "I like swimming. (Yüzmeyi severim.)",
+    },
+    {
+      key: "eng_home",
+      emoji: "🏠",
+      title: "Ev / Home",
+      turkish: "Mutfak, Salon, Banyo, Yatak Odası",
+      english: "Kitchen, Living room, Bathroom, Bedroom",
+      example: "I sleep in my bedroom. (Yatak odamda uyurum.)",
+    },
+    {
+      key: "eng_clothes",
+      emoji: "👕",
+      title: "Giysiler / Clothes",
+      turkish: "Gömlek, Pantolon, Ayakkabı",
+      english: "Shirt, Pants, Shoes, Hat",
+      example: "I wear a hat. (Şapka takiyorum.)",
+    },
+    {
+      key: "eng_verbs",
+      emoji: "🏋️",
+      title: "Eylemler / Verbs",
+      turkish: "Koşmak, Oturmak, Yemek",
+      english: "Run, Sit, Eat, Sleep, Walk",
+      example: "I run every day. (Her gün koşuyorum.)",
+    },
+    {
+      key: "eng_adjectives",
+      emoji: "✨",
+      title: "Sıfatlar / Adjectives",
+      turkish: "Büyük, Küçük, Hızlı, Yaşlı",
+      english: "Big, Small, Fast, Old, New",
+      example: "The elephant is big. (Fil büyük.)",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "eng_past",
+      emoji: "⏰",
+      title: "Geçmiş Zaman / Past Tense",
+      turkish: "Geçmiş zaman '-di/-ti' eki",
+      english: "I played / She went / They saw",
+      example: "I went to school yesterday. (Dün okula gittim.)",
+    },
+    {
+      key: "eng_present",
+      emoji: "▶️",
+      title: "Şimdiki Zaman / Present Tense",
+      turkish: "Süregelen eylemler için kullanılır.",
+      english: "I am playing / She is reading",
+      example: "She is reading a book. (Kitap okuyor.)",
+    },
+    {
+      key: "eng_future",
+      emoji: "🔮",
+      title: "Gelecek Zaman / Future Tense",
+      turkish: "Gelecekteki eylemler için 'will' kullanılır.",
+      english: "I will go / They will see",
+      example: "I will travel next year. (Gelecek yıl seyahat edeceğim.)",
+    },
+    {
+      key: "eng_conditionals",
+      emoji: "🤔",
+      title: "Koşull Cumleler / Conditionals",
+      turkish: "'Eğer... olsaydı' anlamında.",
+      english: "If I study, I will pass.",
+      example: "If it rains, I will stay home. (Yağmur yağarsa evde kalırım.)",
+    },
+    {
+      key: "eng_environment",
+      emoji: "🌎",
+      title: "Çevre / Environment",
+      turkish: "Çevre, iklim, kirlilik, geri dönüşüm",
+      english: "Pollution, Recycling, Climate, Nature",
+      example: "We must protect nature. (Doğayı korumak gerekir.)",
+    },
+    {
+      key: "eng_technology",
+      emoji: "💻",
+      title: "Teknoloji / Technology",
+      turkish: "Bilgisayar, internet, uygulama",
+      english: "Computer, Internet, Application, Smartphone",
+      example:
+        "I use the internet for homework. (Ev ödevi için internet kullanırım.)",
+    },
+    {
+      key: "eng_health",
+      emoji: "🏥",
+      title: "Sağlık / Health",
+      turkish: "Hasta, Doktor, İlaç, Ameliyat",
+      english: "Sick, Doctor, Medicine, Surgery",
+      example: "I see a doctor when I am sick. (Hasta olunca doktora giderim.)",
+    },
+    {
+      key: "eng_compare",
+      emoji: "📊",
+      title: "Karşılaştırma / Comparisons",
+      turkish: "Daha büyük, en büyük",
+      english: "Bigger, Biggest / More interesting, Most interesting",
+      example: "She is taller than me. (O benden uzun.)",
+    },
+  ],
+};
+
+const levelTabs: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 Okul Öncesi" },
+  { key: "ilkokul", label: "📗 İlkokul" },
+  { key: "ortaokul", label: "📘 Ortaokul" },
+];
+
+export default function EnglishPage() {
+  const navigate = useNavigate();
+  const { t } = useLanguage();
+  const profile = getCurrentUser();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
+  useEffect(() => {
+    if (profile) trackContentVisit(profile.studentNumber, "english");
+  }, []);
+
+  const [level, setLevel] = useState<Level>(
+    (profile?.level as Level) || "ilkokul",
+  );
+  const [readTopics, setReadTopics] = useState<string[]>(() =>
+    profile ? getReadTopics(profile.studentNumber) : [],
+  );
+  const [searchTerm, setSearchTerm] = useState("");
+  const [speakingId, setSpeakingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
+  const handleSpeak = (id: string, text: string) => {
+    if (speakingId === id) {
+      window.speechSynthesis.cancel();
+      setSpeakingId(null);
+    } else {
+      window.speechSynthesis.cancel();
+      const utt = new SpeechSynthesisUtterance(text);
+      utt.lang = "en-US";
+      utt.onend = () => setSpeakingId(null);
+      setSpeakingId(id);
+      window.speechSynthesis.speak(utt);
+    }
+  };
+
+  const filtered = englishData[level].filter(
+    (p) =>
+      p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.english.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.turkish.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const handleRead = (key: string) => {
+    if (!profile || readTopics.includes(key)) return;
+    markTopicRead(profile.studentNumber, key);
+    updatePoints(profile.studentNumber, 10);
+    incrementDailyContentRead(profile.studentNumber);
+    setReadTopics((prev) => [...prev, key]);
+  };
+
+  const total = englishData[level].length;
+  const done = englishData[level].filter((p) =>
+    readTopics.includes(p.key),
+  ).length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-red-500 to-orange-400">
+      <div className="p-4">
+        <button
+          type="button"
+          onClick={() => navigate({ to: "/home" })}
+          className="text-white mb-4 font-bold text-sm"
+        >
+          ← Geri
+        </button>
+        <h1 className="text-3xl font-black text-white mb-4">
+          🇬🇧 Temel İngilizce
+        </h1>
+        <div className="grid grid-cols-3 gap-2 mb-6">
+          {levelTabs.map((t) => (
+            <button
+              type="button"
+              key={t.key}
+              onClick={() => setLevel(t.key)}
+              className={`py-3 rounded-2xl font-bold text-xs transition-all ${
+                level === t.key
+                  ? "bg-white text-red-500"
+                  : "bg-white/20 text-white hover:bg-white/30"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        <div className="bg-white/20 rounded-2xl p-3 mb-4 flex items-center gap-3">
+          <span className="text-2xl">🇬🇧</span>
+          <div className="flex-1">
+            <div className="flex justify-between text-white text-xs mb-1">
+              <span className="font-bold">Bu seviyedeki ilerleme</span>
+              <span className="font-black">
+                {done}/{total}
+              </span>
+            </div>
+            <div className="bg-white/20 rounded-full h-3 overflow-hidden">
+              <div
+                className="h-full bg-yellow-300 rounded-full transition-all duration-500"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          </div>
+          <span className="text-white font-black text-sm">{pct}%</span>
+        </div>
+        <div className="relative mb-4">
+          <input
+            type="text"
+            placeholder={`🔍 ${t("search_placeholder")}`}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full bg-white/20 text-white placeholder-white/50 rounded-2xl px-4 py-3 text-sm font-medium outline-none focus:bg-white/30 transition-all"
+          />
+        </div>
+        <div className="space-y-4">
+          {filtered.length === 0 ? (
+            <div className="text-center text-white/60 py-8">
+              Sonuç bulunamadı 🔍
+            </div>
+          ) : (
+            filtered.map((item) => {
+              const isRead = readTopics.includes(item.key);
+              return (
+                <div
+                  key={item.key}
+                  className={`bg-white/20 backdrop-blur rounded-2xl p-5 transition-all ${isRead ? "border-2 border-yellow-300" : ""}`}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-3xl">{item.emoji}</span>
+                    <div className="text-white font-black text-base">
+                      {item.title}
+                    </div>
+                    {isRead && (
+                      <span className="ml-auto text-yellow-300 text-xl">✓</span>
+                    )}
+                  </div>
+                  <div className="mb-2">
+                    <span className="text-white/70 text-xs font-semibold uppercase">
+                      Türkçe:{" "}
+                    </span>
+                    <span className="text-white text-sm font-bold">
+                      {item.turkish}
+                    </span>
+                  </div>
+                  <div className="mb-3">
+                    <span className="text-yellow-200 text-xs font-semibold uppercase">
+                      English:{" "}
+                    </span>
+                    <span className="text-yellow-100 text-sm font-black">
+                      {item.english}
+                    </span>
+                  </div>
+                  <p className="text-white/80 text-sm leading-relaxed mb-4 italic">
+                    "{item.example}"
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => handleSpeak(item.key, item.english)}
+                    className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
+                  >
+                    {speakingId === item.key ? "⏹ Durdur" : "🔊 Dinle (EN)"}
+                  </button>
+                  {!isRead && profile && (
+                    <button
+                      type="button"
+                      onClick={() => handleRead(item.key)}
+                      className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
+                    >
+                      ✅ {t("learned")} +10 puan
+                    </button>
+                  )}
+                  {isRead && (
+                    <span className="text-yellow-300 text-xs font-bold">
+                      ✅ Öğrenildi (+10 puan kazanıldı)
+                    </span>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

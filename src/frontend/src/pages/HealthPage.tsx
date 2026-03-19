@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { Progress } from "../components/ui/progress";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
   getReadTopics,
@@ -262,6 +263,7 @@ const categoryLabels: Record<Category, string> = {
 
 export default function HealthPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const profile = getCurrentUser();
   const [level, setLevel] = useState<Level>("ilkokul");
   const [filter, setFilter] = useState<Category | "all">("all");
@@ -397,7 +399,7 @@ export default function HealthPage() {
         {/* Search */}
         <input
           type="text"
-          placeholder="Ara..."
+          placeholder={t("search_placeholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full mb-4 px-4 py-2 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"

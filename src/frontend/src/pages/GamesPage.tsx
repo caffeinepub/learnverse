@@ -1,43 +1,46 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Button } from "../components/ui/button";
-
-const games = [
-  {
-    icon: "🎴",
-    title: "Hafıza Kartları",
-    desc: "Eşleştir kazan!",
-    path: "/games/memory",
-    gradient: "from-pink-500 to-rose-500",
-    ocid: "games.memory_card",
-  },
-  {
-    icon: "🗒️",
-    title: "Kelime Bulmaca",
-    desc: "Kelimeleri bul",
-    path: "/games/wordsearch",
-    gradient: "from-blue-500 to-indigo-500",
-    ocid: "games.wordsearch_card",
-  },
-  {
-    icon: "➖",
-    title: "Matematik Yarışması",
-    desc: "Hızlı hesapla!",
-    path: "/games/math",
-    gradient: "from-green-500 to-teal-500",
-    ocid: "games.math_card",
-  },
-  {
-    icon: "🔎",
-    title: "Resim-Kelime",
-    desc: "Eşleştir",
-    path: "/games/matching",
-    gradient: "from-orange-500 to-amber-500",
-    ocid: "games.matching_card",
-  },
-];
+import { useLanguage } from "../i18n/LanguageContext";
 
 export default function GamesPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const games = [
+    {
+      icon: "🇴",
+      title: t("game_memory"),
+      desc: "İki eşlеşeni bul!",
+      path: "/games/memory",
+      gradient: "from-pink-500 to-rose-500",
+      ocid: "games.memory_card",
+    },
+    {
+      icon: "🗒️",
+      title: t("game_word"),
+      desc: "Kelimeleri bul",
+      path: "/games/wordsearch",
+      gradient: "from-blue-500 to-indigo-500",
+      ocid: "games.wordsearch_card",
+    },
+    {
+      icon: "➖",
+      title: t("game_math"),
+      desc: "Hızlı hesapla!",
+      path: "/games/math",
+      gradient: "from-green-500 to-teal-500",
+      ocid: "games.math_card",
+    },
+    {
+      icon: "🔎",
+      title: t("game_matching"),
+      desc: "Eşleştir",
+      path: "/games/matching",
+      gradient: "from-orange-500 to-amber-500",
+      ocid: "games.matching_card",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-green-900 p-4">
       <Button
@@ -46,10 +49,10 @@ export default function GamesPage() {
         onClick={() => navigate({ to: "/home" })}
         className="text-white mb-4"
       >
-        ← Geri
+        ← {t("back")}
       </Button>
       <h1 className="text-3xl font-black text-white mb-6">
-        🎮 Mucit Gereçleri
+        🎮 {t("games_title")}
       </h1>
       <div className="grid grid-cols-2 gap-4">
         {games.map((g) => (

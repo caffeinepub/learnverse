@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "../components/ui/button";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
   clearWrongAnswers,
   getCurrentUser,
@@ -12,6 +13,7 @@ import type { WrongAnswer } from "../types";
 
 export default function WrongAnswersPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const profile = getCurrentUser();
   const [answers, setAnswers] = useState<WrongAnswer[]>(() =>
     profile ? getWrongAnswers(profile.studentNumber) : [],
@@ -66,7 +68,7 @@ export default function WrongAnswersPage() {
             }}
             className="text-white mb-4"
           >
-            ← Geri
+            ← {t("back")}
           </Button>
           <div className="bg-white rounded-3xl p-6 shadow-2xl">
             <div className="text-center text-2xl mb-3">🔄 Tekrar Çöz</div>
@@ -129,7 +131,7 @@ export default function WrongAnswersPage() {
             onClick={() => navigate({ to: "/home" })}
             className="text-white"
           >
-            ← Geri
+            ← {t("back")}
           </Button>
           {answers.length > 0 && (
             <button
@@ -143,7 +145,7 @@ export default function WrongAnswersPage() {
           )}
         </div>
         <h1 className="text-3xl font-black text-white mb-6">
-          📝 Yanlış Cevaplarım
+          📝 {t("wrong_answers_title")}
         </h1>
 
         {answers.length === 0 ? (
@@ -153,7 +155,7 @@ export default function WrongAnswersPage() {
           >
             <div className="text-5xl mb-3">🎉</div>
             <div className="text-white font-black text-xl">
-              Henüz yanlış cevabın yok!
+              {t("wrong_answers_empty")}
             </div>
             <div className="text-white/70 text-sm mt-2">Harika gidiyorsun!</div>
           </div>
