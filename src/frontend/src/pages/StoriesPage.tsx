@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { storiesEn } from "../data/stories-en";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -536,7 +537,8 @@ const levelTabs: { key: Level; label: string }[] = [
 
 export default function StoriesPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const activeStories = lang === "en" ? storiesEn : stories;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -565,14 +567,14 @@ export default function StoriesPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = "tr-TR";
+      utt.lang = lang === "en" ? "en-US" : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);
     }
   };
 
-  const filteredStories = stories[level].filter(
+  const filteredStories = activeStories[level].filter(
     (s) =>
       s.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.text.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -615,8 +617,8 @@ export default function StoriesPage() {
         </div>
         {/* Progress indicator */}
         {(() => {
-          const total = stories[level].length;
-          const done = stories[level].filter((s) =>
+          const total = activeStories[level].length;
+          const done = activeStories[level].filter((s) =>
             readTopics.includes(s.key),
           ).length;
           const pct = total > 0 ? Math.round((done / total) * 100) : 0;

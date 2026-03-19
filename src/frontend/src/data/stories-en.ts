@@ -1,0 +1,235 @@
+type Level = "okul_oncesi" | "ilkokul" | "ortaokul";
+
+export const storiesEn: Record<
+  Level,
+  { key: string; title: string; emoji: string; text: string }[]
+> = {
+  okul_oncesi: [
+    {
+      key: "story_kucuk_kedi",
+      title: "Little Cat Minnoş",
+      emoji: "🐱",
+      text: "There was a little cat named Minnoş. Every morning she played in the garden. One day she saw a beautiful butterfly. She chased the butterfly but couldn't catch it. She returned home laughing.",
+    },
+    {
+      key: "story_tavsan_kaplumbaga",
+      title: "The Rabbit and the Turtle",
+      emoji: "🐢",
+      text: "A rabbit and a turtle decided to race. The rabbit ran very fast and lay down to rest. The turtle walked slowly but never stopped. The turtle won the race. Patience always wins!",
+    },
+    {
+      key: "story_cesur_fare",
+      title: "Brave Mouse Piko",
+      emoji: "🐭",
+      text: "There was a brave mouse named Piko. His friends were afraid of cats, but Piko was not. One day he helped all the mice and brought them to safety. Everyone loved Piko very much.",
+    },
+    {
+      key: "story_uc_kucuk_domuz",
+      title: "Three Little Pigs",
+      emoji: "🐷",
+      text: "Three little pigs built houses. One used straw, one used wood, and one used bricks. The wolf huffed and puffed and blew down the straw and wood houses. But he couldn't blow down the brick house. Building strong things is important!",
+    },
+    {
+      key: "story_kar_tanesi",
+      title: "The Snowflake",
+      emoji: "❄️",
+      text: "A little snowflake was falling from the sky. 'Where am I going?' it wondered. It landed on a child's nose and melted. 'Now I am that child's smile!' it said happily.",
+    },
+    {
+      key: "story_kirmizi_baslikh",
+      title: "Little Red Riding Hood",
+      emoji: "🧺",
+      text: "Little Red Riding Hood was taking food to her grandmother. In the forest she met a big bad wolf. But she was brave and smart. The woodcutter came to her rescue and everyone was happy. Be careful with strangers.",
+    },
+    {
+      key: "story_tohumun_macerasi",
+      title: "The Seed's Adventure",
+      emoji: "🌱",
+      text: "A tiny seed fell into the ground. 'What am I doing here?' it wondered. Rain fell and the sun rose. Days passed and the seed became a big beautiful tree. Being patient brings great things.",
+    },
+    {
+      key: "story_renkli_balik",
+      title: "The Colorful Fish",
+      emoji: "🐠",
+      text: "A colorful fish lived in the deep ocean. All its friends were the same color but it was different. At first it was sad, then it realized: being different is special. It became the most loved friend of all.",
+    },
+    {
+      key: "story_kuyudaki_kurbaga",
+      title: "The Frog in the Well",
+      emoji: "🐸",
+      text: "A frog lived in a well. 'The world is just this well,' it said. One day a bird came and told of the great seas. The frog was amazed and set off to explore the world. Curiosity makes you grow.",
+    },
+    {
+      key: "story_yeni_1",
+      title: "Fluffy Dog Pamuk",
+      emoji: "🐶",
+      text: "There was a white fluffy dog named Pamuk. Every day he went to the park with his owner. He played games with children and chased balls. When he came home in the evening he wagged his tail with happiness. Friendship is the best way to have a great day.",
+    },
+    {
+      key: "story_yeni_2",
+      title: "The Magic Pencil",
+      emoji: "✏️",
+      text: "Ali had a magic pencil. Everything he drew came to life. He drew the sun and the room brightened. He drew flowers and the room became beautiful. Best of all, when he drew a friend, a real companion appeared beside him.",
+    },
+    {
+      key: "story_yeni_3",
+      title: "Little Star",
+      emoji: "⭐",
+      text: "There was a little star in the sky. 'I am so small, no one sees me,' it said sadly. But one night a lost child found his way home by the star's light. Small as you are, helping others brings great happiness.",
+    },
+    {
+      key: "story_kucuk_ay",
+      title: "Little Moon's Journey",
+      emoji: "🌙",
+      text: "Little Moon wandered alone in the sky every night. One night it made friends with the stars. The stars taught it how to shine. Now Little Moon shines together with the stars every night.",
+    },
+    {
+      key: "story_kelebek_cicek",
+      title: "The Butterfly and the Flower",
+      emoji: "🦋",
+      text: "A little butterfly was flying in the garden. It landed on a red flower. The flower smiled, and the butterfly smiled too.",
+    },
+    {
+      key: "story_bulut",
+      title: "The Cloud's Journey",
+      emoji: "☁️",
+      text: "A white cloud floated across the sky. The wind carried it to the mountains. There it turned into rain and the earth drank it joyfully.",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "story_ilk_gun",
+      title: "First Day of School",
+      emoji: "🎒",
+      text: "Zeynep's first day of school had arrived. She was nervous and held her mother's hand tightly. In the classroom she met Ali. They sat at the same desk and became best friends. School was not scary at all!",
+    },
+    {
+      key: "story_kitap_kurdu",
+      title: "The Bookworm",
+      emoji: "📚",
+      text: "Mert loved reading books. The other kids used to tease him. But one day when the class got lost on a trip, Mert knew exactly what to do because he had read a guide. Everyone respected him after that. Books open new worlds.",
+    },
+    {
+      key: "story_yardim_eli",
+      title: "A Helping Hand",
+      emoji: "🤝",
+      text: "Selin noticed that her elderly neighbor needed groceries. Without being asked, she helped carry the bags. The neighbor was very touched. 'Kindness makes the world beautiful,' she said.",
+    },
+    {
+      key: "story_cesur_cocuk",
+      title: "The Brave Child",
+      emoji: "🦁",
+      text: "Ahmet was scared of the dark. Every night the darkness frightened him. One day his teacher said: 'Bravery isn't the absence of fear, it's acting even when you're afraid.' Ahmet tried it and night by night he grew braver.",
+    },
+    {
+      key: "story_paylasmak",
+      title: "Sharing",
+      emoji: "🍎",
+      text: "Ayşe had only one apple in her lunch. Her friend Hasan had forgotten his food. Without hesitation, Ayşe shared her apple. Hasan was very happy. The apple tasted sweeter when shared.",
+    },
+    {
+      key: "story_dogum_gunu",
+      title: "Birthday Surprise",
+      emoji: "🎂",
+      text: "It was Can's birthday but his parents had forgotten. He was very sad. His friends however had secretly prepared a surprise. When he saw the cake and balloons he cried tears of joy. True friendship is never forgotten.",
+    },
+    {
+      key: "story_cicek_bakimi",
+      title: "Caring for Flowers",
+      emoji: "🌸",
+      text: "Ela planted a small seed in a pot. She watered it every day and kept it in the sun. One day a flower bloomed. 'I made this happen with my patience and care!' she said proudly.",
+    },
+    {
+      key: "story_matematik_sorusu",
+      title: "The Math Problem",
+      emoji: "🔢",
+      text: "Burak couldn't solve the math problem. He tried again and again and kept making mistakes. His teacher said: 'Every mistake is a step toward learning.' Burak persisted and finally solved it. Success comes to those who try.",
+    },
+    {
+      key: "story_dost_el",
+      title: "A Friendly Hand",
+      emoji: "🤗",
+      text: "A new student joined the class. No one spoke to her. Only Irem approached and said hello. The new student cried with happiness. A single greeting can change someone's whole world.",
+    },
+    {
+      key: "story_dogadaki_macera",
+      title: "Adventure in Nature",
+      emoji: "🌿",
+      text: "The class went on a nature trip. They saw birds, insects and plants. Berk took notes in his notebook. On the way back he shared what he learned with the whole class. Observing nature teaches us a great deal.",
+    },
+    {
+      key: "story_il1_kahraman",
+      title: "Everyday Hero",
+      emoji: "🦸",
+      text: "Oya thought heroes existed only in movies. One day she helped a puppy that had fallen into a ditch. Everyone called her a hero. She understood: heroes are people who do good when they have the chance.",
+    },
+    {
+      key: "story_il2_geri_donusum",
+      title: "Recycling Day",
+      emoji: "♻️",
+      text: "The school held a recycling competition. Kerem collected bottles from every corner of the neighborhood. He won first place. 'Protecting nature is everyone's duty,' he said in his speech.",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "story_bilim_insani",
+      title: "The Young Scientist",
+      emoji: "🔬",
+      text: "Fatma loved science. She entered a project competition and her experiment failed. But she tried again, learned from her mistakes and won second place. Years later she became a great scientist. Failure is always a lesson.",
+    },
+    {
+      key: "story_teknoloji_bagimli",
+      title: "Technology Addict",
+      emoji: "📱",
+      text: "Kadir spent all day looking at his phone. He couldn't talk to friends or focus on lessons. One day the school organized a phone-free day. Kadir was surprised: he had fun and talked to people. Balance is the key to everything.",
+    },
+    {
+      key: "story_farkliliklara_saygi",
+      title: "Respecting Differences",
+      emoji: "🌍",
+      text: "An exchange student from a different country joined the class. Some kids found him strange. But Leyla made friends with him and learned new things about his culture. Differences make the world richer.",
+    },
+    {
+      key: "story_liderlik",
+      title: "Leadership",
+      emoji: "🏆",
+      text: "Mehmet was elected class president. He listened to everyone's opinions and made fair decisions. At first leading was hard, but with fairness and empathy he earned everyone's trust. A good leader is also a good listener.",
+    },
+    {
+      key: "story_internet_guvenligi",
+      title: "Internet Safety",
+      emoji: "🔒",
+      text: "Nisan received a suspicious message online. She remembered what her teacher had taught her and didn't reply. She told her parents. The suspicious person was found and blocked. Staying safe online is very important.",
+    },
+    {
+      key: "story_hayal_guc",
+      title: "The Power of Imagination",
+      emoji: "🚀",
+      text: "Orhan always dreamed of going to space. His friends laughed at him. But he kept studying and never gave up. Years later his dream came true. Imagination is the starting point of every great achievement.",
+    },
+    {
+      key: "story_cevreyi_koruma",
+      title: "Protecting the Environment",
+      emoji: "🌱",
+      text: "Pelin noticed that the river near her school was being polluted. She wrote a petition and collected signatures from classmates. City hall took action. One person's effort can make a big difference.",
+    },
+    {
+      key: "story_ort1_kod",
+      title: "The First Code",
+      emoji: "💻",
+      text: "Rahim wrote his first program. It had lots of errors but he didn't give up. After days of trying he got it working. Looking at the screen he thought: 'I made this happen.' For the first time he felt the joy of creating.",
+    },
+    {
+      key: "story_ort2_muzik",
+      title: "The Magic of Music",
+      emoji: "🎵",
+      text: "Sema hated music class. One day the teacher asked students to play their favorite songs. Sema played an old folk tune her grandmother had taught her. The whole class was moved. Music connects different worlds.",
+    },
+    {
+      key: "story_ort3_empati",
+      title: "Empathy",
+      emoji: "💛",
+      text: "Tamer always made fun of others' mistakes. One day he made a big mistake himself and the whole class laughed. That day he understood what it felt like. From then on he never mocked anyone. Empathy changes people.",
+    },
+  ],
+};

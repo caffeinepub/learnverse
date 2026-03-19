@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { puzzlesEn } from "../data/puzzlesEn";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -567,10 +568,18 @@ const levelTabs: { key: Level; label: string }[] = [
   { key: "ortaokul", label: "📘 Ortaokul" },
 ];
 
+const levelTabsEn: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 Preschool" },
+  { key: "ilkokul", label: "📗 Primary" },
+  { key: "ortaokul", label: "📘 Middle" },
+];
+
 export default function PuzzlesPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const isEn = lang === "en";
   const profile = getCurrentUser();
+  const displayPuzzles = isEn ? puzzlesEn : puzzles;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {
@@ -585,7 +594,7 @@ export default function PuzzlesPage() {
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredPuzzles = puzzles[level].filter(
+  const filteredPuzzles = displayPuzzles[level].filter(
     (p) =>
       p.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.choices.join(" ").toLowerCase().includes(searchTerm.toLowerCase()),
@@ -610,6 +619,8 @@ export default function PuzzlesPage() {
     }
   };
 
+  const tabs = isEn ? levelTabsEn : levelTabs;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-500 to-orange-500">
       <div className="p-4">
@@ -619,31 +630,31 @@ export default function PuzzlesPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4"
         >
-          ← Geri
+          ← {isEn ? "Back" : "Geri"}
         </Button>
         <h1 className="text-3xl font-black text-white mb-4">
           🧩 {t("puzzles_title")}
         </h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {levelTabs.map((t) => (
+          {tabs.map((tab) => (
             <button
               type="button"
-              key={t.key}
+              key={tab.key}
               data-ocid="puzzles.tab"
               onClick={() => {
-                setLevel(t.key);
+                setLevel(tab.key);
                 setAnswers({});
               }}
-              className={`py-3 rounded-2xl font-bold text-xs transition-all ${level === t.key ? "bg-white text-amber-600" : "bg-white/20 text-white hover:bg-white/30"}`}
+              className={`py-3 rounded-2xl font-bold text-xs transition-all ${level === tab.key ? "bg-white text-amber-600" : "bg-white/20 text-white hover:bg-white/30"}`}
             >
-              {t.label}
+              {tab.label}
             </button>
           ))}
         </div>
         {/* Progress indicator */}
         {(() => {
-          const total = puzzles[level].length;
-          const done = puzzles[level].filter((p) =>
+          const total = displayPuzzles[level].length;
+          const done = displayPuzzles[level].filter((p) =>
             readTopics.includes(p.key),
           ).length;
           const pct = total > 0 ? Math.round((done / total) * 100) : 0;
@@ -652,7 +663,9 @@ export default function PuzzlesPage() {
               <span className="text-2xl">🧩</span>
               <div className="flex-1">
                 <div className="flex justify-between text-white text-xs mb-1">
-                  <span className="font-bold">Bu seviyedeki ilerleme</span>
+                  <span className="font-bold">
+                    {isEn ? "Progress at this level" : "Bu seviyedeki ilerleme"}
+                  </span>
                   <span className="font-black">
                     {done}/{total}
                   </span>
@@ -681,7 +694,7 @@ export default function PuzzlesPage() {
         <div className="space-y-5">
           {filteredPuzzles.length === 0 ? (
             <div className="text-center text-white/60 py-8">
-              Sonuç bulunamadı 🔍
+              {isEn ? "No results found 🔍" : "Sonuç bulunamadı 🔍"}
             </div>
           ) : (
             filteredPuzzles.map((puzzle, pIdx) => {
@@ -697,7 +710,7 @@ export default function PuzzlesPage() {
                     <span className="text-3xl">{puzzle.emoji}</span>
                     <div>
                       <div className="text-white/60 text-xs mb-1">
-                        Soru {pIdx + 1}
+                        {isEn ? "Question" : "Soru"} {pIdx + 1}
                       </div>
                       <div className="text-white font-black">
                         {puzzle.question}
@@ -735,8 +748,12 @@ export default function PuzzlesPage() {
                       className={`mt-3 text-sm font-bold ${isCorrect ? "text-green-300" : "text-red-300"}`}
                     >
                       {isCorrect
-                        ? "✅ Doğru! +5 puan kazandın!"
-                        : `❌ Yanlış. Doğru cevap: ${puzzle.choices[puzzle.correct]}`}
+                        ? isEn
+                          ? "✅ Correct! +5 points!"
+                          : "✅ Doğru! +5 puan kazandın!"
+                        : isEn
+                          ? `❌ Wrong. Correct answer: ${puzzle.choices[puzzle.correct]}`
+                          : `❌ Yanlış. Doğru cevap: ${puzzle.choices[puzzle.correct]}`}
                     </div>
                   )}
                 </div>

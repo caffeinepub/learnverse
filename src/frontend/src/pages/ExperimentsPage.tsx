@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { experimentsEn } from "../data/experiments-en";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -757,7 +758,8 @@ const levelTabs: { key: Level; label: string }[] = [
 
 export default function ExperimentsPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const activeExperiments = lang === "en" ? experimentsEn : experiments;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -773,7 +775,7 @@ export default function ExperimentsPage() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredExperiments = experiments[level].filter(
+  const filteredExperiments = activeExperiments[level].filter(
     (e) =>
       e.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       e.science.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -816,8 +818,8 @@ export default function ExperimentsPage() {
         </div>
         {/* Progress indicator */}
         {(() => {
-          const total = experiments[level].length;
-          const done = experiments[level].filter((e) =>
+          const total = activeExperiments[level].length;
+          const done = activeExperiments[level].filter((e) =>
             readTopics.includes(e.key),
           ).length;
           const pct = total > 0 ? Math.round((done / total) * 100) : 0;

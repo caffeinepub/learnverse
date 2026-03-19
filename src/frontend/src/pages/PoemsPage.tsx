@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
+import { poemsEn } from "../data/poems-en";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -1002,7 +1003,8 @@ const levelTabs: { key: Level; label: string }[] = [
 
 export default function PoemsPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const activePoems = lang === "en" ? poemsEn : poems;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -1031,14 +1033,14 @@ export default function PoemsPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = "tr-TR";
+      utt.lang = lang === "en" ? "en-US" : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);
     }
   };
 
-  const filteredPoems = poems[level].filter(
+  const filteredPoems = activePoems[level].filter(
     (p) =>
       p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.lines.join(" ").toLowerCase().includes(searchTerm.toLowerCase()),
@@ -1081,8 +1083,8 @@ export default function PoemsPage() {
         </div>
         {/* Progress indicator */}
         {(() => {
-          const total = poems[level].length;
-          const done = poems[level].filter((p) =>
+          const total = activePoems[level].length;
+          const done = activePoems[level].filter((p) =>
             readTopics.includes(p.key),
           ).length;
           const pct = total > 0 ? Math.round((done / total) * 100) : 0;
