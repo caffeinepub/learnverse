@@ -553,6 +553,15 @@ export default function StoriesPage() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [speakingId, setSpeakingId] = useState<string | null>(null);
+  const [comprehensionStory, setComprehensionStory] = useState<{
+    key: string;
+    title: string;
+    level: string;
+  } | null>(null);
+  const [comprAnswer, setComprAnswer] = useState<number | null>(null);
+  const [comprStep, setComprStep] = useState(0);
+  const [comprScore, setComprScore] = useState(0);
+  const [comprDone, setComprDone] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -580,12 +589,57 @@ export default function StoriesPage() {
       s.text.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleRead = (key: string) => {
+  const COMPREHENSION_QUESTIONS = [
+    {
+      q_tr: "Bu hikayeyi okumak nasıl bir his uyandırdı?",
+      q_en: "How did reading this story make you feel?",
+      options_tr: ["Mutlu 😊", "Düşündürücü 🤔", "Heyecanlı 🎉", "Hüzünlü 😢"],
+      options_en: ["Happy 😊", "Thoughtful 🤔", "Excited 🎉", "Sad 😢"],
+    },
+    {
+      q_tr: "Hikayenin vermek istediği mesaj neydi?",
+      q_en: "What was the main message of the story?",
+      options_tr: [
+        "İyilik güzeldir",
+        "Çalışmak önemli",
+        "Arkadaşlık değerli",
+        "Bilgi güçtür",
+      ],
+      options_en: [
+        "Kindness matters",
+        "Hard work pays off",
+        "Friendship is precious",
+        "Knowledge is power",
+      ],
+    },
+    {
+      q_tr: "Bu hikayeyi bir arkadaşına anlatır mıydın?",
+      q_en: "Would you recommend this story to a friend?",
+      options_tr: [
+        "Kesinlikle evet! ⭐⭐⭐",
+        "Evet, anlatırdım ⭐⭐",
+        "Belki ⭐",
+        "Hayır",
+      ],
+      options_en: [
+        "Definitely yes! ⭐⭐⭐",
+        "Yes, I would ⭐⭐",
+        "Maybe ⭐",
+        "No",
+      ],
+    },
+  ];
+
+  const handleRead = (key: string, title: string) => {
     if (!profile || readTopics.includes(key)) return;
     markTopicRead(profile.studentNumber, key);
     updatePoints(profile.studentNumber, 10);
     incrementDailyContentRead(profile.studentNumber);
     setReadTopics((prev) => [...prev, key]);
+    setComprAnswer(null);
+    setComprStep(0);
+    setComprScore(0);
+    setComprehensionStory({ key, title, level });
   };
 
   return (
@@ -692,7 +746,7 @@ export default function StoriesPage() {
                     <button
                       type="button"
                       data-ocid="stories.read_button"
-                      onClick={() => handleRead(s.key)}
+                      onClick={() => handleRead(s.key, s.title)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
                     >
                       📖 Okudum! +10 puan
@@ -709,6 +763,97 @@ export default function StoriesPage() {
           )}
         </div>
       </div>
+
+      {comprehensionStory && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-800 rounded-3xl p-6 w-full max-w-sm relative">
+            <button
+              type="button"
+              onClick={() => setComprehensionStory(null)}
+              className="absolute top-4 right-4 text-white/60 hover:text-white text-2xl font-bold leading-none"
+            >
+              ×
+            </button>
+            <div className="text-white font-black text-lg mb-1 pr-8">
+              📖 {comprehensionStory.title}
+            </div>
+            {comprStep < 3 ? (
+              <>
+                <div className="text-white/50 text-xs mb-4">
+                  {lang === "en"
+                    ? `Question ${comprStep + 1}/3`
+                    : `Soru ${comprStep + 1}/3`}
+                </div>
+                <div className="text-white font-bold text-sm mb-4">
+                  {lang === "en"
+                    ? COMPREHENSION_QUESTIONS[comprStep].q_en
+                    : COMPREHENSION_QUESTIONS[comprStep].q_tr}
+                </div>
+                <div className="space-y-2">
+                  {(lang === "en"
+                    ? COMPREHENSION_QUESTIONS[comprStep].options_en
+                    : COMPREHENSION_QUESTIONS[comprStep].options_tr
+                  ).map((opt, idx) => (
+                    <button
+                      type="button"
+                      key={opt}
+                      disabled={comprAnswer !== null}
+                      onClick={() => {
+                        setComprAnswer(idx);
+                        setTimeout(() => {
+                          const nextStep = comprStep + 1;
+                          const nextScore = comprScore + 1;
+                          if (comprStep === 2) {
+                            setComprStep(3);
+                            setComprScore(nextScore);
+                            if (profile)
+                              updatePoints(profile.studentNumber, 15);
+                            setComprehensionStory((prev) =>
+                              prev ? { ...prev } : null,
+                            );
+                            setComprDone(true);
+                            setTimeout(() => {
+                              setComprDone(false);
+                              setComprehensionStory(null);
+                            }, 2000);
+                          } else {
+                            setComprStep(nextStep);
+                            setComprScore(nextScore);
+                            setComprAnswer(null);
+                          }
+                        }, 600);
+                      }}
+                      className={`w-full text-left px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${
+                        comprAnswer === idx
+                          ? "bg-yellow-400 text-yellow-900"
+                          : "bg-white/10 text-white hover:bg-white/20"
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-6">
+                <div className="text-5xl mb-3">🎉</div>
+                <div className="text-white font-black text-2xl mb-1">
+                  {comprScore}/3 ✨
+                </div>
+                <div className="text-yellow-400 font-bold text-sm">
+                  {lang === "en" ? "+15 points earned!" : "+15 puan kazandın!"}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {comprDone && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 font-black px-6 py-3 rounded-full shadow-2xl z-50 text-sm animate-bounce">
+          ✨ +15 puan kazandın!
+        </div>
+      )}
     </div>
   );
 }

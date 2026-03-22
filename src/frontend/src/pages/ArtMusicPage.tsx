@@ -11,7 +11,7 @@ import {
   updatePoints,
 } from "../store";
 
-const musicNotes = [
+const musicNotesTr = [
   {
     key: "music_do",
     note: "Do",
@@ -70,7 +70,66 @@ const musicNotes = [
   },
 ];
 
-const artists = [
+const musicNotesEn = [
+  {
+    key: "music_do",
+    note: "Do (C)",
+    emoji: "🎵",
+    freq: "C - 261 Hz",
+    desc: "The first note of the scale. A strong and fundamental sound. Starts with a white key on the piano.",
+    color: "from-red-400 to-red-600",
+  },
+  {
+    key: "music_re",
+    note: "Re (D)",
+    emoji: "🎶",
+    freq: "D - 294 Hz",
+    desc: "The second note. A brighter and more open sound. Used as the root note in many folk music traditions.",
+    color: "from-orange-400 to-orange-600",
+  },
+  {
+    key: "music_mi",
+    note: "Mi (E)",
+    emoji: "🎼",
+    freq: "E - 330 Hz",
+    desc: "The third note. A cheerful and bright sound. Frequently used in guitar tuning.",
+    color: "from-yellow-400 to-yellow-600",
+  },
+  {
+    key: "music_fa",
+    note: "Fa (F)",
+    emoji: "🎹",
+    freq: "F - 349 Hz",
+    desc: "The fourth note. Has a relatively soft and full tone character.",
+    color: "from-green-400 to-green-600",
+  },
+  {
+    key: "music_sol",
+    note: "Sol (G)",
+    emoji: "🎸",
+    freq: "G - 392 Hz",
+    desc: "The fifth note. One of the most important notes. In a major scale, the strongest harmony is between Do and Sol.",
+    color: "from-teal-400 to-teal-600",
+  },
+  {
+    key: "music_la",
+    note: "La (A)",
+    emoji: "🎺",
+    freq: "A - 440 Hz",
+    desc: "The sixth note. The international standard tuning pitch. Orchestras tune their instruments to the note 'A'.",
+    color: "from-blue-400 to-blue-600",
+  },
+  {
+    key: "music_si",
+    note: "Si (B)",
+    emoji: "🥁",
+    freq: "B - 494 Hz",
+    desc: "The seventh and final note. A high and dynamic sound. The half-step transition between Do and Si is fascinating.",
+    color: "from-violet-400 to-violet-600",
+  },
+];
+
+const artistsTr = [
   {
     key: "art_itri",
     name: "Buhurizade Mustafa Itri",
@@ -183,10 +242,124 @@ const artists = [
   },
 ];
 
+const artistsEn = [
+  {
+    key: "art_itri",
+    name: "Buhurizade Mustafa Itri",
+    emoji: "🎵",
+    period: "17th Century",
+    style: "Classical Turkish Music",
+    work: "Segah Tekbir, Neva Kar",
+    desc: "One of the greatest composers of Turkish music. He elevated Ottoman court music to its peak.",
+    color: "from-amber-500 to-yellow-600",
+  },
+  {
+    key: "art_seker_ahmet",
+    name: "Şeker Ahmet Pasha",
+    emoji: "🎨",
+    period: "19th Century",
+    style: "Realism",
+    work: "Tiger in the Forest, Flower Still Life",
+    desc: "One of the pioneers of Turkish painting. Trained in Paris, known for his nature and forest paintings.",
+    color: "from-green-500 to-emerald-600",
+  },
+  {
+    key: "art_fahrelnissa",
+    name: "Fahrelnissa Zeid",
+    emoji: "🖌️",
+    period: "20th Century",
+    style: "Abstract Expressionism",
+    work: "Fight Against Abstraction, Resolved Problems",
+    desc: "The most powerful representative of Turkish women painters. Her massive abstract paintings full of colorful splendor are world-famous.",
+    color: "from-pink-500 to-rose-600",
+  },
+  {
+    key: "art_da_vinci",
+    name: "Leonardo da Vinci",
+    emoji: "🎭",
+    period: "15th-16th Century",
+    style: "Renaissance",
+    work: "Mona Lisa, The Last Supper",
+    desc: "Italian Renaissance genius. Painter, sculptor, engineer, and scientist. The 'Mona Lisa' is the world's most famous painting.",
+    color: "from-slate-500 to-slate-700",
+  },
+  {
+    key: "art_van_gogh",
+    name: "Vincent van Gogh",
+    emoji: "🌻",
+    period: "19th Century",
+    style: "Post-Impressionism",
+    work: "Starry Night, Sunflowers",
+    desc: "Dutch painter. Depicted ordinary people and nature with powerful brushstrokes and vivid colors.",
+    color: "from-yellow-500 to-orange-600",
+  },
+  {
+    key: "art_picasso",
+    name: "Pablo Picasso",
+    emoji: "🔷",
+    period: "20th Century",
+    style: "Cubism",
+    work: "Guernica, Les Demoiselles d'Avignon",
+    desc: "Spanish painter. Founder of the Cubist movement. Revolutionized art by showing objects from multiple angles.",
+    color: "from-blue-500 to-indigo-600",
+  },
+  {
+    key: "art_monet",
+    name: "Claude Monet",
+    emoji: "🌸",
+    period: "19th Century",
+    style: "Impressionism",
+    work: "Water Lilies, Morning Fog",
+    desc: "French painter. Pioneer of the Impressionist movement. Painted outdoors to capture how light and colors change in nature.",
+    color: "from-purple-400 to-pink-500",
+  },
+  {
+    key: "art_mimar_sinan",
+    name: "Mimar Sinan",
+    emoji: "🕌",
+    period: "16th Century",
+    style: "Ottoman Architecture",
+    work: "Süleymaniye Mosque, Selimiye Mosque",
+    desc: "The greatest architect of the Ottoman Empire. Designed over 400 structures. Selimiye Mosque is on the UNESCO World Heritage List.",
+    color: "from-teal-500 to-green-600",
+  },
+  {
+    key: "art_beethoven",
+    name: "Ludwig van Beethoven",
+    emoji: "🎵",
+    period: "18th-19th Century",
+    style: "Classicism / Romanticism",
+    work: "9th Symphony, Moonlight Sonata",
+    desc: "German composer. Despite losing his hearing, he created his most beautiful works during this period. The chorus of his 9th Symphony, 'Ode to Joy', is known worldwide.",
+    color: "from-gray-600 to-slate-700",
+  },
+  {
+    key: "art_ahmet_adnan",
+    name: "Ahmet Adnan Saygun",
+    emoji: "🎼",
+    period: "20th Century",
+    style: "Turkish Contemporary Music",
+    work: "Yunus Emre Oratorio, Kerem Opera",
+    desc: "A contemporary composer who blended Turkish music with Western forms. Collaborated with Bartók to compile Turkish folk music. The most important representative of the Turkish Five.",
+    color: "from-red-600 to-rose-700",
+  },
+  {
+    key: "art_osman_hamdi",
+    name: "Osman Hamdi Bey",
+    emoji: "🎨",
+    period: "19th Century",
+    style: "Orientalism",
+    work: "The Tortoise Trainer, Arms Dealer",
+    desc: "Pioneer of Turkish painting and Turkey's first museologist. Trained in Paris. 'The Tortoise Trainer' is Turkey's most expensive painting. Founder of Istanbul Archaeological Museum.",
+    color: "from-brown-500 to-amber-800",
+  },
+];
+
 export default function ArtMusicPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const profile = getCurrentUser();
+  const isEn = lang === "en";
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {
@@ -205,6 +378,8 @@ export default function ArtMusicPage() {
     setReadTopics((prev) => [...prev, key]);
   };
 
+  const musicNotes = isEn ? musicNotesEn : musicNotesTr;
+  const artists = isEn ? artistsEn : artistsTr;
   const currentItems = tab === "music" ? musicNotes : artists;
   const doneCount = currentItems.filter((i) =>
     readTopics.includes(i.key),
@@ -223,10 +398,10 @@ export default function ArtMusicPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4"
         >
-          ← Geri
+          ← {isEn ? "Back" : "Geri"}
         </Button>
         <h1 className="text-3xl font-black text-white mb-4">
-          🎵 Müzik & Sanat
+          🎵 {isEn ? "Music & Art" : "Müzik & Sanat"}
         </h1>
         <div className="grid grid-cols-2 gap-2 mb-4">
           <button
@@ -235,7 +410,7 @@ export default function ArtMusicPage() {
             onClick={() => setTab("music")}
             className={`py-3 rounded-2xl font-bold text-sm transition-all ${tab === "music" ? "bg-white text-indigo-600" : "bg-white/20 text-white hover:bg-white/30"}`}
           >
-            🎵 Müzik
+            🎵 {isEn ? "Music" : "Müzik"}
           </button>
           <button
             type="button"
@@ -243,7 +418,7 @@ export default function ArtMusicPage() {
             onClick={() => setTab("art")}
             className={`py-3 rounded-2xl font-bold text-sm transition-all ${tab === "art" ? "bg-white text-indigo-600" : "bg-white/20 text-white hover:bg-white/30"}`}
           >
-            🎨 Sanat
+            🎨 {isEn ? "Art" : "Sanat"}
           </button>
         </div>
 
@@ -252,7 +427,9 @@ export default function ArtMusicPage() {
           <span className="text-2xl">{tab === "music" ? "🎵" : "🎨"}</span>
           <div className="flex-1">
             <div className="flex justify-between text-white text-xs mb-1">
-              <span className="font-bold">Bu bölümdeki ilerleme</span>
+              <span className="font-bold">
+                {isEn ? "Progress in this section" : "Bu bölümdeki ilerleme"}
+              </span>
               <span className="font-black">
                 {doneCount}/{currentItems.length}
               </span>
@@ -270,8 +447,9 @@ export default function ArtMusicPage() {
         {tab === "music" && (
           <div className="space-y-3">
             <p className="text-white/80 text-sm mb-4">
-              Do-Re-Mi gamı: Müziğin temel notaları. Her nota farklı bir
-              frekansa sahiptir.
+              {isEn
+                ? "The Do-Re-Mi scale: The fundamental notes of music. Each note has a different frequency."
+                : "Do-Re-Mi gamı: Müziğin temel notaları. Her nota farklı bir frekansa sahiptir."}
             </p>
             {musicNotes.map((n) => {
               const isDone = readTopics.includes(n.key);
@@ -300,12 +478,12 @@ export default function ArtMusicPage() {
                       onClick={() => handleLearn(n.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-3 py-1 rounded-full transition-all"
                     >
-                      🎵 {t("learned")} +5 puan
+                      🎵 {t("learned")} +5 {isEn ? "pts" : "puan"}
                     </button>
                   )}
                   {isDone && (
                     <span className="text-white/80 text-xs font-bold">
-                      ✅ Öğrenildi (+5 puan)
+                      ✅ {isEn ? "Learned (+5 pts)" : "Öğrenildi (+5 puan)"}
                     </span>
                   )}
                 </div>
@@ -317,8 +495,9 @@ export default function ArtMusicPage() {
         {tab === "art" && (
           <div className="space-y-4">
             <p className="text-white/80 text-sm mb-4">
-              Dünya ve Türk sanatının önemli isimleri. Her sanatçının özgün bir
-              stili vardır.
+              {isEn
+                ? "Important names in world and Turkish art. Each artist has a unique style."
+                : "Dünya ve Türk sanatının önemli isimleri. Her sanatçının özgün bir stili vardır."}
             </p>
             {artists.map((a) => {
               const isDone = readTopics.includes(a.key);
@@ -339,7 +518,8 @@ export default function ArtMusicPage() {
                   </div>
                   <p className="text-white/90 text-xs mb-1">{a.desc}</p>
                   <p className="text-white/70 text-xs italic mb-3">
-                    Ünlü eseri: {a.work}
+                    {isEn ? "Famous work: " : "Ünlü eseri: "}
+                    {a.work}
                   </p>
                   {!isDone && profile && (
                     <button
@@ -348,12 +528,12 @@ export default function ArtMusicPage() {
                       onClick={() => handleLearn(a.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-3 py-1 rounded-full transition-all"
                     >
-                      🎨 {t("learned")} +5 puan
+                      🎨 {t("learned")} +5 {isEn ? "pts" : "puan"}
                     </button>
                   )}
                   {isDone && (
                     <span className="text-white/80 text-xs font-bold">
-                      ✅ Öğrenildi (+5 puan)
+                      ✅ {isEn ? "Learned (+5 pts)" : "Öğrenildi (+5 puan)"}
                     </span>
                   )}
                 </div>

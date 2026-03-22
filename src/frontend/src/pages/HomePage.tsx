@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import DailyCard from "../components/DailyCard";
 import NoiseMeter from "../components/NoiseMeter";
 import { LANGUAGES, useLanguage } from "../i18n/LanguageContext";
 import type { LangCode } from "../i18n/LanguageContext";
@@ -416,6 +417,8 @@ export default function HomePage() {
           </button>
         </div>
       )}
+
+      <DailyCard />
 
       <div className="p-4 grid grid-cols-2 gap-4">
         {sections.map((s) => (

@@ -12,10 +12,15 @@ import {
 
 type Level = "okul_oncesi" | "ilkokul" | "ortaokul";
 
-const geoData: Record<
-  Level,
-  { key: string; emoji: string; title: string; info: string; fact: string }[]
-> = {
+type GeoItem = {
+  key: string;
+  emoji: string;
+  title: string;
+  info: string;
+  fact: string;
+};
+
+const geoDataTr: Record<Level, GeoItem[]> = {
   okul_oncesi: [
     {
       key: "geo_dunya",
@@ -213,16 +218,221 @@ const geoData: Record<
   ],
 };
 
-const levelTabs: { key: Level; label: string }[] = [
+const geoDataEn: Record<Level, GeoItem[]> = {
+  okul_oncesi: [
+    {
+      key: "geo_dunya",
+      emoji: "🌍",
+      title: "Earth",
+      info: "Earth is the planet we live on. It appears blue and green from space.",
+      fact: "71% of Earth is covered by water!",
+    },
+    {
+      key: "geo_turkiye",
+      emoji: "🇹🇷",
+      title: "Turkey",
+      info: "Turkey is a beautiful country located in both Asia and Europe.",
+      fact: "The capital of Turkey is Ankara.",
+    },
+    {
+      key: "geo_gunes",
+      emoji: "☀️",
+      title: "Sun",
+      info: "The Sun is the star that gives light and warmth to Earth.",
+      fact: "The Sun is 150 million km away from Earth.",
+    },
+    {
+      key: "geo_deniz",
+      emoji: "🌊",
+      title: "Sea",
+      info: "Seas are large areas filled with salty water.",
+      fact: "The deepest sea in the world is the Pacific Ocean.",
+    },
+    {
+      key: "geo_dag",
+      emoji: "⛰️",
+      title: "Mountain",
+      info: "Mountains are very high landforms. They can be covered with snow.",
+      fact: "The highest mountain in the world is Everest (8848 m).",
+    },
+    {
+      key: "geo_orman",
+      emoji: "🌲",
+      title: "Forest",
+      info: "Forests are places where many animals and plants live.",
+      fact: "The Amazon rainforest is the largest forest in the world.",
+    },
+    {
+      key: "geo_cöl",
+      emoji: "🏜️",
+      title: "Desert",
+      info: "Deserts are dry and hot places that receive very little rain.",
+      fact: "The Sahara Desert is the largest hot desert in the world.",
+    },
+    {
+      key: "geo_nehir",
+      emoji: "🏞️",
+      title: "River",
+      info: "Rivers are large waterways that flow across land.",
+      fact: "The Nile River is the longest river in the world.",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "geo_kitalar",
+      emoji: "🗺️",
+      title: "Continents",
+      info: "The world is divided into 7 continents: Asia, Europe, Africa, Americas (N-S), Australia, Antarctica.",
+      fact: "The largest continent is Asia, the smallest is Australia.",
+    },
+    {
+      key: "geo_baskentler",
+      emoji: "🏛️",
+      title: "Capitals",
+      info: "Every country has a capital city. Turkey's capital is Ankara, France's is Paris.",
+      fact: "There are 195 independent countries in the world.",
+    },
+    {
+      key: "geo_avrupa",
+      emoji: "🇪🇺",
+      title: "Europe",
+      info: "Europe is a small but densely populated continent made up of many countries.",
+      fact: "The largest country in Europe is Russia.",
+    },
+    {
+      key: "geo_asya",
+      emoji: "🌏",
+      title: "Asia",
+      info: "Asia is the largest continent in the world. Turkey is also in Asia.",
+      fact: "60% of the world's population lives in Asia.",
+    },
+    {
+      key: "geo_afrika",
+      emoji: "🌍",
+      title: "Africa",
+      info: "Africa is known for its hot climate and rich wildlife.",
+      fact: "There are 54 countries in Africa.",
+    },
+    {
+      key: "geo_okyanus",
+      emoji: "🌊",
+      title: "Oceans",
+      info: "There are 5 major oceans in the world: Pacific, Atlantic, Indian, Arctic, and Antarctic.",
+      fact: "The Pacific Ocean is large enough to fit all the continents inside it.",
+    },
+    {
+      key: "geo_iklim",
+      emoji: "🌡️",
+      title: "Climate Zones",
+      info: "The world is divided into tropical, temperate, and polar climate zones.",
+      fact: "Turkey is located in the temperate climate zone.",
+    },
+    {
+      key: "geo_nüfus",
+      emoji: "👥",
+      title: "World Population",
+      info: "More than 8 billion people live in the world.",
+      fact: "The most populous country is India.",
+    },
+    {
+      key: "geo_dil",
+      emoji: "🗣️",
+      title: "World Languages",
+      info: "More than 7,000 languages are spoken in the world.",
+      fact: "The most spoken language is Mandarin Chinese.",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "geo_tektoni",
+      emoji: "🔄",
+      title: "Plate Tectonics",
+      info: "Earth's surface constantly moves on plates. This movement causes earthquakes and volcanoes.",
+      fact: "The collision of the Indo-Eurasian plate formed the Himalayas.",
+    },
+    {
+      key: "geo_jeografi",
+      emoji: "📐",
+      title: "Latitude & Longitude",
+      info: "Latitude and longitude are used to determine the location of any place.",
+      fact: "The 0° latitude line is called the Equator.",
+    },
+    {
+      key: "geo_iklimbölge",
+      emoji: "🌿",
+      title: "Climate Regions",
+      info: "The world is divided into tropical, arid, temperate, continental, and polar climate regions.",
+      fact: "Deserts can be not only hot, but also cold.",
+    },
+    {
+      key: "geo_nüfusyoğ",
+      emoji: "🏙️",
+      title: "Population Density",
+      info: "Some areas are densely populated while others are sparsely populated.",
+      fact: "Monaco is the most densely populated country in the world.",
+    },
+    {
+      key: "geo_dogalkayn",
+      emoji: "⛏️",
+      title: "Natural Resources",
+      info: "Oil, water, forests, and minerals are natural resources. Protecting them is important.",
+      fact: "Turkey is the world leader in boron mineral reserves.",
+    },
+    {
+      key: "geo_kureselis",
+      emoji: "🌡️",
+      title: "Global Warming",
+      info: "Gases from industry and vehicles are heating the atmosphere and changing the climate.",
+      fact: "In the last 100 years, the world temperature has increased by an average of 1.1°C.",
+    },
+    {
+      key: "geo_göç",
+      emoji: "✈️",
+      title: "Migration",
+      info: "People migrate to other places for work, security, or climate reasons.",
+      fact: "Turkey hosts the largest number of refugees in the world.",
+    },
+    {
+      key: "geo_şehir",
+      emoji: "🌆",
+      title: "Megacities",
+      info: "Cities with a population exceeding 10 million are called megacities.",
+      fact: "Tokyo is the largest megacity in the world with approximately 37 million people.",
+    },
+    {
+      key: "geo_ekosisteml",
+      emoji: "🦁",
+      title: "Ecosystems",
+      info: "Forests, corals, deserts, and tundras are ecosystems.",
+      fact: "Coral reefs are home to 25% of ocean species.",
+    },
+    {
+      key: "geo_harita",
+      emoji: "🗺️",
+      title: "Map Reading",
+      info: "Maps show the real world in a smaller scale. Scale and directions are very important.",
+      fact: "The first known map was made by the Babylonians around 600 BC.",
+    },
+  ],
+};
+
+const levelTabsTr: { key: Level; label: string }[] = [
   { key: "okul_oncesi", label: "🌈 Okul Öncesi" },
   { key: "ilkokul", label: "📗 İlkokul" },
   { key: "ortaokul", label: "📘 Ortaokul" },
 ];
 
+const levelTabsEn: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 Preschool" },
+  { key: "ilkokul", label: "📗 Primary" },
+  { key: "ortaokul", label: "📘 Middle School" },
+];
+
 export default function GeographyPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const profile = getCurrentUser();
+  const isEn = lang === "en";
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {
@@ -251,12 +461,15 @@ export default function GeographyPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = "tr-TR";
+      utt.lang = isEn ? "en-US" : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);
     }
   };
+
+  const geoData = isEn ? geoDataEn : geoDataTr;
+  const levelTabs = isEn ? levelTabsEn : levelTabsTr;
 
   const filtered = geoData[level].filter(
     (p) =>
@@ -284,24 +497,24 @@ export default function GeographyPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4 font-bold text-sm"
         >
-          ← Geri
+          ← {isEn ? "Back" : "Geri"}
         </button>
         <h1 className="text-3xl font-black text-white mb-4">
-          🌍 Coğrafya &amp; Dünya
+          🌍 {isEn ? "Geography & World" : "Coğrafya & Dünya"}
         </h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {levelTabs.map((t) => (
+          {levelTabs.map((tab) => (
             <button
               type="button"
-              key={t.key}
-              onClick={() => setLevel(t.key)}
+              key={tab.key}
+              onClick={() => setLevel(tab.key)}
               className={`py-3 rounded-2xl font-bold text-xs transition-all ${
-                level === t.key
+                level === tab.key
                   ? "bg-white text-blue-600"
                   : "bg-white/20 text-white hover:bg-white/30"
               }`}
             >
-              {t.label}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -309,7 +522,9 @@ export default function GeographyPage() {
           <span className="text-2xl">🌍</span>
           <div className="flex-1">
             <div className="flex justify-between text-white text-xs mb-1">
-              <span className="font-bold">Bu seviyedeki ilerleme</span>
+              <span className="font-bold">
+                {isEn ? "Progress at this level" : "Bu seviyedeki ilerleme"}
+              </span>
               <span className="font-black">
                 {done}/{total}
               </span>
@@ -335,7 +550,7 @@ export default function GeographyPage() {
         <div className="space-y-4">
           {filtered.length === 0 ? (
             <div className="text-center text-white/60 py-8">
-              Sonuç bulunamadı 🔍
+              {isEn ? "No results found 🔍" : "Sonuç bulunamadı 🔍"}
             </div>
           ) : (
             filtered.map((item) => {
@@ -365,7 +580,13 @@ export default function GeographyPage() {
                     onClick={() => handleSpeak(item.key, item.info)}
                     className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
                   >
-                    {speakingId === item.key ? "⏹ Durdur" : "🔊 Dinle"}
+                    {speakingId === item.key
+                      ? isEn
+                        ? "⏹ Stop"
+                        : "⏹ Durdur"
+                      : isEn
+                        ? "🔊 Listen"
+                        : "🔊 Dinle"}
                   </button>
                   {!isRead && profile && (
                     <button
@@ -373,12 +594,15 @@ export default function GeographyPage() {
                       onClick={() => handleRead(item.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
                     >
-                      ✅ {t("learned")} +10 puan
+                      ✅ {t("learned")} +10 {isEn ? "pts" : "puan"}
                     </button>
                   )}
                   {isRead && (
                     <span className="text-green-300 text-xs font-bold">
-                      ✅ Öğrenildi (+10 puan kazanıldı)
+                      ✅{" "}
+                      {isEn
+                        ? "Learned (+10 pts earned)"
+                        : "Öğrenildi (+10 puan kazanıldı)"}
                     </span>
                   )}
                 </div>
