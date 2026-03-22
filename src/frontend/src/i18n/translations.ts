@@ -65,6 +65,8 @@ export type TranslationKey =
   | "vocabulary_desc"
   | "math_practice"
   | "math_practice_desc"
+  | "math_story"
+  | "math_story_desc"
   | "health"
   | "health_desc"
   | "geography"
@@ -153,6 +155,7 @@ export type TranslationKey =
   | "antonym"
   | "example_sentence"
   | "math_practice_title"
+  | "math_story_title"
   | "check_answer"
   | "correct_answer"
   | "health_title"
@@ -171,7 +174,12 @@ export type TranslationKey =
   | "admin_audio_management"
   | "classes_title"
   | "create_class"
-  | "add_student";
+  | "add_student"
+  | "coloring"
+  | "coloring_desc"
+  | "study_calendar"
+  | "calendar_activity_day"
+  | "calendar_no_activity";
 
 export type LangCode =
   | "tr"
@@ -255,6 +263,8 @@ export const translations: Translations = {
     vocabulary_desc: "Yeni kelimeler öğren",
     math_practice: "Matematik Alıştırmaları",
     math_practice_desc: "İnteraktif sorular",
+    math_story: "📖 Matematik Hikayeleri",
+    math_story_desc: "Hikayeli problemler",
     health: "Sağlık & Spor",
     health_desc: "Egzersiz ve beslenme",
     geography: "Coğrafya & Dünya",
@@ -343,6 +353,7 @@ export const translations: Translations = {
     antonym: "Zıt anlamlı",
     example_sentence: "Örnek cümle",
     math_practice_title: "Matematik Alıştırmaları",
+    math_story_title: "Matematik Hikayeleri",
     check_answer: "Kontrol Et",
     correct_answer: "Doğru cevap",
     health_title: "Beden Eğitimi & Sağlık",
@@ -362,6 +373,11 @@ export const translations: Translations = {
     classes_title: "Sınıf Grupları",
     create_class: "Sınıf Oluştur",
     add_student: "Öğrenci Ekle",
+    coloring: "Boyama",
+    coloring_desc: "Renkli Dünya",
+    study_calendar: "Çalışma Takvimi",
+    calendar_activity_day: "Aktif Gün",
+    calendar_no_activity: "Bu ay henüz aktivite yok",
   },
   en: {
     app_tagline: "The Most Fun Way to Learn",
@@ -430,6 +446,8 @@ export const translations: Translations = {
     vocabulary_desc: "Learn new words",
     math_practice: "Math Practice",
     math_practice_desc: "Interactive problems",
+    math_story: "📖 Math Stories",
+    math_story_desc: "Story-based problems",
     health: "Health & Sports",
     health_desc: "Exercise and nutrition",
     geography: "Geography & World",
@@ -518,6 +536,7 @@ export const translations: Translations = {
     antonym: "Antonym",
     example_sentence: "Example sentence",
     math_practice_title: "Math Practice",
+    math_story_title: "Math Stories",
     check_answer: "Check Answer",
     correct_answer: "Correct answer",
     health_title: "PE & Health",
@@ -537,6 +556,11 @@ export const translations: Translations = {
     classes_title: "Class Groups",
     create_class: "Create Class",
     add_student: "Add Student",
+    coloring: "Coloring",
+    coloring_desc: "Colorful World",
+    study_calendar: "Study Calendar",
+    calendar_activity_day: "Active Day",
+    calendar_no_activity: "No activity this month yet",
   },
   zh: {
     app_tagline: "最有趣的学习方式",
@@ -605,6 +629,8 @@ export const translations: Translations = {
     vocabulary_desc: "学习新词",
     math_practice: "数学练习",
     math_practice_desc: "互动题目",
+    math_story: "📖 数学故事",
+    math_story_desc: "故事题目",
     health: "健康与体育",
     health_desc: "运动与营养",
     geography: "地理与世界",
@@ -693,6 +719,7 @@ export const translations: Translations = {
     antonym: "反义词",
     example_sentence: "例句",
     math_practice_title: "数学练习",
+    math_story_title: "数学故事",
     check_answer: "检查答案",
     correct_answer: "正确答案",
     health_title: "体育与健康",
@@ -712,6 +739,11 @@ export const translations: Translations = {
     classes_title: "班级组",
     create_class: "创建班级",
     add_student: "添加学生",
+    coloring: "涂色",
+    coloring_desc: "彩色世界",
+    study_calendar: "学习日历",
+    calendar_activity_day: "活跃日",
+    calendar_no_activity: "本月还没有活动",
   },
   hi: {
     app_tagline: "सीखने का सबसे मज़ेदार तरीका",
@@ -780,6 +812,8 @@ export const translations: Translations = {
     vocabulary_desc: "नए शब्द सीखें",
     math_practice: "गणित अभ्यास",
     math_practice_desc: "इंटरैक्टिव समस्याएं",
+    math_story: "📖 गणित कहानियाँ",
+    math_story_desc: "कहानी आधारित समस्याएं",
     health: "स्वास्थ्य और खेल",
     health_desc: "व्यायाम और पोषण",
     geography: "भूगोल और विश्व",
@@ -868,6 +902,7 @@ export const translations: Translations = {
     antonym: "विलोम",
     example_sentence: "उदाहरण वाक्य",
     math_practice_title: "गणित अभ्यास",
+    math_story_title: "गणित कहानियाँ",
     check_answer: "उत्तर जाँचें",
     correct_answer: "सही उत्तर",
     health_title: "शारीरिक शिक्षा और स्वास्थ्य",
@@ -887,6 +922,11 @@ export const translations: Translations = {
     classes_title: "कक्षा समूह",
     create_class: "कक्षा बनाएं",
     add_student: "छात्र जोड़ें",
+    coloring: "रंगना",
+    coloring_desc: "रंगीन दुनिया",
+    study_calendar: "अध्ययन कैलेंडर",
+    calendar_activity_day: "सक्रिय दिन",
+    calendar_no_activity: "इस महीने अभी कोई गतिविधि नहीं",
   },
   es: {
     app_tagline: "La forma más divertida de aprender",
@@ -955,6 +995,8 @@ export const translations: Translations = {
     vocabulary_desc: "Aprender nuevas palabras",
     math_practice: "Práctica de Matemáticas",
     math_practice_desc: "Problemas interactivos",
+    math_story: "📖 Historias de Matemáticas",
+    math_story_desc: "Problemas con historias",
     health: "Salud y Deporte",
     health_desc: "Ejercicio y nutrición",
     geography: "Geografía y Mundo",
@@ -1043,6 +1085,7 @@ export const translations: Translations = {
     antonym: "Antónimo",
     example_sentence: "Oración de ejemplo",
     math_practice_title: "Práctica de Matemáticas",
+    math_story_title: "Historias de Matemáticas",
     check_answer: "Verificar Respuesta",
     correct_answer: "Respuesta correcta",
     health_title: "Educación Física y Salud",
@@ -1062,6 +1105,11 @@ export const translations: Translations = {
     classes_title: "Grupos de Clase",
     create_class: "Crear Clase",
     add_student: "Agregar Estudiante",
+    coloring: "Colorear",
+    coloring_desc: "Mundo Colorido",
+    study_calendar: "Calendario de Estudio",
+    calendar_activity_day: "Día Activo",
+    calendar_no_activity: "Sin actividad este mes",
   },
   fr: {
     app_tagline: "La façon la plus amusante d'apprendre",
@@ -1130,6 +1178,8 @@ export const translations: Translations = {
     vocabulary_desc: "Apprendre de nouveaux mots",
     math_practice: "Pratique des Maths",
     math_practice_desc: "Problèmes interactifs",
+    math_story: "📖 Histoires de Maths",
+    math_story_desc: "Problèmes narratifs",
     health: "Santé et Sport",
     health_desc: "Exercice et nutrition",
     geography: "Géographie et Monde",
@@ -1218,6 +1268,7 @@ export const translations: Translations = {
     antonym: "Antonyme",
     example_sentence: "Phrase d'exemple",
     math_practice_title: "Pratique des Maths",
+    math_story_title: "Histoires de Maths",
     check_answer: "Vérifier la Réponse",
     correct_answer: "Bonne réponse",
     health_title: "Éducation Physique et Santé",
@@ -1237,6 +1288,11 @@ export const translations: Translations = {
     classes_title: "Groupes de Classe",
     create_class: "Créer une Classe",
     add_student: "Ajouter un Élève",
+    coloring: "Coloriage",
+    coloring_desc: "Monde Coloré",
+    study_calendar: "Calendrier d'Étude",
+    calendar_activity_day: "Jour Actif",
+    calendar_no_activity: "Pas d'activité ce mois-ci",
   },
   ar: {
     app_tagline: "الطريقة الأكثر متعة للتعلم",
@@ -1305,6 +1361,8 @@ export const translations: Translations = {
     vocabulary_desc: "تعلم كلمات جديدة",
     math_practice: "تمارين الرياضيات",
     math_practice_desc: "مسائل تفاعلية",
+    math_story: "📖 قصص رياضية",
+    math_story_desc: "مسائل قصصية",
     health: "الصحة والرياضة",
     health_desc: "تمرين وتغذية",
     geography: "الجغرافيا والعالم",
@@ -1393,6 +1451,7 @@ export const translations: Translations = {
     antonym: "مضاد",
     example_sentence: "جملة مثال",
     math_practice_title: "تمارين الرياضيات",
+    math_story_title: "قصص رياضية",
     check_answer: "تحقق من الإجابة",
     correct_answer: "الإجابة الصحيحة",
     health_title: "التربية البدنية والصحة",
@@ -1412,6 +1471,11 @@ export const translations: Translations = {
     classes_title: "مجموعات الفصول",
     create_class: "إنشاء فصل",
     add_student: "إضافة طالب",
+    coloring: "التلوين",
+    coloring_desc: "عالم ملون",
+    study_calendar: "تقويم الدراسة",
+    calendar_activity_day: "يوم نشط",
+    calendar_no_activity: "لا نشاط هذا الشهر",
   },
   bn: {
     app_tagline: "শেখার সবচেয়ে মজাদার উপায়",
@@ -1480,6 +1544,8 @@ export const translations: Translations = {
     vocabulary_desc: "নতুন শব্দ শিখুন",
     math_practice: "গণিত অনুশীলন",
     math_practice_desc: "ইন্টারেক্টিভ সমস্যা",
+    math_story: "📖 গণিত গল্প",
+    math_story_desc: "গল্প ভিত্তিক সমস্যা",
     health: "স্বাস্থ্য ও ক্রীড়া",
     health_desc: "ব্যায়াম এবং পুষ্টি",
     geography: "ভূগোল ও বিশ্ব",
@@ -1568,6 +1634,7 @@ export const translations: Translations = {
     antonym: "বিপরীত শব্দ",
     example_sentence: "উদাহরণ বাক্য",
     math_practice_title: "গণিত অনুশীলন",
+    math_story_title: "গণিত গল্প",
     check_answer: "উত্তর পরীক্ষা করুন",
     correct_answer: "সঠিক উত্তর",
     health_title: "শারীরিক শিক্ষা ও স্বাস্থ্য",
@@ -1587,6 +1654,11 @@ export const translations: Translations = {
     classes_title: "শ্রেণী গ্রুপ",
     create_class: "শ্রেণী তৈরি করুন",
     add_student: "শিক্ষার্থী যোগ করুন",
+    coloring: "রঙ করা",
+    coloring_desc: "রঙিন পৃথিবী",
+    study_calendar: "পড়ার ক্যালেন্ডার",
+    calendar_activity_day: "সক্রিয় দিন",
+    calendar_no_activity: "এই মাসে এখনো কোনো কার্যক্রম নেই",
   },
   ru: {
     app_tagline: "Самый увлекательный способ учиться",
@@ -1655,6 +1727,8 @@ export const translations: Translations = {
     vocabulary_desc: "Учить новые слова",
     math_practice: "Практика математики",
     math_practice_desc: "Интерактивные задачи",
+    math_story: "📖 Математические истории",
+    math_story_desc: "Задачи с историями",
     health: "Здоровье и спорт",
     health_desc: "Упражнения и питание",
     geography: "География и мир",
@@ -1743,6 +1817,7 @@ export const translations: Translations = {
     antonym: "Антоним",
     example_sentence: "Пример предложения",
     math_practice_title: "Практика математики",
+    math_story_title: "Математические истории",
     check_answer: "Проверить ответ",
     correct_answer: "Правильный ответ",
     health_title: "Физкультура и здоровье",
@@ -1762,6 +1837,11 @@ export const translations: Translations = {
     classes_title: "Группы классов",
     create_class: "Создать класс",
     add_student: "Добавить ученика",
+    coloring: "Раскраска",
+    coloring_desc: "Красочный мир",
+    study_calendar: "Учебный календарь",
+    calendar_activity_day: "Активный день",
+    calendar_no_activity: "В этом месяце активности нет",
   },
   pt: {
     app_tagline: "A forma mais divertida de aprender",
@@ -1830,6 +1910,8 @@ export const translations: Translations = {
     vocabulary_desc: "Aprender novas palavras",
     math_practice: "Prática de Matemática",
     math_practice_desc: "Problemas interativos",
+    math_story: "📖 Histórias de Matemática",
+    math_story_desc: "Problemas narrativos",
     health: "Saúde e Esporte",
     health_desc: "Exercício e nutrição",
     geography: "Geografia e Mundo",
@@ -1918,6 +2000,7 @@ export const translations: Translations = {
     antonym: "Antônimo",
     example_sentence: "Frase de exemplo",
     math_practice_title: "Prática de Matemática",
+    math_story_title: "Histórias de Matemática",
     check_answer: "Verificar Resposta",
     correct_answer: "Resposta correta",
     health_title: "Educação Física e Saúde",
@@ -1937,5 +2020,10 @@ export const translations: Translations = {
     classes_title: "Grupos de Turma",
     create_class: "Criar Turma",
     add_student: "Adicionar Aluno",
+    coloring: "Colorir",
+    coloring_desc: "Mundo Colorido",
+    study_calendar: "Calendário de Estudos",
+    calendar_activity_day: "Dia Ativo",
+    calendar_no_activity: "Sem atividade este mês",
   },
 };

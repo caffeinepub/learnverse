@@ -10,6 +10,7 @@ import AdminPage from "./pages/AdminPage";
 import ArtMusicPage from "./pages/ArtMusicPage";
 import ClassesPage from "./pages/ClassesPage";
 import CodingPage from "./pages/CodingPage";
+import ColoringPage from "./pages/ColoringPage";
 import CulturePage from "./pages/CulturePage";
 import EnglishPage from "./pages/EnglishPage";
 import ExperimentsPage from "./pages/ExperimentsPage";
@@ -22,6 +23,7 @@ import HomePage from "./pages/HomePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import LoginPage from "./pages/LoginPage";
 import MathPracticePage from "./pages/MathPracticePage";
+import MathStoryPage from "./pages/MathStoryPage";
 import ParentPage from "./pages/ParentPage";
 import PoemsPage from "./pages/PoemsPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -165,6 +167,12 @@ const mathPracticeRoute = createRoute({
   path: "/math-practice",
   component: MathPracticePage,
 });
+
+const mathStoryRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/math-story",
+  component: MathStoryPage,
+});
 const healthRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/health",
@@ -189,6 +197,11 @@ const englishRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/english",
   component: EnglishPage,
+});
+const coloringRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/coloring",
+  component: ColoringPage,
 });
 const codingRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -222,12 +235,14 @@ const routeTree = rootRoute.addChildren([
   grammarRoute,
   vocabularyRoute,
   mathPracticeRoute,
+  mathStoryRoute,
   healthRoute,
   geographyRoute,
   historyRoute,
   scienceRoute,
   englishRoute,
   codingRoute,
+  coloringRoute,
 ]);
 
 const router = createRouter({ routeTree });

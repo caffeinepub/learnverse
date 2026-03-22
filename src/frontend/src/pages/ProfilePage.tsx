@@ -12,6 +12,149 @@ import {
 import { AVATARS, BADGE_EMOJIS, BADGE_NAMES, LEVEL_NAMES } from "../types";
 import type { Profile } from "../types";
 
+// Study Calendar component
+function StudyCalendar({ studentNumber }: { studentNumber: string }) {
+  const { t } = useLanguage();
+  const [viewDate, setViewDate] = useState(() => new Date());
+
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+
+  const activeDays = new Set<number>();
+  const quizResults = getQuizResults().filter(
+    (r) => r.studentNumber === studentNumber,
+  );
+  const gameResults = getGameResults().filter(
+    (r) => r.studentNumber === studentNumber,
+  );
+
+  for (const r of [...quizResults, ...gameResults]) {
+    const d = new Date(r.date);
+    if (d.getFullYear() === year && d.getMonth() === month) {
+      activeDays.add(d.getDate());
+    }
+  }
+
+  // Also check streak days (approximate using streak count from today backwards)
+  const streakData = getStreak(studentNumber);
+  if (streakData.current > 0 && streakData.lastDate) {
+    const last = new Date(streakData.lastDate);
+    for (let i = 0; i < streakData.current; i++) {
+      const d = new Date(last);
+      d.setDate(d.getDate() - i);
+      if (d.getFullYear() === year && d.getMonth() === month) {
+        activeDays.add(d.getDate());
+      }
+    }
+  }
+
+  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+  // Convert to Mon-first
+  const startOffset = (firstDay + 6) % 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+
+  const monthNames = [
+    "Ocak",
+    "Şubat",
+    "Mart",
+    "Nisan",
+    "Mayıs",
+    "Haziran",
+    "Temmuz",
+    "Ağustos",
+    "Eylül",
+    "Ekim",
+    "Kasım",
+    "Aralık",
+  ];
+  const dayHeaders = ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"];
+
+  const cells: (number | null)[] = [];
+  for (let i = 0; i < startOffset; i++) cells.push(null);
+  for (let i = 1; i <= daysInMonth; i++) cells.push(i);
+
+  const prevMonth = () => setViewDate(new Date(year, month - 1, 1));
+  const nextMonth = () => setViewDate(new Date(year, month + 1, 1));
+
+  const isToday = (d: number) =>
+    today.getDate() === d &&
+    today.getMonth() === month &&
+    today.getFullYear() === year;
+
+  return (
+    <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
+      <div className="flex items-center justify-between mb-3">
+        <button
+          type="button"
+          data-ocid="profile.pagination_prev"
+          onClick={prevMonth}
+          className="text-white bg-white/20 hover:bg-white/30 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all"
+        >
+          ‹
+        </button>
+        <h3 className="text-white font-bold">
+          📅 {t("study_calendar")} — {monthNames[month]} {year}
+        </h3>
+        <button
+          type="button"
+          data-ocid="profile.pagination_next"
+          onClick={nextMonth}
+          className="text-white bg-white/20 hover:bg-white/30 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all"
+        >
+          ›
+        </button>
+      </div>
+      <div className="grid grid-cols-7 gap-1 mb-1">
+        {dayHeaders.map((d) => (
+          <div
+            key={d}
+            className="text-center text-white/60 text-xs font-bold py-1"
+          >
+            {d}
+          </div>
+        ))}
+      </div>
+      <div className="grid grid-cols-7 gap-1">
+        {cells.map((day, idx) => {
+          // biome-ignore lint/suspicious/noArrayIndexKey: empty calendar cells have no other stable key
+          if (!day) return <div key={`empty-${idx}`} />;
+          const active = activeDays.has(day);
+          const todayCell = isToday(day);
+          return (
+            <div
+              key={day}
+              className={`aspect-square flex items-center justify-center rounded-xl text-sm font-bold transition-all ${
+                active
+                  ? "bg-orange-400 text-white shadow-md"
+                  : todayCell
+                    ? "bg-white/30 text-white ring-2 ring-white"
+                    : "bg-white/10 text-white/60"
+              }`}
+            >
+              {active ? "🔥" : day}
+            </div>
+          );
+        })}
+      </div>
+      {activeDays.size === 0 && (
+        <div
+          className="text-center text-white/50 text-xs mt-2"
+          data-ocid="profile.empty_state"
+        >
+          {t("calendar_no_activity")}
+        </div>
+      )}
+      <div className="flex items-center gap-2 mt-2">
+        <div className="w-4 h-4 rounded bg-orange-400" />
+        <span className="text-white/70 text-xs">
+          {t("calendar_activity_day")}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function getSeenBadge(studentNumber: string): number {
   return Number(
     localStorage.getItem(`learnverse_badge_seen_${studentNumber}`) || "1",
@@ -207,6 +350,9 @@ export default function ProfilePage() {
             </div>
           )}
         </div>
+
+        {/* Study Calendar */}
+        <StudyCalendar studentNumber={profile.studentNumber} />
 
         {/* All Badges */}
         <div className="bg-white/20 backdrop-blur rounded-3xl p-4">

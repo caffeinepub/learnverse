@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import FlashcardMode, { type FlashCard } from "../components/FlashcardMode";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -447,6 +448,7 @@ export default function GeographyPage() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [speakingId, setSpeakingId] = useState<string | null>(null);
+  const [showFlashcards, setShowFlashcards] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -477,6 +479,20 @@ export default function GeographyPage() {
       p.info.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
+  const flashCards: FlashCard[] = geoData[level].map((item) => ({
+    key: item.key,
+    front: item.title,
+    back: `${item.info} 💡 ${item.fact}`,
+    emoji: item.emoji,
+  }));
+
+  const handleFlashcardComplete = (known: number) => {
+    if (profile) {
+      updatePoints(profile.studentNumber, known * 5);
+      incrementDailyContentRead(profile.studentNumber);
+    }
+  };
+
   const handleRead = (key: string) => {
     if (!profile || readTopics.includes(key)) return;
     markTopicRead(profile.studentNumber, key);
@@ -499,9 +515,29 @@ export default function GeographyPage() {
         >
           ← {isEn ? "Back" : "Geri"}
         </button>
-        <h1 className="text-3xl font-black text-white mb-4">
-          🌍 {isEn ? "Geography & World" : "Coğrafya & Dünya"}
-        </h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-black text-white">
+            🌍 {isEn ? "Geography & World" : "Coğrafya & Dünya"}
+          </h1>
+          <button
+            type="button"
+            data-ocid="geography.open_modal_button"
+            onClick={() => setShowFlashcards(true)}
+            className="bg-white/20 hover:bg-white/40 text-white font-bold text-sm px-4 py-2 rounded-2xl transition-all"
+          >
+            🃏 {isEn ? "Flashcards" : "Flaş Kart"}
+          </button>
+        </div>
+
+        {showFlashcards && (
+          <FlashcardMode
+            cards={flashCards}
+            onClose={() => setShowFlashcards(false)}
+            onComplete={handleFlashcardComplete}
+            lang={lang}
+            accentColor="from-emerald-600 to-teal-600"
+          />
+        )}
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((tab) => (
             <button

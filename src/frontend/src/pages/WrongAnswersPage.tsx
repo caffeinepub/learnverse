@@ -5,6 +5,8 @@ import { useLanguage } from "../i18n/LanguageContext";
 import {
   clearWrongAnswers,
   getCurrentUser,
+  getDueSpacedItems,
+  getSpacedRepQueue,
   getWrongAnswers,
   removeWrongAnswer,
   updatePoints,
@@ -13,7 +15,7 @@ import type { WrongAnswer } from "../types";
 
 export default function WrongAnswersPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const profile = getCurrentUser();
   const [answers, setAnswers] = useState<WrongAnswer[]>(() =>
     profile ? getWrongAnswers(profile.studentNumber) : [],
@@ -23,6 +25,9 @@ export default function WrongAnswersPage() {
   const [answered, setAnswered] = useState(false);
 
   if (!profile) return null;
+
+  const srQueue = getSpacedRepQueue(profile.studentNumber);
+  const dueItems = getDueSpacedItems(profile.studentNumber);
 
   const handleClearAll = () => {
     clearWrongAnswers(profile.studentNumber);
@@ -144,9 +149,51 @@ export default function WrongAnswersPage() {
             </button>
           )}
         </div>
-        <h1 className="text-3xl font-black text-white mb-6">
+        <h1 className="text-3xl font-black text-white mb-4">
           📝 {t("wrong_answers_title")}
         </h1>
+
+        {/* Spaced Repetition Info Card */}
+        <div
+          data-ocid="wrong_answers.spaced_rep_card"
+          className="bg-orange-400/90 backdrop-blur-sm rounded-2xl p-4 mb-6"
+        >
+          <div className="flex items-start gap-3">
+            <div className="text-3xl">🔁</div>
+            <div className="flex-1">
+              <div className="text-white font-black text-sm mb-1">
+                {lang === "en"
+                  ? "Spaced Repetition"
+                  : "Aralıklı Tekrar Sistemi"}
+              </div>
+              <div className="flex gap-4">
+                <div className="bg-white/20 rounded-xl px-3 py-1.5 text-center">
+                  <div className="text-white font-black text-lg leading-none">
+                    {srQueue.length}
+                  </div>
+                  <div className="text-orange-100 text-xs">
+                    {lang === "en" ? "Total" : "Toplam"}
+                  </div>
+                </div>
+                <div className="bg-white/20 rounded-xl px-3 py-1.5 text-center">
+                  <div className="text-white font-black text-lg leading-none">
+                    {dueItems.length}
+                  </div>
+                  <div className="text-orange-100 text-xs">
+                    {lang === "en" ? "Due Today" : "Bugün"}
+                  </div>
+                </div>
+                <div className="flex-1 flex items-center">
+                  <p className="text-orange-100 text-xs">
+                    {lang === "en"
+                      ? "Wrong answers appear automatically in your next quiz"
+                      : "Yanlış cevaplar sonraki quizde otomatik çıkar"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {answers.length === 0 ? (
           <div

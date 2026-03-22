@@ -4,6 +4,7 @@ import type {
   GameResult,
   Profile,
   QuizResult,
+  SpacedRepItem,
   WrongAnswer,
 } from "./types";
 
@@ -469,4 +470,120 @@ export function incrementDailyContentRead(studentNumber: string): DailyGoals {
   return updateDailyGoals(studentNumber, {
     contentReads: goals.contentReads + 1,
   });
+}
+
+// Parent Message Card
+export function saveParentMessage(
+  studentNumber: string,
+  message: string,
+): void {
+  localStorage.setItem(
+    `learnverse_parentmsg_${studentNumber}`,
+    JSON.stringify({ message, date: new Date().toISOString(), read: false }),
+  );
+}
+
+export function getParentMessage(
+  studentNumber: string,
+): { message: string; date: string; read: boolean } | null {
+  try {
+    const val = localStorage.getItem(`learnverse_parentmsg_${studentNumber}`);
+    return val ? JSON.parse(val) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function markParentMessageRead(studentNumber: string): void {
+  const msg = getParentMessage(studentNumber);
+  if (msg)
+    localStorage.setItem(
+      `learnverse_parentmsg_${studentNumber}`,
+      JSON.stringify({ ...msg, read: true }),
+    );
+}
+
+export function clearParentMessage(studentNumber: string): void {
+  localStorage.removeItem(`learnverse_parentmsg_${studentNumber}`);
+}
+
+// Spaced Repetition
+export function getSpacedRepQueue(studentNumber: string): SpacedRepItem[] {
+  try {
+    return JSON.parse(
+      localStorage.getItem(`learnverse_sr_${studentNumber}`) || "[]",
+    );
+  } catch {
+    return [];
+  }
+}
+
+function saveSpacedRepQueue(
+  studentNumber: string,
+  queue: SpacedRepItem[],
+): void {
+  localStorage.setItem(`learnverse_sr_${studentNumber}`, JSON.stringify(queue));
+}
+
+function getTodayStr(): string {
+  return new Date().toISOString().split("T")[0];
+}
+
+export function addToSpacedRep(
+  item: Omit<SpacedRepItem, "id" | "interval" | "nextReviewDate" | "addedAt">,
+): void {
+  const queue = getSpacedRepQueue(item.studentNumber);
+  if (queue.find((q) => q.question === item.question)) return; // already queued
+  const today = getTodayStr();
+  const newItem: SpacedRepItem = {
+    ...item,
+    id: Date.now().toString(),
+    interval: 1,
+    nextReviewDate: today, // due immediately
+    addedAt: new Date().toISOString(),
+  };
+  queue.push(newItem);
+  saveSpacedRepQueue(item.studentNumber, queue);
+}
+
+export function getDueSpacedItems(studentNumber: string): SpacedRepItem[] {
+  const today = getTodayStr();
+  return getSpacedRepQueue(studentNumber).filter(
+    (item) => item.nextReviewDate <= today,
+  );
+}
+
+export function markSpacedRepCorrect(
+  studentNumber: string,
+  itemId: string,
+): void {
+  const queue = getSpacedRepQueue(studentNumber);
+  const idx = queue.findIndex((q) => q.id === itemId);
+  if (idx === -1) return;
+  const item = queue[idx];
+  const newInterval = item.interval * 2;
+  if (newInterval >= 8) {
+    // graduated - remove from queue
+    queue.splice(idx, 1);
+  } else {
+    const nextDate = new Date();
+    nextDate.setDate(nextDate.getDate() + newInterval);
+    queue[idx] = {
+      ...item,
+      interval: newInterval,
+      nextReviewDate: nextDate.toISOString().split("T")[0],
+    };
+  }
+  saveSpacedRepQueue(studentNumber, queue);
+}
+
+export function markSpacedRepWrong(
+  studentNumber: string,
+  itemId: string,
+): void {
+  const queue = getSpacedRepQueue(studentNumber);
+  const idx = queue.findIndex((q) => q.id === itemId);
+  if (idx === -1) return;
+  queue[idx] = { ...queue[idx], interval: 1, nextReviewDate: getTodayStr() };
+  saveSpacedRepQueue(studentNumber, queue);
 }

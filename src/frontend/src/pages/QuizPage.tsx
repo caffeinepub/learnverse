@@ -9,10 +9,14 @@ import {
 } from "../data/questions-en";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
+  addToSpacedRep,
   getCurrentUser,
+  getDueSpacedItems,
   getLastQuizScore,
   hasPlayedQuizToday,
   markQuizPlayedToday,
+  markSpacedRepCorrect,
+  markSpacedRepWrong,
   playAudio,
   saveQuizResult,
   saveWrongAnswer,
@@ -24,11 +28,143 @@ import {
 } from "../store";
 import type { Question, WrongAnswer } from "../types";
 
+type Topic = "all" | "science" | "history" | "geography" | "math" | "general";
+
+const TOPIC_CONFIG: {
+  id: Topic;
+  icon: string;
+  label: string;
+  keywords: string[];
+  color: string;
+}[] = [
+  {
+    id: "all",
+    icon: "📋",
+    label: "Tümü / All",
+    keywords: [],
+    color: "from-purple-500 to-pink-500",
+  },
+  {
+    id: "science",
+    icon: "🔬",
+    label: "Fen / Science",
+    keywords: [
+      "fen",
+      "bilim",
+      "hayvan",
+      "bitki",
+      "canlı",
+      "enerji",
+      "madde",
+      "atom",
+      "hücre",
+      "güneş",
+      "gezegen",
+    ],
+    color: "from-green-500 to-teal-500",
+  },
+  {
+    id: "history",
+    icon: "🏛️",
+    label: "Tarih / History",
+    keywords: [
+      "tarih",
+      "atatürk",
+      "osmanlı",
+      "savaş",
+      "padişah",
+      "sultan",
+      "cumhuriyet",
+    ],
+    color: "from-amber-500 to-orange-500",
+  },
+  {
+    id: "geography",
+    icon: "🌍",
+    label: "Coğrafya / Geography",
+    keywords: [
+      "coğrafya",
+      "ülke",
+      "başkent",
+      "kıta",
+      "dağ",
+      "nehir",
+      "deniz",
+      "okyanus",
+      "şehir",
+      "il",
+    ],
+    color: "from-blue-500 to-cyan-500",
+  },
+  {
+    id: "math",
+    icon: "🔢",
+    label: "Matematik / Math",
+    keywords: [
+      "sayı",
+      "toplama",
+      "çarpma",
+      "bölme",
+      "çıkarma",
+      "matematik",
+      "hesap",
+      "oran",
+    ],
+    color: "from-rose-500 to-red-500",
+  },
+  {
+    id: "general",
+    icon: "💡",
+    label: "Genel / General",
+    keywords: [],
+    color: "from-violet-500 to-indigo-500",
+  },
+];
+
+function filterQuestionsByTopic(
+  questions: Question[],
+  topic: Topic,
+): Question[] {
+  if (topic === "all") return questions;
+
+  const cfg = TOPIC_CONFIG.find((t) => t.id === topic);
+  if (!cfg || cfg.keywords.length === 0) {
+    // "general" - exclude science/history/geo/math keywords
+    const excludeKeywords = TOPIC_CONFIG.filter(
+      (t) => t.keywords.length > 0,
+    ).flatMap((t) => t.keywords);
+    const filtered = questions.filter((q) => {
+      const lower = q.text.toLowerCase();
+      return !excludeKeywords.some((kw) => lower.includes(kw));
+    });
+    return filtered.length > 0 ? filtered.slice(0, 10) : questions.slice(0, 10);
+  }
+
+  const filtered = questions.filter((q) => {
+    const lower = q.text.toLowerCase();
+    return cfg.keywords.some((kw) => lower.includes(kw));
+  });
+
+  if (filtered.length === 0) {
+    // fallback: return random 10 from all
+    return [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
+  }
+
+  // shuffle and take up to 10
+  return [...filtered].sort(() => Math.random() - 0.5).slice(0, 10);
+}
+
 export default function QuizPage() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
   const { t, lang } = useLanguage();
-  const [questions] = useState<Question[]>(() => {
+
+  const [phase, setPhase] = useState<
+    "topicSelect" | "question" | "feedback" | "done"
+  >("topicSelect");
+  const [selectedTopic, setSelectedTopic] = useState<Topic>("all");
+
+  const [allQuestions] = useState<Question[]>(() => {
     if (lang === "en") {
       const level = profile?.level || "ilkokul";
       if (level === "okul_oncesi") return questionsEnPreschool;
@@ -38,14 +174,14 @@ export default function QuizPage() {
     const lastScore = getLastQuizScore(profile?.studentNumber || "");
     return getAdaptiveDailyQuestions(profile?.level || "ilkokul", lastScore);
   });
+
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [correct, setCorrect] = useState(0);
   const [timer, setTimer] = useState(60);
-  const [phase, setPhase] = useState<"question" | "feedback" | "done">(
-    "question",
-  );
   const [feedbackCorrect, setFeedbackCorrect] = useState(false);
+  const [srItemIds, setSrItemIds] = useState<Map<number, string>>(new Map());
 
   const nextQuestion = useCallback(() => {
     if (current + 1 >= questions.length) {
@@ -68,11 +204,43 @@ export default function QuizPage() {
     return () => clearTimeout(tid);
   }, [timer, phase, nextQuestion]);
 
+  const handleTopicSelect = (topic: Topic) => {
+    setSelectedTopic(topic);
+    const filtered = filterQuestionsByTopic(allQuestions, topic);
+
+    // Prepend due spaced repetition items
+    const dueItems = profile ? getDueSpacedItems(profile.studentNumber) : [];
+    const srQuestions: Question[] = dueItems.slice(0, 3).map((item) => ({
+      text: item.question,
+      choices: item.choices,
+      correctIndex: item.correctIndex,
+      type: "multiple" as const,
+    }));
+    const srMap = new Map<number, string>();
+    dueItems.slice(0, 3).forEach((item, i) => srMap.set(i, item.id));
+    setSrItemIds(srMap);
+    setQuestions([...srQuestions, ...filtered]);
+
+    setCurrent(0);
+    setCorrect(0);
+    setSelected(null);
+    setTimer(60);
+    setPhase("question");
+  };
+
   const handleAnswer = (idx: number) => {
     if (phase !== "question" || !profile) return;
     setSelected(idx);
     const isCorrect = idx === questions[current].correctIndex;
     setFeedbackCorrect(isCorrect);
+
+    // Handle spaced repetition update
+    const srId = srItemIds.get(current);
+    if (srId) {
+      if (isCorrect) markSpacedRepCorrect(profile.studentNumber, srId);
+      else markSpacedRepWrong(profile.studentNumber, srId);
+    }
+
     if (isCorrect) {
       setCorrect((c) => c + 1);
       playAudio("correct_answer");
@@ -88,6 +256,13 @@ export default function QuizPage() {
         savedAt: new Date().toISOString(),
       };
       saveWrongAnswer(wa);
+      // Add wrong answers to spaced repetition queue
+      addToSpacedRep({
+        studentNumber: profile.studentNumber,
+        question: questions[current].text,
+        choices: questions[current].choices,
+        correctIndex: questions[current].correctIndex,
+      });
     }
     setPhase("feedback");
     setTimeout(() => nextQuestion(), 1500);
@@ -97,9 +272,12 @@ export default function QuizPage() {
     if (!profile) return;
     const score = correct * 10;
     updatePoints(profile.studentNumber, score);
-    markQuizPlayedToday(profile.studentNumber);
+    // Only mark daily quiz played for "all" topic
+    if (selectedTopic === "all") {
+      markQuizPlayedToday(profile.studentNumber);
+      updateDailyGoals(profile.studentNumber, { quizDone: true });
+    }
     updateStreak(profile.studentNumber);
-    updateDailyGoals(profile.studentNumber, { quizDone: true });
     saveQuizResult({
       studentNumber: profile.studentNumber,
       date: new Date().toISOString(),
@@ -119,27 +297,98 @@ export default function QuizPage() {
 
   if (!profile) return null;
 
-  if (hasPlayedQuizToday(profile.studentNumber)) {
+  // Topic select phase
+  if (phase === "topicSelect") {
+    const alreadyPlayed = hasPlayedQuizToday(profile.studentNumber);
+    const dueCount = getDueSpacedItems(profile.studentNumber).length;
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl p-8 text-center max-w-sm w-full shadow-2xl">
-          <div className="text-6xl mb-4">🌙</div>
-          <h2 className="text-2xl font-black text-gray-800 mb-2">
-            {t("quiz_already_done")}
-          </h2>
-          <p className="text-gray-600 mb-6">
-            {t("quiz_next_quiz")}.{" "}
-            {lang === "en"
-              ? "You have 1 quiz per day!"
-              : "Her gün 1 quiz hakkın var!"}
-          </p>
-          <Button
-            data-ocid="quiz.home_button"
+      <div className="min-h-screen bg-gradient-to-br from-purple-700 via-indigo-700 to-blue-700 p-4">
+        <div className="max-w-lg mx-auto">
+          <button
+            type="button"
+            data-ocid="quiz.back_button"
             onClick={() => navigate({ to: "/home" })}
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl"
+            className="text-white font-bold text-sm mb-6 block"
           >
-            {t("quiz_home")}
-          </Button>
+            ← {t("back")}
+          </button>
+
+          {dueCount > 0 && (
+            <div
+              data-ocid="quiz.spaced_rep_card"
+              className="bg-orange-500/90 backdrop-blur-sm rounded-2xl p-4 mb-4 flex items-center gap-3"
+            >
+              <div className="text-3xl">🔁</div>
+              <div>
+                <div className="text-white font-black text-sm">
+                  {lang === "en"
+                    ? `${dueCount} question${dueCount > 1 ? "s" : ""} due for review`
+                    : `${dueCount} soru tekrar için bekliyor`}
+                </div>
+                <div className="text-orange-100 text-xs">
+                  {lang === "en"
+                    ? "These will appear at the start of your next quiz"
+                    : "Bir sonraki quizinin başında görünecekler"}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 mb-6">
+            <div className="text-5xl text-center mb-3">🎯</div>
+            <h1 className="text-white font-black text-2xl text-center mb-1">
+              {lang === "en" ? "Choose Quiz Topic" : "Quiz Konusu Seç"}
+            </h1>
+            <p className="text-white/70 text-sm text-center">
+              {lang === "en"
+                ? "Select a topic or play the daily quiz"
+                : "Bir konu seç veya günlük quiz oyna"}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {TOPIC_CONFIG.map((tc) => {
+              const isAllTopic = tc.id === "all";
+              const disabled = isAllTopic && alreadyPlayed;
+              return (
+                <button
+                  key={tc.id}
+                  type="button"
+                  data-ocid={`quiz.topic_${tc.id}`}
+                  onClick={() => !disabled && handleTopicSelect(tc.id)}
+                  disabled={disabled}
+                  className={`bg-gradient-to-br ${tc.color} rounded-2xl p-5 text-left shadow-xl transition-transform ${
+                    disabled
+                      ? "opacity-40 cursor-not-allowed"
+                      : "hover:scale-105 active:scale-95"
+                  } ${isAllTopic ? "col-span-2" : ""}`}
+                >
+                  <div className="text-4xl mb-2">{tc.icon}</div>
+                  <div className="text-white font-black text-base leading-tight">
+                    {tc.label}
+                  </div>
+                  {isAllTopic && (
+                    <div className="text-white/80 text-xs mt-1">
+                      {disabled
+                        ? lang === "en"
+                          ? "✅ Already played today"
+                          : "✅ Bugün oynadın"
+                        : lang === "en"
+                          ? "Daily quiz • 1 per day • earns streak"
+                          : "Günlük quiz • Günde 1 kez • Seri kazanır"}
+                    </div>
+                  )}
+                  {!isAllTopic && (
+                    <div className="text-white/80 text-xs mt-1">
+                      {lang === "en"
+                        ? "Topic quiz • Unlimited"
+                        : "Konu quizi • Sınırsız"}
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
@@ -147,12 +396,15 @@ export default function QuizPage() {
 
   if (phase === "done") {
     const score = correct * 10;
+    const topicLabel =
+      TOPIC_CONFIG.find((tc) => tc.id === selectedTopic)?.label || "";
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center p-4">
         <div className="bg-white rounded-3xl p-8 text-center max-w-sm w-full shadow-2xl">
           <div className="text-6xl mb-4">
             {correct >= 7 ? "🎉" : correct >= 5 ? "😊" : "💪"}
           </div>
+          <p className="text-sm text-gray-500 mb-1">{topicLabel}</p>
           <h2 className="text-3xl font-black text-gray-800 mb-2">
             {t("quiz_finished")}
           </h2>
@@ -162,13 +414,27 @@ export default function QuizPage() {
           <p className="text-2xl font-black text-purple-600 mb-6">
             +{score} {t("points")}
           </p>
-          <Button
-            data-ocid="quiz.finish_button"
-            onClick={handleFinish}
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl"
-          >
-            {t("quiz_home")}
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              data-ocid="quiz.play_again_button"
+              onClick={() => {
+                setPhase("topicSelect");
+                setQuestions([]);
+                setCurrent(0);
+                setCorrect(0);
+              }}
+              className="flex-1 bg-white border-2 border-purple-500 text-purple-600 font-bold py-3 rounded-xl hover:bg-purple-50"
+            >
+              {lang === "en" ? "Play Again" : "Tekrar Oyna"}
+            </Button>
+            <Button
+              data-ocid="quiz.finish_button"
+              onClick={handleFinish}
+              className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl"
+            >
+              {t("quiz_home")}
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -183,11 +449,15 @@ export default function QuizPage() {
           <button
             type="button"
             data-ocid="quiz.back_button"
-            onClick={() => navigate({ to: "/home" })}
+            onClick={() => setPhase("topicSelect")}
             className="text-white font-bold text-sm"
           >
             ← {t("back")}
           </button>
+          <div className="text-white/70 text-xs font-bold">
+            {TOPIC_CONFIG.find((tc) => tc.id === selectedTopic)?.icon}{" "}
+            {TOPIC_CONFIG.find((tc) => tc.id === selectedTopic)?.label}
+          </div>
           <div className="flex items-center gap-3">
             <span className="text-white font-bold text-sm">
               {current + 1}/{questions.length}
@@ -204,7 +474,12 @@ export default function QuizPage() {
           </div>
         </div>
 
-        <div className="bg-white/20 backdrop-blur rounded-3xl p-6 mb-6">
+        <div className="bg-white/20 backdrop-blur rounded-3xl p-6 mb-4">
+          {srItemIds.has(current) && (
+            <div className="text-xs bg-orange-400/80 text-white px-3 py-1 rounded-full font-bold mb-3 inline-block">
+              🔁 {lang === "en" ? "Review" : "Tekrar"}
+            </div>
+          )}
           <p className="text-white font-black text-xl leading-relaxed text-center">
             {q.text}
           </p>

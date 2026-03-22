@@ -9,7 +9,9 @@ import {
   getCurrentUser,
   getDailyGoals,
   getLastQuizScore,
+  getParentMessage,
   getStreak,
+  markParentMessageRead,
   updateDailyGoals,
   updatePoints,
 } from "../store";
@@ -24,6 +26,9 @@ export default function HomePage() {
   );
   const [noiseMeterOpen, setNoiseMeterOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [parentMsg, setParentMsg] = useState(() =>
+    profile ? getParentMessage(profile.studentNumber) : null,
+  );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: navigate is stable
   useEffect(() => {
@@ -168,6 +173,14 @@ export default function HomePage() {
       ocid: "home.mathpractice_card",
     },
     {
+      icon: "📖",
+      title: t("math_story"),
+      desc: t("math_story_desc"),
+      path: "/math-story",
+      gradient: "from-teal-600 to-emerald-500",
+      ocid: "home.mathstory_card",
+    },
+    {
       icon: "💪",
       title: t("health"),
       desc: t("health_desc"),
@@ -214,6 +227,14 @@ export default function HomePage() {
       path: "/coding",
       gradient: "from-violet-700 to-purple-600",
       ocid: "home.coding_card",
+    },
+    {
+      icon: "🎨",
+      title: t("coloring"),
+      desc: t("coloring_desc"),
+      path: "/coloring",
+      gradient: "from-pink-500 to-rose-400",
+      ocid: "home.coloring_card",
     },
   ];
 
@@ -419,6 +440,40 @@ export default function HomePage() {
       )}
 
       <DailyCard />
+      {parentMsg?.message && (
+        <div
+          className={`mx-4 mb-4 rounded-3xl p-5 ${
+            !parentMsg.read
+              ? "bg-gradient-to-r from-orange-500 to-amber-500 shadow-lg shadow-orange-500/30 animate-pulse"
+              : "bg-gradient-to-r from-orange-400/80 to-amber-400/80"
+          }`}
+        >
+          <div className="flex items-start gap-3">
+            <span className="text-3xl">D83dDc8c</span>
+            <div className="flex-1">
+              <div className="text-white/90 text-xs font-bold mb-1">
+                Velinden mesaj:
+              </div>
+              <p className="text-white font-bold text-sm leading-relaxed">
+                {parentMsg.message}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-end mt-3">
+            <button
+              type="button"
+              data-ocid="home.parent_msg_button"
+              onClick={() => {
+                if (profile) markParentMessageRead(profile.studentNumber);
+                setParentMsg(null);
+              }}
+              className="bg-white/30 hover:bg-white/40 text-white font-black px-5 py-2 rounded-xl text-sm"
+            >
+              Tamam D83dDc4d
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="p-4 grid grid-cols-2 gap-4">
         {sections.map((s) => (

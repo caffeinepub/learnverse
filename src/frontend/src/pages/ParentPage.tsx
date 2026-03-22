@@ -8,6 +8,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
+import { Textarea } from "../components/ui/textarea";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getBadgeLevel,
@@ -17,6 +18,7 @@ import {
   getQuizResults,
   getStreak,
   getStudentDataFromBackend,
+  saveParentMessage,
   saveProfile,
 } from "../store";
 import { AVATARS, BADGE_EMOJIS, BADGE_NAMES, LEVEL_NAMES } from "../types";
@@ -34,6 +36,8 @@ export default function ParentPage() {
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<StudentData | "notfound" | null>(null);
   const [loading, setLoading] = useState(false);
+  const [msgText, setMsgText] = useState("");
+  const [msgSent, setMsgSent] = useState(false);
 
   const search = async () => {
     const clean = query.replace(/\s/g, "");
@@ -260,6 +264,55 @@ export default function ParentPage() {
                 </div>
               </div>
 
+              {/* Parent Message Card */}
+              <div className="bg-slate-800 border border-white/20 rounded-3xl p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">D83dDcec</span>
+                  <span className="text-white font-black text-base">
+                    Mesaj G00f6nder
+                  </span>
+                  <span className="text-white/50 text-xs ml-auto">
+                    (maks. 200 karakter)
+                  </span>
+                </div>
+                {msgSent ? (
+                  <div
+                    data-ocid="parent.success_state"
+                    className="bg-green-500/20 border border-green-500/40 rounded-2xl p-3 text-green-300 font-bold text-center"
+                  >
+                    2705 Mesaj 00f6011frenciye iletildi!
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <Textarea
+                      data-ocid="parent.textarea"
+                      value={msgText}
+                      onChange={(e) => setMsgText(e.target.value.slice(0, 200))}
+                      placeholder="00d6011frencine te015fvik edici bir mesaj yaz..."
+                      className="bg-white/10 border-white/20 text-white placeholder-white/40 resize-none"
+                      rows={3}
+                    />
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/40 text-xs">
+                        {msgText.length}/200
+                      </span>
+                      <Button
+                        data-ocid="parent.submit_button"
+                        disabled={!msgText.trim()}
+                        onClick={() => {
+                          saveParentMessage(p.studentNumber, msgText.trim());
+                          setMsgSent(true);
+                          setMsgText("");
+                          setTimeout(() => setMsgSent(false), 3000);
+                        }}
+                        className="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold px-5 py-2 rounded-xl disabled:opacity-40"
+                      >
+                        G00f6nder 2709Fe0f
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
               <Tabs defaultValue="genel" className="w-full">
                 <TabsList className="w-full bg-white/10 rounded-2xl p-1 mb-4 grid grid-cols-4 h-auto">
                   <TabsTrigger

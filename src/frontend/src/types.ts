@@ -96,3 +96,14 @@ export interface Question {
   correctIndex: number;
   type: "multiple" | "truefalse";
 }
+
+export interface SpacedRepItem {
+  id: string;
+  studentNumber: string;
+  question: string;
+  choices: string[];
+  correctIndex: number;
+  interval: number; // days until next review: 1, 2, 4, 8+
+  nextReviewDate: string; // ISO date string (date only: YYYY-MM-DD)
+  addedAt: string;
+}

@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import FlashcardMode, { type FlashCard } from "../components/FlashcardMode";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -200,7 +201,7 @@ const levelTabs: { key: Level; label: string }[] = [
 
 export default function HistoryPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -216,12 +217,27 @@ export default function HistoryPage() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [speakingId, setSpeakingId] = useState<string | null>(null);
+  const [showFlashcards, setShowFlashcards] = useState(false);
 
   useEffect(() => {
     return () => {
       window.speechSynthesis.cancel();
     };
   }, []);
+
+  const flashCards: FlashCard[] = historyData[level].map((item) => ({
+    key: item.key,
+    front: item.title,
+    back: `${item.info} 💡 ${item.fact}`,
+    emoji: item.emoji,
+  }));
+
+  const handleFlashcardComplete = (known: number) => {
+    if (profile) {
+      updatePoints(profile.studentNumber, known * 5);
+      incrementDailyContentRead(profile.studentNumber);
+    }
+  };
 
   const handleSpeak = (id: string, text: string) => {
     if (speakingId === id) {
@@ -267,9 +283,27 @@ export default function HistoryPage() {
         >
           ← Geri
         </button>
-        <h1 className="text-3xl font-black text-white mb-4">
-          🏛️ Tarih Kartları
-        </h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-black text-white">🏛️ Tarih Kartları</h1>
+          <button
+            type="button"
+            data-ocid="history.open_modal_button"
+            onClick={() => setShowFlashcards(true)}
+            className="bg-white/20 hover:bg-white/40 text-white font-bold text-sm px-4 py-2 rounded-2xl transition-all"
+          >
+            🃏 Flaş Kart
+          </button>
+        </div>
+
+        {showFlashcards && (
+          <FlashcardMode
+            cards={flashCards}
+            onClose={() => setShowFlashcards(false)}
+            onComplete={handleFlashcardComplete}
+            lang={lang}
+            accentColor="from-amber-700 to-yellow-600"
+          />
+        )}
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((t) => (
             <button

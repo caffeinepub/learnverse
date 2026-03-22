@@ -1,5 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import FlashcardMode, { type FlashCard } from "../components/FlashcardMode";
+import SpellingPractice, {
+  type SpellingWord,
+} from "../components/SpellingPractice";
 import { useLanguage } from "../i18n/LanguageContext";
 import { contentTranslationsEn } from "../i18n/content-translations";
 import {
@@ -272,6 +276,9 @@ export default function VocabularyPage() {
     profile ? getReadTopics(profile.studentNumber) : [],
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const [mode, setMode] = useState<"browse" | "flashcard" | "spelling">(
+    "browse",
+  );
 
   const filteredWords = vocabulary[level].filter((w) => {
     const enTr = contentTranslationsEn[w.key];
@@ -284,6 +291,43 @@ export default function VocabularyPage() {
       displayDef.toLowerCase().includes(q)
     );
   });
+
+  const flashCards: FlashCard[] = vocabulary[level].map((w) => {
+    const enTr = contentTranslationsEn[w.key];
+    return {
+      key: w.key,
+      front: lang === "en" && enTr?.word ? enTr.word : w.word,
+      back: lang === "en" && enTr?.definition ? enTr.definition : w.definition,
+      emoji: w.emoji,
+    };
+  });
+
+  const spellingWords: SpellingWord[] = vocabulary[level].map((w) => {
+    const enTr = contentTranslationsEn[w.key];
+    return {
+      key: w.key,
+      word: lang === "en" && enTr?.word ? enTr.word : w.word,
+      emoji: w.emoji,
+    };
+  });
+
+  const handleFlashcardComplete = (known: number, _total: number) => {
+    if (profile) {
+      updatePoints(profile.studentNumber, known * 5);
+      incrementDailyContentRead(profile.studentNumber);
+    }
+  };
+
+  const handleSpellingComplete = (
+    _score: number,
+    _total: number,
+    points: number,
+  ) => {
+    if (profile && points > 0) {
+      updatePoints(profile.studentNumber, points);
+      incrementDailyContentRead(profile.studentNumber);
+    }
+  };
 
   const handleRead = (key: string) => {
     if (!profile || readTopics.includes(key)) return;
@@ -324,6 +368,52 @@ export default function VocabularyPage() {
             </button>
           ))}
         </div>
+        {/* Mode Buttons */}
+        <div className="grid grid-cols-3 gap-2 mb-4">
+          <button
+            type="button"
+            data-ocid="vocabulary.tab"
+            onClick={() => setMode("browse")}
+            className={`py-3 rounded-2xl font-bold text-xs transition-all ${mode === "browse" ? "bg-white text-purple-600" : "bg-white/20 text-white hover:bg-white/30"}`}
+          >
+            📚 {lang === "en" ? "Browse" : "Listele"}
+          </button>
+          <button
+            type="button"
+            data-ocid="vocabulary.open_modal_button"
+            onClick={() => setMode("flashcard")}
+            className={`py-3 rounded-2xl font-bold text-xs transition-all ${mode === "flashcard" ? "bg-white text-purple-600" : "bg-white/20 text-white hover:bg-white/30"}`}
+          >
+            🃏 {lang === "en" ? "Flashcards" : "Flaş Kart"}
+          </button>
+          <button
+            type="button"
+            data-ocid="vocabulary.secondary_button"
+            onClick={() => setMode("spelling")}
+            className={`py-3 rounded-2xl font-bold text-xs transition-all ${mode === "spelling" ? "bg-white text-purple-600" : "bg-white/20 text-white hover:bg-white/30"}`}
+          >
+            ✏️ {lang === "en" ? "Spelling" : "Yazım"}
+          </button>
+        </div>
+
+        {mode === "flashcard" && (
+          <FlashcardMode
+            cards={flashCards}
+            onClose={() => setMode("browse")}
+            onComplete={handleFlashcardComplete}
+            lang={lang}
+            accentColor="from-purple-600 to-violet-600"
+          />
+        )}
+        {mode === "spelling" && (
+          <SpellingPractice
+            words={spellingWords}
+            onClose={() => setMode("browse")}
+            onComplete={handleSpellingComplete}
+            lang={lang}
+          />
+        )}
+
         {(() => {
           const total = vocabulary[level].length;
           const done = vocabulary[level].filter((w) =>
