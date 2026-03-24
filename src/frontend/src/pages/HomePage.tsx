@@ -10,11 +10,14 @@ import {
   getDailyGoals,
   getLastQuizScore,
   getParentMessage,
+  getPendingAssignmentsForStudent,
   getStreak,
+  markAssignmentCompleted,
   markParentMessageRead,
   updateDailyGoals,
   updatePoints,
 } from "../store";
+import type { Assignment } from "../store";
 import { AVATARS, BADGE_EMOJIS, BADGE_NAMES, LEVEL_NAMES } from "../types";
 
 export default function HomePage() {
@@ -29,6 +32,10 @@ export default function HomePage() {
   const [parentMsg, setParentMsg] = useState(() =>
     profile ? getParentMessage(profile.studentNumber) : null,
   );
+  const [pendingAssignments, setPendingAssignments] = useState<Assignment[]>(
+    () =>
+      profile ? getPendingAssignmentsForStudent(profile.studentNumber) : [],
+  );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: navigate is stable
   useEffect(() => {
@@ -39,6 +46,7 @@ export default function HomePage() {
     }
     setProfile(p);
     setDailyGoals(getDailyGoals(p.studentNumber));
+    setPendingAssignments(getPendingAssignmentsForStudent(p.studentNumber));
   }, []);
 
   if (!profile) return null;
@@ -260,6 +268,14 @@ export default function HomePage() {
     setProfile(getCurrentUser());
   };
 
+  const handleCompleteAssignment = (assignmentId: string, section: string) => {
+    markAssignmentCompleted(assignmentId, profile.studentNumber);
+    updatePoints(profile.studentNumber, 20);
+    setProfile(getCurrentUser());
+    setPendingAssignments((prev) => prev.filter((a) => a.id !== assignmentId));
+    navigate({ to: `/${section}` as any });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="bg-white/10 backdrop-blur px-4 py-3 flex items-center justify-between">
@@ -392,6 +408,58 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* Pending Assignments Card */}
+      {pendingAssignments.length > 0 && (
+        <div className="px-4 pb-3">
+          <div className="bg-gradient-to-r from-blue-600/30 to-cyan-600/30 border border-blue-400/40 rounded-2xl p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xl">📋</span>
+              <span className="text-white font-black text-sm">
+                Bekleyen Ödevler
+              </span>
+              <span className="ml-auto bg-blue-500 text-white text-xs font-black px-2 py-0.5 rounded-full">
+                {pendingAssignments.length}
+              </span>
+            </div>
+            <div className="space-y-2">
+              {pendingAssignments.slice(0, 3).map((asgn) => (
+                <div
+                  key={asgn.id}
+                  className="bg-white/10 rounded-xl p-3 flex items-center gap-3"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="text-white font-bold text-sm truncate">
+                      {asgn.title}
+                    </div>
+                    {asgn.dueDate && (
+                      <div className="text-white/50 text-xs">
+                        Son:{" "}
+                        {new Date(asgn.dueDate).toLocaleDateString("tr-TR")}
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    data-ocid="home.assignment_go_button"
+                    onClick={() =>
+                      handleCompleteAssignment(asgn.id, asgn.section)
+                    }
+                    className="bg-blue-500 hover:bg-blue-400 text-white text-xs font-black px-3 py-1.5 rounded-xl transition-all shrink-0"
+                  >
+                    Git →
+                  </button>
+                </div>
+              ))}
+            </div>
+            {pendingAssignments.length > 3 && (
+              <div className="text-center text-white/50 text-xs mt-2">
+                +{pendingAssignments.length - 3} daha fazla ödev
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="px-4 pb-3">
         <div className="bg-white/10 border border-white/20 rounded-2xl overflow-hidden">
           <button
@@ -449,7 +517,7 @@ export default function HomePage() {
           }`}
         >
           <div className="flex items-start gap-3">
-            <span className="text-3xl">D83dDc8c</span>
+            <span className="text-3xl">💌</span>
             <div className="flex-1">
               <div className="text-white/90 text-xs font-bold mb-1">
                 Velinden mesaj:
@@ -469,7 +537,7 @@ export default function HomePage() {
               }}
               className="bg-white/30 hover:bg-white/40 text-white font-black px-5 py-2 rounded-xl text-sm"
             >
-              Tamam D83dDc4d
+              Tamam 👍
             </button>
           </div>
         </div>

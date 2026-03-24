@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import {
@@ -9,7 +9,14 @@ import {
   TabsTrigger,
 } from "../components/ui/tabs";
 import { useLanguage } from "../i18n/LanguageContext";
-import { getBadgeLevel, getProfileByStudentNumber } from "../store";
+import {
+  createAssignment,
+  deleteAssignment,
+  getAssignmentsForClass,
+  getBadgeLevel,
+  getProfileByStudentNumber,
+} from "../store";
+import type { Assignment } from "../store";
 import { AVATARS, BADGE_EMOJIS, LEVEL_NAMES } from "../types";
 import type { Profile } from "../types";
 
@@ -43,6 +50,23 @@ function deleteClass(classKey: string): void {
   localStorage.removeItem(`learnverse_class_${classKey}`);
 }
 
+const SECTION_OPTIONS = [
+  { value: "quiz", label: "📚 Günlük Quiz" },
+  { value: "stories", label: "📖 Hikayeler" },
+  { value: "poems", label: "🎭 Şiirler" },
+  { value: "experiments", label: "🔬 Deneyler" },
+  { value: "puzzles", label: "🧩 Bulmacalar" },
+  { value: "math-practice", label: "🔢 Matematik" },
+  { value: "vocabulary", label: "📖 Kelime Haznesi" },
+  { value: "grammar", label: "📝 Dilbilgisi" },
+  { value: "science", label: "🦬 Fen Bilimleri" },
+  { value: "history", label: "🏗️ Tarih" },
+  { value: "geography", label: "🗺️ Coğrafya" },
+  { value: "english", label: "🇬🇧 İngilizce" },
+  { value: "coding", label: "💻 Kodlama" },
+  { value: "health", label: "💪 Sağlık" },
+];
+
 export default function ClassesPage() {
   const navigate = useNavigate();
   const { t } = useLanguage();
@@ -54,7 +78,23 @@ export default function ClassesPage() {
   const [addError, setAddError] = useState("");
   const [createError, setCreateError] = useState("");
 
+  // Assignment form state
+  const [asgnTitle, setAsgnTitle] = useState("");
+  const [asgnDesc, setAsgnDesc] = useState("");
+  const [asgnSection, setAsgnSection] = useState("quiz");
+  const [asgnDue, setAsgnDue] = useState("");
+  const [asgnClassKey, setAsgnClassKey] = useState<string | null>(null);
+  const [assignments, setAssignments] = useState<Assignment[]>(() =>
+    asgnClassKey ? getAssignmentsForClass(asgnClassKey) : [],
+  );
+  const [asgnError, setAsgnError] = useState("");
+  const [asgnSuccess, setAsgnSuccess] = useState(false);
+
   const refresh = () => setClasses(getClasses());
+
+  const refreshAssignments = (classKey: string) => {
+    setAssignments(getAssignmentsForClass(classKey));
+  };
 
   const createClass = () => {
     if (!newName.trim()) {
@@ -106,6 +146,32 @@ export default function ClassesPage() {
     refresh();
   };
 
+  const handleCreateAssignment = () => {
+    if (!asgnClassKey) return;
+    if (!asgnTitle.trim()) {
+      setAsgnError("Ödev başlığı boş olamaz.");
+      return;
+    }
+    if (!asgnDue) {
+      setAsgnError("Son teslim tarihi seçiniz.");
+      return;
+    }
+    createAssignment({
+      classKey: asgnClassKey,
+      title: asgnTitle.trim(),
+      description: asgnDesc.trim(),
+      section: asgnSection,
+      dueDate: asgnDue,
+    });
+    setAsgnTitle("");
+    setAsgnDesc("");
+    setAsgnDue("");
+    setAsgnError("");
+    setAsgnSuccess(true);
+    setTimeout(() => setAsgnSuccess(false), 2000);
+    refreshAssignments(asgnClassKey);
+  };
+
   const classList = Object.entries(classes);
 
   const selectedClassData = selectedClass ? classes[selectedClass] : null;
@@ -140,21 +206,30 @@ export default function ClassesPage() {
       <h1 className="text-2xl font-black text-white mb-1">
         🏫 {t("classes_title")}
       </h1>
-      <p className="text-white/60 text-sm mb-6">Öğrenci gruplarını yönetin</p>
+      <p className="text-white/60 text-sm mb-6">
+        Öğrenci gruplarını ve ödevleri yönetin
+      </p>
 
       <Tabs defaultValue="siniflarim" className="w-full">
-        <TabsList className="w-full bg-white/10 rounded-2xl p-1 mb-4 grid grid-cols-2 h-auto">
+        <TabsList className="w-full bg-white/10 rounded-2xl p-1 mb-4 grid grid-cols-3 h-auto">
           <TabsTrigger
             value="siniflarim"
             data-ocid="classes.tab"
-            className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl py-2 font-bold"
+            className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl py-2 font-bold text-xs"
           >
             Sınıflarım
           </TabsTrigger>
           <TabsTrigger
+            value="odevler"
+            data-ocid="classes.tab"
+            className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl py-2 font-bold text-xs"
+          >
+            📋 Ödevler
+          </TabsTrigger>
+          <TabsTrigger
             value="yeni"
             data-ocid="classes.tab"
-            className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl py-2 font-bold"
+            className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl py-2 font-bold text-xs"
           >
             + Yeni Sınıf
           </TabsTrigger>
@@ -326,6 +401,231 @@ export default function ClassesPage() {
               ))}
             </div>
           )}
+        </TabsContent>
+
+        {/* Assignments Tab */}
+        <TabsContent value="odevler">
+          <div className="space-y-4">
+            {classList.length === 0 ? (
+              <div
+                data-ocid="classes.empty_state"
+                className="bg-white/10 rounded-2xl p-8 text-center text-white/60"
+              >
+                Önce bir sınıf oluşturun, sonra ödev atayabilirsiniz.
+              </div>
+            ) : (
+              <>
+                {/* Select class for assignments */}
+                <div className="bg-white/10 rounded-2xl p-4">
+                  <div className="text-white/70 text-sm font-bold mb-3">
+                    Sınıf Seç:
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {classList.map(([key, cls]) => (
+                      <button
+                        type="button"
+                        key={key}
+                        onClick={() => {
+                          setAsgnClassKey(key);
+                          refreshAssignments(key);
+                        }}
+                        className={`px-3 py-1.5 rounded-xl text-sm font-bold transition-all ${
+                          asgnClassKey === key
+                            ? "bg-blue-500 text-white"
+                            : "bg-white/10 text-white/70 hover:bg-white/20"
+                        }`}
+                      >
+                        🏫 {cls.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {asgnClassKey && (
+                  <>
+                    {/* Create assignment form */}
+                    <div className="bg-white/10 rounded-2xl p-4 space-y-3">
+                      <h3 className="text-white font-black text-base">
+                        + Yeni Ödev Ata
+                      </h3>
+
+                      <div>
+                        <span className="text-white/60 text-xs mb-1 block">
+                          Ödev Başlığı
+                        </span>
+                        <Input
+                          data-ocid="classes.input"
+                          value={asgnTitle}
+                          onChange={(e) => setAsgnTitle(e.target.value)}
+                          placeholder="Ör: Bu haftanın hikayesini oku"
+                          className="bg-white/10 border-white/20 text-white placeholder-white/40 text-sm"
+                        />
+                      </div>
+
+                      <div>
+                        <span className="text-white/60 text-xs mb-1 block">
+                          Açıklama (isteğe bağlı)
+                        </span>
+                        <Input
+                          data-ocid="classes.input"
+                          value={asgnDesc}
+                          onChange={(e) => setAsgnDesc(e.target.value)}
+                          placeholder="Öğrencilere ek bilgi..."
+                          className="bg-white/10 border-white/20 text-white placeholder-white/40 text-sm"
+                        />
+                      </div>
+
+                      <div>
+                        <span className="text-white/60 text-xs mb-1 block">
+                          Bölüm
+                        </span>
+                        <select
+                          value={asgnSection}
+                          onChange={(e) => setAsgnSection(e.target.value)}
+                          className="w-full bg-white/10 border border-white/20 text-white rounded-xl px-3 py-2 text-sm"
+                        >
+                          {SECTION_OPTIONS.map((opt) => (
+                            <option
+                              key={opt.value}
+                              value={opt.value}
+                              className="bg-slate-800"
+                            >
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <span className="text-white/60 text-xs mb-1 block">
+                          Son Teslim Tarihi
+                        </span>
+                        <Input
+                          data-ocid="classes.input"
+                          type="date"
+                          value={asgnDue}
+                          onChange={(e) => setAsgnDue(e.target.value)}
+                          className="bg-white/10 border-white/20 text-white placeholder-white/40 text-sm"
+                        />
+                      </div>
+
+                      {asgnError && (
+                        <div
+                          data-ocid="classes.error_state"
+                          className="text-red-400 text-xs"
+                        >
+                          {asgnError}
+                        </div>
+                      )}
+                      {asgnSuccess && (
+                        <div
+                          data-ocid="classes.success_state"
+                          className="text-green-400 text-xs font-bold"
+                        >
+                          ✅ Ödev başarıyla atandı!
+                        </div>
+                      )}
+
+                      <Button
+                        data-ocid="classes.submit_button"
+                        onClick={handleCreateAssignment}
+                        className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-2 rounded-xl"
+                      >
+                        📋 Ödevi Ata
+                      </Button>
+                    </div>
+
+                    {/* Existing assignments */}
+                    <div className="space-y-2">
+                      <div className="text-white/70 text-sm font-bold">
+                        Mevcut Ödevler ({assignments.length})
+                      </div>
+                      {assignments.length === 0 ? (
+                        <div className="bg-white/10 rounded-2xl p-4 text-center text-white/50 text-sm">
+                          Henüz ödev atanmadı.
+                        </div>
+                      ) : (
+                        assignments.map((asgn, ai) => {
+                          const sectionLabel =
+                            SECTION_OPTIONS.find(
+                              (s) => s.value === asgn.section,
+                            )?.label || asgn.section;
+                          const classData = asgnClassKey
+                            ? classes[asgnClassKey]
+                            : null;
+                          const totalStudents =
+                            classData?.studentNumbers.length || 0;
+                          const completedCount = asgn.completedBy.length;
+                          return (
+                            <div
+                              key={asgn.id}
+                              data-ocid={`classes.row.${ai + 1}`}
+                              className="bg-white/10 rounded-2xl p-4"
+                            >
+                              <div className="flex justify-between items-start">
+                                <div className="flex-1 min-w-0">
+                                  <div className="text-white font-black text-sm">
+                                    {asgn.title}
+                                  </div>
+                                  {asgn.description && (
+                                    <div className="text-white/60 text-xs mt-0.5">
+                                      {asgn.description}
+                                    </div>
+                                  )}
+                                  <div className="flex items-center gap-3 mt-2 text-xs">
+                                    <span className="text-cyan-300">
+                                      {sectionLabel}
+                                    </span>
+                                    <span className="text-white/40">•</span>
+                                    <span className="text-yellow-300">
+                                      Son teslim:{" "}
+                                      {new Date(
+                                        asgn.dueDate,
+                                      ).toLocaleDateString("tr-TR")}
+                                    </span>
+                                  </div>
+                                  <div className="mt-2">
+                                    <div className="flex justify-between text-xs text-white/60 mb-1">
+                                      <span>Tamamlayan</span>
+                                      <span>
+                                        {completedCount}/{totalStudents}
+                                      </span>
+                                    </div>
+                                    <div className="bg-white/10 rounded-full h-2 overflow-hidden">
+                                      <div
+                                        className="h-full bg-green-500 rounded-full"
+                                        style={{
+                                          width:
+                                            totalStudents > 0
+                                              ? `${(completedCount / totalStudents) * 100}%`
+                                              : "0%",
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <Button
+                                  data-ocid={`classes.delete_button.${ai + 1}`}
+                                  size="sm"
+                                  onClick={() => {
+                                    deleteAssignment(asgn.id);
+                                    refreshAssignments(asgnClassKey!);
+                                  }}
+                                  className="ml-2 bg-red-500/20 text-red-300 hover:bg-red-500/40 text-xs px-2"
+                                >
+                                  Sil
+                                </Button>
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+          </div>
         </TabsContent>
 
         <TabsContent value="yeni">

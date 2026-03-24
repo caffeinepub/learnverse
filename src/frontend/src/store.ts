@@ -587,3 +587,95 @@ export function markSpacedRepWrong(
   queue[idx] = { ...queue[idx], interval: 1, nextReviewDate: getTodayStr() };
   saveSpacedRepQueue(studentNumber, queue);
 }
+
+// ===== CLASS ASSIGNMENTS =====
+
+export interface Assignment {
+  id: string;
+  classKey: string;
+  title: string;
+  description: string;
+  section: string; // e.g. 'quiz', 'stories', 'math-practice', etc.
+  dueDate: string; // ISO date string
+  createdAt: string;
+  completedBy: string[]; // student numbers
+}
+
+const ASSIGNMENTS_KEY = "learnverse_assignments";
+
+export function getAllAssignments(): Assignment[] {
+  try {
+    return JSON.parse(localStorage.getItem(ASSIGNMENTS_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveAllAssignments(assignments: Assignment[]): void {
+  localStorage.setItem(ASSIGNMENTS_KEY, JSON.stringify(assignments));
+}
+
+export function getAssignmentsForClass(classKey: string): Assignment[] {
+  return getAllAssignments().filter((a) => a.classKey === classKey);
+}
+
+export function createAssignment(
+  data: Omit<Assignment, "id" | "createdAt" | "completedBy">,
+): Assignment {
+  const assignments = getAllAssignments();
+  const newAssignment: Assignment = {
+    ...data,
+    id: `asgn_${Date.now()}`,
+    createdAt: new Date().toISOString(),
+    completedBy: [],
+  };
+  assignments.push(newAssignment);
+  saveAllAssignments(assignments);
+  return newAssignment;
+}
+
+export function deleteAssignment(id: string): void {
+  saveAllAssignments(getAllAssignments().filter((a) => a.id !== id));
+}
+
+export function markAssignmentCompleted(
+  assignmentId: string,
+  studentNumber: string,
+): void {
+  const assignments = getAllAssignments();
+  const idx = assignments.findIndex((a) => a.id === assignmentId);
+  if (idx === -1) return;
+  if (!assignments[idx].completedBy.includes(studentNumber)) {
+    assignments[idx].completedBy.push(studentNumber);
+    saveAllAssignments(assignments);
+  }
+}
+
+export function getAssignmentsForStudent(studentNumber: string): Assignment[] {
+  // Find all classes this student belongs to
+  const allAssignments = getAllAssignments();
+  const classKeys = Object.keys(localStorage)
+    .filter((k) => k.startsWith("learnverse_class_"))
+    .map((k) => k.replace("learnverse_class_", ""));
+
+  const studentClassKeys = classKeys.filter((ck) => {
+    try {
+      const cls = JSON.parse(
+        localStorage.getItem(`learnverse_class_${ck}`) || "{}",
+      );
+      return cls.studentNumbers?.includes(studentNumber);
+    } catch {
+      return false;
+    }
+  });
+
+  return allAssignments.filter((a) => studentClassKeys.includes(a.classKey));
+}
+
+export function getPendingAssignmentsForStudent(
+  studentNumber: string,
+): Assignment[] {
+  return getAssignmentsForStudent(studentNumber).filter(
+    (a) => !a.completedBy.includes(studentNumber),
+  );
+}
