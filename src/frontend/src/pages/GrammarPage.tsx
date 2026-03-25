@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
 import { contentTranslationsEn } from "../i18n/content-translations";
+import { contentTranslationsEs } from "../i18n/content-translations-es";
 import {
   getCurrentUser,
   getReadTopics,
@@ -218,10 +219,16 @@ export default function GrammarPage() {
   );
   const [searchTerm, setSearchTerm] = useState("");
 
+  const getTranslation = (key: string) => {
+    if (lang === "es") return contentTranslationsEs[key];
+    if (lang === "en") return contentTranslationsEn[key];
+    return null;
+  };
+
   const filteredCards = grammarCards[level].filter((c) => {
-    const enTr = contentTranslationsEn[c.key];
-    const displayTitle = lang === "en" && enTr?.title ? enTr.title : c.title;
-    const displayRule = lang === "en" && enTr?.rule ? enTr.rule : c.rule;
+    const tr = getTranslation(c.key);
+    const displayTitle = tr?.title || c.title;
+    const displayRule = tr?.rule || c.rule;
     const q = searchTerm.toLowerCase();
     return (
       displayTitle.toLowerCase().includes(q) ||
@@ -237,6 +244,21 @@ export default function GrammarPage() {
     setReadTopics((prev) => [...prev, key]);
   };
 
+  const pageTitle =
+    lang === "es"
+      ? "Tarjetas de Gramática"
+      : lang === "en"
+        ? "Grammar Cards"
+        : "Dilbilgisi";
+  const exLabel =
+    lang === "es" ? "Ejemplo:" : lang === "en" ? "Example:" : "Örnek:";
+  const noResults =
+    lang === "es"
+      ? "No se encontraron resultados"
+      : lang === "en"
+        ? "No results found"
+        : "Sonuç bulunamadı";
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-500 to-cyan-500">
       <div className="p-4">
@@ -248,9 +270,7 @@ export default function GrammarPage() {
         >
           ← {t("back")}
         </button>
-        <h1 className="text-3xl font-black text-white mb-4">
-          📝 {lang === "en" ? "Grammar Cards" : "Dilbilgisi"}
-        </h1>
+        <h1 className="text-3xl font-black text-white mb-4">📝 {pageTitle}</h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((tab) => (
             <button
@@ -258,11 +278,7 @@ export default function GrammarPage() {
               key={tab.key}
               data-ocid="grammar.tab"
               onClick={() => setLevel(tab.key)}
-              className={`py-3 rounded-2xl font-bold text-xs transition-all ${
-                level === tab.key
-                  ? "bg-white text-teal-600"
-                  : "bg-white/20 text-white hover:bg-white/30"
-              }`}
+              className={`py-3 rounded-2xl font-bold text-xs transition-all ${level === tab.key ? "bg-white text-teal-600" : "bg-white/20 text-white hover:bg-white/30"}`}
             >
               {tab.label}
             </button>
@@ -311,25 +327,20 @@ export default function GrammarPage() {
               data-ocid="grammar.empty_state"
               className="text-center text-white/60 py-8"
             >
-              {lang === "en" ? "No results found" : "Sonuç bulunamadı"} 🔍
+              {noResults} 🔍
             </div>
           ) : (
             filteredCards.map((c, idx) => {
               const isRead = readTopics.includes(c.key);
-              const enTr = contentTranslationsEn[c.key];
-              const displayTitle =
-                lang === "en" && enTr?.title ? enTr.title : c.title;
-              const displayRule =
-                lang === "en" && enTr?.rule ? enTr.rule : c.rule;
-              const displayExample =
-                lang === "en" && enTr?.example ? enTr.example : c.example;
+              const tr = getTranslation(c.key);
+              const displayTitle = tr?.title || c.title;
+              const displayRule = tr?.rule || c.rule;
+              const displayExample = tr?.example || c.example;
               return (
                 <div
                   key={c.key}
                   data-ocid={`grammar.item.${idx + 1}`}
-                  className={`bg-white/20 backdrop-blur rounded-2xl p-5 transition-all ${
-                    isRead ? "border-2 border-green-300" : ""
-                  }`}
+                  className={`bg-white/20 backdrop-blur rounded-2xl p-5 transition-all ${isRead ? "border-2 border-green-300" : ""}`}
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-3xl">{c.emoji}</span>
@@ -345,7 +356,7 @@ export default function GrammarPage() {
                   </p>
                   <div className="bg-white/10 rounded-xl p-2 mb-4">
                     <span className="text-white/70 text-xs font-bold block mb-1">
-                      {lang === "en" ? "Example:" : "Örnek:"}
+                      {exLabel}
                     </span>
                     <span className="text-white text-sm font-medium">
                       {displayExample}

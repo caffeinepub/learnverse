@@ -6,6 +6,7 @@ import SpellingPractice, {
 } from "../components/SpellingPractice";
 import { useLanguage } from "../i18n/LanguageContext";
 import { contentTranslationsEn } from "../i18n/content-translations";
+import { contentTranslationsEs } from "../i18n/content-translations-es";
 import {
   getCurrentUser,
   getReadTopics,
@@ -71,7 +72,7 @@ const vocabulary: Record<
       word: "Sıcak",
       emoji: "☀️",
       definition: "Yüksek ısıya sahip olan",
-      synonym: "Ilık, kavurucu",
+      synonym: "ılık, kavurucu",
       antonym: "Soğuk, serin",
       example: "Yaz günleri çok sıcak olur.",
     },
@@ -79,7 +80,7 @@ const vocabulary: Record<
       key: "v_sert",
       word: "Sert",
       emoji: "🪨",
-      definition: "Kolayca bükülmeyen, katı",
+      definition: "Kolaylıkla bükülmeyen, katı",
       synonym: "Katı, rijit",
       antonym: "Yumuşak, esnek",
       example: "Taş çok serttir.",
@@ -115,10 +116,10 @@ const vocabulary: Record<
     },
     {
       key: "v_sabir",
-      word: "Sabır",
+      word: "Sabr",
       emoji: "🧘",
-      definition: "Güçlüklere dayanma gücü",
-      synonym: "Tahammül, metanet",
+      definition: "Güçlüklere dayanma gücu",
+      synonym: "Tahammul, metanet",
       antonym: "Sabırsızlık, aceleci",
       example: "Sabırla çalışırsan başarırsın.",
     },
@@ -164,7 +165,7 @@ const vocabulary: Record<
       emoji: "🤝",
       definition: "Her zaman doğruyu söyleyen",
       synonym: "Namuslu, güvenilir",
-      antonym: "Yalancı, hilekâr",
+      antonym: "Yalançı, hilekâr",
       example: "Dürüst olmak önemlidir.",
     },
     {
@@ -182,8 +183,8 @@ const vocabulary: Record<
       key: "v_ironik",
       word: "İronik",
       emoji: "😏",
-      definition: "Söylenenin tersini kasteden",
-      synonym: "Alaycı, hicivli",
+      definition: "Söyleenenin tersini kasteden",
+      synonym: "Alaylı, hicivli",
       antonym: "Samimi, açık sözlü",
       example: "İronik bir şekilde 'ne kadar zekisin!' dedi.",
     },
@@ -237,7 +238,7 @@ const vocabulary: Record<
       word: "Sinerji",
       emoji: "⚡",
       definition: "Birlikte çalışmanın toplam etkisi",
-      synonym: "Birleşim gücü, uyum",
+      synonym: "Birleşim gücu, uyum",
       antonym: "Çatışma, ayrılık",
       example: "Ekip sinerjisiyle büyük işler başardı.",
     },
@@ -280,11 +281,16 @@ export default function VocabularyPage() {
     "browse",
   );
 
+  const getTranslation = (key: string) => {
+    if (lang === "es") return contentTranslationsEs[key];
+    if (lang === "en") return contentTranslationsEn[key];
+    return null;
+  };
+
   const filteredWords = vocabulary[level].filter((w) => {
-    const enTr = contentTranslationsEn[w.key];
-    const displayWord = lang === "en" && enTr?.word ? enTr.word : w.word;
-    const displayDef =
-      lang === "en" && enTr?.definition ? enTr.definition : w.definition;
+    const tr = getTranslation(w.key);
+    const displayWord = tr?.word || w.word;
+    const displayDef = tr?.definition || w.definition;
     const q = searchTerm.toLowerCase();
     return (
       displayWord.toLowerCase().includes(q) ||
@@ -293,22 +299,18 @@ export default function VocabularyPage() {
   });
 
   const flashCards: FlashCard[] = vocabulary[level].map((w) => {
-    const enTr = contentTranslationsEn[w.key];
+    const tr = getTranslation(w.key);
     return {
       key: w.key,
-      front: lang === "en" && enTr?.word ? enTr.word : w.word,
-      back: lang === "en" && enTr?.definition ? enTr.definition : w.definition,
+      front: tr?.word || w.word,
+      back: tr?.definition || w.definition,
       emoji: w.emoji,
     };
   });
 
   const spellingWords: SpellingWord[] = vocabulary[level].map((w) => {
-    const enTr = contentTranslationsEn[w.key];
-    return {
-      key: w.key,
-      word: lang === "en" && enTr?.word ? enTr.word : w.word,
-      emoji: w.emoji,
-    };
+    const tr = getTranslation(w.key);
+    return { key: w.key, word: tr?.word || w.word, emoji: w.emoji };
   });
 
   const handleFlashcardComplete = (known: number, _total: number) => {
@@ -337,6 +339,28 @@ export default function VocabularyPage() {
     setReadTopics((prev) => [...prev, key]);
   };
 
+  const pageTitle =
+    lang === "es"
+      ? "Vocabulario"
+      : lang === "en"
+        ? "Vocabulary Builder"
+        : "Kelime Haznesi";
+  const browseLabel =
+    lang === "es" ? "Ver" : lang === "en" ? "Browse" : "Listele";
+  const flashLabel =
+    lang === "es" ? "Tarjetas" : lang === "en" ? "Flashcards" : "Flaş Kart";
+  const spellingLabel =
+    lang === "es" ? "Ortografía" : lang === "en" ? "Spelling" : "Yazım";
+  const exLabel = lang === "es" ? "Ej:" : lang === "en" ? "Ex:" : "Örn:";
+  const synLabel = lang === "es" ? "Sin:" : lang === "en" ? "Syn:" : "Eş:";
+  const antLabel = lang === "es" ? "Ant:" : lang === "en" ? "Ant:" : "Zıt:";
+  const noResults =
+    lang === "es"
+      ? "No se encontraron resultados"
+      : lang === "en"
+        ? "No results found"
+        : "Sonuç bulunamadı";
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-violet-500">
       <div className="p-4">
@@ -348,9 +372,7 @@ export default function VocabularyPage() {
         >
           ← {t("back")}
         </button>
-        <h1 className="text-3xl font-black text-white mb-4">
-          📖 {lang === "en" ? "Vocabulary Builder" : "Kelime Haznesi"}
-        </h1>
+        <h1 className="text-3xl font-black text-white mb-4">📖 {pageTitle}</h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((tab) => (
             <button
@@ -358,17 +380,12 @@ export default function VocabularyPage() {
               key={tab.key}
               data-ocid="vocabulary.tab"
               onClick={() => setLevel(tab.key)}
-              className={`py-3 rounded-2xl font-bold text-xs transition-all ${
-                level === tab.key
-                  ? "bg-white text-purple-600"
-                  : "bg-white/20 text-white hover:bg-white/30"
-              }`}
+              className={`py-3 rounded-2xl font-bold text-xs transition-all ${level === tab.key ? "bg-white text-purple-600" : "bg-white/20 text-white hover:bg-white/30"}`}
             >
               {tab.label}
             </button>
           ))}
         </div>
-        {/* Mode Buttons */}
         <div className="grid grid-cols-3 gap-2 mb-4">
           <button
             type="button"
@@ -376,7 +393,7 @@ export default function VocabularyPage() {
             onClick={() => setMode("browse")}
             className={`py-3 rounded-2xl font-bold text-xs transition-all ${mode === "browse" ? "bg-white text-purple-600" : "bg-white/20 text-white hover:bg-white/30"}`}
           >
-            📚 {lang === "en" ? "Browse" : "Listele"}
+            📚 {browseLabel}
           </button>
           <button
             type="button"
@@ -384,7 +401,7 @@ export default function VocabularyPage() {
             onClick={() => setMode("flashcard")}
             className={`py-3 rounded-2xl font-bold text-xs transition-all ${mode === "flashcard" ? "bg-white text-purple-600" : "bg-white/20 text-white hover:bg-white/30"}`}
           >
-            🃏 {lang === "en" ? "Flashcards" : "Flaş Kart"}
+            🃏 {flashLabel}
           </button>
           <button
             type="button"
@@ -392,7 +409,7 @@ export default function VocabularyPage() {
             onClick={() => setMode("spelling")}
             className={`py-3 rounded-2xl font-bold text-xs transition-all ${mode === "spelling" ? "bg-white text-purple-600" : "bg-white/20 text-white hover:bg-white/30"}`}
           >
-            ✏️ {lang === "en" ? "Spelling" : "Yazım"}
+            ✏️ {spellingLabel}
           </button>
         </div>
 
@@ -457,33 +474,22 @@ export default function VocabularyPage() {
               data-ocid="vocabulary.empty_state"
               className="text-center text-white/60 py-8"
             >
-              {lang === "en" ? "No results found" : "Sonuç bulunamadı"} 🔍
+              {noResults} 🔍
             </div>
           ) : (
             filteredWords.map((w, idx) => {
               const isRead = readTopics.includes(w.key);
-              const enTr = contentTranslationsEn[w.key];
-              const displayWord =
-                lang === "en" && enTr?.word ? enTr.word : w.word;
-              const displayDef =
-                lang === "en" && enTr?.definition
-                  ? enTr.definition
-                  : w.definition;
-              const displaySynonym =
-                lang === "en" && enTr?.synonym ? enTr.synonym : w.synonym;
-              const displayAntonym =
-                lang === "en" && enTr?.antonym ? enTr.antonym : w.antonym;
-              const displayExample =
-                lang === "en" && enTr?.example ? enTr.example : w.example;
-              const synLabel = lang === "en" ? "Syn:" : "Eş:";
-              const antLabel = lang === "en" ? "Ant:" : "Zıt:";
+              const tr = getTranslation(w.key);
+              const displayWord = tr?.word || w.word;
+              const displayDef = tr?.definition || w.definition;
+              const displaySynonym = tr?.synonym || w.synonym;
+              const displayAntonym = tr?.antonym || w.antonym;
+              const displayExample = tr?.example || w.example;
               return (
                 <div
                   key={w.key}
                   data-ocid={`vocabulary.item.${idx + 1}`}
-                  className={`bg-white/20 backdrop-blur rounded-2xl p-5 transition-all ${
-                    isRead ? "border-2 border-green-300" : ""
-                  }`}
+                  className={`bg-white/20 backdrop-blur rounded-2xl p-5 transition-all ${isRead ? "border-2 border-green-300" : ""}`}
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-4xl">{w.emoji}</span>
@@ -514,7 +520,7 @@ export default function VocabularyPage() {
                     )}
                   </div>
                   <p className="text-white/70 text-xs italic mb-4">
-                    &ldquo;{displayExample}&rdquo;
+                    {exLabel} &ldquo;{displayExample}&rdquo;
                   </p>
                   {!isRead && profile && (
                     <button

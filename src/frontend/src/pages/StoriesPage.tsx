@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { storiesEn } from "../data/stories-en";
+import { storiesEs } from "../data/stories-es";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -538,7 +539,8 @@ const levelTabs: { key: Level; label: string }[] = [
 export default function StoriesPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
-  const activeStories = lang === "en" ? storiesEn : stories;
+  const activeStories =
+    lang === "en" ? storiesEn : lang === "es" ? storiesEs : stories;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -576,7 +578,7 @@ export default function StoriesPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = lang === "en" ? "en-US" : "tr-TR";
+      utt.lang = lang === "en" ? "en-US" : lang === "es" ? "es-ES" : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);

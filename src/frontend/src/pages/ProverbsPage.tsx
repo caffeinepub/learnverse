@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
 import { contentTranslationsEn } from "../i18n/content-translations";
+import { contentTranslationsEs } from "../i18n/content-translations-es";
 import {
   getCurrentUser,
   getReadTopics,
@@ -81,7 +82,7 @@ const proverbs: Record<
       title: "Taşıma su ile değirmen dönmez",
       emoji: "💦",
       text: "Taşıma su ile değirmen dönmez.",
-      meaning: "Süreksiz çalışma sonuç vermez.",
+      meaning: "Sürekli çalışma sonucu vermez.",
     },
     {
       key: "pr_dost",
@@ -102,7 +103,7 @@ const proverbs: Record<
       title: "Emek olmadan yemek olmaz",
       emoji: "🍽️",
       text: "Emek olmadan yemek olmaz.",
-      meaning: "Çalışmadan başarıya ulaşılmaz.",
+      meaning: "Çalışmadan başarıya ulaşılamaz.",
     },
     {
       key: "pr_sukut",
@@ -116,7 +117,7 @@ const proverbs: Record<
       title: "Yuvayı dişi kuş yapar",
       emoji: "🐦",
       text: "Yuvayı dişi kuş yapar.",
-      meaning: "Evi güzelleştiren sabır ve emektir.",
+      meaning: "Evi güzelleştiren sabr ve emektir.",
     },
     {
       key: "pr_bic",
@@ -130,7 +131,7 @@ const proverbs: Record<
       title: "El elden üstündür",
       emoji: "🙌",
       text: "El elden üstündür.",
-      meaning: "Her güçlünün daha güçlüsü vardır.",
+      meaning: "Her güclünün daha güclüsü vardır.",
     },
     {
       key: "pr_cuval",
@@ -251,8 +252,14 @@ export default function ProverbsPage() {
     return "tr-TR";
   };
 
-  const handleSpeak = (id: string, trText: string, enText?: string) => {
-    const speakText = lang === "en" && enText ? enText : trText;
+  const getTranslation = (key: string) => {
+    if (lang === "es") return contentTranslationsEs[key];
+    if (lang === "en") return contentTranslationsEn[key];
+    return null;
+  };
+
+  const handleSpeak = (id: string, trText: string, localText?: string) => {
+    const speakText = localText || trText;
     if (speakingId === id) {
       window.speechSynthesis.cancel();
       setSpeakingId(null);
@@ -267,11 +274,10 @@ export default function ProverbsPage() {
   };
 
   const filteredProverbs = proverbs[level].filter((p) => {
-    const enTr = contentTranslationsEn[p.key];
-    const displayTitle = lang === "en" && enTr?.title ? enTr.title : p.title;
-    const displayText = lang === "en" && enTr?.text ? enTr.text : p.text;
-    const displayMeaning =
-      lang === "en" && enTr?.meaning ? enTr.meaning : p.meaning;
+    const tr = getTranslation(p.key);
+    const displayTitle = tr?.title || p.title;
+    const displayText = tr?.text || p.text;
+    const displayMeaning = tr?.meaning || p.meaning;
     const q = searchTerm.toLowerCase();
     return (
       displayTitle.toLowerCase().includes(q) ||
@@ -288,6 +294,13 @@ export default function ProverbsPage() {
     setReadTopics((prev) => [...prev, key]);
   };
 
+  const pageTitle =
+    lang === "es"
+      ? "Refranes y Dichos"
+      : lang === "en"
+        ? "Proverbs & Idioms"
+        : "Atasözleri & Deyimler";
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-600 to-yellow-500">
       <div className="p-4">
@@ -299,9 +312,7 @@ export default function ProverbsPage() {
         >
           ← {t("back")}
         </button>
-        <h1 className="text-3xl font-black text-white mb-4">
-          📜 {lang === "en" ? "Proverbs & Idioms" : "Atasözleri & Deyimler"}
-        </h1>
+        <h1 className="text-3xl font-black text-white mb-4">📜 {pageTitle}</h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((tab) => (
             <button
@@ -309,11 +320,7 @@ export default function ProverbsPage() {
               key={tab.key}
               data-ocid="proverbs.tab"
               onClick={() => setLevel(tab.key)}
-              className={`py-3 rounded-2xl font-bold text-xs transition-all ${
-                level === tab.key
-                  ? "bg-white text-amber-600"
-                  : "bg-white/20 text-white hover:bg-white/30"
-              }`}
+              className={`py-3 rounded-2xl font-bold text-xs transition-all ${level === tab.key ? "bg-white text-amber-600" : "bg-white/20 text-white hover:bg-white/30"}`}
             >
               {tab.label}
             </button>
@@ -362,25 +369,25 @@ export default function ProverbsPage() {
               data-ocid="proverbs.empty_state"
               className="text-center text-white/60 py-8"
             >
-              {lang === "en" ? "No results found" : "Sonuç bulunamadı"} 🔍
+              {lang === "es"
+                ? "No se encontraron resultados"
+                : lang === "en"
+                  ? "No results found"
+                  : "Sonuç bulunamadı"}{" "}
+              🔍
             </div>
           ) : (
             filteredProverbs.map((p, idx) => {
               const isRead = readTopics.includes(p.key);
-              const enTr = contentTranslationsEn[p.key];
-              const displayTitle =
-                lang === "en" && enTr?.title ? enTr.title : p.title;
-              const displayText =
-                lang === "en" && enTr?.text ? enTr.text : p.text;
-              const displayMeaning =
-                lang === "en" && enTr?.meaning ? enTr.meaning : p.meaning;
+              const tr = getTranslation(p.key);
+              const displayTitle = tr?.title || p.title;
+              const displayText = tr?.text || p.text;
+              const displayMeaning = tr?.meaning || p.meaning;
               return (
                 <div
                   key={p.key}
                   data-ocid={`proverbs.item.${idx + 1}`}
-                  className={`bg-white/20 backdrop-blur rounded-2xl p-5 transition-all ${
-                    isRead ? "border-2 border-green-300" : ""
-                  }`}
+                  className={`bg-white/20 backdrop-blur rounded-2xl p-5 transition-all ${isRead ? "border-2 border-green-300" : ""}`}
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-3xl">{p.emoji}</span>
@@ -400,7 +407,7 @@ export default function ProverbsPage() {
                   <button
                     type="button"
                     data-ocid="proverbs.listen_button"
-                    onClick={() => handleSpeak(p.key, p.text, enTr?.text)}
+                    onClick={() => handleSpeak(p.key, p.text, tr?.text)}
                     className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
                   >
                     {speakingId === p.key

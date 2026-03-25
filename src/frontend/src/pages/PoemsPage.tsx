@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { poemsEn } from "../data/poems-en";
+import { poemsEs } from "../data/poems-es";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -1004,7 +1005,7 @@ const levelTabs: { key: Level; label: string }[] = [
 export default function PoemsPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
-  const activePoems = lang === "en" ? poemsEn : poems;
+  const activePoems = lang === "en" ? poemsEn : lang === "es" ? poemsEs : poems;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -1033,7 +1034,7 @@ export default function PoemsPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = lang === "en" ? "en-US" : "tr-TR";
+      utt.lang = lang === "en" ? "en-US" : lang === "es" ? "es-ES" : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);

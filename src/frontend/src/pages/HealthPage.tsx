@@ -98,6 +98,60 @@ const healthData: Record<Level, HealthItem[]> = {
         "Sabah kahvaltısı beyni çalıştırır. Okula tok git, daha iyi öğrenirsin.",
       tip: "💡 Yumurta, peynir, ekmek harika bir kahvaltıdır!",
     },
+    {
+      key: "h9",
+      title: "Uyku Vakti",
+      emoji: "🌙",
+      category: "hijyen",
+      content:
+        "Okul öncesi çocuklar gece 10-12 saat uyumalıdır. Belirli bir saatte yatmak vücudunun ritmini düzenler.",
+      tip: "💡 Her gece aynı saatte uyu ve dinlen!",
+    },
+    {
+      key: "h10",
+      title: "Dans Et ve Eğlen",
+      emoji: "💃",
+      category: "egzersiz",
+      content:
+        "Müzikle dans etmek hem eğlenceli hem de harika bir egzersizdir. Tüm kaslarını çalıştırır.",
+      tip: "💡 Sevdiğin müzikle 10 dakika dans et!",
+    },
+    {
+      key: "h11",
+      title: "Göz Sağlığı",
+      emoji: "👁️",
+      category: "hijyen",
+      content:
+        "Ekrana çok yakın bakma. Gözlerini ara sıra dinlendir. Her 20 dakikada uzağa bak.",
+      tip: "💡 20-20-20 kuralı: Her 20 dakikada, 20 saniye, 20 metre uzağa bak!",
+    },
+    {
+      key: "h12",
+      title: "Derin Nefes",
+      emoji: "🌬️",
+      category: "egzersiz",
+      content:
+        "Stresli hissettiğinde derin nefes al. Burnundan yavaşça iç, ağzından yavaşça ver.",
+      tip: "💡 4 say iç, 4 say tut, 4 say ver!",
+    },
+    {
+      key: "h13",
+      title: "Renkli Meyveler",
+      emoji: "🫐",
+      category: "beslenme",
+      content:
+        "Farklı renkli meyveler farklı vitaminler içerir. Yaban mersini, çilek ve portakal çok faydalıdır.",
+      tip: "💡 Her gün en az 1 meyve ye!",
+    },
+    {
+      key: "h14",
+      title: "Temiz Giysi",
+      emoji: "👕",
+      category: "hijyen",
+      content:
+        "Her gün temiz kıyafet giymek mikropların yayılmasını önler ve kendini iyi hissettir.",
+      tip: "💡 Giydiğin kıyafetin temiz ve düzgün olmasına dikkat et!",
+    },
   ],
   ilkokul: [
     {
@@ -172,6 +226,60 @@ const healthData: Record<Level, HealthItem[]> = {
         "C Vitamini: portakal, kivi. D Vitamini: güneş ışığı, süt. B Vitamini: kepekli ekmek, fındık.",
       tip: "💡 Her vitamin farklı bir görevi üstlenir!",
     },
+    {
+      key: "h_i9",
+      title: "Takım Sporu",
+      emoji: "⚽",
+      category: "egzersiz",
+      content:
+        "Futbol, basketbol, voleybol gibi takım sporları hem fiziksel gelişimi hem de sosyal becerileri destekler.",
+      tip: "💡 Takım sporları arkadaşlık ve iş birliği öğretir!",
+    },
+    {
+      key: "h_i10",
+      title: "Güvenlik Kuralları",
+      emoji: "⛑️",
+      category: "hijyen",
+      content:
+        "Bisiklet ve kaykay kullanırken kask tak. Spor yaparken uygun ayakkabı giymek sakatlanmayı önler.",
+      tip: "💡 Kask ve koruyucu ekipmanlar hayat kurtarır!",
+    },
+    {
+      key: "h_i11",
+      title: "Germe Hareketleri",
+      emoji: "🤸",
+      category: "egzersiz",
+      content:
+        "Her gün 10 dakika germe egzersizi kasları esnetir, esnekliği artırır ve sakatlanma riskini azaltır.",
+      tip: "💡 Germeyi yavaşça yap, ani hareketlerden kaçın!",
+    },
+    {
+      key: "h_i12",
+      title: "Sağlıklı Atıştırmalık",
+      emoji: "🥕",
+      category: "beslenme",
+      content:
+        "Cips yerine havuç, bisküvi yerine meyve seç. Sağlıklı atıştırmalıklar enerji verir.",
+      tip: "💡 Acıktığında meyve ya da kuruyemiş tercih et!",
+    },
+    {
+      key: "h_i13",
+      title: "Ekran Süresi",
+      emoji: "📵",
+      category: "hijyen",
+      content:
+        "Günde 2 saatten fazla ekran başında oturmak gözleri ve omurgayı olumsuz etkiler.",
+      tip: "💡 Telefon ve tablet yerine dışarı çık, hareket et!",
+    },
+    {
+      key: "h_i14",
+      title: "Su ve Spor",
+      emoji: "🏊",
+      category: "beslenme",
+      content:
+        "Spor yaparken daha fazla su içilmelidir. Terleme yoluyla kaybedilen sıvı mutlaka yerine konmalıdır.",
+      tip: "💡 Egzersiz öncesi ve sonrasında bir bardak su iç!",
+    },
   ],
   ortaokul: [
     {
@@ -245,6 +353,60 @@ const healthData: Record<Level, HealthItem[]> = {
       content:
         "Omurga düzgün tutulmalıdır. Çanta tek omuzda değil, sırt çantasıyla taşınmalıdır. Ekranda dik otur.",
       tip: "💡 Kötü duruş kronik sırt ağrısına yol açar!",
+    },
+    {
+      key: "h_o9",
+      title: "Kondisyon Antrenmanı",
+      emoji: "🏅",
+      category: "egzersiz",
+      content:
+        "Kardiyo egzersizler kalp ve akciğerleri güçlendirir. Koşu, bisiklet ve yüzme harika kondisyon sporlarıdır.",
+      tip: "💡 Haftada en az 3 gün 30 dakika kardiyo yap!",
+    },
+    {
+      key: "h_o10",
+      title: "Ruh Sağlığı",
+      emoji: "🧠",
+      category: "hijyen",
+      content:
+        "Zihinsel sağlık, fiziksel sağlık kadar önemlidir. Kendini iyi hissetmek için sevdiklerinle vakit geçir.",
+      tip: "💡 Duygularını ifade etmekten çekinme, konuşmak iyileştirir!",
+    },
+    {
+      key: "h_o11",
+      title: "İlk Yardım Temelleri",
+      emoji: "🩺",
+      category: "hijyen",
+      content:
+        "Temel ilk yardım bilgisi hayat kurtarır. Yaralara nasıl müdahale edilir, nabzı nasıl ölçersin?",
+      tip: "💡 112'yi aramayı ve serin kalmayı öğren!",
+    },
+    {
+      key: "h_o12",
+      title: "Protein ve Kas",
+      emoji: "🥩",
+      category: "beslenme",
+      content:
+        "Kasların büyümesi için protein gereklidir. Et, yumurta, süt ve kurubaklagiller iyi protein kaynaklarıdır.",
+      tip: "💡 Spor yapıyorsan protein alımına dikkat et!",
+    },
+    {
+      key: "h_o13",
+      title: "Spor Tekniği",
+      emoji: "🎯",
+      category: "egzersiz",
+      content:
+        "Her sporun doğru tekniği vardır. Yanlış teknikle yapılan egzersizler sakatlanmaya ve yaralanmaya neden olur.",
+      tip: "💡 Bir antrenörden veya usta birinden tekniği öğren!",
+    },
+    {
+      key: "h_o14",
+      title: "Uyku ve Performans",
+      emoji: "💤",
+      category: "hijyen",
+      content:
+        "Yeterli uyku akademik ve sportif performansı artırır. Ortaokul öğrencileri günde 8-10 saat uyumalıdır.",
+      tip: "💡 Gece geç saatte ekran kullanmaktan kaçın!",
     },
   ],
 };

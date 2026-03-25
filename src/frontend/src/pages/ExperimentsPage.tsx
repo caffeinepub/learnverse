@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { experimentsEn } from "../data/experiments-en";
+import { experimentsEs } from "../data/experiments-es";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -759,7 +760,8 @@ const levelTabs: { key: Level; label: string }[] = [
 export default function ExperimentsPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
-  const activeExperiments = lang === "en" ? experimentsEn : experiments;
+  const activeExperiments =
+    lang === "en" ? experimentsEn : lang === "es" ? experimentsEs : experiments;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking

@@ -7,6 +7,11 @@ import {
   questionsEnPreschool,
   questionsEnPrimary,
 } from "../data/questions-en";
+import {
+  questionsEsMiddle,
+  questionsEsPreschool,
+  questionsEsPrimary,
+} from "../data/questions-es";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   addToSpacedRep,
@@ -130,7 +135,6 @@ function filterQuestionsByTopic(
 
   const cfg = TOPIC_CONFIG.find((t) => t.id === topic);
   if (!cfg || cfg.keywords.length === 0) {
-    // "general" - exclude science/history/geo/math keywords
     const excludeKeywords = TOPIC_CONFIG.filter(
       (t) => t.keywords.length > 0,
     ).flatMap((t) => t.keywords);
@@ -147,12 +151,49 @@ function filterQuestionsByTopic(
   });
 
   if (filtered.length === 0) {
-    // fallback: return random 10 from all
     return [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
   }
 
-  // shuffle and take up to 10
   return [...filtered].sort(() => Math.random() - 0.5).slice(0, 10);
+}
+
+function getLangLabel(lang: string, key: string): string {
+  if (lang === "es") {
+    const map: Record<string, string> = {
+      Choose_Quiz_Topic: "Elige el tema del quiz",
+      Select_topic_or_daily: "Selecciona un tema o juega el quiz diario",
+      Already_played: "✅ Ya jugaste hoy",
+      Daily_quiz_info: "Quiz diario • 1 por día • gana racha",
+      Topic_quiz_info: "Quiz temático • Ilimitado",
+      Play_Again: "Jugar de nuevo",
+      Review: "Repaso",
+      questions_due_sub: "Aparecerán al inicio de tu próximo quiz",
+    };
+    if (key === "questions_due") return "";
+    return map[key] || key;
+  }
+  if (lang === "en") {
+    const map: Record<string, string> = {
+      Choose_Quiz_Topic: "Choose Quiz Topic",
+      Select_topic_or_daily: "Select a topic or play the daily quiz",
+      Already_played: "✅ Already played today",
+      Daily_quiz_info: "Daily quiz • 1 per day • earns streak",
+      Topic_quiz_info: "Topic quiz • Unlimited",
+      Play_Again: "Play Again",
+      Review: "Review",
+    };
+    return map[key] || key;
+  }
+  const map: Record<string, string> = {
+    Choose_Quiz_Topic: "Quiz Konusu Seç",
+    Select_topic_or_daily: "Bir konu seç veya günlük quiz oyna",
+    Already_played: "✅ Bugün oynadın",
+    Daily_quiz_info: "Günlük quiz • Günde 1 kez • Seri kazanır",
+    Topic_quiz_info: "Konu quizi • Sınırsız",
+    Play_Again: "Tekrar Oyna",
+    Review: "Tekrar",
+  };
+  return map[key] || key;
 }
 
 export default function QuizPage() {
@@ -166,14 +207,19 @@ export default function QuizPage() {
   const [selectedTopic, setSelectedTopic] = useState<Topic>("all");
 
   const [allQuestions] = useState<Question[]>(() => {
+    const level = profile?.level || "ilkokul";
+    if (lang === "es") {
+      if (level === "okul_oncesi") return questionsEsPreschool;
+      if (level === "ortaokul") return questionsEsMiddle;
+      return questionsEsPrimary;
+    }
     if (lang === "en") {
-      const level = profile?.level || "ilkokul";
       if (level === "okul_oncesi") return questionsEnPreschool;
       if (level === "ortaokul") return questionsEnMiddle;
       return questionsEnPrimary;
     }
     const lastScore = getLastQuizScore(profile?.studentNumber || "");
-    return getAdaptiveDailyQuestions(profile?.level || "ilkokul", lastScore);
+    return getAdaptiveDailyQuestions(level, lastScore);
   });
 
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -209,7 +255,6 @@ export default function QuizPage() {
     setSelectedTopic(topic);
     const filtered = filterQuestionsByTopic(allQuestions, topic);
 
-    // Prepend due spaced repetition items
     const dueItems = profile ? getDueSpacedItems(profile.studentNumber) : [];
     const srQuestions: Question[] = dueItems.slice(0, 3).map((item) => ({
       text: item.question,
@@ -235,7 +280,6 @@ export default function QuizPage() {
     const isCorrect = idx === questions[current].correctIndex;
     setFeedbackCorrect(isCorrect);
 
-    // Handle spaced repetition update
     const srId = srItemIds.get(current);
     if (srId) {
       if (isCorrect) markSpacedRepCorrect(profile.studentNumber, srId);
@@ -257,7 +301,6 @@ export default function QuizPage() {
         savedAt: new Date().toISOString(),
       };
       saveWrongAnswer(wa);
-      // Add wrong answers to spaced repetition queue
       addToSpacedRep({
         studentNumber: profile.studentNumber,
         question: questions[current].text,
@@ -273,13 +316,11 @@ export default function QuizPage() {
     if (!profile) return;
     const score = correct * 10;
     updatePoints(profile.studentNumber, score);
-    // Only mark daily quiz played for "all" topic
     if (selectedTopic === "all") {
       markQuizPlayedToday(profile.studentNumber);
       updateDailyGoals(profile.studentNumber, { quizDone: true });
     }
     updateStreak(profile.studentNumber);
-    // Save topic-based performance stats
     if (selectedTopic !== "all") {
       saveTopicStats(
         profile.studentNumber,
@@ -307,7 +348,6 @@ export default function QuizPage() {
 
   if (!profile) return null;
 
-  // Topic select phase
   if (phase === "topicSelect") {
     const alreadyPlayed = hasPlayedQuizToday(profile.studentNumber);
     const dueCount = getDueSpacedItems(profile.studentNumber).length;
@@ -331,14 +371,18 @@ export default function QuizPage() {
               <div className="text-3xl">🔁</div>
               <div>
                 <div className="text-white font-black text-sm">
-                  {lang === "en"
-                    ? `${dueCount} question${dueCount > 1 ? "s" : ""} due for review`
-                    : `${dueCount} soru tekrar için bekliyor`}
+                  {lang === "es"
+                    ? `${dueCount} pregunta${dueCount > 1 ? "s" : ""} para repasar`
+                    : lang === "en"
+                      ? `${dueCount} question${dueCount > 1 ? "s" : ""} due for review`
+                      : `${dueCount} soru tekrar için bekliyor`}
                 </div>
                 <div className="text-orange-100 text-xs">
-                  {lang === "en"
-                    ? "These will appear at the start of your next quiz"
-                    : "Bir sonraki quizinin başında görünecekler"}
+                  {lang === "es"
+                    ? "Aparecerán al inicio de tu próximo quiz"
+                    : lang === "en"
+                      ? "These will appear at the start of your next quiz"
+                      : "Bir sonraki quizinin başında görünecekler"}
                 </div>
               </div>
             </div>
@@ -347,12 +391,10 @@ export default function QuizPage() {
           <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 mb-6">
             <div className="text-5xl text-center mb-3">🎯</div>
             <h1 className="text-white font-black text-2xl text-center mb-1">
-              {lang === "en" ? "Choose Quiz Topic" : "Quiz Konusu Seç"}
+              {getLangLabel(lang, "Choose_Quiz_Topic")}
             </h1>
             <p className="text-white/70 text-sm text-center">
-              {lang === "en"
-                ? "Select a topic or play the daily quiz"
-                : "Bir konu seç veya günlük quiz oyna"}
+              {getLangLabel(lang, "Select_topic_or_daily")}
             </p>
           </div>
 
@@ -380,19 +422,13 @@ export default function QuizPage() {
                   {isAllTopic && (
                     <div className="text-white/80 text-xs mt-1">
                       {disabled
-                        ? lang === "en"
-                          ? "✅ Already played today"
-                          : "✅ Bugün oynadın"
-                        : lang === "en"
-                          ? "Daily quiz • 1 per day • earns streak"
-                          : "Günlük quiz • Günde 1 kez • Seri kazanır"}
+                        ? getLangLabel(lang, "Already_played")
+                        : getLangLabel(lang, "Daily_quiz_info")}
                     </div>
                   )}
                   {!isAllTopic && (
                     <div className="text-white/80 text-xs mt-1">
-                      {lang === "en"
-                        ? "Topic quiz • Unlimited"
-                        : "Konu quizi • Sınırsız"}
+                      {getLangLabel(lang, "Topic_quiz_info")}
                     </div>
                   )}
                 </button>
@@ -435,7 +471,7 @@ export default function QuizPage() {
               }}
               className="flex-1 bg-white border-2 border-purple-500 text-purple-600 font-bold py-3 rounded-xl hover:bg-purple-50"
             >
-              {lang === "en" ? "Play Again" : "Tekrar Oyna"}
+              {getLangLabel(lang, "Play_Again")}
             </Button>
             <Button
               data-ocid="quiz.finish_button"
@@ -487,7 +523,7 @@ export default function QuizPage() {
         <div className="bg-white/20 backdrop-blur rounded-3xl p-6 mb-4">
           {srItemIds.has(current) && (
             <div className="text-xs bg-orange-400/80 text-white px-3 py-1 rounded-full font-bold mb-3 inline-block">
-              🔁 {lang === "en" ? "Review" : "Tekrar"}
+              🔁 {getLangLabel(lang, "Review")}
             </div>
           )}
           <p className="text-white font-black text-xl leading-relaxed text-center">
