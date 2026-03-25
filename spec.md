@@ -1,26 +1,26 @@
 # LearnVerse
 
 ## Current State
-LearnVerse is a comprehensive educational platform (Sürüm 34) with quiz, games, stories, poems, experiments, puzzles, geography, history, science, English, coding, and many pedagogical features. The parent/teacher panel (ParentPage.tsx) shows student stats, topic performance graphs, and class management. There is one-way parent→student messaging. The ClassesPage.tsx has class groups and assignments. There is no printable/exportable report and no teacher→parent messaging.
+A comprehensive gamified educational platform with 3 user levels (preschool, primary, middle school), quizzes, stories, poems, experiments, games, vocabulary, geography, history, science, coding, art, and more. Features include spaced repetition, flashcards, spelling practice, topic-based quizzes, leaderboard, daily streak, badges, parent/teacher panels, class assignments, and exportable reports. UI is in 10 languages; English content translation is complete for all sections.
 
 ## Requested Changes (Diff)
 
 ### Add
-- **İlerleme Raporu (Progress Report)**: A printable/export-ready progress report for parents and teachers. In ParentPage.tsx, add a "Raporu Yazdır" (Print Report) button that opens a print-friendly summary of the student's stats: badge level, total points, streak, quiz history, topic performance breakdown, completed content sections, and recent activity. Uses browser `window.print()` with a print-specific CSS layout.
-- **İki Yönlü Mesajlaşma (Two-Way Messaging)**: Currently only parent→student messaging exists. Add teacher→parent messaging:
-  - In ClassesPage.tsx (teacher panel), add a "Mesajlaşma" tab where teacher can select a student by student number and send a message to the parent.
-  - In ParentPage.tsx, add a "Öğretmen Mesajları" (Teacher Messages) tab/section where parents can see messages from teachers and reply back.
-  - Messages stored in localStorage under `learnverse_teacher_msgs_{studentNumber}` as an array of `{id, from, fromRole, message, date, read}` objects.
+1. **Seviye Yerleştirme Testi (PlacementTestPage)** -- When a new student profile is created and `level` is not yet set (or is set to `ilkokul` as default), show a 10-question adaptive placement quiz that auto-determines whether the student belongs to `okul_oncesi`, `ilkokul`, or `ortaokul`. Results stored in localStorage. After test, redirect to home. Test is only shown once (tracked in localStorage by studentNumber + `placementDone` flag).
+2. **Günlük Görev Sistemi (Daily Goals Card)** -- On HomePage, show a "Today's Goals" card with 3 tasks: read 1 story, do 1 quiz, learn 5 vocabulary words. Each task has a progress indicator (done/not done). Track completion via existing `dailyGoals` in localStorage (already partially in store). When all 3 complete, show a bonus +30 points reward notification. Card resets every day.
 
 ### Modify
-- ParentPage.tsx: Add print report button and teacher message inbox section
-- ClassesPage.tsx: Add teacher→parent messaging tab
+- **LoginPage / profile creation** -- After a new student profile is created, redirect to `/placement-test` instead of `/home` if the placement test hasn't been taken yet.
+- **HomePage** -- Add the Daily Goals card near the top, below the "word of the day" cards.
+- **App routing (App.tsx or router)** -- Add route for `/placement-test`.
 
 ### Remove
-- Nothing removed
+- Nothing removed.
 
 ## Implementation Plan
-1. Add message types/storage helpers to store.ts (teacherMessages: save, get, markRead functions)
-2. Modify ParentPage.tsx: add "Raporu Yazdır" button with print-friendly hidden div that gets printed, and teacher messages inbox section
-3. Modify ClassesPage.tsx: add messaging tab for teacher to send messages to parent of a student
-4. Add print CSS in index.css or inline styles for the report
+1. Create `src/frontend/src/pages/PlacementTestPage.tsx` with 10 questions spanning topics appropriate for all 3 levels. Scoring: 0-3 correct → okul_oncesi, 4-6 → ilkokul, 7-10 → ortaokul. After completion, save level to the student profile in localStorage and mark `placementDone: true`. Show result screen then navigate to home.
+2. Add helper in `store.ts` for `hasPlacementDone(studentNumber)` and `setPlacementDone(studentNumber, level)`.
+3. Add route `/placement-test` in the router (check App.tsx or routes file).
+4. Modify login flow so that after new profile creation (or first login), if `!hasPlacementDone()`, navigate to `/placement-test`.
+5. Enhance the Daily Goals card in HomePage using the existing `dailyGoals` tracking in store, showing read story / quiz done / vocabulary words learned with checkmarks.
+6. When all 3 daily goals complete, award +30 bonus points (only once per day, track with `dailyGoalsBonusGiven` flag in localStorage).

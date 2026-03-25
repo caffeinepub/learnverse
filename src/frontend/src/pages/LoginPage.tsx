@@ -11,6 +11,7 @@ import {
   getProfileByStudentNumber,
   getProfiles,
   getQuizResults,
+  hasPlacementDone,
   playAudio,
   saveProfile,
   setCurrentUser,
@@ -65,7 +66,9 @@ export default function LoginPage() {
     updateStreak(studentNumber);
     syncFromBackendIfNewer(studentNumber).catch(() => {});
     playAudio("welcome");
-    navigate({ to: "/home" });
+    navigate({
+      to: hasPlacementDone(studentNumber) ? "/home" : "/placement-test",
+    });
   };
 
   const handleCreate = () => {

@@ -252,15 +252,17 @@ export default function HomePage() {
   const lastQuizScore = getLastQuizScore(profile.studentNumber);
   const goals = dailyGoals;
   const goalsDone = goals
-    ? (goals.quizDone ? 1 : 0) + (goals.contentReads >= 2 ? 1 : 0)
+    ? (goals.quizDone ? 1 : 0) +
+      (goals.contentReads >= 1 ? 1 : 0) +
+      (goals.contentReads >= 5 ? 1 : 0)
     : 0;
-  const allGoalsDone = goalsDone === 2;
+  const allGoalsDone = goalsDone === 3;
 
   const currentLang = LANGUAGES.find((l) => l.code === lang);
 
   const handleBonusClaim = () => {
     if (!goals || goals.bonusAwarded || !allGoalsDone) return;
-    updatePoints(profile.studentNumber, 50);
+    updatePoints(profile.studentNumber, 30);
     const updated = updateDailyGoals(profile.studentNumber, {
       bonusAwarded: true,
     });
@@ -354,38 +356,58 @@ export default function HomePage() {
 
       {goals && (
         <div className="px-4 pb-3">
-          <div className="bg-white/10 border border-white/20 rounded-2xl p-4">
+          <div
+            className={`rounded-2xl p-4 border ${
+              allGoalsDone
+                ? "bg-gradient-to-r from-emerald-600/40 to-teal-600/40 border-emerald-400/40"
+                : "bg-white/10 border-white/20"
+            }`}
+          >
             <div className="flex items-center justify-between mb-3">
               <div className="text-white font-black text-sm">
-                🎯 {t("daily_goals")}
+                🎯 {lang === "tr" ? "Bugünün Görevleri" : "Today's Goals"}
               </div>
-              <div className="text-white/60 text-xs">
-                {goalsDone}/2 {t("completed")}
+              <div className="text-white/60 text-xs font-bold">
+                {goalsDone}/3
               </div>
+            </div>
+            {/* Progress bar */}
+            <div className="h-1.5 bg-white/20 rounded-full mb-3 overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${allGoalsDone ? "bg-gradient-to-r from-emerald-400 to-teal-400" : "bg-gradient-to-r from-blue-400 to-indigo-400"}`}
+                style={{ width: `${(goalsDone / 3) * 100}%` }}
+              />
             </div>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span
-                  className={`text-lg ${goals.quizDone ? "opacity-100" : "opacity-40"}`}
-                >
-                  {goals.quizDone ? "✅" : "⭕"}
-                </span>
+                <span className="text-lg">{goals.quizDone ? "✅" : "⬜"}</span>
                 <span
                   className={`text-sm font-bold ${goals.quizDone ? "text-green-300 line-through" : "text-white"}`}
                 >
-                  {t("complete_quiz")}
+                  🎯 {lang === "tr" ? "1 quiz çöz" : "Do 1 quiz"}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span
-                  className={`text-lg ${goals.contentReads >= 2 ? "opacity-100" : "opacity-40"}`}
-                >
-                  {goals.contentReads >= 2 ? "✅" : "⭕"}
+                <span className="text-lg">
+                  {goals.contentReads >= 1 ? "✅" : "⬜"}
                 </span>
                 <span
-                  className={`text-sm font-bold ${goals.contentReads >= 2 ? "text-green-300 line-through" : "text-white"}`}
+                  className={`text-sm font-bold ${goals.contentReads >= 1 ? "text-green-300 line-through" : "text-white"}`}
                 >
-                  {t("read_2_content")} ({goals.contentReads}/2)
+                  📖 {lang === "tr" ? "1 içerik oku" : "Read 1 content"}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-lg">
+                  {goals.contentReads >= 5 ? "✅" : "⬜"}
+                </span>
+                <span
+                  className={`text-sm font-bold ${goals.contentReads >= 5 ? "text-green-300 line-through" : "text-white"}`}
+                >
+                  📚{" "}
+                  {lang === "tr"
+                    ? `5 içerik oku (${goals.contentReads}/5)`
+                    : `Read 5 items (${goals.contentReads}/5)`}
                 </span>
               </div>
             </div>
@@ -396,12 +418,18 @@ export default function HomePage() {
                 onClick={handleBonusClaim}
                 className="mt-3 w-full bg-yellow-400 hover:bg-yellow-300 text-yellow-900 font-black text-sm py-2 rounded-xl transition-all animate-pulse"
               >
-                🎉 {t("bonus_claim")}
+                🎉{" "}
+                {lang === "tr"
+                  ? "Tüm görevler tamam! +30 puan al"
+                  : "All goals complete! Claim +30 pts"}
               </button>
             )}
             {allGoalsDone && goals.bonusAwarded && (
-              <div className="mt-3 text-center text-green-300 text-xs font-bold">
-                ✨ {t("goals_done")}
+              <div className="mt-3 text-center text-green-300 text-xs font-bold bg-green-500/20 rounded-xl py-2">
+                🎉{" "}
+                {lang === "tr"
+                  ? "Tüm görevler tamamlandı! +30 bonus puan kazandın"
+                  : "All goals complete! +30 bonus points earned"}
               </div>
             )}
           </div>

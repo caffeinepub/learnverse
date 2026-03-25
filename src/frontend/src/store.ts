@@ -788,3 +788,18 @@ export function markTeacherMessageRead(
     );
   }
 }
+
+export function hasPlacementDone(studentNumber: string): boolean {
+  return (
+    localStorage.getItem(`learnverse_placement_${studentNumber}`) === "done"
+  );
+}
+
+export function setPlacementDone(studentNumber: string, level: string): void {
+  const p = getProfileByStudentNumber(studentNumber);
+  if (p) {
+    p.level = level as any;
+    saveProfile(p);
+  }
+  localStorage.setItem(`learnverse_placement_${studentNumber}`, "done");
+}

@@ -5,40 +5,79 @@ import {
   createRoute,
   createRouter,
 } from "@tanstack/react-router";
+import { Suspense, lazy } from "react";
 import { LanguageProvider } from "./i18n/LanguageContext";
-import AdminPage from "./pages/AdminPage";
-import ArtMusicPage from "./pages/ArtMusicPage";
-import ClassesPage from "./pages/ClassesPage";
-import CodingPage from "./pages/CodingPage";
-import ColoringPage from "./pages/ColoringPage";
-import CulturePage from "./pages/CulturePage";
-import EnglishPage from "./pages/EnglishPage";
-import ExperimentsPage from "./pages/ExperimentsPage";
-import GamesPage from "./pages/GamesPage";
-import GeographyPage from "./pages/GeographyPage";
-import GrammarPage from "./pages/GrammarPage";
-import HealthPage from "./pages/HealthPage";
-import HistoryPage from "./pages/HistoryPage";
-import HomePage from "./pages/HomePage";
-import LeaderboardPage from "./pages/LeaderboardPage";
 import LoginPage from "./pages/LoginPage";
-import MathPracticePage from "./pages/MathPracticePage";
-import MathStoryPage from "./pages/MathStoryPage";
-import ParentPage from "./pages/ParentPage";
-import PoemsPage from "./pages/PoemsPage";
-import ProfilePage from "./pages/ProfilePage";
-import ProverbsPage from "./pages/ProverbsPage";
-import PuzzlesPage from "./pages/PuzzlesPage";
-import QuizPage from "./pages/QuizPage";
-import SciencePage from "./pages/SciencePage";
-import StoriesPage from "./pages/StoriesPage";
-import TurkeyMapPage from "./pages/TurkeyMapPage";
-import VocabularyPage from "./pages/VocabularyPage";
-import WrongAnswersPage from "./pages/WrongAnswersPage";
-import MatchingGame from "./pages/games/MatchingGame";
-import MathGame from "./pages/games/MathGame";
-import MemoryGame from "./pages/games/MemoryGame";
-import WordSearchGame from "./pages/games/WordSearchGame";
+
+// Lazy-loaded pages
+const AdminPage = lazy(() => import("./pages/AdminPage"));
+const ArtMusicPage = lazy(() => import("./pages/ArtMusicPage"));
+const ClassesPage = lazy(() => import("./pages/ClassesPage"));
+const CodingPage = lazy(() => import("./pages/CodingPage"));
+const ColoringPage = lazy(() => import("./pages/ColoringPage"));
+const CulturePage = lazy(() => import("./pages/CulturePage"));
+const EnglishPage = lazy(() => import("./pages/EnglishPage"));
+const ExperimentsPage = lazy(() => import("./pages/ExperimentsPage"));
+const GamesPage = lazy(() => import("./pages/GamesPage"));
+const GeographyPage = lazy(() => import("./pages/GeographyPage"));
+const GrammarPage = lazy(() => import("./pages/GrammarPage"));
+const HealthPage = lazy(() => import("./pages/HealthPage"));
+const HistoryPage = lazy(() => import("./pages/HistoryPage"));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
+const MathPracticePage = lazy(() => import("./pages/MathPracticePage"));
+const MathStoryPage = lazy(() => import("./pages/MathStoryPage"));
+const ParentPage = lazy(() => import("./pages/ParentPage"));
+const PoemsPage = lazy(() => import("./pages/PoemsPage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const ProverbsPage = lazy(() => import("./pages/ProverbsPage"));
+const PuzzlesPage = lazy(() => import("./pages/PuzzlesPage"));
+const QuizPage = lazy(() => import("./pages/QuizPage"));
+const SciencePage = lazy(() => import("./pages/SciencePage"));
+const StoriesPage = lazy(() => import("./pages/StoriesPage"));
+const TurkeyMapPage = lazy(() => import("./pages/TurkeyMapPage"));
+const VocabularyPage = lazy(() => import("./pages/VocabularyPage"));
+const WrongAnswersPage = lazy(() => import("./pages/WrongAnswersPage"));
+const PlacementTestPage = lazy(() => import("./pages/PlacementTestPage"));
+const MatchingGame = lazy(() => import("./pages/games/MatchingGame"));
+const MathGame = lazy(() => import("./pages/games/MathGame"));
+const MemoryGame = lazy(() => import("./pages/games/MemoryGame"));
+const WordSearchGame = lazy(() => import("./pages/games/WordSearchGame"));
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">
+      <div className="text-center">
+        <div className="text-6xl mb-4 animate-bounce">🎓</div>
+        <div className="text-white text-xl font-bold">LearnVerse</div>
+        <div className="mt-3 flex justify-center gap-1">
+          <div
+            className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"
+            style={{ animationDelay: "0ms" }}
+          />
+          <div
+            className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
+            style={{ animationDelay: "150ms" }}
+          />
+          <div
+            className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"
+            style={{ animationDelay: "300ms" }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function withSuspense(Component: React.ComponentType) {
+  return function SuspenseWrapper() {
+    return (
+      <Suspense fallback={<PageLoader />}>
+        <Component />
+      </Suspense>
+    );
+  };
+}
 
 const rootRoute = createRootRoute({ component: () => <Outlet /> });
 
@@ -50,163 +89,168 @@ const indexRoute = createRoute({
 const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/home",
-  component: HomePage,
+  component: withSuspense(HomePage),
 });
 const profileRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/profile",
-  component: ProfilePage,
+  component: withSuspense(ProfilePage),
 });
 const quizRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/quiz",
-  component: QuizPage,
+  component: withSuspense(QuizPage),
 });
 const gamesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/games",
-  component: GamesPage,
+  component: withSuspense(GamesPage),
 });
 const memoryRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/games/memory",
-  component: MemoryGame,
+  component: withSuspense(MemoryGame),
 });
 const mathRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/games/math",
-  component: MathGame,
+  component: withSuspense(MathGame),
 });
 const matchingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/games/matching",
-  component: MatchingGame,
+  component: withSuspense(MatchingGame),
 });
 const wordSearchRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/games/wordsearch",
-  component: WordSearchGame,
+  component: withSuspense(WordSearchGame),
 });
 const cultureRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/culture",
-  component: CulturePage,
+  component: withSuspense(CulturePage),
 });
 const parentRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/parent",
-  component: ParentPage,
+  component: withSuspense(ParentPage),
 });
 const classesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/classes",
-  component: ClassesPage,
+  component: withSuspense(ClassesPage),
 });
 const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/admin",
-  component: AdminPage,
+  component: withSuspense(AdminPage),
 });
 const storiesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/stories",
-  component: StoriesPage,
+  component: withSuspense(StoriesPage),
 });
 const poemsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/poems",
-  component: PoemsPage,
+  component: withSuspense(PoemsPage),
 });
 const experimentsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/experiments",
-  component: ExperimentsPage,
+  component: withSuspense(ExperimentsPage),
 });
 const puzzlesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/puzzles",
-  component: PuzzlesPage,
+  component: withSuspense(PuzzlesPage),
 });
 const turkeyMapRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/turkey-map",
-  component: TurkeyMapPage,
+  component: withSuspense(TurkeyMapPage),
 });
 const artMusicRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/art-music",
-  component: ArtMusicPage,
+  component: withSuspense(ArtMusicPage),
 });
 const wrongAnswersRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/wrong-answers",
-  component: WrongAnswersPage,
+  component: withSuspense(WrongAnswersPage),
 });
 const leaderboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/leaderboard",
-  component: LeaderboardPage,
+  component: withSuspense(LeaderboardPage),
 });
 const proverbsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/proverbs",
-  component: ProverbsPage,
+  component: withSuspense(ProverbsPage),
 });
 const grammarRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/grammar",
-  component: GrammarPage,
+  component: withSuspense(GrammarPage),
 });
 const vocabularyRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/vocabulary",
-  component: VocabularyPage,
+  component: withSuspense(VocabularyPage),
 });
 const mathPracticeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/math-practice",
-  component: MathPracticePage,
+  component: withSuspense(MathPracticePage),
 });
-
 const mathStoryRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/math-story",
-  component: MathStoryPage,
+  component: withSuspense(MathStoryPage),
 });
 const healthRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/health",
-  component: HealthPage,
+  component: withSuspense(HealthPage),
 });
 const geographyRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/geography",
-  component: GeographyPage,
+  component: withSuspense(GeographyPage),
 });
 const historyRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/history",
-  component: HistoryPage,
+  component: withSuspense(HistoryPage),
 });
 const scienceRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/science",
-  component: SciencePage,
+  component: withSuspense(SciencePage),
 });
 const englishRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/english",
-  component: EnglishPage,
+  component: withSuspense(EnglishPage),
 });
 const coloringRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/coloring",
-  component: ColoringPage,
+  component: withSuspense(ColoringPage),
 });
 const codingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/coding",
-  component: CodingPage,
+  component: withSuspense(CodingPage),
+});
+
+const placementRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/placement-test",
+  component: withSuspense(PlacementTestPage),
 });
 
 const routeTree = rootRoute.addChildren([
@@ -241,8 +285,9 @@ const routeTree = rootRoute.addChildren([
   historyRoute,
   scienceRoute,
   englishRoute,
-  codingRoute,
   coloringRoute,
+  codingRoute,
+  placementRoute,
 ]);
 
 const router = createRouter({ routeTree });
