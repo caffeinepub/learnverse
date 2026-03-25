@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import {
   getCurrentUser,
@@ -181,34 +181,55 @@ function shuffleArr<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
+// Adaptive: number of pairs based on level and consecutive wins
+function getPairsCount(level: string, consecutiveWins: number): number {
+  const base = level === "okul_oncesi" ? 3 : level === "ilkokul" ? 4 : 6;
+  const max = 6;
+  return Math.min(base + Math.floor(consecutiveWins / 2), max);
+}
+
 export default function MatchingGame() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
+  const level = profile?.level || "ilkokul";
+
+  const [consecutiveWins, setConsecutiveWins] = useState(0);
   const [setIdx, setSetIdx] = useState(() =>
     Math.floor(Math.random() * PAIR_SETS.length),
   );
   const currentSet = PAIR_SETS[setIdx];
+  const pairsCount = getPairsCount(level, consecutiveWins);
+  const levelPairs = currentSet.pairs.slice(0, pairsCount);
+
   const [emojis, setEmojis] = useState(() =>
-    shuffleArr(currentSet.pairs.map((p) => p.emoji)),
+    shuffleArr(levelPairs.map((p) => p.emoji)),
   );
   const [words, setWords] = useState(() =>
-    shuffleArr(currentSet.pairs.map((p) => p.word)),
+    shuffleArr(levelPairs.map((p) => p.word)),
   );
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
 
+  // Play game start sound on mount
+  useEffect(() => {
+    playAudio("game_start");
+  }, []);
+
   const handleWord = (word: string) => {
     if (!selectedEmoji) return;
-    const pair = currentSet.pairs.find((p) => p.emoji === selectedEmoji);
+    const pair = levelPairs.find((p) => p.emoji === selectedEmoji);
     if (pair?.word === word) {
       const newMatched = [...matched, selectedEmoji, word];
       playAudio("correct_answer");
       setMatched(newMatched);
       setScore((s) => s + 10);
       setSelectedEmoji(null);
-      if (newMatched.length === currentSet.pairs.length * 2) setDone(true);
+      if (newMatched.length === levelPairs.length * 2) {
+        setDone(true);
+        playAudio("game_end");
+      }
     } else {
       playAudio("wrong_answer");
       setSelectedEmoji(null);
@@ -230,14 +251,21 @@ export default function MatchingGame() {
 
   const playNext = () => {
     const next = (setIdx + 1) % PAIR_SETS.length;
+    setConsecutiveWins((w) => w + 1);
     setSetIdx(next);
     const nextSet = PAIR_SETS[next];
-    setEmojis(shuffleArr(nextSet.pairs.map((p) => p.emoji)));
-    setWords(shuffleArr(nextSet.pairs.map((p) => p.word)));
+    const newPairsCount = getPairsCount(level, consecutiveWins + 1);
+    const nextPairs = nextSet.pairs.slice(0, newPairsCount);
+    setEmojis(shuffleArr(nextPairs.map((p) => p.emoji)));
+    setWords(shuffleArr(nextPairs.map((p) => p.word)));
     setSelectedEmoji(null);
     setMatched([]);
     setDone(false);
+    playAudio("game_start");
   };
+
+  const newPairsCount = getPairsCount(level, consecutiveWins + 1);
+  const diffIncreasing = newPairsCount > pairsCount;
 
   if (done)
     return (
@@ -246,6 +274,11 @@ export default function MatchingGame() {
           <div className="text-5xl mb-3">🎉</div>
           <h2 className="text-2xl font-black mb-2">Hepsi Eşleşti!</h2>
           <p className="text-gray-500 text-sm mb-2">{currentSet.label}</p>
+          {diffIncreasing && (
+            <p className="text-sm text-orange-600 mb-1">
+              ⬆️ Sonraki turda daha fazla eşleşme!
+            </p>
+          )}
           <div className="text-4xl font-black text-orange-600 my-4">
             +{score} Puan
           </div>
@@ -282,10 +315,12 @@ export default function MatchingGame() {
         </Button>
         <div className="text-center">
           <div className="text-white font-bold">🔎 Resim-Kelime Eşleştirme</div>
-          <div className="text-white/70 text-xs">{currentSet.label}</div>
+          <div className="text-white/70 text-xs">
+            {currentSet.label} • {pairsCount} çift
+          </div>
         </div>
         <div className="text-white text-sm">
-          {matched.length / 2}/{currentSet.pairs.length}
+          {matched.length / 2}/{levelPairs.length}
         </div>
       </div>
       <div className="max-w-xs mx-auto">

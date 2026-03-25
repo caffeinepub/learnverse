@@ -9,50 +9,72 @@ import {
   updatePoints,
 } from "../../store";
 
-function generateProblem(level: string): { question: string; answer: number } {
+function generateProblem(
+  level: string,
+  boost: number,
+): { question: string; answer: number } {
   if (level === "okul_oncesi") {
-    const a = Math.floor(Math.random() * 5) + 1;
-    const b = Math.floor(Math.random() * 5) + 1;
+    // Preschool: 1-10 base, boost expands to 1-15
+    const max = 5 + boost * 3;
+    const a = Math.floor(Math.random() * max) + 1;
+    const b = Math.floor(Math.random() * max) + 1;
     return { question: `${a} + ${b} = ?`, answer: a + b };
   }
   if (level === "ilkokul") {
-    const ops = ["+", "-"];
-    const op = ops[Math.floor(Math.random() * 2)];
-    let a = Math.floor(Math.random() * 20) + 1;
-    let b = Math.floor(Math.random() * 10) + 1;
+    // Primary: +/- with 1-50 base, boost adds *, bigger numbers
+    const maxA = 20 + boost * 10;
+    const maxB = 10 + boost * 5;
+    const useMultiply = boost >= 2;
+    const ops = useMultiply ? ["+", "-", "×"] : ["+", "-"];
+    const op = ops[Math.floor(Math.random() * ops.length)];
+    if (op === "×") {
+      const a = Math.floor(Math.random() * 10) + 1;
+      const b = Math.floor(Math.random() * 10) + 1;
+      return { question: `${a} × ${b} = ?`, answer: a * b };
+    }
+    let a = Math.floor(Math.random() * maxA) + 1;
+    let b = Math.floor(Math.random() * maxB) + 1;
     if (op === "-" && b > a) [a, b] = [b, a];
     return {
       question: `${a} ${op} ${b} = ?`,
       answer: op === "+" ? a + b : a - b,
     };
   }
-  // ortaokul: includes division
+  // Middle school: includes division, boost increases ranges
+  const maxA = 50 + boost * 20;
   const ops = ["+", "-", "×", "÷"];
   const op = ops[Math.floor(Math.random() * 4)];
   if (op === "÷") {
-    const b2 = Math.floor(Math.random() * 10) + 1;
-    const ans2 = Math.floor(Math.random() * 12) + 1;
+    const b2 = Math.floor(Math.random() * (10 + boost * 2)) + 1;
+    const ans2 = Math.floor(Math.random() * (12 + boost * 3)) + 1;
     const a2 = b2 * ans2;
     return { question: `${a2} ÷ ${b2} = ?`, answer: ans2 };
   }
-  let a = Math.floor(Math.random() * 50) + 1;
+  let a = Math.floor(Math.random() * maxA) + 1;
   let b = Math.floor(Math.random() * 20) + 1;
   if (op === "-" && b > a) [a, b] = [b, a];
-  let ans = op === "+" ? a + b : op === "-" ? a - b : a * b;
   if (op === "×") {
-    a = Math.floor(Math.random() * 12) + 1;
-    b = Math.floor(Math.random() * 12) + 1;
-    ans = a * b;
+    a = Math.floor(Math.random() * (12 + boost)) + 1;
+    b = Math.floor(Math.random() * (12 + boost)) + 1;
+    return { question: `${a} × ${b} = ?`, answer: a * b };
   }
-  return { question: `${a} ${op} ${b} = ?`, answer: ans };
+  return {
+    question: `${a} ${op} ${b} = ?`,
+    answer: op === "+" ? a + b : a - b,
+  };
 }
 
 export default function MathGame() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
   const level = profile?.level || "ilkokul";
-  const [problems] = useState(() =>
-    Array.from({ length: 10 }, () => generateProblem(level)),
+
+  // Adaptive difficulty state
+  const [diffBoost, setDiffBoost] = useState(0);
+  const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
+
+  const [currentProblem, setCurrentProblem] = useState(() =>
+    generateProblem(level, 0),
   );
   const [current, setCurrent] = useState(0);
   const [input, setInput] = useState("");
@@ -63,37 +85,64 @@ export default function MathGame() {
   );
   const [feedbackOk, setFeedbackOk] = useState(false);
 
-  const nextProblem = useCallback(() => {
-    if (current + 1 >= problems.length) {
-      setPhase("done");
-      return;
-    }
-    setCurrent((c) => c + 1);
-    setInput("");
-    setTimer(30);
-    setPhase("question");
-  }, [current, problems.length]);
+  // Play game start sound on mount
+  useEffect(() => {
+    playAudio("game_start");
+  }, []);
+
+  const nextProblem = useCallback(
+    (nextBoost: number) => {
+      if (current + 1 >= 10) {
+        setPhase("done");
+        playAudio("game_end");
+        return;
+      }
+      setCurrent((c) => c + 1);
+      setCurrentProblem(generateProblem(level, nextBoost));
+      setInput("");
+      setTimer(30);
+      setPhase("question");
+    },
+    [current, level],
+  );
 
   useEffect(() => {
     if (phase !== "question") return;
     if (timer <= 0) {
-      nextProblem();
+      const nb =
+        consecutiveCorrect >= 3 ? Math.min(diffBoost + 1, 3) : diffBoost;
+      setConsecutiveCorrect(0);
+      nextProblem(nb);
       return;
     }
     const t = setTimeout(() => setTimer((tt) => tt - 1), 1000);
     return () => clearTimeout(t);
-  }, [timer, phase, nextProblem]);
+  }, [timer, phase, nextProblem, consecutiveCorrect, diffBoost]);
 
   const submit = () => {
     const num = Number.parseInt(input);
-    const isOk = num === problems[current].answer;
+    const isOk = num === currentProblem.answer;
     if (isOk) {
       setCorrect((c) => c + 1);
       playAudio("correct_answer");
-    } else playAudio("wrong_answer");
-    setFeedbackOk(isOk);
-    setPhase("feedback");
-    setTimeout(nextProblem, 1000);
+      const newConsec = consecutiveCorrect + 1;
+      setConsecutiveCorrect(newConsec);
+      // After 3 consecutive correct, boost difficulty (max boost level 3)
+      const newBoost = newConsec >= 3 ? Math.min(diffBoost + 1, 3) : diffBoost;
+      if (newBoost > diffBoost) {
+        setDiffBoost(newBoost);
+        setConsecutiveCorrect(0);
+      }
+      setFeedbackOk(true);
+      setPhase("feedback");
+      setTimeout(() => nextProblem(newBoost), 1000);
+    } else {
+      playAudio("wrong_answer");
+      setConsecutiveCorrect(0);
+      setFeedbackOk(false);
+      setPhase("feedback");
+      setTimeout(() => nextProblem(diffBoost), 1000);
+    }
   };
 
   const finish = () => {
@@ -110,12 +159,26 @@ export default function MathGame() {
     navigate({ to: "/games" });
   };
 
+  const diffLabel =
+    diffBoost === 0
+      ? ""
+      : diffBoost === 1
+        ? "⬆️"
+        : diffBoost === 2
+          ? "⬆️⬆️"
+          : "🔥";
+
   if (phase === "done")
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center p-4">
         <div className="bg-white rounded-3xl p-8 text-center max-w-xs w-full shadow-2xl">
           <div className="text-5xl mb-3">🧠</div>
           <h2 className="text-2xl font-black mb-2">{correct}/10 Doğru!</h2>
+          {diffBoost > 0 && (
+            <p className="text-sm text-green-600 mb-2">
+              🎯 Zorluk seviyesi arttı {diffLabel}
+            </p>
+          )}
           <div className="text-4xl font-black text-green-600 my-4">
             +{correct * 10} Puan
           </div>
@@ -141,7 +204,14 @@ export default function MathGame() {
         >
           ←
         </Button>
-        <div className="text-white font-bold">{current + 1}/10</div>
+        <div className="text-white font-bold text-center">
+          {current + 1}/10
+          {diffBoost > 0 && (
+            <span className="ml-1 text-xs bg-white/20 px-2 py-0.5 rounded-full">
+              {diffLabel}
+            </span>
+          )}
+        </div>
         <div
           className={`text-white font-bold px-3 py-1 rounded-full ${
             timer <= 5 ? "bg-red-500 animate-pulse" : "bg-white/20"
@@ -161,7 +231,7 @@ export default function MathGame() {
           }`}
         >
           <p className="text-4xl font-black text-gray-800">
-            {problems[current].question}
+            {currentProblem.question}
           </p>
           {phase === "feedback" && (
             <p
@@ -169,9 +239,7 @@ export default function MathGame() {
                 feedbackOk ? "text-green-600" : "text-red-600"
               }`}
             >
-              {feedbackOk
-                ? "✅ Doğru!"
-                : `❌ Cevap: ${problems[current].answer}`}
+              {feedbackOk ? "✅ Doğru!" : `❌ Cevap: ${currentProblem.answer}`}
             </p>
           )}
         </div>

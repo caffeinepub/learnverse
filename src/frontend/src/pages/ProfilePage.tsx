@@ -9,8 +9,86 @@ import {
   getQuizResults,
   getStreak,
 } from "../store";
+import { getTopicStats } from "../store";
 import { AVATARS, BADGE_EMOJIS, BADGE_NAMES, LEVEL_NAMES } from "../types";
 import type { Profile } from "../types";
+
+// Topic Performance Chart
+function TopicPerformanceChart({ studentNumber }: { studentNumber: string }) {
+  const stats = getTopicStats(studentNumber);
+  const topics = [
+    {
+      id: "science",
+      icon: "🔬",
+      label: "Fen / Science",
+      color: "bg-emerald-400",
+    },
+    {
+      id: "history",
+      icon: "🏛️",
+      label: "Tarih / History",
+      color: "bg-amber-400",
+    },
+    {
+      id: "geography",
+      icon: "🌍",
+      label: "Coğrafya / Geography",
+      color: "bg-blue-400",
+    },
+    { id: "math", icon: "🔢", label: "Matematik / Math", color: "bg-rose-400" },
+    {
+      id: "general",
+      icon: "💡",
+      label: "Genel / General",
+      color: "bg-violet-400",
+    },
+  ] as const;
+
+  const hasAnyData = topics.some((tp) => stats[tp.id].total > 0);
+
+  return (
+    <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
+      <h3 className="text-white font-bold mb-3">📊 Konu Bazlı Başarı</h3>
+      {!hasAnyData ? (
+        <div data-ocid="profile.empty_state" className="text-center py-4">
+          <div className="text-3xl mb-2">📚</div>
+          <div className="text-white/60 text-sm">
+            Henüz konu quizi yapılmadı
+          </div>
+          <div className="text-white/40 text-xs mt-1">
+            Quiz sayfasından konu seçerek oyna!
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {topics.map((tp) => {
+            const s = stats[tp.id];
+            const pct =
+              s.total > 0 ? Math.round((s.correct / s.total) * 100) : 0;
+            return (
+              <div key={tp.id}>
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-white text-sm font-medium">
+                    {tp.icon} {tp.label}
+                  </span>
+                  <span className="text-white/70 text-xs">
+                    {s.total > 0 ? `${s.correct}/${s.total} (%${pct})` : "—"}
+                  </span>
+                </div>
+                <div className="h-3 bg-white/20 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full ${tp.color} rounded-full transition-all duration-700`}
+                    style={{ width: s.total > 0 ? `${pct}%` : "0%" }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Study Calendar component
 function StudyCalendar({ studentNumber }: { studentNumber: string }) {
@@ -350,6 +428,9 @@ export default function ProfilePage() {
             </div>
           )}
         </div>
+
+        {/* Topic Performance Chart */}
+        <TopicPerformanceChart studentNumber={profile.studentNumber} />
 
         {/* Study Calendar */}
         <StudyCalendar studentNumber={profile.studentNumber} />

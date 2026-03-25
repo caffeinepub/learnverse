@@ -18,9 +18,14 @@ import {
   getQuizResults,
   getStreak,
   getStudentDataFromBackend,
+  getTeacherMessages,
+  getTopicStats,
+  markTeacherMessageRead,
   saveParentMessage,
   saveProfile,
+  saveTeacherMessage,
 } from "../store";
+import type { TeacherMessage } from "../store";
 import { AVATARS, BADGE_EMOJIS, BADGE_NAMES, LEVEL_NAMES } from "../types";
 import type { GameResult, Profile, QuizResult } from "../types";
 
@@ -38,6 +43,8 @@ export default function ParentPage() {
   const [loading, setLoading] = useState(false);
   const [msgText, setMsgText] = useState("");
   const [msgSent, setMsgSent] = useState(false);
+  const [teacherReplyText, setTeacherReplyText] = useState("");
+  const [teacherMessages, setTeacherMessages] = useState<TeacherMessage[]>([]);
 
   const search = async () => {
     const clean = query.replace(/\s/g, "");
@@ -313,8 +320,224 @@ export default function ParentPage() {
                   </div>
                 )}
               </div>
+              {/* Print Report Button */}
+              <div className="flex justify-end no-print">
+                <Button
+                  data-ocid="parent.secondary_button"
+                  onClick={() => window.print()}
+                  className="bg-white/20 hover:bg-white/30 text-white font-bold text-sm"
+                >
+                  📄 Raporu Yazdır
+                </Button>
+              </div>
+
+              {/* Teacher Messages Section */}
+              {(() => {
+                const msgs =
+                  teacherMessages.length > 0
+                    ? teacherMessages
+                    : getTeacherMessages(p.studentNumber);
+                const unread = msgs.filter((m) => !m.read).length;
+                return (
+                  <div
+                    className="bg-slate-800 border border-white/20 rounded-3xl p-5 no-print"
+                    onMouseEnter={() => {
+                      const allMsgs = getTeacherMessages(p.studentNumber);
+                      for (const m of allMsgs.filter((m) => !m.read)) {
+                        markTeacherMessageRead(p.studentNumber, m.id);
+                      }
+                      setTeacherMessages(getTeacherMessages(p.studentNumber));
+                    }}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">💬</span>
+                      <span className="text-white font-black text-base">
+                        Öğretmen Mesajları
+                      </span>
+                      {unread > 0 && (
+                        <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full ml-1">
+                          {unread} yeni
+                        </span>
+                      )}
+                    </div>
+                    <div className="space-y-2 max-h-56 overflow-y-auto mb-3">
+                      {msgs.length === 0 ? (
+                        <div
+                          data-ocid="parent.empty_state"
+                          className="text-white/50 text-sm text-center py-4"
+                        >
+                          Henüz mesaj yok.
+                        </div>
+                      ) : (
+                        [...msgs]
+                          .sort(
+                            (a, b) =>
+                              new Date(a.date).getTime() -
+                              new Date(b.date).getTime(),
+                          )
+                          .map((m) => (
+                            <div
+                              key={m.id}
+                              className={`rounded-2xl p-3 flex gap-2 items-start ${m.fromRole === "teacher" ? "bg-blue-500/20 border border-blue-400/30" : "bg-green-500/20 border border-green-400/30"}`}
+                            >
+                              <span
+                                className={`text-xs font-bold px-2 py-1 rounded-full flex-shrink-0 ${m.fromRole === "teacher" ? "bg-blue-500 text-white" : "bg-green-500 text-white"}`}
+                              >
+                                {m.fromRole === "teacher" ? "Öğretmen" : "Veli"}
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-white text-sm">
+                                  {m.message}
+                                </div>
+                                <div className="text-white/40 text-xs mt-1">
+                                  {new Date(m.date).toLocaleString("tr-TR")}
+                                </div>
+                              </div>
+                              {!m.read && (
+                                <span className="w-2 h-2 bg-red-400 rounded-full flex-shrink-0 mt-1" />
+                              )}
+                            </div>
+                          ))
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      <Textarea
+                        data-ocid="parent.textarea"
+                        value={teacherReplyText}
+                        onChange={(e) =>
+                          setTeacherReplyText(e.target.value.slice(0, 300))
+                        }
+                        placeholder="Öğretmene yanıt yaz..."
+                        className="bg-white/10 border-white/20 text-white placeholder-white/40 resize-none text-sm"
+                        rows={2}
+                      />
+                      <Button
+                        data-ocid="parent.submit_button"
+                        disabled={!teacherReplyText.trim()}
+                        onClick={() => {
+                          saveTeacherMessage({
+                            studentNumber: p.studentNumber,
+                            from: "Veli",
+                            fromRole: "parent",
+                            message: teacherReplyText.trim(),
+                          });
+                          setTeacherReplyText("");
+                          setTeacherMessages(
+                            getTeacherMessages(p.studentNumber),
+                          );
+                        }}
+                        className="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold px-4 rounded-xl disabled:opacity-40 self-end"
+                      >
+                        Yanıtla
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Print Report - hidden normally, visible on print */}
+              <div
+                id="print-report"
+                className="hidden print:block text-black bg-white p-8 text-sm"
+              >
+                <div className="text-center mb-6">
+                  <div className="text-2xl font-black mb-1">
+                    📚 LearnVerse İlerleme Raporu
+                  </div>
+                  <div className="text-gray-500 text-xs">
+                    Yazdırma Tarihi: {new Date().toLocaleDateString("tr-TR")}
+                  </div>
+                </div>
+                <div className="border-b border-gray-300 pb-4 mb-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="font-bold">Öğrenci:</span> {p.username}
+                    </div>
+                    <div>
+                      <span className="font-bold">Öğrenci No:</span>{" "}
+                      {p.studentNumber}
+                    </div>
+                    <div>
+                      <span className="font-bold">Seviye:</span>{" "}
+                      {LEVEL_NAMES[p.level]}
+                    </div>
+                    <div>
+                      <span className="font-bold">Toplam Puan:</span>{" "}
+                      {p.totalPoints}
+                    </div>
+                    <div>
+                      <span className="font-bold">Rozet:</span>{" "}
+                      {BADGE_EMOJIS[getBadgeLevel(p.totalPoints) - 1]}{" "}
+                      {BADGE_NAMES[getBadgeLevel(p.totalPoints) - 1]}
+                    </div>
+                    <div>
+                      <span className="font-bold">Seri:</span>{" "}
+                      {getStreak(p.studentNumber).current} gün
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <div className="font-bold mb-2">Son 5 Quiz Sonucu</div>
+                  {quizzes
+                    .slice(-5)
+                    .reverse()
+                    .map((q) => (
+                      <div
+                        key={q.date}
+                        className="flex justify-between border-b border-gray-100 py-1"
+                      >
+                        <span>
+                          {new Date(q.date).toLocaleDateString("tr-TR")}
+                        </span>
+                        <span>
+                          {q.correct}/{q.total} (
+                          {Math.round((q.correct / q.total) * 100)}%)
+                        </span>
+                      </div>
+                    ))}
+                  {quizzes.length === 0 && (
+                    <div className="text-gray-400">Henüz quiz yapılmadı.</div>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <div className="font-bold mb-2">Konu Bazlı Başarı</div>
+                  {(() => {
+                    const ts = getTopicStats(p.studentNumber);
+                    return [
+                      { label: "Fen Bilimleri", key: "science" as const },
+                      { label: "Tarih", key: "history" as const },
+                      { label: "Coğrafya", key: "geography" as const },
+                      { label: "Matematik", key: "math" as const },
+                      { label: "Genel", key: "general" as const },
+                    ].map(({ label, key }) => {
+                      const s = ts[key];
+                      const pct =
+                        s.total > 0
+                          ? Math.round((s.correct / s.total) * 100)
+                          : 0;
+                      return (
+                        <div
+                          key={key}
+                          className="flex justify-between border-b border-gray-100 py-1"
+                        >
+                          <span>{label}</span>
+                          <span>
+                            {s.total > 0
+                              ? `${s.correct}/${s.total} (%${pct})`
+                              : "—"}
+                          </span>
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
+                <div className="text-center text-gray-400 text-xs mt-6 border-t border-gray-200 pt-4">
+                  LearnVerse — www.learnverse.app
+                </div>
+              </div>
+
               <Tabs defaultValue="genel" className="w-full">
-                <TabsList className="w-full bg-white/10 rounded-2xl p-1 mb-4 grid grid-cols-4 h-auto">
+                <TabsList className="w-full bg-white/10 rounded-2xl p-1 mb-4 grid grid-cols-5 h-auto">
                   <TabsTrigger
                     value="genel"
                     data-ocid="parent.tab"
@@ -335,6 +558,12 @@ export default function ParentPage() {
                     className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl text-xs py-2 font-bold"
                   >
                     İçerik
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="konu"
+                    className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl text-xs py-2 font-bold"
+                  >
+                    📊 Konu
                   </TabsTrigger>
                   <TabsTrigger
                     value="oyunlar"
@@ -559,6 +788,99 @@ export default function ParentPage() {
                         </div>
                       </div>
                     )}
+                  </div>
+                </TabsContent>
+
+                {/* Tab: Konu Bazlı Başarı */}
+                <TabsContent value="konu">
+                  <div className="space-y-3">
+                    {(() => {
+                      const topicStats = getTopicStats(p.studentNumber);
+                      const topics = [
+                        {
+                          id: "science",
+                          icon: "🔬",
+                          label: "Fen / Science",
+                          color: "bg-emerald-400",
+                        },
+                        {
+                          id: "history",
+                          icon: "🏛️",
+                          label: "Tarih / History",
+                          color: "bg-amber-400",
+                        },
+                        {
+                          id: "geography",
+                          icon: "🌍",
+                          label: "Coğrafya / Geography",
+                          color: "bg-blue-400",
+                        },
+                        {
+                          id: "math",
+                          icon: "🔢",
+                          label: "Matematik / Math",
+                          color: "bg-rose-400",
+                        },
+                        {
+                          id: "general",
+                          icon: "💡",
+                          label: "Genel / General",
+                          color: "bg-violet-400",
+                        },
+                      ] as const;
+                      const hasAny = topics.some(
+                        (tp) => topicStats[tp.id].total > 0,
+                      );
+                      if (!hasAny) {
+                        return (
+                          <div
+                            data-ocid="parent.empty_state"
+                            className="bg-white/10 rounded-2xl p-6 text-center text-white/60"
+                          >
+                            <div className="text-3xl mb-2">📚</div>
+                            Henüz konu quizi yapılmadı.
+                          </div>
+                        );
+                      }
+                      return (
+                        <div className="bg-white/10 rounded-2xl p-4">
+                          <div className="text-white font-bold mb-3 text-sm">
+                            Konu Bazlı Başarı
+                          </div>
+                          <div className="space-y-3">
+                            {topics.map((tp) => {
+                              const s = topicStats[tp.id];
+                              const pct =
+                                s.total > 0
+                                  ? Math.round((s.correct / s.total) * 100)
+                                  : 0;
+                              return (
+                                <div key={tp.id}>
+                                  <div className="flex justify-between items-center mb-1">
+                                    <span className="text-white text-sm font-medium">
+                                      {tp.icon} {tp.label}
+                                    </span>
+                                    <span className="text-white/70 text-xs">
+                                      {s.total > 0
+                                        ? `${s.correct}/${s.total} (%${pct})`
+                                        : "—"}
+                                    </span>
+                                  </div>
+                                  <div className="h-3 bg-white/20 rounded-full overflow-hidden">
+                                    <div
+                                      className={`h-full ${tp.color} rounded-full transition-all duration-700`}
+                                      style={{
+                                        width: s.total > 0 ? `${pct}%` : "0%",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </TabsContent>
 

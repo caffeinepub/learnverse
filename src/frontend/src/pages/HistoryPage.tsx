@@ -13,10 +13,15 @@ import {
 
 type Level = "okul_oncesi" | "ilkokul" | "ortaokul";
 
-const historyData: Record<
-  Level,
-  { key: string; emoji: string; title: string; info: string; fact: string }[]
-> = {
+type HistoryItem = {
+  key: string;
+  emoji: string;
+  title: string;
+  info: string;
+  fact: string;
+};
+
+const historyDataTr: Record<Level, HistoryItem[]> = {
   okul_oncesi: [
     {
       key: "hist_ataturk1",
@@ -193,16 +198,200 @@ const historyData: Record<
   ],
 };
 
-const levelTabs: { key: Level; label: string }[] = [
+const historyDataEn: Record<Level, HistoryItem[]> = {
+  okul_oncesi: [
+    {
+      key: "hist_ataturk1",
+      emoji: "🌟",
+      title: "Atatürk",
+      info: "Mustafa Kemal Atatürk was the founder of the Republic of Turkey. He loved children very much.",
+      fact: "Atatürk passed away on November 10, 1938.",
+    },
+    {
+      key: "hist_bayrak",
+      emoji: "🇹🇷",
+      title: "Turkish Flag",
+      info: "The Turkish flag has a red background with a crescent moon and a star.",
+      fact: "The red color on our flag represents courage.",
+    },
+    {
+      key: "hist_cumhuriyet",
+      emoji: "🏛️",
+      title: "Republic",
+      info: "The Republic of Turkey was founded on October 29, 1923.",
+      fact: "October 29 is celebrated as Republic Day.",
+    },
+    {
+      key: "hist_23nisan",
+      emoji: "🌸",
+      title: "April 23",
+      info: "On April 23, 1920, the Grand National Assembly of Turkey was opened. This day was gifted to children.",
+      fact: "April 23 is National Sovereignty and Children's Day.",
+    },
+    {
+      key: "hist_istanbul",
+      emoji: "🕌",
+      title: "Istanbul",
+      info: "Istanbul is Turkey's largest city, located on both Europe and Asia.",
+      fact: "Istanbul was once known as Constantinople.",
+    },
+    {
+      key: "hist_egypt",
+      emoji: "🐫",
+      title: "Ancient Egypt",
+      info: "Ancient Egyptians built the pyramids and developed one of the earliest civilizations.",
+      fact: "The Great Pyramid of Giza was built around 2560 BC.",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "hist_kurtulus",
+      emoji: "⚔️",
+      title: "War of Independence",
+      info: "Between 1919-1923, the Turkish people fought to save their homeland. Atatürk led this war.",
+      fact: "Victory Day is celebrated on August 30.",
+    },
+    {
+      key: "hist_osmanlı",
+      emoji: "👑",
+      title: "Ottoman Empire",
+      info: "The Ottoman Empire ruled for about 600 years. Its capital was Istanbul.",
+      fact: "The Ottoman Empire was founded in 1299.",
+    },
+    {
+      key: "hist_fatih",
+      emoji: "🏰",
+      title: "Mehmed the Conqueror",
+      info: "Mehmed II conquered Istanbul in 1453 and became one of the greatest Ottoman sultans.",
+      fact: "The conquest of Istanbul took place in 1453.",
+    },
+    {
+      key: "hist_ataturk2",
+      emoji: "🌟",
+      title: "Atatürk's Reforms",
+      info: "Atatürk made revolutions in alphabet, calendar, law and education. He gave women the right to vote.",
+      fact: "The Latin alphabet was adopted in 1928.",
+    },
+    {
+      key: "hist_anadolu",
+      emoji: "🏺",
+      title: "Anatolian Civilizations",
+      info: "The Hittites, Phrygians, Lydians and many other civilizations lived in Anatolia.",
+      fact: "The Hittites made the world's first written peace treaty.",
+    },
+    {
+      key: "hist_rome",
+      emoji: "🏟️",
+      title: "Ancient Rome",
+      info: "The Roman Empire was one of the most powerful empires in history. It influenced law, language and architecture.",
+      fact: "Rome was founded in 753 BC according to legend.",
+    },
+    {
+      key: "hist_greeks",
+      emoji: "🏛️",
+      title: "Ancient Greece",
+      info: "Ancient Greeks gave us democracy, philosophy and the Olympic Games.",
+      fact: "The first Olympic Games were held in 776 BC.",
+    },
+    {
+      key: "hist_exploration",
+      emoji: "🧭",
+      title: "Age of Exploration",
+      info: "In the 15th–16th centuries, European explorers sailed the seas discovering new lands.",
+      fact: "Christopher Columbus reached the Americas in 1492.",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "hist_ilkçag",
+      emoji: "🏛️",
+      title: "Ancient Civilizations",
+      info: "Mesopotamia, Egypt, Greece and Rome developed after the prehistoric era.",
+      fact: "Mesopotamia means 'between the rivers'.",
+    },
+    {
+      key: "hist_ipek",
+      emoji: "🧵",
+      title: "Silk Road",
+      info: "The trade route stretching from China to Europe connected cultures to each other.",
+      fact: "The Silk Road was more than 4,000 km long.",
+    },
+    {
+      key: "hist_crusades",
+      emoji: "⚔️",
+      title: "The Crusades",
+      info: "Between the 11th–13th centuries, many religious wars were launched from Europe to the East.",
+      fact: "There were 8 major Crusades in total.",
+    },
+    {
+      key: "hist_rönesans",
+      emoji: "🎨",
+      title: "The Renaissance",
+      info: "In the 14th–17th centuries, Europe experienced a great rebirth in art, science and thought.",
+      fact: "Leonardo da Vinci is one of the most important figures of the Renaissance.",
+    },
+    {
+      key: "hist_reform",
+      emoji: "⛪",
+      title: "Industrial Revolution",
+      info: "In the 18th–19th centuries, the steam engine started a revolution that transformed people's way of life.",
+      fact: "The first steam engine was developed by James Watt in 1769.",
+    },
+    {
+      key: "hist_1dünya",
+      emoji: "🌐",
+      title: "World War I",
+      info: "A great war centered in Europe took place between 1914–1918. The Ottoman Empire also participated.",
+      fact: "About 17 million people lost their lives in WWI.",
+    },
+    {
+      key: "hist_ww2",
+      emoji: "🕊️",
+      title: "World War II",
+      info: "World War II (1939–1945) was the deadliest conflict in human history, reshaping the modern world.",
+      fact: "An estimated 70–85 million people died in WWII.",
+    },
+    {
+      key: "hist_sogsavas",
+      emoji: "🧊",
+      title: "Cold War",
+      info: "Between 1945–1991, ideological tension existed between the USA and the USSR.",
+      fact: "The Berlin Wall fell in 1989.",
+    },
+    {
+      key: "hist_bm",
+      emoji: "🌐",
+      title: "United Nations",
+      info: "The UN was founded in 1945 to maintain world peace.",
+      fact: "The UN has 193 member states.",
+    },
+    {
+      key: "hist_uzay",
+      emoji: "🚀",
+      title: "Space Race",
+      info: "Between 1957–1969, the USA and USSR competed for dominance in space.",
+      fact: "The first moon walk was performed by Neil Armstrong in 1969.",
+    },
+  ],
+};
+
+const levelTabsTr: { key: Level; label: string }[] = [
   { key: "okul_oncesi", label: "🌈 Okul Öncesi" },
   { key: "ilkokul", label: "📗 İlkokul" },
   { key: "ortaokul", label: "📘 Ortaokul" },
+];
+
+const levelTabsEn: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 Preschool" },
+  { key: "ilkokul", label: "📗 Primary" },
+  { key: "ortaokul", label: "📘 Middle School" },
 ];
 
 export default function HistoryPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
   const profile = getCurrentUser();
+  const isEn = lang === "en";
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {
@@ -225,6 +414,9 @@ export default function HistoryPage() {
     };
   }, []);
 
+  const historyData = isEn ? historyDataEn : historyDataTr;
+  const levelTabs = isEn ? levelTabsEn : levelTabsTr;
+
   const flashCards: FlashCard[] = historyData[level].map((item) => ({
     key: item.key,
     front: item.title,
@@ -246,7 +438,7 @@ export default function HistoryPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = "tr-TR";
+      utt.lang = isEn ? "en-US" : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);
@@ -281,17 +473,19 @@ export default function HistoryPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4 font-bold text-sm"
         >
-          ← Geri
+          ← {isEn ? "Back" : "Geri"}
         </button>
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-3xl font-black text-white">🏛️ Tarih Kartları</h1>
+          <h1 className="text-3xl font-black text-white">
+            🏛️ {isEn ? "History Cards" : "Tarih Kartları"}
+          </h1>
           <button
             type="button"
             data-ocid="history.open_modal_button"
             onClick={() => setShowFlashcards(true)}
             className="bg-white/20 hover:bg-white/40 text-white font-bold text-sm px-4 py-2 rounded-2xl transition-all"
           >
-            🃏 Flaş Kart
+            🃏 {isEn ? "Flashcards" : "Flaş Kart"}
           </button>
         </div>
 
@@ -305,18 +499,18 @@ export default function HistoryPage() {
           />
         )}
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {levelTabs.map((t) => (
+          {levelTabs.map((tab) => (
             <button
               type="button"
-              key={t.key}
-              onClick={() => setLevel(t.key)}
+              key={tab.key}
+              onClick={() => setLevel(tab.key)}
               className={`py-3 rounded-2xl font-bold text-xs transition-all ${
-                level === t.key
+                level === tab.key
                   ? "bg-white text-amber-800"
                   : "bg-white/20 text-white hover:bg-white/30"
               }`}
             >
-              {t.label}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -324,7 +518,9 @@ export default function HistoryPage() {
           <span className="text-2xl">🏛️</span>
           <div className="flex-1">
             <div className="flex justify-between text-white text-xs mb-1">
-              <span className="font-bold">Bu seviyedeki ilerleme</span>
+              <span className="font-bold">
+                {isEn ? "Progress at this level" : "Bu seviyedeki ilerleme"}
+              </span>
               <span className="font-black">
                 {done}/{total}
               </span>
@@ -350,7 +546,7 @@ export default function HistoryPage() {
         <div className="space-y-4">
           {filtered.length === 0 ? (
             <div className="text-center text-white/60 py-8">
-              Sonuç bulunamadı 🔍
+              {isEn ? "No results found 🔍" : "Sonuç bulunamadı 🔍"}
             </div>
           ) : (
             filtered.map((item) => {
@@ -380,7 +576,13 @@ export default function HistoryPage() {
                     onClick={() => handleSpeak(item.key, item.info)}
                     className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
                   >
-                    {speakingId === item.key ? "⏹ Durdur" : "🔊 Dinle"}
+                    {speakingId === item.key
+                      ? isEn
+                        ? "⏹ Stop"
+                        : "⏹ Durdur"
+                      : isEn
+                        ? "🔊 Listen"
+                        : "🔊 Dinle"}
                   </button>
                   {!isRead && profile && (
                     <button
@@ -388,12 +590,15 @@ export default function HistoryPage() {
                       onClick={() => handleRead(item.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
                     >
-                      ✅ {t("learned")} +10 puan
+                      ✅ {t("learned")} +10 {isEn ? "pts" : "puan"}
                     </button>
                   )}
                   {isRead && (
                     <span className="text-green-300 text-xs font-bold">
-                      ✅ Öğrenildi (+10 puan kazanıldı)
+                      ✅{" "}
+                      {isEn
+                        ? "Learned (+10 pts earned)"
+                        : "Öğrenildi (+10 puan kazanıldı)"}
                     </span>
                   )}
                 </div>

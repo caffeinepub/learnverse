@@ -232,15 +232,23 @@ const englishData: Record<
   ],
 };
 
-const levelTabs: { key: Level; label: string }[] = [
+const levelTabsTr: { key: Level; label: string }[] = [
   { key: "okul_oncesi", label: "🌈 Okul Öncesi" },
   { key: "ilkokul", label: "📗 İlkokul" },
   { key: "ortaokul", label: "📘 Ortaokul" },
 ];
 
+const levelTabsEn: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 Preschool" },
+  { key: "ilkokul", label: "📗 Primary" },
+  { key: "ortaokul", label: "📘 Middle School" },
+];
+
 export default function EnglishPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const isEn = lang === "en";
+  const levelTabs = isEn ? levelTabsEn : levelTabsTr;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -306,24 +314,24 @@ export default function EnglishPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4 font-bold text-sm"
         >
-          ← Geri
+          ← {isEn ? "Back" : "Geri"}
         </button>
         <h1 className="text-3xl font-black text-white mb-4">
           🇬🇧 Temel İngilizce
         </h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {levelTabs.map((t) => (
+          {levelTabs.map((tab) => (
             <button
               type="button"
-              key={t.key}
-              onClick={() => setLevel(t.key)}
+              key={tab.key}
+              onClick={() => setLevel(tab.key)}
               className={`py-3 rounded-2xl font-bold text-xs transition-all ${
-                level === t.key
+                level === tab.key
                   ? "bg-white text-red-500"
                   : "bg-white/20 text-white hover:bg-white/30"
               }`}
             >
-              {t.label}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -331,7 +339,9 @@ export default function EnglishPage() {
           <span className="text-2xl">🇬🇧</span>
           <div className="flex-1">
             <div className="flex justify-between text-white text-xs mb-1">
-              <span className="font-bold">Bu seviyedeki ilerleme</span>
+              <span className="font-bold">
+                {isEn ? "Progress at this level" : "Bu seviyedeki ilerleme"}
+              </span>
               <span className="font-black">
                 {done}/{total}
               </span>
@@ -357,7 +367,7 @@ export default function EnglishPage() {
         <div className="space-y-4">
           {filtered.length === 0 ? (
             <div className="text-center text-white/60 py-8">
-              Sonuç bulunamadı 🔍
+              {isEn ? "No results found 🔍" : "Sonuç bulunamadı 🔍"}
             </div>
           ) : (
             filtered.map((item) => {
@@ -400,7 +410,11 @@ export default function EnglishPage() {
                     onClick={() => handleSpeak(item.key, item.english)}
                     className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
                   >
-                    {speakingId === item.key ? "⏹ Durdur" : "🔊 Dinle (EN)"}
+                    {speakingId === item.key
+                      ? "⏹ Stop"
+                      : isEn
+                        ? "🔊 Listen (EN)"
+                        : "🔊 Dinle (EN)"}
                   </button>
                   {!isRead && profile && (
                     <button
@@ -408,12 +422,15 @@ export default function EnglishPage() {
                       onClick={() => handleRead(item.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
                     >
-                      ✅ {t("learned")} +10 puan
+                      ✅ {t("learned")} +10 {isEn ? "pts" : "puan"}
                     </button>
                   )}
                   {isRead && (
                     <span className="text-yellow-300 text-xs font-bold">
-                      ✅ Öğrenildi (+10 puan kazanıldı)
+                      ✅{" "}
+                      {isEn
+                        ? "Learned (+10 pts earned)"
+                        : "Öğrenildi (+10 puan kazanıldı)"}
                     </span>
                   )}
                 </div>

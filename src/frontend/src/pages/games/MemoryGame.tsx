@@ -37,14 +37,32 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+// Adaptive pairs count based on level
+function getPairsCount(level: string, consecutiveWins: number): number {
+  const base = level === "okul_oncesi" ? 3 : level === "ilkokul" ? 5 : 6;
+  // After consecutive wins, slightly increase for preschool/primary (up to max)
+  const max = level === "okul_oncesi" ? 5 : 6;
+  return Math.min(base + Math.floor(consecutiveWins / 2), max);
+}
+
 export default function MemoryGame() {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const profile = getCurrentUser();
-  const emojis = useMemo(
-    () => EMOJI_SETS[Math.floor(Math.random() * EMOJI_SETS.length)],
-    [],
+  const level = profile?.level || "ilkokul";
+
+  const [consecutiveWins, setConsecutiveWins] = useState(0);
+  const [setIndex, setSetIndex] = useState(() =>
+    Math.floor(Math.random() * EMOJI_SETS.length),
   );
+
+  const pairsCount = getPairsCount(level, consecutiveWins);
+
+  const emojis = useMemo(
+    () => EMOJI_SETS[setIndex % EMOJI_SETS.length].slice(0, pairsCount),
+    [setIndex, pairsCount],
+  );
+
   const [cards, setCards] = useState(() =>
     shuffle(
       [...emojis, ...emojis].map((e, i) => ({
@@ -60,13 +78,32 @@ export default function MemoryGame() {
   const [time, setTime] = useState(0);
   const [done, setDone] = useState(false);
   const [score, setScore] = useState(0);
-  const [setIndex, setSetIndex] = useState(0);
+
+  // Play game start sound on mount
+  useEffect(() => {
+    playAudio("game_start");
+  }, []);
 
   useEffect(() => {
     if (done) return;
     const t = setInterval(() => setTime((tt) => tt + 1), 1000);
     return () => clearInterval(t);
   }, [done]);
+
+  // Re-init cards when emojis change (e.g. after playAgain)
+  useEffect(() => {
+    setCards(
+      shuffle(
+        [...emojis, ...emojis].map((e, i) => ({
+          id: i,
+          emoji: e,
+          flipped: false,
+          matched: false,
+        })),
+      ),
+    );
+    setFlipped([]);
+  }, [emojis]);
 
   const handleFlip = useCallback(
     (id: number) => {
@@ -95,6 +132,7 @@ export default function MemoryGame() {
             const s = Math.max(10, 100 - moves * 2 - Math.floor(time / 10));
             setScore(s);
             setDone(true);
+            playAudio("game_end");
           }
         } else {
           playAudio("wrong_answer");
@@ -127,24 +165,17 @@ export default function MemoryGame() {
 
   const playAgain = () => {
     const nextSet = (setIndex + 1) % EMOJI_SETS.length;
+    setConsecutiveWins((w) => w + 1);
     setSetIndex(nextSet);
-    const nextEmojis = EMOJI_SETS[nextSet];
-    setCards(
-      shuffle(
-        [...nextEmojis, ...nextEmojis].map((e, i) => ({
-          id: i,
-          emoji: e,
-          flipped: false,
-          matched: false,
-        })),
-      ),
-    );
-    setFlipped([]);
     setMoves(0);
     setTime(0);
     setDone(false);
     setScore(0);
+    playAudio("game_start");
   };
+
+  const newPairsCount = getPairsCount(level, consecutiveWins + 1);
+  const diffIncreasing = newPairsCount > pairsCount;
 
   if (done)
     return (
@@ -155,6 +186,11 @@ export default function MemoryGame() {
           <p className="text-gray-600 mb-1">
             {moves} hamle, {time}s
           </p>
+          {diffIncreasing && (
+            <p className="text-sm text-pink-600 mb-1">
+              ⬆️ Sonraki turda daha fazla kart!
+            </p>
+          )}
           <div className="text-4xl font-black text-pink-600 my-4">
             +{score} Puan
           </div>
@@ -178,6 +214,8 @@ export default function MemoryGame() {
       </div>
     );
 
+  const cols = pairsCount <= 3 ? 3 : pairsCount <= 4 ? 4 : 4;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-500 to-rose-600 p-4">
       <div className="flex items-center justify-between mb-4">
@@ -195,9 +233,12 @@ export default function MemoryGame() {
         </div>
       </div>
       <p className="text-white/70 text-center text-xs mb-2">
-        Set {setIndex + 1}/{EMOJI_SETS.length}
+        {pairsCount} çift • Set {setIndex + 1}/{EMOJI_SETS.length}
       </p>
-      <div className="grid grid-cols-4 gap-3 max-w-xs mx-auto">
+      <div
+        className="grid gap-3 max-w-xs mx-auto"
+        style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+      >
         {cards.map((card) => (
           <button
             type="button"

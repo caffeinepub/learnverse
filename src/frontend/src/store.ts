@@ -169,6 +169,14 @@ export function playAudio(category: string): void {
         o.start(ctx.currentTime + i * 0.1);
         o.stop(ctx.currentTime + i * 0.1 + 0.3);
       });
+    } else if (category === "game_start") {
+      // Rising two-tone "ready" sound
+      osc.frequency.setValueAtTime(392, ctx.currentTime);
+      osc.frequency.setValueAtTime(523, ctx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.25, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.45);
     } else if (category === "welcome") {
       osc.frequency.setValueAtTime(440, ctx.currentTime);
       osc.frequency.setValueAtTime(554, ctx.currentTime + 0.15);
@@ -678,4 +686,105 @@ export function getPendingAssignmentsForStudent(
   return getAssignmentsForStudent(studentNumber).filter(
     (a) => !a.completedBy.includes(studentNumber),
   );
+}
+
+// Topic performance stats
+export type TopicStats = {
+  science: { correct: number; total: number };
+  history: { correct: number; total: number };
+  geography: { correct: number; total: number };
+  math: { correct: number; total: number };
+  general: { correct: number; total: number };
+};
+
+function topicStatsKey(studentNumber: string): string {
+  return `learnverse_topic_stats_${studentNumber}`;
+}
+
+export function getTopicStats(studentNumber: string): TopicStats {
+  try {
+    return (
+      JSON.parse(
+        localStorage.getItem(topicStatsKey(studentNumber)) || "null",
+      ) || {
+        science: { correct: 0, total: 0 },
+        history: { correct: 0, total: 0 },
+        geography: { correct: 0, total: 0 },
+        math: { correct: 0, total: 0 },
+        general: { correct: 0, total: 0 },
+      }
+    );
+  } catch {
+    return {
+      science: { correct: 0, total: 0 },
+      history: { correct: 0, total: 0 },
+      geography: { correct: 0, total: 0 },
+      math: { correct: 0, total: 0 },
+      general: { correct: 0, total: 0 },
+    };
+  }
+}
+
+export function saveTopicStats(
+  studentNumber: string,
+  topic: keyof TopicStats,
+  correct: number,
+  total: number,
+): void {
+  const stats = getTopicStats(studentNumber);
+  stats[topic].correct += correct;
+  stats[topic].total += total;
+  localStorage.setItem(topicStatsKey(studentNumber), JSON.stringify(stats));
+}
+
+// Teacher-Parent Messages
+export interface TeacherMessage {
+  id: string;
+  studentNumber: string;
+  from: string;
+  fromRole: "teacher" | "parent";
+  message: string;
+  date: string;
+  read: boolean;
+}
+
+export function getTeacherMessages(studentNumber: string): TeacherMessage[] {
+  try {
+    return JSON.parse(
+      localStorage.getItem(`learnverse_tmsg_${studentNumber}`) || "[]",
+    );
+  } catch {
+    return [];
+  }
+}
+
+export function saveTeacherMessage(
+  msg: Omit<TeacherMessage, "id" | "date" | "read">,
+): void {
+  const msgs = getTeacherMessages(msg.studentNumber);
+  msgs.push({
+    ...msg,
+    id: `tmsg_${Date.now()}`,
+    date: new Date().toISOString(),
+    read: false,
+  });
+  localStorage.setItem(
+    `learnverse_tmsg_${msg.studentNumber}`,
+    JSON.stringify(msgs),
+  );
+}
+
+export function markTeacherMessageRead(
+  studentNumber: string,
+  id: string,
+): void {
+  const msgs = getTeacherMessages(studentNumber);
+  const idx = msgs.findIndex((m) => m.id === id);
+  if (idx >= 0) {
+    msgs[idx].read = true;
+    localStorage.setItem(
+      `learnverse_tmsg_${studentNumber}`,
+      JSON.stringify(msgs),
+    );
+  }
 }

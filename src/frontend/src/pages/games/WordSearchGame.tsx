@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "../../components/ui/button";
 import {
   getCurrentUser,
@@ -120,7 +120,6 @@ const WORD_SETS = [
       { word: "GEZI", row: 1, col: 6, dir: [1, 0] as [number, number] },
     ],
   },
-  undefined,
   {
     label: "Müzik Aletleri",
     words: ["GITAR", "PIYANO", "KEMAN", "DAVUL", "KLARNET"],
@@ -159,7 +158,6 @@ const WORD_SETS = [
 const SIZE = 8;
 
 function buildGrid(
-  _words: string[],
   placements: {
     word: string;
     row: number;
@@ -194,13 +192,14 @@ function buildGrid(
 export default function WordSearchGame() {
   const navigate = useNavigate();
   const profile = getCurrentUser();
+  const level = profile?.level || "ilkokul";
+
   const [setIdx, setSetIdx] = useState(() =>
     Math.floor(Math.random() * WORD_SETS.length),
   );
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const currentSet = WORD_SETS[setIdx]!;
+  const currentSet = WORD_SETS[setIdx];
   const { grid, positions } = useMemo(
-    () => buildGrid(currentSet.words, currentSet.placements),
+    () => buildGrid(currentSet.placements),
     // eslint-disable-next-line
     [currentSet],
   );
@@ -210,15 +209,32 @@ export default function WordSearchGame() {
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
 
+  // Adaptive: track wrong guesses, show hint after 3 in a row
+  const [wrongStreak, setWrongStreak] = useState(0);
+  const [hintWord, setHintWord] = useState<string | null>(null);
+
+  // Preschool: only show first 3 words (shorter list)
+  const visibleWords = useMemo(() => {
+    if (level === "okul_oncesi") return currentSet.words.slice(0, 3);
+    if (level === "ilkokul") return currentSet.words.slice(0, 4);
+    return currentSet.words;
+  }, [currentSet.words, level]);
+
+  // Play game start sound on mount
+  useEffect(() => {
+    playAudio("game_start");
+  }, []);
+
   const handleCell = (r: number, c: number) => {
     if (!selected) {
       setSelected([r, c]);
       return;
     }
     const [sr, sc] = selected;
-    for (const word of currentSet.words) {
+    for (const word of visibleWords) {
       if (found.includes(word)) continue;
       const pos = positions.get(word)!;
+      if (!pos) continue;
       const start = pos[0];
       const end = pos[pos.length - 1];
       if (
@@ -233,11 +249,35 @@ export default function WordSearchGame() {
         setHighlighted(newHighlighted);
         setScore((s) => s + 20);
         setSelected(null);
-        if (newFound.length === currentSet.words.length) setDone(true);
+        setWrongStreak(0);
+        setHintWord(null);
+        if (newFound.length === visibleWords.length) {
+          setDone(true);
+          playAudio("game_end");
+        }
         return;
       }
     }
+    // Wrong selection
+    const newStreak = wrongStreak + 1;
+    setWrongStreak(newStreak);
+    if (newStreak >= 3) {
+      // Show hint: first unfound word
+      const unfound = visibleWords.find((w) => !found.includes(w));
+      if (unfound) setHintWord(unfound);
+    }
     setSelected([r, c]);
+  };
+
+  const useHint = () => {
+    if (!hintWord) return;
+    const pos = positions.get(hintWord);
+    if (!pos) return;
+    // Highlight just the first letter of the hint word
+    const [hr, hc] = pos[0];
+    setSelected([hr, hc]);
+    setHintWord(null);
+    setWrongStreak(0);
   };
 
   const finish = () => {
@@ -260,6 +300,9 @@ export default function WordSearchGame() {
     setSelected(null);
     setHighlighted(new Set());
     setDone(false);
+    setWrongStreak(0);
+    setHintWord(null);
+    playAudio("game_start");
   };
 
   if (done)
@@ -308,11 +351,11 @@ export default function WordSearchGame() {
           <div className="text-white/70 text-xs">{currentSet.label}</div>
         </div>
         <div className="text-white text-sm">
-          {found.length}/{currentSet.words.length}
+          {found.length}/{visibleWords.length}
         </div>
       </div>
       <div className="flex flex-wrap gap-2 mb-3 justify-center">
-        {currentSet.words.map((w) => (
+        {visibleWords.map((w) => (
           <span
             key={w}
             className={`px-3 py-1 rounded-full text-sm font-bold ${
@@ -325,6 +368,18 @@ export default function WordSearchGame() {
           </span>
         ))}
       </div>
+      {hintWord && (
+        <div className="flex justify-center mb-2">
+          <button
+            type="button"
+            data-ocid="wordsearch.hint_button"
+            onClick={useHint}
+            className="bg-yellow-400 text-gray-800 px-4 py-2 rounded-full font-bold text-sm animate-bounce shadow-lg"
+          >
+            💡 İpucu: {hintWord}
+          </button>
+        </div>
+      )}
       <div
         className="grid gap-1 mx-auto"
         style={{
@@ -338,6 +393,10 @@ export default function WordSearchGame() {
             const isHighlighted = highlighted.has(key);
             const isSelected =
               selected && selected[0] === r && selected[1] === c;
+            // Highlight hint word positions subtly
+            const isHintCell =
+              hintWord &&
+              positions.get(hintWord)?.some(([hr, hc]) => hr === r && hc === c);
             return (
               <button
                 type="button"
@@ -349,7 +408,9 @@ export default function WordSearchGame() {
                     ? "bg-green-400 text-white"
                     : isSelected
                       ? "bg-yellow-400 text-gray-800 scale-110"
-                      : "bg-white/20 text-white hover:bg-white/30"
+                      : isHintCell
+                        ? "bg-yellow-200/40 text-white"
+                        : "bg-white/20 text-white hover:bg-white/30"
                 }`}
               >
                 {cell}

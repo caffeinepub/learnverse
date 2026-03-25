@@ -8,6 +8,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
+import { Textarea } from "../components/ui/textarea";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   createAssignment,
@@ -15,8 +16,10 @@ import {
   getAssignmentsForClass,
   getBadgeLevel,
   getProfileByStudentNumber,
+  getTeacherMessages,
+  saveTeacherMessage,
 } from "../store";
-import type { Assignment } from "../store";
+import type { Assignment, TeacherMessage } from "../store";
 import { AVATARS, BADGE_EMOJIS, LEVEL_NAMES } from "../types";
 import type { Profile } from "../types";
 
@@ -77,6 +80,10 @@ export default function ClassesPage() {
   const [addStudentNum, setAddStudentNum] = useState("");
   const [addError, setAddError] = useState("");
   const [createError, setCreateError] = useState("");
+  const [msgStudentNum, setMsgStudentNum] = useState("");
+  const [msgText, setMsgText] = useState("");
+  const [msgSent, setMsgSent] = useState(false);
+  const [msgHistory, setMsgHistory] = useState<TeacherMessage[]>([]);
 
   // Assignment form state
   const [asgnTitle, setAsgnTitle] = useState("");
@@ -211,7 +218,7 @@ export default function ClassesPage() {
       </p>
 
       <Tabs defaultValue="siniflarim" className="w-full">
-        <TabsList className="w-full bg-white/10 rounded-2xl p-1 mb-4 grid grid-cols-3 h-auto">
+        <TabsList className="w-full bg-white/10 rounded-2xl p-1 mb-4 grid grid-cols-4 h-auto">
           <TabsTrigger
             value="siniflarim"
             data-ocid="classes.tab"
@@ -225,6 +232,13 @@ export default function ClassesPage() {
             className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl py-2 font-bold text-xs"
           >
             📋 Ödevler
+          </TabsTrigger>
+          <TabsTrigger
+            value="mesajlasma"
+            data-ocid="classes.tab"
+            className="text-white/70 data-[state=active]:bg-white data-[state=active]:text-slate-800 rounded-xl text-xs py-2 font-bold"
+          >
+            💬 Mesaj
           </TabsTrigger>
           <TabsTrigger
             value="yeni"
@@ -624,6 +638,96 @@ export default function ClassesPage() {
                   </>
                 )}
               </>
+            )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="mesajlasma">
+          <div className="space-y-4">
+            <div className="bg-white/10 rounded-2xl p-4">
+              <div className="text-white font-bold mb-3">
+                📩 Veliye Mesaj Gönder
+              </div>
+              <div className="space-y-3">
+                <Input
+                  data-ocid="classes.search_input"
+                  value={msgStudentNum}
+                  onChange={(e) => {
+                    const v = e.target.value.replace(/\D/g, "").slice(0, 16);
+                    setMsgStudentNum(v);
+                    if (v.length === 16) setMsgHistory(getTeacherMessages(v));
+                    else setMsgHistory([]);
+                  }}
+                  placeholder="16 haneli öğrenci numarası"
+                  className="bg-white/10 border-white/20 text-white placeholder-white/40"
+                  maxLength={16}
+                />
+                <Textarea
+                  data-ocid="classes.textarea"
+                  value={msgText}
+                  onChange={(e) => setMsgText(e.target.value.slice(0, 500))}
+                  placeholder="Veli için mesajınızı yazın..."
+                  className="bg-white/10 border-white/20 text-white placeholder-white/40 resize-none"
+                  rows={3}
+                />
+                {msgSent && (
+                  <div
+                    data-ocid="classes.success_state"
+                    className="text-green-400 text-sm font-bold"
+                  >
+                    ✅ Mesaj iletildi!
+                  </div>
+                )}
+                <Button
+                  data-ocid="classes.submit_button"
+                  disabled={!msgText.trim() || msgStudentNum.length !== 16}
+                  onClick={() => {
+                    saveTeacherMessage({
+                      studentNumber: msgStudentNum,
+                      from: "Öğretmen",
+                      fromRole: "teacher",
+                      message: msgText.trim(),
+                    });
+                    setMsgText("");
+                    setMsgSent(true);
+                    setMsgHistory(getTeacherMessages(msgStudentNum));
+                    setTimeout(() => setMsgSent(false), 3000);
+                  }}
+                  className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-3 rounded-xl disabled:opacity-40"
+                >
+                  Gönder 📨
+                </Button>
+              </div>
+            </div>
+            {msgHistory.length > 0 && (
+              <div className="bg-white/10 rounded-2xl p-4">
+                <div className="text-white font-bold mb-3">Konuşma Geçmişi</div>
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {[...msgHistory]
+                    .sort(
+                      (a, b) =>
+                        new Date(a.date).getTime() - new Date(b.date).getTime(),
+                    )
+                    .map((m) => (
+                      <div
+                        key={m.id}
+                        className={`rounded-xl p-3 flex gap-2 items-start ${m.fromRole === "teacher" ? "bg-blue-500/20 border border-blue-400/30" : "bg-green-500/20 border border-green-400/30"}`}
+                      >
+                        <span
+                          className={`text-xs font-bold px-2 py-1 rounded-full flex-shrink-0 ${m.fromRole === "teacher" ? "bg-blue-500 text-white" : "bg-green-500 text-white"}`}
+                        >
+                          {m.fromRole === "teacher" ? "Öğretmen" : "Veli"}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-white text-sm">{m.message}</div>
+                          <div className="text-white/40 text-xs mt-1">
+                            {new Date(m.date).toLocaleString("tr-TR")}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             )}
           </div>
         </TabsContent>

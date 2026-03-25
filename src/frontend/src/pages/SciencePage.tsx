@@ -12,10 +12,15 @@ import {
 
 type Level = "okul_oncesi" | "ilkokul" | "ortaokul";
 
-const scienceData: Record<
-  Level,
-  { key: string; emoji: string; title: string; info: string; fact: string }[]
-> = {
+type SciItem = {
+  key: string;
+  emoji: string;
+  title: string;
+  info: string;
+  fact: string;
+};
+
+const scienceDataTr: Record<Level, SciItem[]> = {
   okul_oncesi: [
     {
       key: "sci_bitki",
@@ -79,22 +84,8 @@ const scienceData: Record<
       key: "sci_fotosent",
       emoji: "🌿",
       title: "Fotosentez",
-      info: "Bitkiler güneş ışığı, su ve CO₂ kullanarak besin üretir. Bu işleme fotosentez denir.",
-      fact: "Fotosentez sırasında oksijen açığa çıkar.",
-    },
-    {
-      key: "sci_sindirim",
-      emoji: "🥦",
-      title: "Sindirim Sistemi",
-      info: "Yediklerimiz ağızdan başlayarak mide ve bağırsaklarda sindirilir.",
-      fact: "Ince bağırsak yaklaşık 6 metre uzunluğundadır.",
-    },
-    {
-      key: "sci_dolasım",
-      emoji: "❤️",
-      title: "Dolaşım Sistemi",
-      info: "Kalp kanı tüm vücuda pompalar. Damarlar kanı taşır.",
-      fact: "Kalp bir günde yaklaşık 100.000 kez atar.",
+      info: "Bitkiler güneş ışığını kullanarak karbondioksit ve suyu besin ve oksijene dönüştürür.",
+      fact: "Fotosentez olmadan Dünya'da oksijen olmazdı.",
     },
     {
       key: "sci_madde",
@@ -199,16 +190,193 @@ const scienceData: Record<
   ],
 };
 
-const levelTabs: { key: Level; label: string }[] = [
+const scienceDataEn: Record<Level, SciItem[]> = {
+  okul_oncesi: [
+    {
+      key: "sci_bitki",
+      emoji: "🌱",
+      title: "Plants",
+      info: "Plants grow using water and sunlight from the ground.",
+      fact: "Plants produce oxygen for us!",
+    },
+    {
+      key: "sci_hayvan",
+      emoji: "🐾",
+      title: "Animals",
+      info: "Animals are living things. Some are tame, some live in the wild.",
+      fact: "There are more than 8 million animal species on Earth!",
+    },
+    {
+      key: "sci_su",
+      emoji: "💧",
+      title: "Water",
+      info: "Water is very important for life. 60% of the human body is made of water.",
+      fact: "Water can exist as solid, liquid and gas.",
+    },
+    {
+      key: "sci_gok",
+      emoji: "🌟",
+      title: "Sky",
+      info: "In the sky there are the sun, moon, stars and clouds.",
+      fact: "The Moon is Earth's only natural satellite.",
+    },
+    {
+      key: "sci_mevsim",
+      emoji: "🍂",
+      title: "Seasons",
+      info: "There are 4 seasons in a year: Spring, Summer, Autumn and Winter.",
+      fact: "Seasons are caused by Earth's tilted orbit.",
+    },
+    {
+      key: "sci_renk",
+      emoji: "🌈",
+      title: "Colors",
+      info: "Sunlight contains 7 colors hidden within it. They can be seen in a rainbow.",
+      fact: "Red, blue and yellow are the primary colors.",
+    },
+    {
+      key: "sci_havadurumu",
+      emoji: "🌦️",
+      title: "Weather",
+      info: "Days can be sunny, rainy, snowy or cloudy.",
+      fact: "A thermometer is used to measure temperature.",
+    },
+    {
+      key: "sci_magnet",
+      emoji: "🧲",
+      title: "Magnet",
+      info: "Magnets attract iron objects. They have a North and South pole.",
+      fact: "Earth itself is one big magnet!",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "sci_fotosent",
+      emoji: "🌿",
+      title: "Photosynthesis",
+      info: "Plants use sunlight to convert carbon dioxide and water into food and oxygen.",
+      fact: "Without photosynthesis there would be no oxygen on Earth.",
+    },
+    {
+      key: "sci_madde",
+      emoji: "🔬",
+      title: "States of Matter",
+      info: "Matter exists in solid, liquid and gas states. Heat causes changes of state.",
+      fact: "Iron melts into liquid at very high temperatures.",
+    },
+    {
+      key: "sci_isik",
+      emoji: "💡",
+      title: "Light",
+      info: "Light is a form of energy visible to the eye. It travels in a straight line.",
+      fact: "Light travels at 300,000 km per second.",
+    },
+    {
+      key: "sci_ses",
+      emoji: "🔊",
+      title: "Sound",
+      info: "Sound is produced by vibrations and is carried through the air at different frequencies.",
+      fact: "There is no sound in space because there is no medium to carry it.",
+    },
+    {
+      key: "sci_ekoloji",
+      emoji: "🌾",
+      title: "Ecosystem",
+      info: "All living and non-living things in an area together form an ecosystem.",
+      fact: "Forests are known as the lungs of the Earth.",
+    },
+    {
+      key: "sci_kuvvet",
+      emoji: "💪",
+      title: "Force",
+      info: "Force makes objects move. Pull, push and friction are examples of forces.",
+      fact: "Gravity keeps us on the ground.",
+    },
+    {
+      key: "sci_toprak",
+      emoji: "🌻",
+      title: "Soil",
+      info: "Soil forms from the breakdown of rocks and is essential for plant life.",
+      fact: "Forming 1 cm of soil takes hundreds of years.",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "sci_atom",
+      emoji: "⚛️",
+      title: "Atoms & Molecules",
+      info: "All matter is made of atoms. Atoms join together to form molecules.",
+      fact: "The human body contains about 7 octillion atoms!",
+    },
+    {
+      key: "sci_dna",
+      emoji: "🧬",
+      title: "DNA",
+      info: "DNA carries the genetic information of living things. Every person's DNA is unique.",
+      fact: "If stretched out, the DNA in one cell would be 2 meters long.",
+    },
+    {
+      key: "sci_evrim",
+      emoji: "🦎",
+      title: "Evolution",
+      info: "Living things have changed over millions of years by adapting to their environment.",
+      fact: "Darwin published the theory of evolution in 1859.",
+    },
+    {
+      key: "sci_kimyasal",
+      emoji: "🧪",
+      title: "Chemical Reactions",
+      info: "Substances can combine or break apart to form new substances.",
+      fact: "Iron and oxygen combining creates rust.",
+    },
+    {
+      key: "sci_elektrik",
+      emoji: "⚡",
+      title: "Electricity",
+      info: "The movement of electrons creates electric current. Circuits carry electricity.",
+      fact: "Lightning is a discharge of static electricity in the atmosphere.",
+    },
+    {
+      key: "sci_uzay",
+      emoji: "🚀",
+      title: "Space",
+      info: "The universe consists of stars, planets, galaxies and dark matter.",
+      fact: "The solar system is 4.6 billion years old.",
+    },
+    {
+      key: "sci_newton",
+      emoji: "🍎",
+      title: "Newton's Laws",
+      info: "Newton's 3 laws of motion explain how objects move.",
+      fact: "Newton discovered gravity from watching an apple fall.",
+    },
+    {
+      key: "sci_hologram",
+      emoji: "🔭",
+      title: "Optics",
+      info: "Lenses refract light to form images. Glasses, microscopes and telescopes use this.",
+      fact: "The telescope was invented by Dutch Hans Lippershey in 1608.",
+    },
+  ],
+};
+
+const levelTabsTr: { key: Level; label: string }[] = [
   { key: "okul_oncesi", label: "🌈 Okul Öncesi" },
   { key: "ilkokul", label: "📗 İlkokul" },
   { key: "ortaokul", label: "📘 Ortaokul" },
 ];
 
+const levelTabsEn: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 Preschool" },
+  { key: "ilkokul", label: "📗 Primary" },
+  { key: "ortaokul", label: "📘 Middle School" },
+];
+
 export default function SciencePage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const profile = getCurrentUser();
+  const isEn = lang === "en";
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {
@@ -230,6 +398,9 @@ export default function SciencePage() {
     };
   }, []);
 
+  const scienceData = isEn ? scienceDataEn : scienceDataTr;
+  const levelTabs = isEn ? levelTabsEn : levelTabsTr;
+
   const handleSpeak = (id: string, text: string) => {
     if (speakingId === id) {
       window.speechSynthesis.cancel();
@@ -237,7 +408,7 @@ export default function SciencePage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = "tr-TR";
+      utt.lang = isEn ? "en-US" : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);
@@ -272,24 +443,24 @@ export default function SciencePage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4 font-bold text-sm"
         >
-          ← Geri
+          ← {isEn ? "Back" : "Geri"}
         </button>
         <h1 className="text-3xl font-black text-white mb-4">
-          🔬 Fen Bilimleri
+          🔬 {isEn ? "Science" : "Fen Bilimleri"}
         </h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {levelTabs.map((t) => (
+          {levelTabs.map((tab) => (
             <button
               type="button"
-              key={t.key}
-              onClick={() => setLevel(t.key)}
+              key={tab.key}
+              onClick={() => setLevel(tab.key)}
               className={`py-3 rounded-2xl font-bold text-xs transition-all ${
-                level === t.key
+                level === tab.key
                   ? "bg-white text-emerald-600"
                   : "bg-white/20 text-white hover:bg-white/30"
               }`}
             >
-              {t.label}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -297,7 +468,9 @@ export default function SciencePage() {
           <span className="text-2xl">🔬</span>
           <div className="flex-1">
             <div className="flex justify-between text-white text-xs mb-1">
-              <span className="font-bold">Bu seviyedeki ilerleme</span>
+              <span className="font-bold">
+                {isEn ? "Progress at this level" : "Bu seviyedeki ilerleme"}
+              </span>
               <span className="font-black">
                 {done}/{total}
               </span>
@@ -323,7 +496,7 @@ export default function SciencePage() {
         <div className="space-y-4">
           {filtered.length === 0 ? (
             <div className="text-center text-white/60 py-8">
-              Sonuç bulunamadı 🔍
+              {isEn ? "No results found 🔍" : "Sonuç bulunamadı 🔍"}
             </div>
           ) : (
             filtered.map((item) => {
@@ -353,7 +526,13 @@ export default function SciencePage() {
                     onClick={() => handleSpeak(item.key, item.info)}
                     className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
                   >
-                    {speakingId === item.key ? "⏹ Durdur" : "🔊 Dinle"}
+                    {speakingId === item.key
+                      ? isEn
+                        ? "⏹ Stop"
+                        : "⏹ Durdur"
+                      : isEn
+                        ? "🔊 Listen"
+                        : "🔊 Dinle"}
                   </button>
                   {!isRead && profile && (
                     <button
@@ -361,12 +540,15 @@ export default function SciencePage() {
                       onClick={() => handleRead(item.key)}
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
                     >
-                      ✅ {t("learned")} +10 puan
+                      ✅ {t("learned")} +10 {isEn ? "pts" : "puan"}
                     </button>
                   )}
                   {isRead && (
                     <span className="text-green-300 text-xs font-bold">
-                      ✅ Öğrenildi (+10 puan kazanıldı)
+                      ✅{" "}
+                      {isEn
+                        ? "Learned (+10 pts earned)"
+                        : "Öğrenildi (+10 puan kazanıldı)"}
                     </span>
                   )}
                 </div>

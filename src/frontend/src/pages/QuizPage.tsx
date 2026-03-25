@@ -19,6 +19,7 @@ import {
   markSpacedRepWrong,
   playAudio,
   saveQuizResult,
+  saveTopicStats,
   saveWrongAnswer,
   setLastQuizScore,
   syncToBackend,
@@ -278,6 +279,15 @@ export default function QuizPage() {
       updateDailyGoals(profile.studentNumber, { quizDone: true });
     }
     updateStreak(profile.studentNumber);
+    // Save topic-based performance stats
+    if (selectedTopic !== "all") {
+      saveTopicStats(
+        profile.studentNumber,
+        selectedTopic,
+        correct,
+        questions.length,
+      );
+    }
     saveQuizResult({
       studentNumber: profile.studentNumber,
       date: new Date().toISOString(),
