@@ -456,6 +456,17 @@ export default function HomePage() {
       gradient: "from-indigo-600 to-purple-500",
       ocid: "home.multiplication_card",
     },
+    {
+      icon: "✏️",
+      title: lang === "en" ? "Letter & Number Tracing" : "Harf & Sayı Yazma",
+      desc:
+        lang === "en"
+          ? "Trace letters and numbers"
+          : "Harfleri ve sayıları iz sürerek öğren",
+      path: "/tracing",
+      gradient: "from-green-500 to-teal-500",
+      ocid: "home.tracing_card",
+    },
   ];
 
   const badge = getBadgeLevel(profile.totalPoints);

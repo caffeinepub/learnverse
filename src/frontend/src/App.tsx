@@ -37,6 +37,7 @@ const QuizPage = lazy(() => import("./pages/QuizPage"));
 const SciencePage = lazy(() => import("./pages/SciencePage"));
 const StoriesPage = lazy(() => import("./pages/StoriesPage"));
 const TurkeyMapPage = lazy(() => import("./pages/TurkeyMapPage"));
+const TracingPage = lazy(() => import("./pages/TracingPage"));
 const VocabularyPage = lazy(() => import("./pages/VocabularyPage"));
 const WrongAnswersPage = lazy(() => import("./pages/WrongAnswersPage"));
 const PlacementTestPage = lazy(() => import("./pages/PlacementTestPage"));
@@ -251,7 +252,11 @@ const codingRoute = createRoute({
   path: "/coding",
   component: withSuspense(CodingPage),
 });
-
+const tracingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/tracing",
+  component: withSuspense(TracingPage),
+});
 const favoritesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/favorites",
@@ -303,6 +308,7 @@ const routeTree = rootRoute.addChildren([
   englishRoute,
   coloringRoute,
   codingRoute,
+  tracingRoute,
   placementRoute,
   favoritesRoute,
   multiplicationRoute,
