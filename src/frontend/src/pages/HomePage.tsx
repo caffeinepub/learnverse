@@ -562,6 +562,15 @@ export default function HomePage() {
           </div>
           <button
             type="button"
+            data-ocid="home.search_button"
+            onClick={() => navigate({ to: "/search" })}
+            className="bg-white/10 hover:bg-white/20 px-2 py-1 rounded-xl text-white text-xs font-bold transition-colors"
+            title="Arama"
+          >
+            🔍
+          </button>
+          <button
+            type="button"
             data-ocid="home.theme_toggle"
             onClick={toggleTheme}
             className="bg-white/10 hover:bg-white/20 px-2 py-1 rounded-xl text-white text-xs font-bold transition-colors"

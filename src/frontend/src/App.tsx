@@ -42,6 +42,7 @@ const VocabularyPage = lazy(() => import("./pages/VocabularyPage"));
 const WrongAnswersPage = lazy(() => import("./pages/WrongAnswersPage"));
 const PlacementTestPage = lazy(() => import("./pages/PlacementTestPage"));
 const FavoritesPage = lazy(() => import("./pages/FavoritesPage"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 const MultiplicationTablePage = lazy(
   () => import("./pages/MultiplicationTablePage"),
 );
@@ -268,6 +269,11 @@ const placementRoute = createRoute({
   component: withSuspense(PlacementTestPage),
 });
 
+const searchRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/search",
+  component: withSuspense(SearchPage),
+});
 const multiplicationRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/multiplication",
@@ -312,6 +318,7 @@ const routeTree = rootRoute.addChildren([
   placementRoute,
   favoritesRoute,
   multiplicationRoute,
+  searchRoute,
 ]);
 
 const router = createRouter({ routeTree });
