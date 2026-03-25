@@ -46,6 +46,9 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 const MultiplicationTablePage = lazy(
   () => import("./pages/MultiplicationTablePage"),
 );
+const AchievementHistoryPage = lazy(
+  () => import("./pages/AchievementHistoryPage"),
+);
 const MatchingGame = lazy(() => import("./pages/games/MatchingGame"));
 const MathGame = lazy(() => import("./pages/games/MathGame"));
 const MemoryGame = lazy(() => import("./pages/games/MemoryGame"));
@@ -268,7 +271,6 @@ const placementRoute = createRoute({
   path: "/placement-test",
   component: withSuspense(PlacementTestPage),
 });
-
 const searchRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/search",
@@ -278,6 +280,11 @@ const multiplicationRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/multiplication",
   component: withSuspense(MultiplicationTablePage),
+});
+const achievementHistoryRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/achievement-history",
+  component: withSuspense(AchievementHistoryPage),
 });
 
 const routeTree = rootRoute.addChildren([
@@ -319,6 +326,7 @@ const routeTree = rootRoute.addChildren([
   favoritesRoute,
   multiplicationRoute,
   searchRoute,
+  achievementHistoryRoute,
 ]);
 
 const router = createRouter({ routeTree });

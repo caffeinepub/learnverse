@@ -22,6 +22,9 @@ interface Region {
   provincesEn: string[];
   features: string;
   featuresEn: string;
+  nameEs: string;
+  provincesEs: string[];
+  featuresEs: string;
 }
 
 const regions: Region[] = [
@@ -37,6 +40,10 @@ const regions: Region[] = [
       "Türkiye'nin en kalabalık bölgesi. İstanbul ülkenin en büyük şehri. Sanayi ve ticaret merkezi. Marmara Denizi ile çevrili.",
     featuresEn:
       "Turkey's most populous region. Istanbul is the largest city. Industrial and commercial hub. Surrounded by the Sea of Marmara.",
+    nameEs: "Región de Mármara",
+    provincesEs: ["Estambul", "Bursa", "Kocaeli", "Tekirdag", "Balikesir"],
+    featuresEs:
+      "La región más poblada de Turquía. Estambul es la ciudad más grande. Centro industrial y comercial. Rodeada por el Mar de Mármara.",
   },
   {
     key: "map_ege",
@@ -50,6 +57,10 @@ const regions: Region[] = [
       "Zeytinlikleri ve bağlarıyla ünlü. İzmir Türkiye'nin 3. büyük şehri. Efes ve Bergama antik kentleri burada.",
     featuresEn:
       "Famous for olive groves and vineyards. Izmir is Turkey's 3rd largest city. Ancient cities of Ephesus and Pergamon are here.",
+    nameEs: "Región del Egeo",
+    provincesEs: ["Esmirna", "Manisa", "Denizli", "Aydın", "Muğla"],
+    featuresEs:
+      "Famosa por sus olivares y viñedos. Esmirna es la 3ª ciudad más grande de Turquía. Las ciudades antiguas de Éfeso y Pérgamo están aquí.",
   },
   {
     key: "map_akdeniz",
@@ -63,6 +74,10 @@ const regions: Region[] = [
       "Turizm açısından çok önemli. Akdeniz iklimi hâkim. Toros Dağları bölgede bulunur. Narenciye üretiminde önde.",
     featuresEn:
       "Very important for tourism. Mediterranean climate. The Taurus Mountains are here. Leading citrus fruit production.",
+    nameEs: "Región Mediterránea",
+    provincesEs: ["Antalya", "Adana", "Mersin", "Hatay", "Isparta"],
+    featuresEs:
+      "Muy importante para el turismo. Clima mediterráneo. Las montañas Tauro están aquí. Líder en producción de cítricos.",
   },
   {
     key: "map_ic_anadolu",
@@ -76,6 +91,10 @@ const regions: Region[] = [
       "Türkiye'nin başkenti Ankara burada. Step iklimi ve geniş ovalar. Kapadokya'nın peri bacaları burada. Buğday üretiminde öncü.",
     featuresEn:
       "Turkey's capital Ankara is here. Steppe climate and vast plains. Cappadocia's fairy chimneys are here. Leading wheat production.",
+    nameEs: "Región de Anatolia Central",
+    provincesEs: ["Ankara", "Konya", "Kayseri", "Eskisehir", "Sivas"],
+    featuresEs:
+      "La capital de Turquía, Ankara, está aquí. Clima estepario y vastas llanuras. Las chimeneas de hadas de Capadocia están aquí.",
   },
   {
     key: "map_karadeniz",
@@ -89,6 +108,10 @@ const regions: Region[] = [
       "Yağışlı iklim ve yemyeşil doğa. Çay ve fındık üretiminde dünya lideri. Karadeniz kıyısında konumlu.",
     featuresEn:
       "Rainy climate and lush green nature. World leader in tea and hazelnut production. Located along the Black Sea coast.",
+    nameEs: "Región del Mar Negro",
+    provincesEs: ["Samsun", "Trabzon", "Rize", "Zonguldak", "Ordu"],
+    featuresEs:
+      "Clima lluvioso y naturaleza exuberante. Líder mundial en producción de té y avellanas. Ubicada a lo largo de la costa del Mar Negro.",
   },
   {
     key: "map_dogu_anadolu",
@@ -102,6 +125,10 @@ const regions: Region[] = [
       "En yüksek ve soğuk bölge. Ağrı Dağı Türkiye'nin en yüksek noktası (5165m). Van Gölü Türkiye'nin en büyük gölü.",
     featuresEn:
       "Highest and coldest region. Mount Ararat is Turkey's highest point (5165m). Lake Van is Turkey's largest lake.",
+    nameEs: "Región de Anatolia Oriental",
+    provincesEs: ["Erzurum", "Van", "Malatya", "Elazig", "Agri"],
+    featuresEs:
+      "Región más alta y fría. El monte Ararat es el punto más alto de Turquía (5165m). El lago Van es el lago más grande de Turquía.",
   },
   {
     key: "map_guneydogu_anadolu",
@@ -115,6 +142,10 @@ const regions: Region[] = [
       "Güneydoğu Anadolu Projesi (GAP) burada hayata geçirilmiştir. Fırat ve Dicle nehirleri bu bölgeden akar.",
     featuresEn:
       "The GAP project was implemented here. The Euphrates and Tigris rivers flow through this region.",
+    nameEs: "Región de Anatolia Suroriental",
+    provincesEs: ["Gaziantep", "Sanliurfa", "Diyarbakir", "Mardin", "Adiyaman"],
+    featuresEs:
+      "El proyecto GAP se implementó aquí. Los ríos Éufrates y Tigris fluyen por esta región.",
   },
   {
     key: "map_samsun",
@@ -128,6 +159,10 @@ const regions: Region[] = [
       "Karadeniz'in kapısı olarak bilinir. Atatürk'ün 19 Mayıs 1919'da Kurtuluş Savaşı'nı başlatmak için çıktığı tarihi şehirdir. Tütün ve fındık üretimi önemlidir.",
     featuresEn:
       "Known as the gateway to the Black Sea. Historic city where Atatürk started the War of Independence on May 19, 1919.",
+    nameEs: "Samsun",
+    provincesEs: ["Samsun", "Ilkadim", "Canik", "Atakum", "Bafra"],
+    featuresEs:
+      "Conocida como la puerta del Mar Negro. Ciudad histórica donde Atatürk inició la Guerra de Independencia el 19 de mayo de 1919.",
   },
   {
     key: "map_trabzon",
@@ -141,6 +176,10 @@ const regions: Region[] = [
       "Dünyaca ünlü çay bahçeleri ve fındık bahçeleriyle kaplıdır. Trabzon Kalesi ve Ayasofya Müzesi önemli tarihi mekânlardır. Karadeniz mutfağının merkezi.",
     featuresEn:
       "Covered with world-famous tea gardens and hazelnut orchards. Trabzon Castle and Hagia Sophia Museum are important historical sites.",
+    nameEs: "Trabzon",
+    provincesEs: ["Trabzon", "Ortahisar", "Akcaabat", "Of", "Arakli"],
+    featuresEs:
+      "Cubierta de jardines de té y huertos de avellanas de fama mundial. El Castillo de Trabzon y el Museo de Santa Sofía son sitios históricos importantes.",
   },
   {
     key: "map_erzurum",
@@ -154,6 +193,10 @@ const regions: Region[] = [
       "Türkiye'nin en soğuk ve en yüksek şehirlerinden biridir. Palandöken Kayak Merkezi ile kış turizmi önemlidir. Atatürk'ün Erzurum Kongresi'ni yönettiği tarihi şehir.",
     featuresEn:
       "One of Turkey's coldest and highest cities. Winter tourism is important with the Palandoken Ski Center.",
+    nameEs: "Erzurum",
+    provincesEs: ["Erzurum", "Palandoken", "Yakutiye", "Oltu", "Horasan"],
+    featuresEs:
+      "Una de las ciudades más frías y altas de Turquía. El turismo de invierno es importante con el Centro de Esquí Palandöken.",
   },
   {
     key: "map_gaziantep",
@@ -167,6 +210,10 @@ const regions: Region[] = [
       "Türkiye'nin gastronomi başkenti. Baklava ve fıstıklı tatlılar dünyaca ünlüdür. Gaziantep Kalesi ve zengin tarihi dokusuyla öne çıkar. Türkiye'nin 6. büyük şehri.",
     featuresEn:
       "Turkey's gastronomic capital. Baklava and pistachio desserts are world-famous. Turkey's 6th largest city.",
+    nameEs: "Gaziantep",
+    provincesEs: ["Gaziantep", "Sahinbey", "Sehitkamil", "Nizip", "Islahiye"],
+    featuresEs:
+      "La capital gastronómica de Turquía. El baklava y los dulces de pistacho son mundialmente famosos. La 6ª ciudad más grande de Turquía.",
   },
   {
     key: "map_diyarbakir",
@@ -180,6 +227,10 @@ const regions: Region[] = [
       "UNESCO Dünya Mirası listesinde yer alan siyah bazalt surlarıyla tanınır. Dicle Nehri kıyısında kurulmuştur. Karpuzuyla meşhurdur. 5000 yıllık tarihi geçmişe sahip.",
     featuresEn:
       "Known for its black basalt walls listed as a UNESCO World Heritage Site. Built on the banks of the Tigris River.",
+    nameEs: "Diyarbakır",
+    provincesEs: ["Diyarbakir", "Baglar", "Kayapinar", "Sur", "Ergani"],
+    featuresEs:
+      "Conocida por sus murallas de basalto negro incluidas en la Lista del Patrimonio Mundial de la UNESCO. Construida a orillas del río Tigris.",
   },
 ];
 
@@ -191,6 +242,7 @@ export default function TurkeyMapPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
   const isEn = lang === "en";
+  const isEs = lang === "es";
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -250,10 +302,11 @@ export default function TurkeyMapPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4"
         >
-          ← {isEn ? "Back" : "Geri"}
+          ← {isEs ? "Volver" : isEn ? "Back" : "Geri"}
         </Button>
         <h1 className="text-3xl font-black text-white mb-4">
-          🗺️ {isEn ? "Turkey Map" : "Türkiye Haritası"}
+          🗺️{" "}
+          {isEs ? "Mapa de Turquía" : isEn ? "Turkey Map" : "Türkiye Haritası"}
         </h1>
         <div className="grid grid-cols-2 gap-2 mb-4">
           <button
@@ -262,7 +315,7 @@ export default function TurkeyMapPage() {
             onClick={() => setMode("learn")}
             className={`py-3 rounded-2xl font-bold text-sm transition-all ${mode === "learn" ? "bg-white text-red-600" : "bg-white/20 text-white hover:bg-white/30"}`}
           >
-            📖 {isEn ? "Learn" : "Öğren"}
+            📖 {isEs ? "Aprender" : isEn ? "Learn" : "Öğren"}
           </button>
           <button
             type="button"
@@ -284,7 +337,11 @@ export default function TurkeyMapPage() {
             <div className="flex-1">
               <div className="flex justify-between text-white text-xs mb-1">
                 <span className="font-bold">
-                  {isEn ? "Regions learned" : "Öğrenilen bölgeler"}
+                  {isEs
+                    ? "Regiones aprendidas"
+                    : isEn
+                      ? "Regions learned"
+                      : "Öğrenilen bölgeler"}
                 </span>
                 <span className="font-black">
                   {learnedCount}/{regions.length}
@@ -317,10 +374,15 @@ export default function TurkeyMapPage() {
                     <span className="text-3xl">{r.emoji}</span>
                     <div className="flex-1">
                       <div className="text-white font-black">
-                        {isEn ? r.nameEn : r.name}
+                        {isEs ? r.nameEs : isEn ? r.nameEn : r.name}
                       </div>
                       <div className="text-white/80 text-xs">
-                        {(isEn ? r.provincesEn : r.provinces)
+                        {(isEs
+                          ? r.provincesEs
+                          : isEn
+                            ? r.provincesEn
+                            : r.provinces
+                        )
                           .slice(0, 3)
                           .join(", ")}
                         ...
@@ -337,10 +399,20 @@ export default function TurkeyMapPage() {
                     <div className="bg-white/20 px-4 py-3">
                       <div className="mb-2">
                         <div className="text-white font-bold text-xs mb-1">
-                          🏙️ {isEn ? "Key Provinces:" : "Önemli İller:"}
+                          🏙️{" "}
+                          {isEs
+                            ? "Provincias Clave:"
+                            : isEn
+                              ? "Key Provinces:"
+                              : "Önemli İller:"}
                         </div>
                         <div className="flex flex-wrap gap-1">
-                          {(isEn ? r.provincesEn : r.provinces).map((p) => (
+                          {(isEs
+                            ? r.provincesEs
+                            : isEn
+                              ? r.provincesEn
+                              : r.provinces
+                          ).map((p) => (
                             <span
                               key={p}
                               className="bg-white/20 text-white text-xs px-2 py-1 rounded-full"
@@ -352,10 +424,19 @@ export default function TurkeyMapPage() {
                       </div>
                       <div className="mb-3">
                         <div className="text-white font-bold text-xs mb-1">
-                          ℹ️ {isEn ? "Features:" : "Özellikler:"}
+                          ℹ️{" "}
+                          {isEs
+                            ? "Características:"
+                            : isEn
+                              ? "Features:"
+                              : "Özellikler:"}
                         </div>
                         <p className="text-white/80 text-xs">
-                          {isEn ? r.featuresEn : r.features}
+                          {isEs
+                            ? r.featuresEs
+                            : isEn
+                              ? r.featuresEn
+                              : r.features}
                         </p>
                       </div>
                       {!isLearned && profile && (
@@ -385,16 +466,25 @@ export default function TurkeyMapPage() {
           <div>
             <div className="bg-white/20 rounded-2xl p-4 mb-4 text-center">
               <div className="text-white/70 text-xs mb-1">
-                {isEn ? "Score" : "Puan"}: {score} |{" "}
-                {isEn ? "Question" : "Soru"}: {quizCount}
+                {isEs ? "Puntos" : isEn ? "Score" : "Puan"}: {score} |{" "}
+                {isEs ? "Pregunta" : isEn ? "Question" : "Soru"}: {quizCount}
               </div>
               <div className="text-white font-black text-lg mb-2">
-                {isEn ? "Which region is this?" : "Bu bölge hangisidir?"}
+                {isEs
+                  ? "¿Qué región es esta?"
+                  : isEn
+                    ? "Which region is this?"
+                    : "Bu bölge hangisidir?"}
               </div>
               <div className="text-6xl mb-2">{quizRegion.emoji}</div>
               <div className="text-white/80 text-sm">
-                {isEn ? "Provinces" : "İller"}:{" "}
-                {(isEn ? quizRegion.provincesEn : quizRegion.provinces)
+                {isEs ? "Provincias" : isEn ? "Provinces" : "İller"}:{" "}
+                {(isEs
+                  ? quizRegion.provincesEs
+                  : isEn
+                    ? quizRegion.provincesEn
+                    : quizRegion.provinces
+                )
                   .slice(0, 2)
                   .join(", ")}
                 ...
@@ -419,7 +509,7 @@ export default function TurkeyMapPage() {
                     onClick={() => handleQuizAnswer(choice.key)}
                     className={`rounded-xl p-3 text-sm font-bold transition-all ${btnClass} disabled:cursor-not-allowed`}
                   >
-                    {isEn ? choice.nameEn : choice.name}
+                    {isEs ? choice.nameEs : isEn ? choice.nameEn : choice.name}
                   </button>
                 );
               })}
@@ -446,7 +536,11 @@ export default function TurkeyMapPage() {
                   onClick={startQuiz}
                   className="bg-white/30 hover:bg-white/50 text-white font-bold px-6 py-2 rounded-full transition-all"
                 >
-                  {isEn ? "Next Question →" : "Sonraki Soru →"}
+                  {isEs
+                    ? "Siguiente Pregunta →"
+                    : isEn
+                      ? "Next Question →"
+                      : "Sonraki Soru →"}
                 </button>
               </div>
             )}
