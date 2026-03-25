@@ -8,7 +8,9 @@ import {
   getCurrentUser,
   getReadTopics,
   incrementDailyContentRead,
+  isFavorite,
   markTopicRead,
+  toggleFavorite,
   trackContentVisit,
   updatePoints,
 } from "../store";
@@ -1020,6 +1022,30 @@ export default function PoemsPage() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [speakingId, setSpeakingId] = useState<string | null>(null);
+  const [favKeys, setFavKeys] = useState<Set<string>>(() => {
+    if (!profile) return new Set();
+    const all = Object.values(poems).flat();
+    return new Set(
+      all
+        .filter((p) => isFavorite(profile.studentNumber, "poem", p.key))
+        .map((p) => p.key),
+    );
+  });
+  function handleToggleFav(p: { key: string; title: string; emoji: string }) {
+    if (!profile) return;
+    const added = toggleFavorite(profile.studentNumber, {
+      type: "poem",
+      key: p.key,
+      title: p.title,
+      emoji: p.emoji,
+    });
+    setFavKeys((prev) => {
+      const next = new Set(prev);
+      if (added) next.add(p.key);
+      else next.delete(p.key);
+      return next;
+    });
+  }
 
   useEffect(() => {
     return () => {
@@ -1135,13 +1161,23 @@ export default function PoemsPage() {
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-3xl">{p.emoji}</span>
-                    <div className="text-white font-black text-lg">
+                    <div className="text-white font-black text-lg flex-1">
                       {p.title}
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleFav(p)}
+                      className="text-xl hover:scale-125 transition-transform"
+                      title={
+                        favKeys.has(p.key)
+                          ? "Favoriden çıkar"
+                          : "Favorilere ekle"
+                      }
+                    >
+                      {favKeys.has(p.key) ? "⭐" : "☆"}
+                    </button>
                     {isDone && (
-                      <span className="ml-auto text-yellow-300 text-xl">
-                        ⭐
-                      </span>
+                      <span className="text-yellow-300 text-xl">✓</span>
                     )}
                   </div>
                   <div className="mb-4">

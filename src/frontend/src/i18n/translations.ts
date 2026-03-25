@@ -179,7 +179,15 @@ export type TranslationKey =
   | "coloring_desc"
   | "study_calendar"
   | "calendar_activity_day"
-  | "calendar_no_activity";
+  | "calendar_no_activity"
+  | "multiplication_table"
+  | "multiplication_table_desc"
+  | "mult_view_mode"
+  | "mult_practice_mode"
+  | "mult_drill_mode"
+  | "mult_click_hint"
+  | "mult_enter_answer"
+  | "mult_session_points";
 
 export type LangCode =
   | "tr"
@@ -378,6 +386,14 @@ export const translations: Translations = {
     study_calendar: "Çalışma Takvimi",
     calendar_activity_day: "Aktif Gün",
     calendar_no_activity: "Bu ay henüz aktivite yok",
+    multiplication_table: "Çarpım Tablosu",
+    multiplication_table_desc: "Çarpma öğren, alıştır",
+    mult_view_mode: "Tablo Görünümü",
+    mult_practice_mode: "Alıştırma",
+    mult_drill_mode: "Tekrar",
+    mult_click_hint: "Satır veya sütuna tıklayarak vurgula",
+    mult_enter_answer: "Cevabını gir",
+    mult_session_points: "Bu oturumda kazandın",
   },
   en: {
     app_tagline: "The Most Fun Way to Learn",
@@ -561,6 +577,14 @@ export const translations: Translations = {
     study_calendar: "Study Calendar",
     calendar_activity_day: "Active Day",
     calendar_no_activity: "No activity this month yet",
+    multiplication_table: "Multiplication Table",
+    multiplication_table_desc: "Learn & practice multiplication",
+    mult_view_mode: "Table View",
+    mult_practice_mode: "Practice",
+    mult_drill_mode: "Drill",
+    mult_click_hint: "Click a row or column to highlight",
+    mult_enter_answer: "Enter your answer",
+    mult_session_points: "Points this session",
   },
   zh: {
     app_tagline: "最有趣的学习方式",
@@ -744,6 +768,14 @@ export const translations: Translations = {
     study_calendar: "学习日历",
     calendar_activity_day: "活跃日",
     calendar_no_activity: "本月还没有活动",
+    multiplication_table: "乘法表",
+    multiplication_table_desc: "学习和练习乘法",
+    mult_view_mode: "表格视图",
+    mult_practice_mode: "练习",
+    mult_drill_mode: "专项练习",
+    mult_click_hint: "点击行或列以高亮",
+    mult_enter_answer: "输入答案",
+    mult_session_points: "本次得分",
   },
   hi: {
     app_tagline: "सीखने का सबसे मज़ेदार तरीका",
@@ -927,6 +959,14 @@ export const translations: Translations = {
     study_calendar: "अध्ययन कैलेंडर",
     calendar_activity_day: "सक्रिय दिन",
     calendar_no_activity: "इस महीने अभी कोई गतिविधि नहीं",
+    multiplication_table: "गुणन तालिका",
+    multiplication_table_desc: "गुणन सीखें और अभ्यास करें",
+    mult_view_mode: "तालिका दृश्य",
+    mult_practice_mode: "अभ्यास",
+    mult_drill_mode: "ड्रिल",
+    mult_click_hint: "हाइलाइट करने के लिए पंक्ति या कॉलम पर क्लिक करें",
+    mult_enter_answer: "अपना उत्तर दर्ज करें",
+    mult_session_points: "इस सत्र में अंक",
   },
   es: {
     app_tagline: "La forma más divertida de aprender",
@@ -1110,6 +1150,14 @@ export const translations: Translations = {
     study_calendar: "Calendario de Estudio",
     calendar_activity_day: "Día Activo",
     calendar_no_activity: "Sin actividad este mes",
+    multiplication_table: "Tabla de Multiplicar",
+    multiplication_table_desc: "Aprende y practica multiplicación",
+    mult_view_mode: "Ver Tabla",
+    mult_practice_mode: "Práctica",
+    mult_drill_mode: "Ejercicio",
+    mult_click_hint: "Haz clic en una fila o columna para resaltar",
+    mult_enter_answer: "Ingresa tu respuesta",
+    mult_session_points: "Puntos esta sesión",
   },
   fr: {
     app_tagline: "La façon la plus amusante d'apprendre",
@@ -1293,6 +1341,14 @@ export const translations: Translations = {
     study_calendar: "Calendrier d'Étude",
     calendar_activity_day: "Jour Actif",
     calendar_no_activity: "Pas d'activité ce mois-ci",
+    multiplication_table: "Table de Multiplication",
+    multiplication_table_desc: "Apprendre et pratiquer la multiplication",
+    mult_view_mode: "Vue Tableau",
+    mult_practice_mode: "Pratique",
+    mult_drill_mode: "Exercice",
+    mult_click_hint: "Cliquez sur une ligne ou colonne pour surligner",
+    mult_enter_answer: "Entrez votre réponse",
+    mult_session_points: "Points cette session",
   },
   ar: {
     app_tagline: "الطريقة الأكثر متعة للتعلم",
@@ -1476,6 +1532,14 @@ export const translations: Translations = {
     study_calendar: "تقويم الدراسة",
     calendar_activity_day: "يوم نشط",
     calendar_no_activity: "لا نشاط هذا الشهر",
+    multiplication_table: "جدول الضرب",
+    multiplication_table_desc: "تعلم وتدرب على الضرب",
+    mult_view_mode: "عرض الجدول",
+    mult_practice_mode: "ممارسة",
+    mult_drill_mode: "تدريب",
+    mult_click_hint: "انقر على صف أو عمود للتمييز",
+    mult_enter_answer: "أدخل إجابتك",
+    mult_session_points: "النقاط في هذه الجلسة",
   },
   bn: {
     app_tagline: "শেখার সবচেয়ে মজাদার উপায়",
@@ -1659,6 +1723,14 @@ export const translations: Translations = {
     study_calendar: "পড়ার ক্যালেন্ডার",
     calendar_activity_day: "সক্রিয় দিন",
     calendar_no_activity: "এই মাসে এখনো কোনো কার্যক্রম নেই",
+    multiplication_table: "গুণের ছক",
+    multiplication_table_desc: "গুণ শিখুন ও অনুশীলন করুন",
+    mult_view_mode: "ছক দেখুন",
+    mult_practice_mode: "অনুশীলন",
+    mult_drill_mode: "ড্রিল",
+    mult_click_hint: "হাইলাইট করতে সারি বা কলামে ক্লিক করুন",
+    mult_enter_answer: "আপনার উত্তর লিখুন",
+    mult_session_points: "এই সেশনে পয়েন্ট",
   },
   ru: {
     app_tagline: "Самый увлекательный способ учиться",
@@ -1842,6 +1914,14 @@ export const translations: Translations = {
     study_calendar: "Учебный календарь",
     calendar_activity_day: "Активный день",
     calendar_no_activity: "В этом месяце активности нет",
+    multiplication_table: "Таблица Умножения",
+    multiplication_table_desc: "Учите и практикуйте умножение",
+    mult_view_mode: "Просмотр таблицы",
+    mult_practice_mode: "Практика",
+    mult_drill_mode: "Тренировка",
+    mult_click_hint: "Нажмите на строку или столбец для выделения",
+    mult_enter_answer: "Введите ответ",
+    mult_session_points: "Очки за сессию",
   },
   pt: {
     app_tagline: "A forma mais divertida de aprender",
@@ -2025,5 +2105,13 @@ export const translations: Translations = {
     study_calendar: "Calendário de Estudos",
     calendar_activity_day: "Dia Ativo",
     calendar_no_activity: "Sem atividade este mês",
+    multiplication_table: "Tabuada",
+    multiplication_table_desc: "Aprenda e pratique multiplicação",
+    mult_view_mode: "Ver Tabela",
+    mult_practice_mode: "Prática",
+    mult_drill_mode: "Treino",
+    mult_click_hint: "Clique numa linha ou coluna para realçar",
+    mult_enter_answer: "Digite sua resposta",
+    mult_session_points: "Pontos nesta sessão",
   },
 };

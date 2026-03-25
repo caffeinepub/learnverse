@@ -8,7 +8,9 @@ import {
   getCurrentUser,
   getReadTopics,
   incrementDailyContentRead,
+  isFavorite,
   markTopicRead,
+  toggleFavorite,
   trackContentVisit,
   updatePoints,
 } from "../store";
@@ -776,6 +778,30 @@ export default function ExperimentsPage() {
   );
   const [expanded, setExpanded] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [favKeys, setFavKeys] = useState<Set<string>>(() => {
+    if (!profile) return new Set();
+    const all = Object.values(experiments).flat();
+    return new Set(
+      all
+        .filter((e) => isFavorite(profile.studentNumber, "experiment", e.key))
+        .map((e) => e.key),
+    );
+  });
+  function handleToggleFav(e: { key: string; title: string; emoji: string }) {
+    if (!profile) return;
+    const added = toggleFavorite(profile.studentNumber, {
+      type: "experiment",
+      key: e.key,
+      title: e.title,
+      emoji: e.emoji,
+    });
+    setFavKeys((prev) => {
+      const next = new Set(prev);
+      if (added) next.add(e.key);
+      else next.delete(e.key);
+      return next;
+    });
+  }
 
   const filteredExperiments = activeExperiments[level].filter(
     (e) =>
@@ -883,6 +909,16 @@ export default function ExperimentsPage() {
                       </div>
                     </div>
                     {isDone && <span className="text-yellow-300">✓</span>}
+                    <button
+                      type="button"
+                      onClick={(ev) => {
+                        ev.stopPropagation();
+                        handleToggleFav(exp);
+                      }}
+                      className="text-xl hover:scale-125 transition-transform"
+                    >
+                      {favKeys.has(exp.key) ? "⭐" : "☆"}
+                    </button>
                     <span className="text-white/60">{isOpen ? "▲" : "▼"}</span>
                   </button>
                   {isOpen && (

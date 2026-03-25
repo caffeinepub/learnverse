@@ -803,3 +803,50 @@ export function setPlacementDone(studentNumber: string, level: string): void {
   }
   localStorage.setItem(`learnverse_placement_${studentNumber}`, "done");
 }
+
+// ---- Favorites / Bookmarks ----
+export interface FavoriteItem {
+  id: string; // unique: type + "_" + key
+  type: "story" | "poem" | "experiment";
+  key: string;
+  title: string;
+  emoji: string;
+  savedAt: string;
+}
+
+function favKey(studentNumber: string) {
+  return `learnverse_favorites_${studentNumber}`;
+}
+
+export function getFavorites(studentNumber: string): FavoriteItem[] {
+  try {
+    return JSON.parse(localStorage.getItem(favKey(studentNumber)) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+export function toggleFavorite(
+  studentNumber: string,
+  item: Omit<FavoriteItem, "id" | "savedAt">,
+): boolean {
+  const favs = getFavorites(studentNumber);
+  const id = `${item.type}_${item.key}`;
+  const idx = favs.findIndex((f) => f.id === id);
+  if (idx >= 0) {
+    favs.splice(idx, 1);
+    localStorage.setItem(favKey(studentNumber), JSON.stringify(favs));
+    return false; // removed
+  }
+  favs.push({ ...item, id, savedAt: new Date().toISOString() });
+  localStorage.setItem(favKey(studentNumber), JSON.stringify(favs));
+  return true; // added
+}
+
+export function isFavorite(
+  studentNumber: string,
+  type: string,
+  key: string,
+): boolean {
+  return getFavorites(studentNumber).some((f) => f.id === `${type}_${key}`);
+}

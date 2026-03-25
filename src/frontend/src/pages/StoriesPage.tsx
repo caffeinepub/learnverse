@@ -8,7 +8,9 @@ import {
   getCurrentUser,
   getReadTopics,
   incrementDailyContentRead,
+  isFavorite,
   markTopicRead,
+  toggleFavorite,
   trackContentVisit,
   updatePoints,
 } from "../store";
@@ -564,6 +566,35 @@ export default function StoriesPage() {
   const [comprStep, setComprStep] = useState(0);
   const [comprScore, setComprScore] = useState(0);
   const [comprDone, setComprDone] = useState(false);
+  const [favKeys, setFavKeys] = useState<Set<string>>(() => {
+    if (!profile) return new Set();
+    return new Set(
+      ["story"].flatMap(() =>
+        Object.keys(stories).flatMap((lvl) =>
+          (stories as any)[lvl]
+            .filter((s: any) =>
+              isFavorite(profile.studentNumber, "story", s.key),
+            )
+            .map((s: any) => s.key),
+        ),
+      ),
+    );
+  });
+  function handleToggleFav(s: { key: string; title: string; emoji: string }) {
+    if (!profile) return;
+    const added = toggleFavorite(profile.studentNumber, {
+      type: "story",
+      key: s.key,
+      title: s.title,
+      emoji: s.emoji,
+    });
+    setFavKeys((prev) => {
+      const next = new Set(prev);
+      if (added) next.add(s.key);
+      else next.delete(s.key);
+      return next;
+    });
+  }
 
   useEffect(() => {
     return () => {
@@ -724,11 +755,23 @@ export default function StoriesPage() {
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-3xl">{s.emoji}</span>
-                    <div className="text-white font-black text-lg">
+                    <div className="text-white font-black text-lg flex-1">
                       {s.title}
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleFav(s)}
+                      className="text-xl hover:scale-125 transition-transform"
+                      title={
+                        favKeys.has(s.key)
+                          ? "Favoriden çıkar"
+                          : "Favorilere ekle"
+                      }
+                    >
+                      {favKeys.has(s.key) ? "⭐" : "☆"}
+                    </button>
                     {isRead && (
-                      <span className="ml-auto text-green-300 text-xl">✓</span>
+                      <span className="text-green-300 text-xl">✓</span>
                     )}
                   </div>
                   <p className="text-white/90 text-sm leading-relaxed mb-4">

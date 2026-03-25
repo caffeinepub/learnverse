@@ -4,6 +4,7 @@ import DailyCard from "../components/DailyCard";
 import NoiseMeter from "../components/NoiseMeter";
 import { LANGUAGES, useLanguage } from "../i18n/LanguageContext";
 import type { LangCode } from "../i18n/LanguageContext";
+import { useTheme } from "../i18n/ThemeContext";
 import {
   getBadgeLevel,
   getCurrentUser,
@@ -217,6 +218,7 @@ function RecommendationCard({
 export default function HomePage() {
   const navigate = useNavigate();
   const { t, lang, setLang } = useLanguage();
+  const { isDark, toggleTheme } = useTheme();
   const [profile, setProfile] = useState(getCurrentUser());
   const [dailyGoals, setDailyGoals] = useState(
     profile ? getDailyGoals(profile.studentNumber) : null,
@@ -343,6 +345,14 @@ export default function HomePage() {
       ocid: "home.leaderboard_card",
     },
     {
+      icon: "⭐",
+      title: lang === "en" ? "Favorites" : "Favorilerim",
+      desc: lang === "en" ? "Saved content" : "Kayıtlı içerikler",
+      path: "/favorites",
+      gradient: "from-pink-500 to-rose-500",
+      ocid: "home.favorites_card",
+    },
+    {
       icon: "📜",
       title: t("proverbs"),
       desc: t("proverbs_desc"),
@@ -438,6 +448,14 @@ export default function HomePage() {
       gradient: "from-pink-500 to-rose-400",
       ocid: "home.coloring_card",
     },
+    {
+      icon: "✖️",
+      title: t("multiplication_table"),
+      desc: t("multiplication_table_desc"),
+      path: "/multiplication",
+      gradient: "from-indigo-600 to-purple-500",
+      ocid: "home.multiplication_card",
+    },
   ];
 
   const badge = getBadgeLevel(profile.totalPoints);
@@ -473,8 +491,13 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="bg-white/10 backdrop-blur px-4 py-3 flex items-center justify-between">
+    <div
+      className={[
+        "min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 lv-page",
+        !isDark ? "lv-light-page" : "",
+      ].join(" ")}
+    >
+      <div className="bg-white/10 backdrop-blur px-4 py-3 flex items-center justify-between lv-topbar">
         <div className="flex items-center gap-3">
           <span className="text-4xl">{AVATARS[profile.avatarIndex]}</span>
           <div>
@@ -526,6 +549,15 @@ export default function HomePage() {
               </div>
             )}
           </div>
+          <button
+            type="button"
+            data-ocid="home.theme_toggle"
+            onClick={toggleTheme}
+            className="bg-white/10 hover:bg-white/20 px-2 py-1 rounded-xl text-white text-xs font-bold transition-colors"
+            title={isDark ? "Açık tema" : "Koyu tema"}
+          >
+            {isDark ? "☀️" : "🌙"}
+          </button>
           <div className="text-right">
             <div className="text-white font-bold">⭐ {profile.totalPoints}</div>
             <div className="text-white/70 text-xs">

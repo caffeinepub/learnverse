@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { Suspense, lazy } from "react";
 import { LanguageProvider } from "./i18n/LanguageContext";
+import { ThemeProvider } from "./i18n/ThemeContext";
 import LoginPage from "./pages/LoginPage";
 
 // Lazy-loaded pages
@@ -39,6 +40,10 @@ const TurkeyMapPage = lazy(() => import("./pages/TurkeyMapPage"));
 const VocabularyPage = lazy(() => import("./pages/VocabularyPage"));
 const WrongAnswersPage = lazy(() => import("./pages/WrongAnswersPage"));
 const PlacementTestPage = lazy(() => import("./pages/PlacementTestPage"));
+const FavoritesPage = lazy(() => import("./pages/FavoritesPage"));
+const MultiplicationTablePage = lazy(
+  () => import("./pages/MultiplicationTablePage"),
+);
 const MatchingGame = lazy(() => import("./pages/games/MatchingGame"));
 const MathGame = lazy(() => import("./pages/games/MathGame"));
 const MemoryGame = lazy(() => import("./pages/games/MemoryGame"));
@@ -247,10 +252,21 @@ const codingRoute = createRoute({
   component: withSuspense(CodingPage),
 });
 
+const favoritesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/favorites",
+  component: withSuspense(FavoritesPage),
+});
 const placementRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/placement-test",
   component: withSuspense(PlacementTestPage),
+});
+
+const multiplicationRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/multiplication",
+  component: withSuspense(MultiplicationTablePage),
 });
 
 const routeTree = rootRoute.addChildren([
@@ -288,6 +304,8 @@ const routeTree = rootRoute.addChildren([
   coloringRoute,
   codingRoute,
   placementRoute,
+  favoritesRoute,
+  multiplicationRoute,
 ]);
 
 const router = createRouter({ routeTree });
@@ -300,8 +318,10 @@ declare module "@tanstack/react-router" {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <RouterProvider router={router} />
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <RouterProvider router={router} />
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
