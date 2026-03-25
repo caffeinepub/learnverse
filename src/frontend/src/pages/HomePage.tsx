@@ -11,7 +11,9 @@ import {
   getLastQuizScore,
   getParentMessage,
   getPendingAssignmentsForStudent,
+  getSpacedRepQueue,
   getStreak,
+  getTopicStats,
   markAssignmentCompleted,
   markParentMessageRead,
   updateDailyGoals,
@@ -19,6 +21,198 @@ import {
 } from "../store";
 import type { Assignment } from "../store";
 import { AVATARS, BADGE_EMOJIS, BADGE_NAMES, LEVEL_NAMES } from "../types";
+
+// ---- Personalized Recommendation Engine ----
+const TOPIC_INFO: Record<
+  string,
+  { label: string; labelEn: string; path: string; icon: string }
+> = {
+  science: {
+    label: "Fen Bilimleri",
+    labelEn: "Science",
+    path: "/science",
+    icon: "🔬",
+  },
+  history: {
+    label: "Tarih",
+    labelEn: "History",
+    path: "/history",
+    icon: "🏛️",
+  },
+  geography: {
+    label: "Coğrafya",
+    labelEn: "Geography",
+    path: "/geography",
+    icon: "🌍",
+  },
+  math: {
+    label: "Matematik",
+    labelEn: "Math",
+    path: "/math-practice",
+    icon: "🔢",
+  },
+  general: {
+    label: "Genel Kültür",
+    labelEn: "General Knowledge",
+    path: "/culture",
+    icon: "💡",
+  },
+};
+
+interface Recommendation {
+  topicKey: string;
+  label: string;
+  labelEn: string;
+  path: string;
+  icon: string;
+  reason: string;
+  reasonEn: string;
+}
+
+function getPersonalizedRecommendation(
+  studentNumber: string,
+): Recommendation | null {
+  // Check spaced repetition queue for topics with most pending items
+  const srQueue = getSpacedRepQueue(studentNumber);
+  const topicStats = getTopicStats(studentNumber);
+
+  // Count mistakes per topic from topic stats (lowest accuracy = most need)
+  const topicScores: Record<string, number> = {};
+  for (const [key, stat] of Object.entries(topicStats)) {
+    if (stat.total > 0) {
+      const errorRate = (stat.total - stat.correct) / stat.total;
+      topicScores[key] = errorRate;
+    }
+  }
+
+  // Also weight by spaced rep queue items (more items = more mistakes)
+  // SR items don't have topic tags, but we use their count as a general signal
+  const hasSpacedRepItems = srQueue.length > 0;
+
+  // Find worst-performing topic
+  let worstTopic: string | null = null;
+  let worstScore = -1;
+  for (const [key, score] of Object.entries(topicScores)) {
+    if (score > worstScore && TOPIC_INFO[key]) {
+      worstScore = score;
+      worstTopic = key;
+    }
+  }
+
+  if (worstTopic && worstScore > 0.2) {
+    const info = TOPIC_INFO[worstTopic];
+    const pct = Math.round((1 - worstScore) * 100);
+    return {
+      topicKey: worstTopic,
+      ...info,
+      reason: `${info.icon} ${info.label} konusunda %${pct} başarı oranın var — biraz daha pratik yapalım!`,
+      reasonEn: `${info.icon} You have ${pct}% accuracy in ${info.labelEn} — let's practice more!`,
+    };
+  }
+
+  if (hasSpacedRepItems) {
+    // Generic: suggest quiz for spaced repetition
+    return {
+      topicKey: "general",
+      ...TOPIC_INFO.general,
+      reason:
+        "📝 Tekrar listende bekleyen sorular var — quiz yaparak pekiştir!",
+      reasonEn:
+        "📝 You have questions waiting in your review list — do a quiz!",
+    };
+  }
+
+  return null;
+}
+
+function RecommendationCard({
+  studentNumber,
+  lang,
+}: { studentNumber: string; lang: string }) {
+  const navigate = useNavigate();
+  const dismissKey = `learnverse_rec_dismissed_${studentNumber}_${new Date().toDateString()}`;
+  const [dismissed, setDismissed] = useState(
+    () => localStorage.getItem(dismissKey) === "1",
+  );
+
+  const rec = getPersonalizedRecommendation(studentNumber);
+
+  const handleDismiss = () => {
+    localStorage.setItem(dismissKey, "1");
+    setDismissed(true);
+  };
+
+  if (dismissed) return null;
+
+  if (!rec) {
+    // No history yet: show generic encouragement (dismissable)
+    return (
+      <div
+        data-ocid="home.recommendation_card"
+        className="mx-4 mb-3 relative bg-gradient-to-r from-indigo-600/30 to-violet-600/30 border border-indigo-400/40 rounded-2xl p-4"
+      >
+        <button
+          type="button"
+          data-ocid="home.recommendation_close"
+          onClick={handleDismiss}
+          className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/60 text-xs font-bold transition-all"
+          aria-label="Kapat"
+        >
+          ✕
+        </button>
+        <div className="flex items-start gap-3 pr-6">
+          <span className="text-2xl flex-shrink-0">🌟</span>
+          <div>
+            <div className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-0.5">
+              {lang === "en" ? "For You" : "Senin İçin"}
+            </div>
+            <div className="text-white font-bold text-sm">
+              {lang === "en"
+                ? "Start learning! Every quiz and story earns you points."
+                : "Öğrenmeye başla! Her quiz ve hikaye sana puan kazandırır."}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      data-ocid="home.recommendation_card"
+      className="mx-4 mb-3 relative bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 border border-violet-400/40 rounded-2xl p-4"
+    >
+      <button
+        type="button"
+        data-ocid="home.recommendation_close"
+        onClick={handleDismiss}
+        className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/60 text-xs font-bold transition-all"
+        aria-label="Kapat"
+      >
+        ✕
+      </button>
+      <div className="flex items-center gap-3 pr-6">
+        <span className="text-2xl flex-shrink-0">📚</span>
+        <div className="flex-1 min-w-0">
+          <div className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-0.5">
+            {lang === "en" ? "We recommend" : "Öneri"}
+          </div>
+          <div className="text-white font-bold text-sm leading-snug">
+            {lang === "en" ? rec.reasonEn : rec.reason}
+          </div>
+        </div>
+        <button
+          type="button"
+          data-ocid="home.recommendation_go_button"
+          onClick={() => navigate({ to: rec.path as any })}
+          className="flex-shrink-0 bg-violet-500 hover:bg-violet-400 text-white font-black text-xs px-3 py-2 rounded-xl transition-all"
+        >
+          {lang === "en" ? "Go →" : "Git →"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -511,11 +705,15 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Personalized Recommendation Card (new smart card) */}
+      <RecommendationCard studentNumber={profile.studentNumber} lang={lang} />
+
+      {/* Legacy recommendation based on last quiz score */}
       {lastQuizScore !== null && (
         <div className="px-4 pb-2">
           <button
             type="button"
-            data-ocid="home.recommendation_card"
+            data-ocid="home.quiz_recommendation_card"
             onClick={() =>
               navigate({ to: lastQuizScore < 50 ? "/culture" : "/games" })
             }

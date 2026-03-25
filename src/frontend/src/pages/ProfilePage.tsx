@@ -13,6 +13,144 @@ import { getTopicStats } from "../store";
 import { AVATARS, BADGE_EMOJIS, BADGE_NAMES, LEVEL_NAMES } from "../types";
 import type { Profile } from "../types";
 
+// ---- Certificate Canvas Download ----
+function downloadCertificateAsPng(profile: Profile, badgeLevel: number): void {
+  const canvas = document.createElement("canvas");
+  canvas.width = 800;
+  canvas.height = 560;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  // Background gradient
+  const bg = ctx.createLinearGradient(0, 0, 800, 560);
+  bg.addColorStop(0, "#fff7ed");
+  bg.addColorStop(1, "#fef3c7");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 800, 560);
+
+  // Outer decorative border
+  ctx.strokeStyle = "#f59e0b";
+  ctx.lineWidth = 8;
+  ctx.strokeRect(16, 16, 768, 528);
+  ctx.strokeStyle = "#fbbf24";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(28, 28, 744, 504);
+
+  // Corner ornaments
+  const corners = [
+    [28, 28],
+    [772, 28],
+    [28, 532],
+    [772, 532],
+  ];
+  for (const [cx, cy] of corners) {
+    ctx.fillStyle = "#f59e0b";
+    ctx.beginPath();
+    ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Header strip
+  const headerGrad = ctx.createLinearGradient(0, 48, 800, 48);
+  headerGrad.addColorStop(0, "#f97316");
+  headerGrad.addColorStop(0.5, "#f59e0b");
+  headerGrad.addColorStop(1, "#ec4899");
+  ctx.fillStyle = headerGrad;
+  ctx.fillRect(40, 48, 720, 6);
+
+  // Stars row
+  ctx.font = "24px serif";
+  ctx.fillStyle = "#f59e0b";
+  ctx.textAlign = "center";
+  ctx.fillText("⭐  ⭐  ⭐", 400, 95);
+
+  // App name
+  ctx.font = "bold 38px sans-serif";
+  ctx.fillStyle = "#1f2937";
+  ctx.fillText("LearnVerse", 400, 145);
+
+  // Certificate subtitle
+  ctx.font = "bold 16px sans-serif";
+  ctx.fillStyle = "#f97316";
+  ctx.fillText("BAŞARI SERTİFİKASI", 400, 175);
+
+  // Divider
+  ctx.strokeStyle = "#fde68a";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(120, 190);
+  ctx.lineTo(680, 190);
+  ctx.stroke();
+
+  // Avatar emoji large
+  ctx.font = "80px serif";
+  ctx.fillText(AVATARS[profile.avatarIndex], 400, 285);
+
+  // Student name
+  ctx.font = "bold 36px sans-serif";
+  ctx.fillStyle = "#111827";
+  ctx.fillText(profile.username, 400, 335);
+
+  // Level
+  ctx.font = "16px sans-serif";
+  ctx.fillStyle = "#6b7280";
+  ctx.fillText(LEVEL_NAMES[profile.level], 400, 360);
+
+  // Badge box background
+  ctx.fillStyle = "#fffbeb";
+  const boxX = 270;
+  const boxY = 378;
+  const boxW = 260;
+  const boxH = 68;
+  ctx.beginPath();
+  ctx.roundRect(boxX, boxY, boxW, boxH, 16);
+  ctx.fill();
+  ctx.strokeStyle = "#fbbf24";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.roundRect(boxX, boxY, boxW, boxH, 16);
+  ctx.stroke();
+
+  ctx.font = "32px serif";
+  ctx.fillText(BADGE_EMOJIS[badgeLevel - 1], 316, 422);
+  ctx.font = "bold 22px sans-serif";
+  ctx.fillStyle = "#1f2937";
+  ctx.fillText(BADGE_NAMES[badgeLevel - 1], 420, 420);
+  ctx.font = "12px sans-serif";
+  ctx.fillStyle = "#9ca3af";
+  ctx.fillText("Rozet", 420, 436);
+
+  // Points row
+  ctx.font = "bold 26px sans-serif";
+  ctx.fillStyle = "#f97316";
+  ctx.fillText(`⭐ ${profile.totalPoints} Puan`, 400, 478);
+
+  // Date
+  ctx.font = "13px sans-serif";
+  ctx.fillStyle = "#9ca3af";
+  ctx.fillText(new Date().toLocaleDateString("tr-TR"), 400, 500);
+
+  // Footer strip
+  const footerGrad = ctx.createLinearGradient(0, 530, 800, 530);
+  footerGrad.addColorStop(0, "#ec4899");
+  footerGrad.addColorStop(0.5, "#f59e0b");
+  footerGrad.addColorStop(1, "#f97316");
+  ctx.fillStyle = footerGrad;
+  ctx.fillRect(40, 506, 720, 6);
+
+  canvas.toBlob((blob) => {
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `learnverse-sertifika-${profile.username.toLowerCase().replace(/\s+/g, "-")}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }, "image/png");
+}
+
 // Topic Performance Chart
 function TopicPerformanceChart({ studentNumber }: { studentNumber: string }) {
   const stats = getTopicStats(studentNumber);
@@ -266,6 +404,7 @@ export default function ProfilePage() {
   const [copied, setCopied] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
   const [shareMsg, setShareMsg] = useState("");
+  const [downloading, setDownloading] = useState(false);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: navigate is stable
   useEffect(() => {
@@ -313,8 +452,17 @@ export default function ProfilePage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleDownloadCertificate = () => {
+    setDownloading(true);
+    try {
+      downloadCertificateAsPng(profile, badge);
+    } finally {
+      setTimeout(() => setDownloading(false), 1000);
+    }
+  };
+
   const shareCertificate = async () => {
-    const text = `🎓 LearnVerse Başarı Sertifikası\n${profile.username} — ${LEVEL_NAMES[profile.level]}\nRozet: ${BADGE_EMOJIS[badge - 1]} ${BADGE_NAMES[badge - 1]}\n{t("profile_total_points")}: ${profile.totalPoints}\nTarih: ${new Date().toLocaleDateString("tr-TR")}`;
+    const text = `🎓 LearnVerse Başarı Sertifikası\n${profile.username} — ${LEVEL_NAMES[profile.level]}\nRozet: ${BADGE_EMOJIS[badge - 1]} ${BADGE_NAMES[badge - 1]}\n${t("profile_total_points")}: ${profile.totalPoints}\nTarih: ${new Date().toLocaleDateString("tr-TR")}`;
     if (navigator.share) {
       try {
         await navigator.share({ title: "LearnVerse Sertifikası", text });
@@ -435,7 +583,7 @@ export default function ProfilePage() {
         {/* Study Calendar */}
         <StudyCalendar studentNumber={profile.studentNumber} />
 
-        {/* All Badges */}
+        {/* All Badges — with PNG download for earned ones */}
         <div className="bg-white/20 backdrop-blur rounded-3xl p-4">
           <h3 className="text-white font-bold mb-3">
             🏅 {t("profile_badges")}
@@ -458,6 +606,33 @@ export default function ProfilePage() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Download certificate button for current badge */}
+          <div className="mt-4 pt-3 border-t border-white/20">
+            <button
+              type="button"
+              data-ocid="profile.download_button"
+              onClick={handleDownloadCertificate}
+              disabled={downloading}
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 disabled:opacity-60 text-yellow-900 font-black text-sm py-3 rounded-2xl transition-all shadow-lg hover:shadow-xl active:scale-95"
+            >
+              {downloading ? (
+                <>
+                  <span className="animate-spin text-base">⏳</span>
+                  <span>Hazırlanıyor...</span>
+                </>
+              ) : (
+                <>
+                  <span className="text-base">📥</span>
+                  <span>Sertifikayı İndir (PNG)</span>
+                </>
+              )}
+            </button>
+            <p className="text-white/50 text-xs text-center mt-2">
+              {BADGE_EMOJIS[badge - 1]} {BADGE_NAMES[badge - 1]} rozetinle
+              sertifikayı indir ve paylaş
+            </p>
           </div>
         </div>
 
@@ -602,22 +777,35 @@ export default function ProfilePage() {
                 </div>
               )}
 
-              <div className="flex gap-2">
-                <Button
-                  data-ocid="profile.secondary_button"
-                  onClick={shareCertificate}
-                  className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold rounded-xl"
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <Button
+                    data-ocid="profile.secondary_button"
+                    onClick={shareCertificate}
+                    className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold rounded-xl"
+                  >
+                    📤 Paylaş
+                  </Button>
+                  <Button
+                    data-ocid="profile.close_button"
+                    variant="outline"
+                    onClick={() => setShowCertificate(false)}
+                    className="flex-1 rounded-xl"
+                  >
+                    Kapat
+                  </Button>
+                </div>
+                <button
+                  type="button"
+                  data-ocid="profile.download_button"
+                  onClick={() => {
+                    handleDownloadCertificate();
+                    setShowCertificate(false);
+                  }}
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-400 to-teal-500 text-white font-black text-sm py-2.5 rounded-xl transition-all hover:opacity-90 active:scale-95"
                 >
-                  📤 Paylaş
-                </Button>
-                <Button
-                  data-ocid="profile.close_button"
-                  variant="outline"
-                  onClick={() => setShowCertificate(false)}
-                  className="flex-1 rounded-xl"
-                >
-                  Kapat
-                </Button>
+                  📥 PNG Olarak İndir
+                </button>
               </div>
             </div>
 
