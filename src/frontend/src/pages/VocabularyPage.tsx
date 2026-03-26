@@ -7,6 +7,7 @@ import SpellingPractice, {
 import { useLanguage } from "../i18n/LanguageContext";
 import { contentTranslationsEn } from "../i18n/content-translations";
 import { contentTranslationsEs } from "../i18n/content-translations-es";
+import { contentTranslationsFr } from "../i18n/content-translations-fr";
 import {
   getCurrentUser,
   getReadTopics,
@@ -284,6 +285,7 @@ export default function VocabularyPage() {
   const getTranslation = (key: string) => {
     if (lang === "es") return contentTranslationsEs[key];
     if (lang === "en") return contentTranslationsEn[key];
+    if (lang === "fr") return contentTranslationsFr[key];
     return null;
   };
 

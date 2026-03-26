@@ -175,6 +175,73 @@ const PAIR_SETS = [
       { emoji: "🟠", word: "Turuncu" },
     ],
   },
+  // New sets (6 added)
+  {
+    label: "Hava Durumu",
+    pairs: [
+      { emoji: "☀️", word: "Güneşli" },
+      { emoji: "🌧️", word: "Yağmurlu" },
+      { emoji: "❄️", word: "Karlı" },
+      { emoji: "⛅", word: "Bulutlu" },
+      { emoji: "🌪️", word: "Fırtınalı" },
+      { emoji: "🌈", word: "Gökkuşağı" },
+    ],
+  },
+  {
+    label: "Vücut Parçaları",
+    pairs: [
+      { emoji: "👁️", word: "Göz" },
+      { emoji: "👂", word: "Kulak" },
+      { emoji: "👃", word: "Burun" },
+      { emoji: "👄", word: "Ağız" },
+      { emoji: "🖐️", word: "El" },
+      { emoji: "🦵", word: "Bacak" },
+    ],
+  },
+  {
+    label: "Ev Eşyaları",
+    pairs: [
+      { emoji: "🛋️", word: "Koltuk" },
+      { emoji: "🛏️", word: "Yatak" },
+      { emoji: "🪑", word: "Sandalye" },
+      { emoji: "🚿", word: "Duş" },
+      { emoji: "🪞", word: "Ayna" },
+      { emoji: "🚪", word: "Kapı" },
+    ],
+  },
+  {
+    label: "Şekiller ve Renkler",
+    pairs: [
+      { emoji: "🔴", word: "Kırmızı Daire" },
+      { emoji: "🔵", word: "Mavi Daire" },
+      { emoji: "🟩", word: "Yeşil Kare" },
+      { emoji: "🟨", word: "Sarı Kare" },
+      { emoji: "🔺", word: "Kırmızı Üçgen" },
+      { emoji: "🟦", word: "Mavi Kare" },
+    ],
+  },
+  {
+    label: "Araçlar ve Aletler",
+    pairs: [
+      { emoji: "🔨", word: "Çekiç" },
+      { emoji: "🔑", word: "Anahtar" },
+      { emoji: "✂️", word: "Makas" },
+      { emoji: "🔧", word: "İngiliz Anahtarı" },
+      { emoji: "🪛", word: "Tornavida" },
+      { emoji: "📏", word: "Cetvel" },
+    ],
+  },
+  {
+    label: "Deniz Canlıları",
+    pairs: [
+      { emoji: "🐙", word: "Ahtapot" },
+      { emoji: "🦈", word: "Köpek Balığı" },
+      { emoji: "🐬", word: "Yunus" },
+      { emoji: "🦀", word: "Yengeç" },
+      { emoji: "🐡", word: "Balon Balığı" },
+      { emoji: "🦑", word: "Kalamar" },
+    ],
+  },
 ];
 
 function shuffleArr<T>(arr: T[]): T[] {

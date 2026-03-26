@@ -21,6 +21,11 @@ import {
   extraQuestionsOkulOncesi,
   extraQuestionsOrtaokul,
 } from "../data/questions-extra";
+import {
+  questionsFrMiddle,
+  questionsFrPreschool,
+  questionsFrPrimary,
+} from "../data/questions-fr";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   addToSpacedRep,
@@ -192,6 +197,20 @@ function getLangLabel(lang: string, key: string): string {
     };
     return map[key] || key;
   }
+  if (lang === "fr") {
+    const map: Record<string, string> = {
+      Choose_Quiz_Topic: "Choisir le Sujet du Quiz",
+      Select_topic_or_daily: "Sélectionner un sujet ou jouer le quiz quotidien",
+      Already_played: "✅ Déjà joué aujourd'hui",
+      Daily_quiz_info: "Quiz quotidien • 1 par jour • gagne une série",
+      Topic_quiz_info: "Quiz thématique • Illimité",
+      Play_Again: "Rejouer",
+      Review: "Révision",
+      questions_due_sub: "Ils apparaîtront au début de votre prochain quiz",
+    };
+    if (key === "questions_due") return "";
+    return map[key] || key;
+  }
   const map: Record<string, string> = {
     Choose_Quiz_Topic: "Quiz Konusu Seç",
     Select_topic_or_daily: "Bir konu seç veya günlük quiz oyna",
@@ -220,6 +239,11 @@ export default function QuizPage() {
       if (level === "okul_oncesi") return questionsEsPreschool;
       if (level === "ortaokul") return questionsEsMiddle;
       return questionsEsPrimary;
+    }
+    if (lang === "fr") {
+      if (level === "okul_oncesi") return questionsFrPreschool;
+      if (level === "ortaokul") return questionsFrMiddle;
+      return questionsFrPrimary;
     }
     if (lang === "en") {
       if (level === "okul_oncesi") return questionsEnPreschool;
@@ -386,7 +410,9 @@ export default function QuizPage() {
                     ? `${dueCount} pregunta${dueCount > 1 ? "s" : ""} para repasar`
                     : lang === "en"
                       ? `${dueCount} question${dueCount > 1 ? "s" : ""} due for review`
-                      : `${dueCount} soru tekrar için bekliyor`}
+                      : lang === "fr"
+                        ? `${dueCount} question${dueCount > 1 ? "s" : ""} à réviser`
+                        : `${dueCount} soru tekrar için bekliyor`}
                 </div>
                 <div className="text-orange-100 text-xs">
                   {lang === "es"

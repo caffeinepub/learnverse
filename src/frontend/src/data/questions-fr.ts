@@ -1,0 +1,280 @@
+import type { Question } from "../types";
+
+export const questionsFrPreschool: Question[] = [
+  {
+    type: "multiple" as const,
+    text: "De quelle couleur est le soleil ?",
+    choices: ["Bleu", "Jaune", "Rouge", "Vert"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien de pattes a un chat ?",
+    choices: ["2", "4", "6", "8"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel fruit est jaune et courbé ?",
+    choices: ["Pomme", "Orange", "Banane", "Raisin"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Où vivent les poissons ?",
+    choices: ["Terre", "Ciel", "Eau", "Arbres"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quelle saison apporte la neige ?",
+    choices: ["Été", "Printemps", "Automne", "Hiver"],
+    correctIndex: 3,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel son fait un chien ?",
+    choices: ["Miaou", "Meuh", "Ouaf", "Oink"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien de doigts a une main ?",
+    choices: ["3", "4", "5", "6"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Lequel est un fruit ?",
+    choices: ["Carotte", "Pomme de terre", "Pomme", "Brocoli"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quelle forme a une balle ?",
+    choices: ["Carré", "Triangle", "Rond", "Rectangle"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Que font les abeilles ?",
+    choices: ["Lait", "Miel", "Beurre", "Jus"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quelle couleur obtient-on en mélangeant rouge et blanc ?",
+    choices: ["Orange", "Violet", "Rose", "Marron"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien de côtés a un triangle ?",
+    choices: ["2", "3", "4", "5"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Qu'est-ce qui brille la nuit dans le ciel ?",
+    choices: ["Le soleil", "Les nuages", "Les étoiles", "La pluie"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel animal dit 'miaou' ?",
+    choices: ["Chien", "Chat", "Vache", "Grenouille"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien font 2 + 3 ?",
+    choices: ["4", "5", "6", "7"],
+    correctIndex: 1,
+  },
+];
+
+export const questionsFrPrimary: Question[] = [
+  {
+    type: "multiple" as const,
+    text: "Combien font 7 × 8 ?",
+    choices: ["54", "56", "58", "60"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quelle est la capitale de la France ?",
+    choices: ["Lyon", "Marseille", "Paris", "Bordeaux"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel gaz les plantes utilisent-elles pour la photosynthèse ?",
+    choices: ["Oxygène", "Azote", "Dioxyde de carbone", "Hydrogène"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien de continents y a-t-il sur Terre ?",
+    choices: ["5", "6", "7", "8"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien de jours y a-t-il dans une semaine ?",
+    choices: ["5", "6", "7", "8"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Sur quelle planète vivons-nous ?",
+    choices: ["Mars", "Vénus", "Terre", "Jupiter"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien font 100 ÷ 4 ?",
+    choices: ["20", "25", "30", "35"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien de mois y a-t-il dans une année ?",
+    choices: ["10", "11", "12", "13"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel est le plus grand océan ?",
+    choices: ["Atlantique", "Indien", "Pacifique", "Arctique"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien y a-t-il de couleurs dans un arc-en-ciel ?",
+    choices: ["5", "6", "7", "8"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel organe pompe le sang dans notre corps ?",
+    choices: ["Poumon", "Foie", "Cœur", "Rein"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien de côtés a un hexagone ?",
+    choices: ["4", "5", "6", "7"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel est le métal le plus léger ?",
+    choices: ["Fer", "Aluminium", "Lithium", "Or"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien font 15 × 4 ?",
+    choices: ["55", "60", "65", "70"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quelle planète est connue comme la planète rouge ?",
+    choices: ["Vénus", "Jupiter", "Mars", "Saturne"],
+    correctIndex: 2,
+  },
+];
+
+export const questionsFrMiddle: Question[] = [
+  {
+    type: "multiple" as const,
+    text: "Quelle est la formule chimique de l'eau ?",
+    choices: ["CO2", "O2", "H2O", "NaCl"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "En quelle année la Révolution française a-t-elle commencé ?",
+    choices: ["1776", "1789", "1799", "1815"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quelle est la vitesse de la lumière ?",
+    choices: ["100 000 km/s", "200 000 km/s", "300 000 km/s", "400 000 km/s"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel est le plus grand pays du monde par superficie ?",
+    choices: ["Canada", "Chine", "États-Unis", "Russie"],
+    correctIndex: 3,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien d'os y a-t-il dans le corps humain ?",
+    choices: ["186", "206", "226", "246"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel est le symbole chimique de l'or ?",
+    choices: ["Ag", "Fe", "Au", "Cu"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quelle est la plus haute montagne du monde ?",
+    choices: ["K2", "Mont Blanc", "Mont Everest", "Aconcagua"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel est le résultat de √144 ?",
+    choices: ["10", "11", "12", "13"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "En quelle année l'homme a-t-il marché sur la Lune ?",
+    choices: ["1965", "1969", "1971", "1975"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel est le nombre de chromosomes dans une cellule humaine ?",
+    choices: ["23", "46", "48", "92"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel scientifique a découvert la gravité ?",
+    choices: ["Einstein", "Galilée", "Newton", "Darwin"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Combien font 2³ ?",
+    choices: ["6", "7", "8", "9"],
+    correctIndex: 2,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel est le plus long fleuve du monde ?",
+    choices: ["Amazone", "Nil", "Mississippi", "Yangtsé"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quelle est la distance entre la Terre et la Lune ?",
+    choices: ["200 000 km", "384 400 km", "500 000 km", "1 000 000 km"],
+    correctIndex: 1,
+  },
+  {
+    type: "multiple" as const,
+    text: "Quel est l'élément le plus abondant dans l'univers ?",
+    choices: ["Oxygène", "Carbone", "Hydrogène", "Azote"],
+    correctIndex: 2,
+  },
+];
