@@ -1,4 +1,9 @@
 import type { Question } from "../types";
+import {
+  extraQuestionsIlkokul,
+  extraQuestionsOkulOncesi,
+  extraQuestionsOrtaokul,
+} from "./questions-extra";
 
 export const questionsOkulOncesi: Question[] = [
   {
@@ -2482,9 +2487,11 @@ export const questionsOrtaokul: Question[] = [
 export function getDailyQuestions(level: string): typeof questionsOkulOncesi {
   const today = new Date().toDateString();
   let pool: typeof questionsOkulOncesi;
-  if (level === "okul_oncesi") pool = questionsOkulOncesi;
-  else if (level === "ilkokul") pool = questionsIlkokul;
-  else pool = questionsOrtaokul;
+  if (level === "okul_oncesi")
+    pool = [...questionsOkulOncesi, ...extraQuestionsOkulOncesi];
+  else if (level === "ilkokul")
+    pool = [...questionsIlkokul, ...extraQuestionsIlkokul];
+  else pool = [...questionsOrtaokul, ...extraQuestionsOrtaokul];
 
   // Seed shuffle with today's date
   let seed = today.split("").reduce((a, c) => a + c.charCodeAt(0), 0);

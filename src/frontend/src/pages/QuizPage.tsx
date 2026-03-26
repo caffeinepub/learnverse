@@ -1,7 +1,11 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
-import { getAdaptiveDailyQuestions } from "../data/questions";
+import {
+  questionsIlkokul,
+  questionsOkulOncesi,
+  questionsOrtaokul,
+} from "../data/questions";
 import {
   questionsEnMiddle,
   questionsEnPreschool,
@@ -12,12 +16,16 @@ import {
   questionsEsPreschool,
   questionsEsPrimary,
 } from "../data/questions-es";
+import {
+  extraQuestionsIlkokul,
+  extraQuestionsOkulOncesi,
+  extraQuestionsOrtaokul,
+} from "../data/questions-extra";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   addToSpacedRep,
   getCurrentUser,
   getDueSpacedItems,
-  getLastQuizScore,
   hasPlayedQuizToday,
   markQuizPlayedToday,
   markSpacedRepCorrect,
@@ -218,8 +226,11 @@ export default function QuizPage() {
       if (level === "ortaokul") return questionsEnMiddle;
       return questionsEnPrimary;
     }
-    const lastScore = getLastQuizScore(profile?.studentNumber || "");
-    return getAdaptiveDailyQuestions(level, lastScore);
+    if (level === "okul_oncesi")
+      return [...questionsOkulOncesi, ...extraQuestionsOkulOncesi];
+    if (level === "ortaokul")
+      return [...questionsOrtaokul, ...extraQuestionsOrtaokul];
+    return [...questionsIlkokul, ...extraQuestionsIlkokul];
   });
 
   const [questions, setQuestions] = useState<Question[]>([]);

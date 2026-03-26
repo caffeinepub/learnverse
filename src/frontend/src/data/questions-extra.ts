@@ -1,0 +1,698 @@
+import type { Question } from "../types";
+
+// Extra topic-tagged questions for better topic-based quiz coverage
+// Keywords in text match TOPIC_CONFIG filters in QuizPage
+
+export const extraQuestionsOkulOncesi: Question[] = [
+  // Fen (science) sorular
+  {
+    text: "Hangi hayvan yumurta yumurtlar?",
+    choices: ["Köpek", "Tavuk", "İnek", "At"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Bitkiler büyümek için neye ihtiyaç duyar?",
+    choices: [
+      "Sadece suya",
+      "Güneş, su ve toprak",
+      "Sadece toprağa",
+      "Sadece güneşe",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Hangi hayvan balık yiyerek beslenir?",
+    choices: ["Fil", "Zürafa", "Yunus", "Deve"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Çiçekler hangi mevsimde açar?",
+    choices: ["Kış", "İlkbahar", "Sonbahar", "Her mevsim"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Hangi canlı karada ve suda yaşar?",
+    choices: ["Balık", "Kuş", "Kurbağa", "Yılan"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Buz eridiğinde ne olur?",
+    choices: ["Buhar olur", "Su olur", "Toz olur", "Taş olur"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Hangi hayvan çok hızlı koşar?",
+    choices: ["Kaplumbağa", "Salyangoz", "Çita", "Balık"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Ağaçlar ne üretir?",
+    choices: ["Karbondioksit", "Oksijen", "Azot", "Hidrojen"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Hangi meyvede C vitamini çok bulunur?",
+    choices: ["Muz", "Portakal", "Üzüm", "Kavun"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Gök gürültüsü nedir?",
+    choices: [
+      "Güneş sesi",
+      "Bulutlar çarpınca oluşan ses",
+      "Rüzgar sesi",
+      "Yağmur sesi",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  // Matematik sorular
+  {
+    text: "5 + 3 kaçtır?",
+    choices: ["7", "8", "9", "6"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "10 - 4 kaçtır?",
+    choices: ["5", "6", "7", "8"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "2 × 3 kaçtır?",
+    choices: ["4", "5", "6", "7"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "8 ÷ 2 kaçtır?",
+    choices: ["2", "3", "4", "5"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Toplama işleminde 3 + 0 kaçtır?",
+    choices: ["0", "3", "30", "1"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Sayı sırasında 7'den sonra hangi sayı gelir?",
+    choices: ["6", "8", "9", "10"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "20'nin yarısı kaçtır?",
+    choices: ["5", "10", "15", "25"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "4 + 4 kaçtır?",
+    choices: ["6", "7", "8", "9"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "3 tane 2 varsa toplam kaç eder? (toplama)",
+    choices: ["4", "5", "6", "7"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "9 - 3 kaçtır?",
+    choices: ["4", "5", "6", "7"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+];
+
+export const extraQuestionsIlkokul: Question[] = [
+  // Fen (science) sorular
+  {
+    text: "Fotosentez sırasında bitkiler hangi gazı emer?",
+    choices: ["Oksijen", "Azot", "Karbondioksit", "Hidrojen"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Işığın hızı yaklaşık kaçtır?",
+    choices: ["100.000 km/s", "300.000 km/s", "500.000 km/s", "1.000.000 km/s"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Hangisi omurgasız bir hayvandır?",
+    choices: ["Köpek", "Kedi", "Solucan", "At"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Insan vücudunda kaç kemik vardır?",
+    choices: ["150", "186", "206", "250"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Güneş sistemimizdeki en küçük gezegen hangisidir?",
+    choices: ["Mars", "Merkür", "Venüs", "Plüton"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Yağmur nasıl oluşur? (fen bilgisi)",
+    choices: [
+      "Bulutlar soğuyunca su damlacıkları düşer",
+      "Güneş ısınınca",
+      "Rüzgar yağmur taşır",
+      "Denizden doğrudan düşer",
+    ],
+    correctIndex: 0,
+    type: "multiple",
+  },
+  {
+    text: "Hangi madde ısıtılınca genişler? (madde)",
+    choices: [
+      "Sadece katılar",
+      "Sadece sıvılar",
+      "Sadece gazlar",
+      "Tüm maddeler",
+    ],
+    correctIndex: 3,
+    type: "multiple",
+  },
+  {
+    text: "Bitkinin hangi kısmı fotosentez yapar? (fen)",
+    choices: ["Kök", "Gövde", "Yaprak", "Tohum"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Elektrik iletken olan madde hangisidir? (fen)",
+    choices: ["Ahşap", "Plastik", "Cam", "Bakır"],
+    correctIndex: 3,
+    type: "multiple",
+  },
+  {
+    text: "Hava kirliliğine neden olan madde hangisidir? (çevre)",
+    choices: ["Rüzgar", "Fabrika dumanı", "Yağmur", "Güneş"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  // Tarih sorular
+  {
+    text: "Atatürk hangi şehirde doğmuştur?",
+    choices: ["Ankara", "İstanbul", "Selanik", "İzmir"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Türkiye Cumhuriyeti hangi yılda kuruldu? (tarih)",
+    choices: ["1920", "1923", "1925", "1928"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Osmanlı İmparatorluğu'nun başkenti nereydi? (tarih)",
+    choices: ["Ankara", "İzmir", "İstanbul", "Bursa"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Kurtuluş Savaşı hangi yılda başlamıştır? (tarih)",
+    choices: ["1919", "1920", "1921", "1922"],
+    correctIndex: 0,
+    type: "multiple",
+  },
+  {
+    text: "Fatih Sultan Mehmet İstanbul'u hangi yılda fethetti? (tarih)",
+    choices: ["1299", "1453", "1492", "1521"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Türk milletinin kahramanı olarak bilinen Atatürk'ün soyadı nedir? (tarih)",
+    choices: ["Türkoğlu", "Kemalpaşa", "Atatürk", "Cumhurbey"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Divan-ı Hümayun nedir? (osmanlı tarihi)",
+    choices: ["Bir şehir", "Devlet meclisi", "Bir cami", "Saray odası"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Çanakkale Savaşı hangi yıllarda yaşandı? (tarih)",
+    choices: ["1912-1913", "1914-1915", "1915-1916", "1920-1921"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Anadolu'da ilk Türk devleti hangisidir? (tarih)",
+    choices: [
+      "Osmanlı",
+      "Anadolu Selçukluları",
+      "Büyük Selçuklular",
+      "Karamanoğulları",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "İlk Türk alfabesi olarak bilinen yazı sistemi nedir? (tarih)",
+    choices: [
+      "Arap alfabesi",
+      "Latin alfabesi",
+      "Göktürk yazısı",
+      "Sümer çiviyazısı",
+    ],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  // Coğrafya sorular
+  {
+    text: "Türkiye hangi kıtadadır? (coğrafya)",
+    choices: ["Sadece Avrupa", "Sadece Asya", "Hem Avrupa hem Asya", "Afrika"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Dünyanın en yüksek dağı nerededir? (coğrafya)",
+    choices: ["Türkiye", "İsviçre", "Nepal", "Peru"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Türkiye kaç il'den oluşur? (coğrafya)",
+    choices: ["71", "79", "81", "83"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "İstanbul Boğazı hangi iki denizi birleştirir? (coğrafya)",
+    choices: [
+      "Karadeniz-Marmara",
+      "Ege-Akdeniz",
+      "Marmara-Ege",
+      "Karadeniz-Ege",
+    ],
+    correctIndex: 0,
+    type: "multiple",
+  },
+  {
+    text: "Avrupa'nın en uzun nehri hangisidir? (coğrafya)",
+    choices: ["Tuna", "Ren", "Volga", "İsend"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Türkiye'nin en uzun nehri hangisidir? (coğrafya)",
+    choices: ["Sakarya", "Kızılırmak", "Fırat", "Yeşilırmak"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Antarktika hangi kutuptadır? (coğrafya)",
+    choices: ["Kuzey Kutbu", "Güney Kutbu", "İkisi de", "İkisi de değil"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Amazon nehri hangi ülkededir? (coğrafya)",
+    choices: ["Arjantin", "Şili", "Brezilya", "Peru"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Japonya'nın başkenti neresidir? (başkent coğrafya)",
+    choices: ["Osaka", "Kyoto", "Tokyo", "Nagoya"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Hangi ülke dünyada en fazla nüfusa sahiptir? (coğrafya ülke)",
+    choices: ["ABD", "Rusya", "Hindistan", "Çin"],
+    correctIndex: 3,
+    type: "multiple",
+  },
+  // Matematik sorular
+  {
+    text: "7 × 8 kaçtır?",
+    choices: ["48", "54", "56", "64"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "144 ÷ 12 kaçtır?",
+    choices: ["10", "11", "12", "13"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Bir dikdörtgenin alanı nasıl hesaplanır? (matematik)",
+    choices: [
+      "Uzunluk + Genişlik",
+      "Uzunluk × Genişlik",
+      "2 × (Uzunluk + Genişlik)",
+      "Uzunluk ÷ Genişlik",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "3/4 + 1/4 kaçtır? (kesir matematik)",
+    choices: ["2/4", "4/4", "3/8", "1/2"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "%50 ne anlama gelir? (oran matematik)",
+    choices: ["Yarısı", "Tamamı", "Çeyreği", "1/3'ü"],
+    correctIndex: 0,
+    type: "multiple",
+  },
+  {
+    text: "1000 - 437 kaçtır? (hesap matematik)",
+    choices: ["563", "573", "463", "553"],
+    correctIndex: 0,
+    type: "multiple",
+  },
+  {
+    text: "Bir üçgenin açılarının toplamı kaç derecedir? (geometri matematik)",
+    choices: ["90", "180", "270", "360"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "İki sayının EBOB'u ne demektir? (matematik)",
+    choices: [
+      "En Büyük Ortak Bölen",
+      "En Küçük Ortak Kat",
+      "En Büyük Ortak Kat",
+      "En Küçük Ortak Bölen",
+    ],
+    correctIndex: 0,
+    type: "multiple",
+  },
+  {
+    text: "9 × 9 kaçtır? (çarpım)",
+    choices: ["72", "81", "90", "99"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "250 + 375 kaçtır? (toplama matematik)",
+    choices: ["600", "615", "625", "650"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+];
+
+export const extraQuestionsOrtaokul: Question[] = [
+  // Fen/Bilim sorular
+  {
+    text: "Atomun çekirdeğinde hangi parçacıklar bulunur? (atom fen)",
+    choices: [
+      "Elektron ve Nötron",
+      "Proton ve Nötron",
+      "Proton ve Elektron",
+      "Sadece Proton",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "DNA ne işe yarar? (hücre fen biyoloji)",
+    choices: [
+      "Enerji üretir",
+      "Kalıtsal bilgiyi taşır",
+      "Oksijen taşır",
+      "Sindirim yapar",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Işık enerjisi elektrik enerjisine nasıl çevrilir? (enerji fen)",
+    choices: [
+      "Dinamo ile",
+      "Güneş pili ile",
+      "Batarya ile",
+      "Transformatör ile",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "pH değeri 7'den küçük olan madde nasıl bir özellik taşır? (madde fen)",
+    choices: ["Bazik", "Nötr", "Asidik", "İnert"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Newton'un hareket kanunlarını kaç tane olduğunu bilir misiniz? (fen fizik)",
+    choices: ["1", "2", "3", "4"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Hangi gezegen güneşe en yakındır? (gezegen fen)",
+    choices: ["Venüs", "Dünya", "Mars", "Merkür"],
+    correctIndex: 3,
+    type: "multiple",
+  },
+  {
+    text: "Elektromanyetik dalgalar içinde görünür ışık nerededir? (fen enerji)",
+    choices: [
+      "Mor ötesi",
+      "Görünür spektrumda",
+      "Kızılötesi",
+      "Radyo dalgaları",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Hangi element periyodik tabloda Au sembolüyle gösterilir? (atom madde)",
+    choices: ["Gümüş", "Altın", "Bakır", "Alüminyum"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Ekolojide besin zincirinde üretici kimdir? (canlı fen)",
+    choices: ["Etobur", "Otobur", "Bitki", "Mantar"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Işığın kırılması neyle açıklanır? (fen fizik)",
+    choices: [
+      "Madde farklılığından geçişte hızın değişmesi",
+      "Maddenin ışığı emmesi",
+      "Maddenin ışığı yansıtması",
+      "Hızın sabit kalması",
+    ],
+    correctIndex: 0,
+    type: "multiple",
+  },
+  // Tarih sorular
+  {
+    text: "Fransız İhtilali hangi yılda yaşandı? (tarih dünya)",
+    choices: ["1776", "1789", "1815", "1848"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Birinci Dünya Savaşı kaç yılında başladı? (tarih savaş)",
+    choices: ["1912", "1914", "1916", "1918"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Osmanlı İmparatorluğu hangi yılda yıkıldı? (osmanlı tarih)",
+    choices: ["1918", "1920", "1922", "1924"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Atatürk hangi yılda vefat etti? (tarih cumhuriyet)",
+    choices: ["1936", "1938", "1940", "1942"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Roma İmparatorluğu hangi kıtada kurulmuştur? (tarih)",
+    choices: ["Asya", "Afrika", "Avrupa", "Amerika"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Sümerler hangi alanda önemli bir katkı sağlamıştır? (tarih medeniyet)",
+    choices: ["Matbaa", "Çivi yazısı", "Pusula", "Barut"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "İkinci Dünya Savaşı'nı sona erdiren nükleer bomba hangi şehre atıldı? (tarih savaş)",
+    choices: ["Tokyo", "Osaka", "Hiroshima", "Nagasaki"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Osmanlı'da Tanzimat Fermanı hangi padişah döneminde ilan edildi? (osmanlı tarih)",
+    choices: ["II. Mahmud", "Abdülmecid", "Abdülaziz", "II. Abdülhamid"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Türk-İslam tarihinin ilk büyük devleti hangisidir? (tarih)",
+    choices: ["Osmanlı", "Selçuklular", "Gazneliler", "Karahanlılar"],
+    correctIndex: 3,
+    type: "multiple",
+  },
+  {
+    text: "Magna Carta hangi yılda imzalandı? (tarih dünya)",
+    choices: ["1066", "1215", "1348", "1492"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  // Coğrafya sorular
+  {
+    text: "Dünya'nın en büyük okyanusu hangisidir? (okyanus coğrafya)",
+    choices: ["Atlantik", "Hint", "Arktik", "Pasifik"],
+    correctIndex: 3,
+    type: "multiple",
+  },
+  {
+    text: "Türkiye kaç komşu ülkesiyle sınır paylaşır? (coğrafya il sınır)",
+    choices: ["6", "7", "8", "9"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Dünyanın en büyük kıtası hangisidir? (kıta coğrafya)",
+    choices: ["Afrika", "Kuzey Amerika", "Asya", "Avrupa"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Ekvatora en yakın ülke hangisidir? (coğrafya)",
+    choices: ["Türkiye", "Brezilya", "Rusya", "Japonya"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Nil nehri hangi ülkenin içinden geçer? (nehir coğrafya)",
+    choices: ["Nijerya", "Etyopya ve Mısır", "Kenya", "Tanzanya"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Dünyanın en büyük çölü hangisidir? (çöl coğrafya)",
+    choices: ["Gobi", "Arabistan", "Antarktika", "Sahara"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Türkiye'nin en yüksek dağı nedir? (dağ coğrafya)",
+    choices: ["Erciyes", "Uludağ", "Ağrı", "Hasan"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Brezilya'nın resmi dili hangisidir? (ülke coğrafya başkent)",
+    choices: ["İspanyolca", "Portekizce", "Fransızca", "İngilizce"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Hangi deniz Türkiye'nin güneyindedir? (deniz coğrafya)",
+    choices: ["Karadeniz", "Marmara", "Ege", "Akdeniz"],
+    correctIndex: 3,
+    type: "multiple",
+  },
+  {
+    text: "Avustralya hangi kıtada yer alır? (kıta coğrafya)",
+    choices: ["Asya", "Okyanusya", "Afrika", "Güney Amerika"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  // Matematik sorular
+  {
+    text: "Bir dairenin çevresi nasıl hesaplanır? (geometri matematik)",
+    choices: ["π × r", "2 × π × r", "π × r²", "2 × r"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "x² = 25 ise x kaçtır? (denklem matematik)",
+    choices: ["4", "5", "6", "7"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Asal sayı nedir? (matematik)",
+    choices: [
+      "Sadece 1'e bölünen",
+      "Sadece 1 ve kendisine bölünen",
+      "İki'nin katı olan",
+      "Negatif sayı",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "log₁₀(100) kaçtır? (matematik logaritma)",
+    choices: ["1", "2", "10", "100"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Doğrusal denklem ax + b = 0'da kaç bilinmeyeni vardır? (denklem matematik)",
+    choices: ["Sıfır", "Bir", "İki", "Üç"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Fibonacci dizisinde 8'den sonra hangi sayı gelir? (sayı matematik)",
+    choices: ["10", "11", "13", "16"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "3/5'nin ondalık karşılığı nedir? (kesir matematik)",
+    choices: ["0,3", "0,5", "0,6", "0,35"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Bir küpün hacmi nasıl hesaplanır? (geometri matematik)",
+    choices: ["a²", "a³", "6a²", "4a"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "%25 artış ise 200 ne olur? (oran matematik hesap)",
+    choices: ["220", "225", "240", "250"],
+    correctIndex: 3,
+    type: "multiple",
+  },
+  {
+    text: "İki ardışık çift sayının farkı kaçtır? (sayı matematik)",
+    choices: ["1", "2", "3", "4"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+];
