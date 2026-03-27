@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { puzzlesEn } from "../data/puzzlesEn";
 import { puzzlesEs } from "../data/puzzlesEs";
+import { puzzlesFr } from "../data/puzzlesFr";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -580,7 +581,14 @@ export default function PuzzlesPage() {
   const { t, lang } = useLanguage();
   const isEn = lang === "en";
   const profile = getCurrentUser();
-  const displayPuzzles = lang === "es" ? puzzlesEs : isEn ? puzzlesEn : puzzles;
+  const displayPuzzles =
+    lang === "fr"
+      ? puzzlesFr
+      : lang === "es"
+        ? puzzlesEs
+        : isEn
+          ? puzzlesEn
+          : puzzles;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {

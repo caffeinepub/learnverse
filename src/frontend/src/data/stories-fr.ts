@@ -1,0 +1,235 @@
+type Level = "okul_oncesi" | "ilkokul" | "ortaokul";
+
+export const storiesFr: Record<
+  Level,
+  { key: string; title: string; emoji: string; text: string }[]
+> = {
+  okul_oncesi: [
+    {
+      key: "story_kucuk_kedi",
+      title: "Le petit chat Minnoş",
+      emoji: "🐱",
+      text: "Il était une fois un petit chat nommé Minnoş. Chaque matin, il jouait dans le jardin. Un jour, il vit un beau papillon. Il courut après le papillon mais ne put pas l'attraper. Il rentra à la maison en riant.",
+    },
+    {
+      key: "story_tavsan_kaplumbaga",
+      title: "Le lièvre et la tortue",
+      emoji: "🐢",
+      text: "Un lièvre et une tortue décidèrent de faire une course. Le lièvre courut très vite puis s'allongea pour se reposer. La tortue avança lentement mais sans jamais s'arrêter. La tortue gagna la course. La patience gagne toujours !",
+    },
+    {
+      key: "story_cesur_fare",
+      title: "La souris courageuse Piko",
+      emoji: "🐭",
+      text: "Il y avait une souris courageuse nommée Piko. Ses amis avaient peur des chats, mais pas Piko. Un jour, il aida toutes les souris et les mit en sécurité. Tout le monde aimait beaucoup Piko.",
+    },
+    {
+      key: "story_uc_kucuk_domuz",
+      title: "Les trois petits cochons",
+      emoji: "🐷",
+      text: "Trois petits cochons construisirent des maisons. L'un utilisa de la paille, l'autre du bois, et le dernier des briques. Le loup souffla et renversa les maisons de paille et de bois. Mais il ne put pas renverser la maison en briques. Il est important de bien construire !",
+    },
+    {
+      key: "story_kar_tanesi",
+      title: "Le flocon de neige",
+      emoji: "❄️",
+      text: "Un petit flocon de neige tombait du ciel. 'Où vais-je ?' se demanda-t-il. Il se posa sur le nez d'un enfant et fondit. 'Je suis maintenant le sourire de cet enfant !' dit-il avec bonheur.",
+    },
+    {
+      key: "story_kirmizi_baslikh",
+      title: "Le Petit Chaperon Rouge",
+      emoji: "🧺",
+      text: "Le Petit Chaperon Rouge portait de la nourriture à sa grand-mère. Dans la forêt, elle rencontra un grand méchant loup. Mais elle était courageuse et intelligente. Le bûcheron vint à son secours et tout le monde fut heureux. Méfiez-vous des inconnus.",
+    },
+    {
+      key: "story_tohumun_macerasi",
+      title: "L'aventure de la graine",
+      emoji: "🌱",
+      text: "Une toute petite graine tomba dans la terre. 'Que fais-je ici ?' se demanda-t-elle. La pluie tomba et le soleil se leva. Les jours passèrent et la graine devint un grand et bel arbre. Être patient apporte de grandes choses.",
+    },
+    {
+      key: "story_renkli_balik",
+      title: "Le poisson coloré",
+      emoji: "🐠",
+      text: "Un poisson coloré vivait dans les profondeurs de l'océan. Tous ses amis avaient la même couleur, mais lui était différent. Il était triste au début, puis il réalisa : être différent est une force. Il devint l'ami le plus aimé de tous.",
+    },
+    {
+      key: "story_kuyudaki_kurbaga",
+      title: "La grenouille dans le puits",
+      emoji: "🐸",
+      text: "Une grenouille vivait dans un puits. 'Le monde, c'est ce puits,' disait-elle. Un jour, un oiseau vint lui parler des grands océans. La grenouille fut étonnée et décida d'explorer le monde. La curiosité nous fait grandir.",
+    },
+    {
+      key: "story_yeni_1",
+      title: "Le chien moelleux Pamuk",
+      emoji: "🐶",
+      text: "Il y avait un chien blanc et moelleux nommé Pamuk. Chaque jour, il allait au parc avec son maître. Il jouait avec les enfants et courait après les balles. Le soir en rentrant, il remuait la queue de bonheur. L'amitié est la meilleure façon de passer une belle journée.",
+    },
+    {
+      key: "story_yeni_2",
+      title: "Le crayon magique",
+      emoji: "✏️",
+      text: "Ali avait un crayon magique. Tout ce qu'il dessinait prenait vie. Il dessina le soleil et la pièce s'éclaira. Il dessina des fleurs et la pièce devint belle. Et surtout, quand il dessina un ami, un vrai compagnon apparut à ses côtés.",
+    },
+    {
+      key: "story_yeni_3",
+      title: "La petite étoile",
+      emoji: "⭐",
+      text: "Il y avait une petite étoile dans le ciel. 'Je suis si petite, personne ne me voit,' disait-elle tristement. Mais une nuit, un enfant perdu retrouva son chemin grâce à sa lumière. Aussi petite soit-on, aider les autres apporte un grand bonheur.",
+    },
+    {
+      key: "story_kucuk_ay",
+      title: "Le voyage de la petite lune",
+      emoji: "🌙",
+      text: "La petite lune errait seule dans le ciel chaque nuit. Un soir, elle se lia d'amitié avec les étoiles. Les étoiles lui apprirent à briller. Désormais, la petite lune brille avec les étoiles chaque nuit.",
+    },
+    {
+      key: "story_kelebek_cicek",
+      title: "Le papillon et la fleur",
+      emoji: "🦋",
+      text: "Un petit papillon volait dans le jardin. Il se posa sur une fleur rouge. La fleur sourit, et le papillon sourit aussi.",
+    },
+    {
+      key: "story_bulut",
+      title: "Le voyage du nuage",
+      emoji: "☁️",
+      text: "Un nuage blanc flottait dans le ciel. Le vent l'emporta vers les montagnes. Là, il se transforma en pluie et la terre la but avec joie.",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "story_ilk_gun",
+      title: "Premier jour d'école",
+      emoji: "🎒",
+      text: "C'était le premier jour d'école de Zeynep. Elle était nerveuse et serrait fort la main de sa mère. En classe, elle rencontra Ali. Ils s'assirent au même bureau et devinrent les meilleurs amis. L'école n'était pas si effrayante !",
+    },
+    {
+      key: "story_kitap_kurdu",
+      title: "Le rat de bibliothèque",
+      emoji: "📚",
+      text: "Mert adorait lire des livres. Les autres enfants se moquaient de lui. Mais un jour, lors d'une sortie, la classe se perdit et Mert sut quoi faire car il avait lu un guide. Tout le monde le respecta après cela. Les livres ouvrent de nouveaux mondes.",
+    },
+    {
+      key: "story_yardim_eli",
+      title: "Un coup de main",
+      emoji: "🤝",
+      text: "Selin remarqua que sa voisine âgée avait besoin de faire ses courses. Sans qu'on le lui demande, elle l'aida à porter les sacs. La voisine fut très touchée. 'La gentillesse rend le monde beau,' dit-elle.",
+    },
+    {
+      key: "story_cesur_cocuk",
+      title: "L'enfant courageux",
+      emoji: "🦁",
+      text: "Ahmet avait peur du noir. Chaque nuit, l'obscurité l'effrayait. Un jour, son professeur dit : 'Le courage n'est pas l'absence de peur, c'est agir malgré la peur.' Ahmet essaya et devint plus courageux nuit après nuit.",
+    },
+    {
+      key: "story_paylasmak",
+      title: "Partager",
+      emoji: "🍎",
+      text: "Ayşe n'avait qu'une seule pomme dans son repas. Son ami Hasan avait oublié sa nourriture. Sans hésiter, Ayşe partagea sa pomme. Hasan était très heureux. La pomme avait meilleur goût partagée.",
+    },
+    {
+      key: "story_dogum_gunu",
+      title: "Surprise d'anniversaire",
+      emoji: "🎂",
+      text: "C'était l'anniversaire de Can mais ses parents l'avaient oublié. Il était très triste. Ses amis avaient pourtant préparé une surprise en secret. Quand il vit le gâteau et les ballons, il pleura de joie. La vraie amitié ne s'oublie jamais.",
+    },
+    {
+      key: "story_cicek_bakimi",
+      title: "Prendre soin des fleurs",
+      emoji: "🌸",
+      text: "Ela planta une petite graine dans un pot. Elle l'arrosait chaque jour et la mettait au soleil. Un jour, une fleur s'épanouit. 'C'est moi qui ai fait ça avec ma patience et mon soin !' dit-elle fièrement.",
+    },
+    {
+      key: "story_matematik_sorusu",
+      title: "Le problème de maths",
+      emoji: "🔢",
+      text: "Burak ne parvenait pas à résoudre le problème de maths. Il essayait encore et encore et faisait des erreurs. Son professeur dit : 'Chaque erreur est un pas vers l'apprentissage.' Burak persista et finit par résoudre le problème. Le succès vient à ceux qui essaient.",
+    },
+    {
+      key: "story_dost_el",
+      title: "Une main amie",
+      emoji: "🤗",
+      text: "Un nouvel élève rejoignit la classe. Personne ne lui parla. Seule Irem s'approcha et lui dit bonjour. Le nouvel élève pleura de bonheur. Un simple bonjour peut changer tout le monde de quelqu'un.",
+    },
+    {
+      key: "story_dogadaki_macera",
+      title: "Aventure dans la nature",
+      emoji: "🌿",
+      text: "La classe fit une sortie nature. Ils virent des oiseaux, des insectes et des plantes. Berk prit des notes dans son cahier. Sur le chemin du retour, il partagea ce qu'il avait appris avec toute la classe. Observer la nature nous apprend beaucoup.",
+    },
+    {
+      key: "story_il1_kahraman",
+      title: "Héros du quotidien",
+      emoji: "🦸",
+      text: "Oya pensait que les héros n'existaient que dans les films. Un jour, elle aida un chiot tombé dans un fossé. Tout le monde l'appela héroïne. Elle comprit : les héros sont des personnes qui font le bien quand ils en ont l'occasion.",
+    },
+    {
+      key: "story_il2_geri_donusum",
+      title: "Journée du recyclage",
+      emoji: "♻️",
+      text: "L'école organisa un concours de recyclage. Kerem collecta des bouteilles dans tout le quartier. Il remporta la première place. 'Protéger la nature est le devoir de chacun,' dit-il dans son discours.",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "story_bilim_insani",
+      title: "La jeune scientifique",
+      emoji: "🔬",
+      text: "Fatma aimait la science. Elle participa à un concours de projets et son expérience échoua. Mais elle réessaya, apprit de ses erreurs et remporta la deuxième place. Des années plus tard, elle devint une grande scientifique. L'échec est toujours une leçon.",
+    },
+    {
+      key: "story_teknoloji_bagimli",
+      title: "Accro à la technologie",
+      emoji: "📱",
+      text: "Kadir passait toute la journée sur son téléphone. Il ne pouvait ni parler à ses amis ni se concentrer en cours. Un jour, l'école organisa une journée sans téléphone. Kadir fut surpris : il s'amusa et parla aux gens. L'équilibre est la clé de tout.",
+    },
+    {
+      key: "story_farkliliklara_saygi",
+      title: "Respecter les différences",
+      emoji: "🌍",
+      text: "Un étudiant en échange d'un autre pays rejoignit la classe. Certains enfants le trouvaient étrange. Mais Leyla se lia d'amitié avec lui et apprit de nouvelles choses sur sa culture. Les différences enrichissent le monde.",
+    },
+    {
+      key: "story_liderlik",
+      title: "Le leadership",
+      emoji: "🏆",
+      text: "Mehmet fut élu délégué de classe. Il écoutait l'opinion de chacun et prenait des décisions justes. Au début, diriger était difficile, mais avec équité et empathie il gagna la confiance de tous. Un bon chef est aussi un bon auditeur.",
+    },
+    {
+      key: "story_internet_guvenligi",
+      title: "La sécurité sur Internet",
+      emoji: "🔒",
+      text: "Nisan reçut un message suspect en ligne. Elle se souvint de ce que son professeur lui avait enseigné et ne répondit pas. Elle le dit à ses parents. La personne suspecte fut trouvée et bloquée. La sécurité en ligne est très importante.",
+    },
+    {
+      key: "story_hayal_guc",
+      title: "Le pouvoir de l'imagination",
+      emoji: "🚀",
+      text: "Orhan rêvait toujours d'aller dans l'espace. Ses amis se moquaient de lui. Mais il continua à étudier et ne renonça jamais. Des années plus tard, son rêve se réalisa. L'imagination est le point de départ de toute grande réalisation.",
+    },
+    {
+      key: "story_cevreyi_koruma",
+      title: "Protéger l'environnement",
+      emoji: "🌱",
+      text: "Pelin remarqua que la rivière près de son école était polluée. Elle rédigea une pétition et recueillit les signatures de ses camarades. La mairie prit des mesures. Les efforts d'une seule personne peuvent faire une grande différence.",
+    },
+    {
+      key: "story_ort1_kod",
+      title: "Le premier code",
+      emoji: "💻",
+      text: "Rahim écrivit son premier programme. Il avait beaucoup d'erreurs mais il ne renonça pas. Après des jours d'essais, il le fit fonctionner. En regardant l'écran, il pensa : 'C'est moi qui ai fait ça.' Pour la première fois, il ressentit la joie de créer.",
+    },
+    {
+      key: "story_ort2_muzik",
+      title: "La magie de la musique",
+      emoji: "🎵",
+      text: "Sema détestait le cours de musique. Un jour, le professeur demanda aux élèves de jouer leur chanson préférée. Sema joua un vieil air folklorique que sa grand-mère lui avait appris. Toute la classe fut émue. La musique relie des mondes différents.",
+    },
+    {
+      key: "story_ort3_empati",
+      title: "L'empathie",
+      emoji: "💛",
+      text: "Tamer se moquait toujours des erreurs des autres. Un jour, il fit une grande erreur lui-même et toute la classe se moqua. Ce jour-là, il comprit ce qu'on ressentait. Dès lors, il ne se moqua plus jamais de personne. L'empathie change les gens.",
+    },
+  ],
+};

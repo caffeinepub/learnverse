@@ -4,6 +4,7 @@ import { WordDefinitionTooltip } from "../components/WordDefinitionTooltip";
 import { Button } from "../components/ui/button";
 import { storiesEn } from "../data/stories-en";
 import { storiesEs } from "../data/stories-es";
+import { storiesFr } from "../data/stories-fr";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -192,6 +193,36 @@ const stories: Record<
       emoji: "🪑",
       text: "Çocuk okulda hep aynı kırmızı sandalyeye otururdu. Bir gün sandalye kayboldu. Sınıf onu aramak için birlikte çalıştı. Birlik olmak sorunları çözer.",
     },
+    {
+      key: "story_gunes_kuzusu",
+      title: "Güneş ve Küçük Kuzu",
+      emoji: "🐑",
+      text: "Küçük kuzu güneşin neden her sabah doğduğunu merak etti. Annesine sordu. Annesi 'Güneş dünyanın tüm çocuklarını ısıtmak için doğuyor' dedi. Kuzu o gün mutlu uyudu.",
+    },
+    {
+      key: "story_renkli_balon",
+      title: "Renkli Balonlar",
+      emoji: "🎈",
+      text: "Minik Ela balonların neden uçtuğunu sordu. Babası 'İçlerinde hafif gaz var' dedi. Ela balonunu gökyüzüne saldı. Balon bulutlara doğru yükseldi. Hayaller de öyle yükselir.",
+    },
+    {
+      key: "story_yildizli_gece",
+      title: "Yıldızlı Gece",
+      emoji: "⭐",
+      text: "Derin her gece yıldızları sayardı. Bir gece büyükbabası yanına oturdu. 'Her yıldız bir dilek barındırır' dedi. Derin en parlak yıldıza dilekte bulundu: Herkes mutlu olsun.",
+    },
+    {
+      key: "story_kucuk_tohum",
+      title: "Küçük Tohumun Yolculuğu",
+      emoji: "🌱",
+      text: "Küçük bir tohum toprağa düştü. Karanlıkta korktu. Ama su ve güneş ona yardım etti. Günler geçti, yeşil bir filiz çıktı. Zorluklar büyümenin başlangıcıdır.",
+    },
+    {
+      key: "story_kar_tanesi",
+      title: "Kar Tanesi",
+      emoji: "❄️",
+      text: "Her kar tanesi farklıdır dedi öğretmen. Pembe bunu duyunca pencereden dışarı baktı. Karları inceledi. Gerçekten hiçbiri birbirine benzemiyordu. Herkes özeldir.",
+    },
   ],
   ilkokul: [
     {
@@ -361,6 +392,36 @@ const stories: Record<
       title: "Matematik Yarışması",
       emoji: "🔢",
       text: "Zeynep matematik yarışmasından korkuyordu. Ama her gece çalıştı. Yarışma gününde doğru cevabı verdi. Çalışmak korkuyu yener.",
+    },
+    {
+      key: "story_kitap_kurdu",
+      title: "Kitap Kurdu",
+      emoji: "📖",
+      text: "Can her gün bir kitap okurdu. Arkadaşları 'kitap kurdu' diye dalga geçerdi. Yıl sonunda bilgi yarışmasına girdi ve birinci oldu. Ödülü olarak istediği şey bir kütüphaneydi.",
+    },
+    {
+      key: "story_yagmur_mevsimi",
+      title: "Yağmur Mevsimi",
+      emoji: "🌧️",
+      text: "Selin yağmurlu havalarda dışarı çıkmak istemezdi. Bir gün annesiyle yağmurda yürüdüler. Islak toprak kokusu, sırılsıklam olmak... hepsi çok eğlenceliydi. Artık yağmurlu günleri seviyor.",
+    },
+    {
+      key: "story_duzgun_yol",
+      title: "Doğru Tercih",
+      emoji: "🛤️",
+      text: "Ali cevabı bilen sınıf arkadaşından kopya çekmek istedi. Ama duraksadı. 'Kendim yaparsam daha iyi öğrenirim' dedi. Sınavdan düşük aldı ama bir sonrakinde en yüksek puanı o aldı.",
+    },
+    {
+      key: "story_minik_ressam",
+      title: "Minik Ressam",
+      emoji: "🎨",
+      text: "Tuba çizdiği resimleri kimseye göstermezdi. Bir gün öğretmeni tablosunu gördü ve sınıfa astı. Herkes beğendi. Tuba anladı ki paylaşmak mutluluğu ikiye katlar.",
+    },
+    {
+      key: "story_dost_kedi",
+      title: "Dost Kedi",
+      emoji: "🐱",
+      text: "Komşunun kedisi her gün Mert'in kapısına gelirdi. Mert onu içeri almıyordu. Bir kış gecesi dışarıda dona kalacaktı. Mert içeri aldı, ısıttı. O günden sonra kedi en iyi dostuydu.",
     },
   ],
   ortaokul: [
@@ -532,6 +593,36 @@ const stories: Record<
       emoji: "🐦",
       text: "Köy okulunda öğretmen yoktu. Bülbül adlı genç üniversite mezunu köye geldi. Çocuklara okuma yazmayı öğretti. On yıl sonra o köyden iki doktor, üç mühendis çıktı.",
     },
+    {
+      key: "story_firtina_oncesi",
+      title: "Fırtına Öncesi",
+      emoji: "⛈️",
+      text: "Deniz kıyısında büyüyen Naz, fırtınayı hep korkuyla beklerdi. Babası 'Fırtına geçmeden güneş daha güzel doğmaz' derdi. Bir gün gerçekten büyük bir fırtına geldi. Geçti. Ve güneş hayatında gördüğü en parlak ışıkla doğdu.",
+    },
+    {
+      key: "story_robot_arkadasim",
+      title: "Robotik Arkadaş",
+      emoji: "🤖",
+      text: "Cemre bir yapay zeka yarattı. Yapay zeka ona sorular sordu. Cemre fark etti: İnsan, sorular soran varlıktır. Teknoloji insana hizmet etmeli, insanın yerini almamalı.",
+    },
+    {
+      key: "story_uzay_yolculugu",
+      title: "Uzay Yolculuğu Hayali",
+      emoji: "🚀",
+      text: "Uğur her gece teleskopuyla gökyüzüne bakardı. Öğretmeni 'Astronot olmak istiyorsan matematik ve fen çalışmalısın' dedi. Uğur on yıl çalıştı. Sonunda uzay ajansının sınavını kazandı.",
+    },
+    {
+      key: "story_sessiz_kahraman",
+      title: "Sessiz Kahraman",
+      emoji: "🦸",
+      text: "Okul koridorunda zorbalığa uğrayan bir çocuk gördü Yiğit. Herkes baktı, kimse müdahale etmedi. Yiğit öne çıktı, dur dedi. Bazen cesaret tek bir kelimedir.",
+    },
+    {
+      key: "story_yazar_olmak",
+      title: "Yazar Olmak",
+      emoji: "✍️",
+      text: "İrem ilk hikayesini yazdığında sınıf güldü. 'Ben yazar olamam' dedi ve kalemini bıraktı. Yıllar sonra bir roman yazdı, ödül kazandı. Başkalarının gülüşü senin hikayeni bitiremez.",
+    },
   ],
 };
 const levelTabs: { key: Level; label: string }[] = [
@@ -544,7 +635,13 @@ export default function StoriesPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
   const activeStories =
-    lang === "en" ? storiesEn : lang === "es" ? storiesEs : stories;
+    lang === "en"
+      ? storiesEn
+      : lang === "es"
+        ? storiesEs
+        : lang === "fr"
+          ? storiesFr
+          : stories;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -612,7 +709,14 @@ export default function StoriesPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = lang === "en" ? "en-US" : lang === "es" ? "es-ES" : "tr-TR";
+      utt.lang =
+        lang === "en"
+          ? "en-US"
+          : lang === "es"
+            ? "es-ES"
+            : lang === "fr"
+              ? "fr-FR"
+              : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);

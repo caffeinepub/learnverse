@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { experimentsEn } from "../data/experiments-en";
 import { experimentsEs } from "../data/experiments-es";
+import { experimentsFr } from "../data/experiments-fr";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -260,6 +261,50 @@ const experiments: Record<Level, Experiment[]> = {
       science:
         "Siyah mürekkep farklı renklerin karışımıdır. Su emilirken renkler ayrışır ve gökkuşağı gibi görünür.",
     },
+    {
+      key: "exp_manyetizma",
+      title: "Mıknatıs Büyüsü",
+      emoji: "🧲",
+      materials: ["1 mıknatıs", "Ataç", "Kaşık", "Silgi", "Kağıt parçaları"],
+      steps: [
+        "Masaya farklı nesneler koy.",
+        "Mıknatısı her nesnenin yakınına tut.",
+        "Hangi nesnelerin çekildiğini gözlemle.",
+        "Çekilen ve çekilmeyen nesneleri listele.",
+      ],
+      science:
+        "Mıknatıslar demir içeren metalleri çeker. Bu olaya manyetizma denir. Her madde manyetizmaya aynı tepkiyi vermez.",
+    },
+    {
+      key: "exp_golgeler",
+      title: "Gölge Oyunu",
+      emoji: "🔦",
+      materials: ["El feneri", "Beyaz kağıt", "Çeşitli oyuncaklar"],
+      steps: [
+        "Odayı karart.",
+        "Feneri yak ve kağıda tut.",
+        "Oyuncakları fener ile kağıt arasına koy.",
+        "Oluşan gölgeleri incele.",
+        "Oyuncağı uzaklaştırınca ne olduğunu gözlemle.",
+      ],
+      science:
+        "Işık düz ilerler. Bir nesne ışığı engellediğinde arkasında gölge oluşur. Nesne ışığa yaklaştıkça gölge büyür.",
+    },
+    {
+      key: "exp_hava_baskisi",
+      title: "Ters Bardak Deneyi",
+      emoji: "🥛",
+      materials: ["Bir bardak", "Su", "Karton parçası"],
+      steps: [
+        "Bardağı suyla doldur.",
+        "Kartonu bardağın üstüne koy.",
+        "Bir elinle kartonu tut, bardağı ters çevir.",
+        "Elini yavaşça çek.",
+        "Su dökülmez! Gözlemle.",
+      ],
+      science:
+        "Havanın basıncı suyu yukarı iter. Hava basıncı suyun ağırlığından fazla olduğu için su dökülmez.",
+    },
   ],
   ilkokul: [
     {
@@ -515,6 +560,48 @@ const experiments: Record<Level, Experiment[]> = {
       science:
         "Tuzlu oyun hamuru elektriği iletir. Tuz içindeki iyonlar akım taşır.",
     },
+    {
+      key: "exp_kristal_kar",
+      title: "Kristal Kar Tanesi",
+      emoji: "❄️",
+      materials: ["Boraks tozu", "Sicim", "Sıcak su", "Kavanoz", "Boya"],
+      steps: [
+        "Kavanoza sıcak su doldur.",
+        "Bol miktarda boraks ekle ve karıştır.",
+        "Birkaç parça sicimi kar tanesi şeklinde büküp bağla.",
+        "Kavanoza sal ve bir geceyi bekle.",
+        "Sabah kristalleşmiş kar tanesini çıkar.",
+      ],
+      science:
+        "Boraks soğuyunca kristallere dönüşür. Sıcak suda çözünen fazla boraks soğurken sicime yapışarak kristal oluşturur.",
+    },
+    {
+      key: "exp_su_filtresi",
+      title: "Basit Su Filtresi",
+      emoji: "💧",
+      materials: ["2 şişe", "Kum", "Çakıl taşları", "Pamuk", "Kirli su"],
+      steps: [
+        "Şişenin dibine pamuk koy.",
+        "Üzerine kum, sonra çakıl ekle.",
+        "Kirli suyu yavaşça üstten dök.",
+        "Altta toplanan suyu gözlemle.",
+      ],
+      science:
+        "Su katmanlardan geçerken kirlilik tutulur. Gerçek su arıtma sistemleri de benzer prensipler kullanır.",
+    },
+    {
+      key: "exp_renk_ayrimi",
+      title: "Mürekkep Renk Ayrımı",
+      emoji: "🖊️",
+      materials: ["Kahve filtre kağıdı", "Siyah keçeli kalem", "Su", "Bardak"],
+      steps: [
+        "Filtre kağıdına siyah kalemle bir çizgi çiz.",
+        "Kağıdı suya değecek şekilde bardağa daldır.",
+        "Renklerin yükselişini izle.",
+      ],
+      science:
+        "Siyah mürekkep farklı renklerin karışımıdır. Su emilirken renkler ayrışır ve gökkuşağı gibi görünür.",
+    },
   ],
   ortaokul: [
     {
@@ -751,6 +838,67 @@ const experiments: Record<Level, Experiment[]> = {
       science:
         "Elektroliz ile su H2 ve O2'ye ayrışır. Negatif elektrot (katot) hidrojen, pozitif elektrot (anot) oksijen üretir.",
     },
+    {
+      key: "exp_elektroliz",
+      title: "Suyun Elektrolizi",
+      emoji: "⚡",
+      materials: [
+        "9V pil",
+        "İki kalem ucu (grafit)",
+        "Tuzlu su",
+        "Kablo",
+        "Kap",
+      ],
+      steps: [
+        "Kaba tuzlu su doldur.",
+        "Her kalem ucunu bir kabloya bağla.",
+        "Kabloları pilin + ve - kutuplarına bağla.",
+        "Kalem uçlarını suya sok.",
+        "Her elektrot etrafındaki kabarcıkları gözlemle.",
+      ],
+      science:
+        "Elektroliz ile su H2 ve O2'ye ayrışır. Negatif elektrot (katot) hidrojen, pozitif elektrot (anot) oksijen üretir.",
+    },
+    {
+      key: "exp_toprak_ph",
+      title: "Toprağın pH'ını Ölç",
+      emoji: "🌱",
+      materials: [
+        "Toprak örneği",
+        "Distile su",
+        "Kırmızı lahana suyu",
+        "Bardaklar",
+      ],
+      steps: [
+        "Kırmızı lahanayı suda kaynat, suyunu süz.",
+        "Bir bardağa toprak ve distile su karıştır.",
+        "Lahana suyundan birkaç damla ekle.",
+        "Renk değişimini gözlemle.",
+        "Mor: nötr, kırmızı: asit, yeşil: baz.",
+      ],
+      science:
+        "Kırmızı lahana doğal bir pH indikatörüdür. Asitli ortamda kırmızı, bazik ortamda yeşil-sarı renk alır.",
+    },
+    {
+      key: "exp_optik_yanilsama",
+      title: "Optik Yanılsama Çarkı",
+      emoji: "👁️",
+      materials: [
+        "Karton daire",
+        "Siyah-beyaz spiral desen",
+        "Kalem",
+        "Motor veya ip",
+      ],
+      steps: [
+        "Kartona siyah-beyaz spiral çiz.",
+        "Ortasına kalem geçir.",
+        "Kalemi ellerin arasında hızlıca döndür.",
+        "Spirale bakarak etrafındaki nesnelere bak.",
+        "Nesneler büyüyor ya da küçülüyor gibi görünecek.",
+      ],
+      science:
+        "Dönen spiral göz-beyin sistemini yanıltır. Retina alışkanlık kazanır ve ardışık görüntü yanılsaması oluşur.",
+    },
   ],
 };
 const levelTabs: { key: Level; label: string }[] = [
@@ -763,7 +911,13 @@ export default function ExperimentsPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
   const activeExperiments =
-    lang === "en" ? experimentsEn : lang === "es" ? experimentsEs : experiments;
+    lang === "en"
+      ? experimentsEn
+      : lang === "es"
+        ? experimentsEs
+        : lang === "fr"
+          ? experimentsFr
+          : experiments;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking

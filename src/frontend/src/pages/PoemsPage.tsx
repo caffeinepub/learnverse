@@ -4,6 +4,7 @@ import { WordDefinitionTooltip } from "../components/WordDefinitionTooltip";
 import { Button } from "../components/ui/button";
 import { poemsEn } from "../data/poems-en";
 import { poemsEs } from "../data/poems-es";
+import { poemsFr } from "../data/poems-fr";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -331,6 +332,50 @@ const poems: Record<
         "On parmak hizmetinde benim.",
       ],
     },
+    {
+      key: "poem_kar_yagdi",
+      title: "Kar Yağdı",
+      emoji: "❄️",
+      lines: [
+        "Beyaz beyaz kar yağdı,",
+        "Bahçe oldu pamuk gibi.",
+        "Çocuklar koştu dışarı,",
+        "Kardan adam yaptı hepsi.",
+      ],
+    },
+    {
+      key: "poem_cicek_bahcesi",
+      title: "Çiçek Bahçesi",
+      emoji: "🌸",
+      lines: [
+        "Sarı çiçek, mor çiçek,",
+        "Bahçede açar her biri.",
+        "Kelebek konar üstlerine,",
+        "Bahar geldi işte bu!",
+      ],
+    },
+    {
+      key: "poem_denizde",
+      title: "Denizde",
+      emoji: "🌊",
+      lines: [
+        "Dalgalar kıyıya koşar,",
+        "Kumsalda oynar çocuklar.",
+        "Deniz mavisi gökyüzü,",
+        "Ne güzel bir yaz günü!",
+      ],
+    },
+    {
+      key: "poem_bebek_kedi",
+      title: "Bebek Kedi",
+      emoji: "🐱",
+      lines: [
+        "Minicik bir kedi yavrusu,",
+        "Yumak gibi yuvarlak.",
+        "Miyav miyav ses çıkarır,",
+        "Uyuyor şimdi yavaşça.",
+      ],
+    },
   ],
   ilkokul: [
     {
@@ -644,6 +689,50 @@ const poems: Record<
         "İki artı iki dört,",
         "Sayılar dans eder,",
         "Matematiğe doydum kört.",
+      ],
+    },
+    {
+      key: "poem_okul_zili",
+      title: "Okul Zili",
+      emoji: "🔔",
+      lines: [
+        "Zil çaldı sabahleyin,",
+        "Koştu çocuklar sınıfa.",
+        "Kalemler, defterler hazır,",
+        "Yeni bir gün başladı yine.",
+      ],
+    },
+    {
+      key: "poem_nehir",
+      title: "Nehir",
+      emoji: "🏞️",
+      lines: [
+        "Nehir akar durur susar,",
+        "Taşları yuvarlayarak.",
+        "Balıklar sevinçle yüzer,",
+        "Hayat akar hep ileri.",
+      ],
+    },
+    {
+      key: "poem_dost",
+      title: "Dost",
+      emoji: "🤝",
+      lines: [
+        "Dostun elini tut sıkı,",
+        "Zorlu günlerde yanında.",
+        "Gülüşünü paylaş onunla,",
+        "Dost kıymetlidir dünyada.",
+      ],
+    },
+    {
+      key: "poem_bilim",
+      title: "Bilim Sevgisi",
+      emoji: "🔭",
+      lines: [
+        "Merak et, ara, bul,",
+        "Bilim kapılarını aç.",
+        "Her sorunun bir cevabı var,",
+        "Düşün ve yol bul.",
       ],
     },
   ],
@@ -997,6 +1086,57 @@ const poems: Record<
         "Ama rüzgâr taşır özgürlüğü.",
       ],
     },
+    {
+      key: "poem_ozgurluk",
+      title: "Özgürlük",
+      emoji: "🕊️",
+      lines: [
+        "Özgürlük bir kuş gibi uçar,",
+        "Sınırları tanımaz göklerde.",
+        "İnsan da öyle isteler,",
+        "Açık ufuklara koşar.",
+        "Zincirler kınar düşünen akıl,",
+        "Özgür düşünce hiç yıkılmaz.",
+      ],
+    },
+    {
+      key: "poem_zaman",
+      title: "Zaman",
+      emoji: "⏳",
+      lines: [
+        "Zaman nehir gibi akar,",
+        "Durdurulamaz hiçbir güçle.",
+        "Geçmiş iz bırakır izlerde,",
+        "Gelecek ufukta bekler.",
+        "Her an bir cevher gibidir,",
+        "Kaybetme, yaşa, değerlen.",
+      ],
+    },
+    {
+      key: "poem_bilgi",
+      title: "Bilginin Işığı",
+      emoji: "💡",
+      lines: [
+        "Kitap açılır, ışık dolar içeri,",
+        "Karanlık düşünceler kaçar.",
+        "Bilgi taşır insanı ileriye,",
+        "Cehalet sisinde boğulmaz artık.",
+        "Her satır bir adım öne,",
+        "Her sayfa yeni bir ufuk.",
+      ],
+    },
+    {
+      key: "poem_umut",
+      title: "Umut",
+      emoji: "🌅",
+      lines: [
+        "Umut tohumları eker yüreğe,",
+        "Karanlık gecelerde bile parlar.",
+        "Yarına inanmak kuvvet verir,",
+        "Zorluklar eğer bükerse seni,",
+        "Umutla dik dur, yeniden başla.",
+      ],
+    },
   ],
 };
 const levelTabs: { key: Level; label: string }[] = [
@@ -1008,7 +1148,14 @@ const levelTabs: { key: Level; label: string }[] = [
 export default function PoemsPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
-  const activePoems = lang === "en" ? poemsEn : lang === "es" ? poemsEs : poems;
+  const activePoems =
+    lang === "en"
+      ? poemsEn
+      : lang === "es"
+        ? poemsEs
+        : lang === "fr"
+          ? poemsFr
+          : poems;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -1062,7 +1209,14 @@ export default function PoemsPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = lang === "en" ? "en-US" : lang === "es" ? "es-ES" : "tr-TR";
+      utt.lang =
+        lang === "en"
+          ? "en-US"
+          : lang === "es"
+            ? "es-ES"
+            : lang === "fr"
+              ? "fr-FR"
+              : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);

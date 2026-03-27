@@ -136,6 +136,67 @@ export const extraQuestionsOkulOncesi: Question[] = [
     correctIndex: 2,
     type: "multiple",
   },
+  // Ek sorular - yeni tur
+  {
+    text: "Hangisi bir meyve değildir?",
+    choices: ["Elma", "Havuç", "Muz", "Üzüm"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Kardan adam hangi mevsimde yapılır?",
+    choices: ["Yaz", "İlkbahar", "Kış", "Sonbahar"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Hangi hayvan havada uçar?",
+    choices: ["Köpek", "Kedi", "Kuş", "Balık"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Gökyüzü hangi renktedir?",
+    choices: ["Yeşil", "Mavi", "Sarı", "Kırmızı"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Ayın kaç günü vardır?",
+    choices: ["10", "20", "30", "40"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Hangi hayvan denizde yaşar?",
+    choices: ["Aslan", "Balık", "Tavşan", "Koyun"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "2 + 3 kaç eder?",
+    choices: ["4", "5", "6", "7"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Hangi renk kardan adamın gözleri için kullanılır?",
+    choices: ["Kırmızı", "Sarı", "Siyah", "Mavi"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Günde kaç öğün yemek yeriz?",
+    choices: ["1", "2", "3", "5"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Hangi nesne yuvarlanır?",
+    choices: ["Kutu", "Top", "Kitap", "Masa"],
+    correctIndex: 1,
+    type: "multiple",
+  },
 ];
 
 export const extraQuestionsIlkokul: Question[] = [
@@ -418,6 +479,67 @@ export const extraQuestionsIlkokul: Question[] = [
     correctIndex: 2,
     type: "multiple",
   },
+  // Ek sorular - yeni tur
+  {
+    text: "Türkiye'nin başkenti hangisidir? (coğrafya)",
+    choices: ["İstanbul", "İzmir", "Ankara", "Bursa"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Su kaç derecede kaynar? (fen bilimi)",
+    choices: ["50°C", "75°C", "100°C", "120°C"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Osmanlı Devleti hangi yılda kurulmuştur? (tarih)",
+    choices: ["1071", "1299", "1453", "1517"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "15 × 4 kaçtır? (matematik)",
+    choices: ["50", "55", "60", "65"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Hangi organ kanı pompalar? (fen)",
+    choices: ["Akciğer", "Karaciğer", "Kalp", "Böbrek"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Türkiye hangi kıtadadır? (coğrafya)",
+    choices: ["Sadece Avrupa", "Sadece Asya", "Avrupa ve Asya", "Afrika"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "100'ün %50'si kaçtır? (matematik)",
+    choices: ["25", "40", "50", "75"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "İstanbul'un eski adı nedir? (tarih)",
+    choices: ["Ankara", "Konstantinopolis", "Bursa", "Edirne"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Güneş sistemi kaç gezegenden oluşur? (fen)",
+    choices: ["6", "7", "8", "9"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "En büyük okyanus hangisidir? (coğrafya)",
+    choices: ["Atlantik", "Hint", "Arktik", "Pasifik"],
+    correctIndex: 3,
+    type: "multiple",
+  },
 ];
 
 export const extraQuestionsOrtaokul: Question[] = [
@@ -693,6 +815,82 @@ export const extraQuestionsOrtaokul: Question[] = [
     text: "İki ardışık çift sayının farkı kaçtır? (sayı matematik)",
     choices: ["1", "2", "3", "4"],
     correctIndex: 1,
+    type: "multiple",
+  },
+  // Ek sorular - yeni tur
+  {
+    text: "Işığın hızı saniyede yaklaşık kaç km'dir? (fen fizik)",
+    choices: ["100.000 km", "200.000 km", "300.000 km", "400.000 km"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Fransız İhtilali hangi yılda gerçekleşti? (tarih)",
+    choices: ["1689", "1789", "1848", "1871"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "DNA'nın açılımı nedir? (fen biyoloji)",
+    choices: [
+      "Deoksiribonükleik Asit",
+      "Diribonükleik Asit",
+      "Dinamik Nükleotid Asit",
+      "Difüzyon Nükleer Aktivite",
+    ],
+    correctIndex: 0,
+    type: "multiple",
+  },
+  {
+    text: "√144 kaçtır? (matematik)",
+    choices: ["10", "11", "12", "13"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "Dünyanın en uzun nehri hangisidir? (coğrafya)",
+    choices: ["Amazon", "Nil", "Yangtze", "Mississippi"],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Atom çekirdeği neyi içerir? (fen fizik)",
+    choices: [
+      "Elektron ve proton",
+      "Proton ve nötron",
+      "Nötron ve elektron",
+      "Sadece elektron",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Kurtuluş Savaşı hangi yılda sona erdi? (tarih)",
+    choices: ["1919", "1921", "1922", "1923"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "2³ + 3² kaçtır? (matematik)",
+    choices: ["13", "15", "17", "19"],
+    correctIndex: 2,
+    type: "multiple",
+  },
+  {
+    text: "İklim değişikliğinin temel nedeni nedir? (fen çevre)",
+    choices: [
+      "Ozon tabakasının azalması",
+      "Sera gazı emisyonları",
+      "Güneş aktivitesi",
+      "Volkanik patlamalar",
+    ],
+    correctIndex: 1,
+    type: "multiple",
+  },
+  {
+    text: "Periodik tabloda Au hangi elementi simgeler? (fen kimya)",
+    choices: ["Gümüş", "Alüminyum", "Altın", "Argon"],
+    correctIndex: 2,
     type: "multiple",
   },
 ];
