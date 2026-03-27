@@ -1062,6 +1062,167 @@ const englishDataEs: Record<Level, EngItem[]> = {
   ],
 };
 
+const englishDataFr: Record<Level, EngItem[]> = {
+  okul_oncesi: [
+    {
+      key: "eng_colors",
+      emoji: "🌈",
+      title: "Les Couleurs / Colors",
+      description:
+        "Apprends tes premières couleurs en anglais : Red (rouge), Blue (bleu), Yellow (jaune), Green (vert)",
+      example: "The apple is red. Montre quelque chose de bleu !",
+    },
+    {
+      key: "eng_numbers",
+      emoji: "🔢",
+      title: "Les Chiffres / Numbers",
+      description:
+        "Compte de un à dix en anglais : One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten",
+      example: "I have two cats. Combien de doigts as-tu ?",
+    },
+    {
+      key: "eng_animals",
+      emoji: "🐶",
+      title: "Les Animaux / Animals",
+      description:
+        "Animaux en anglais : Dog (chien), Cat (chat), Bird (oiseau), Fish (poisson), Rabbit (lapin)",
+      example: "The dog says 'woof'. Que dit le chat ?",
+    },
+    {
+      key: "eng_family",
+      emoji: "👨‍👩‍👧",
+      title: "La Famille / Family",
+      description:
+        "Mots de famille en anglais : Mother (maman), Father (papa), Brother (frère), Sister (sœur)",
+      example: "My mother is kind. J'aime ma famille !",
+    },
+    {
+      key: "eng_food",
+      emoji: "🥗",
+      title: "La Nourriture / Food",
+      description:
+        "Aliments en anglais : Apple (pomme), Bread (pain), Milk (lait), Egg (œuf), Rice (riz)",
+      example: "I like apples. Quelle est ta nourriture préférée ?",
+    },
+    {
+      key: "eng_greetings",
+      emoji: "👋",
+      title: "Les Salutations / Greetings",
+      description:
+        "Saluer en anglais : Hello (bonjour), Good morning (bonjour matin), Goodbye (au revoir), Thank you (merci)",
+      example: "Hello! How are you? I am fine, thank you!",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "eng_school",
+      emoji: "🏫",
+      title: "L'École / School",
+      description:
+        "Mots scolaires en anglais : Teacher (professeur), Book (livre), Pencil (crayon), Desk (bureau), Classroom (salle de classe)",
+      example: "The teacher is kind. Open your book, please.",
+    },
+    {
+      key: "eng_weather",
+      emoji: "☀️",
+      title: "La Météo / Weather",
+      description:
+        "Météo en anglais : Sunny (ensoleillé), Rainy (pluvieux), Cloudy (nuageux), Windy (venteux), Snowy (neigeux)",
+      example: "It is sunny today. What is the weather like?",
+    },
+    {
+      key: "eng_body",
+      emoji: "🧍",
+      title: "Le Corps / Body",
+      description:
+        "Parties du corps en anglais : Head (tête), Eyes (yeux), Nose (nez), Mouth (bouche), Hands (mains), Feet (pieds)",
+      example: "Touch your nose! Show me your hands.",
+    },
+    {
+      key: "eng_colors_adv",
+      emoji: "🎨",
+      title: "Les Adjectifs / Adjectives",
+      description:
+        "Adjectifs courants en anglais : Big (grand), Small (petit), Fast (rapide), Slow (lent), Happy (heureux), Sad (triste)",
+      example: "The elephant is big. The mouse is small.",
+    },
+    {
+      key: "eng_days",
+      emoji: "📅",
+      title: "Les Jours / Days",
+      description:
+        "Jours de la semaine en anglais : Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",
+      example: "Today is Monday. School starts on Monday.",
+    },
+    {
+      key: "eng_time",
+      emoji: "⏰",
+      title: "L'Heure / Time",
+      description:
+        "Dire l'heure en anglais : What time is it? It is three o'clock. Half past two. Quarter to five.",
+      example: "What time do you wake up? I wake up at seven o'clock.",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "eng_grammar_tenses",
+      emoji: "📖",
+      title: "Les Temps Verbaux / Verb Tenses",
+      description:
+        "Temps principaux en anglais : Present Simple (habitudes), Past Simple (passé), Future with 'will' (futur)",
+      example: "I study every day. I studied yesterday. I will study tomorrow.",
+    },
+    {
+      key: "eng_conditionals",
+      emoji: "🔀",
+      title: "Les Conditionnels / Conditionals",
+      description:
+        "Phrases conditionnelles en anglais : If + present → future (conditionnel réel), If + past → would (conditionnel hypothétique)",
+      example: "If it rains, I will stay home. If I had money, I would travel.",
+    },
+    {
+      key: "eng_passive",
+      emoji: "🔄",
+      title: "La Voix Passive / Passive Voice",
+      description:
+        "La voix passive en anglais : Subject + to be + past participle. Utilisée quand l'agent n'est pas important.",
+      example: "The book was written by Shakespeare. The cake is eaten.",
+    },
+    {
+      key: "eng_modal",
+      emoji: "🎭",
+      title: "Les Modaux / Modal Verbs",
+      description:
+        "Verbes modaux en anglais : Can (pouvoir), Must (devoir), Should (devrais), May (peut-être), Would (conditionnel)",
+      example:
+        "You should study more. She can speak French. You must not smoke.",
+    },
+    {
+      key: "eng_essay",
+      emoji: "✍️",
+      title: "Rédaction / Essay Writing",
+      description:
+        "Structure d'une rédaction en anglais : Introduction, Body paragraphs (arguments), Conclusion.",
+      example: "First, ... Furthermore, ... In conclusion, ... Therefore, ...",
+    },
+    {
+      key: "eng_conjunctions",
+      emoji: "🔗",
+      title: "Les Conjonctions / Conjunctions",
+      description:
+        "Conjonctions de coordination et subordination : And, But, Or, So, Because, Although, However, Therefore",
+      example:
+        "I studied hard, therefore I passed. I was tired, but I finished.",
+    },
+  ],
+};
+
+const levelTabsFr: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 Préscolaire" },
+  { key: "ilkokul", label: "📗 Primaire" },
+  { key: "ortaokul", label: "📘 Collège" },
+];
+
 const levelTabsTr: { key: Level; label: string }[] = [
   { key: "okul_oncesi", label: "🌈 Okul Öncesi" },
   { key: "ilkokul", label: "📗 İlkokul" },
@@ -1085,14 +1246,23 @@ export default function EnglishPage() {
   const { t, lang } = useLanguage();
   const isEn = lang === "en";
   const isEs = lang === "es";
+  const isFr = lang === "fr";
   const profile = getCurrentUser();
 
-  const englishData = isEs
-    ? englishDataEs
-    : isEn
-      ? englishDataEn
-      : englishDataTr;
-  const levelTabs = isEs ? levelTabsEs : isEn ? levelTabsEn : levelTabsTr;
+  const englishData = isFr
+    ? englishDataFr
+    : isEs
+      ? englishDataEs
+      : isEn
+        ? englishDataEn
+        : englishDataTr;
+  const levelTabs = isFr
+    ? levelTabsFr
+    : isEs
+      ? levelTabsEs
+      : isEn
+        ? levelTabsEn
+        : levelTabsTr;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {
@@ -1157,11 +1327,17 @@ export default function EnglishPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4 font-bold text-sm"
         >
-          ← {isEs ? "Atrás" : isEn ? "Back" : "Geri"}
+          ← {isFr ? "Retour" : isEs ? "Atrás" : isEn ? "Back" : "Geri"}
         </button>
         <h1 className="text-3xl font-black text-white mb-4">
           🇬🇧{" "}
-          {isEs ? "Inglés Básico" : isEn ? "Basic English" : "Temel İngilizce"}
+          {isFr
+            ? "Anglais de Base"
+            : isEs
+              ? "Inglés Básico"
+              : isEn
+                ? "Basic English"
+                : "Temel İngilizce"}
         </h1>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((tab) => (
@@ -1184,11 +1360,13 @@ export default function EnglishPage() {
           <div className="flex-1">
             <div className="flex justify-between text-white text-xs mb-1">
               <span className="font-bold">
-                {isEs
-                  ? "Progreso en este nivel"
-                  : isEn
-                    ? "Progress at this level"
-                    : "Bu seviyedeki ilerleme"}
+                {isFr
+                  ? "Progrès à ce niveau"
+                  : isEs
+                    ? "Progreso en este nivel"
+                    : isEn
+                      ? "Progress at this level"
+                      : "Bu seviyedeki ilerleme"}
               </span>
               <span className="font-black">
                 {done}/{total}
@@ -1215,11 +1393,13 @@ export default function EnglishPage() {
         <div className="space-y-4">
           {filtered.length === 0 ? (
             <div className="text-center text-white/60 py-8">
-              {isEs
-                ? "No se encontraron resultados 🔍"
-                : isEn
-                  ? "No results found 🔍"
-                  : "Sonuç bulunamadı 🔍"}
+              {isFr
+                ? "Aucun résultat trouvé 🔍"
+                : isEs
+                  ? "No se encontraron resultados 🔍"
+                  : isEn
+                    ? "No results found 🔍"
+                    : "Sonuç bulunamadı 🔍"}
             </div>
           ) : (
             filtered.map((item) => {
@@ -1250,16 +1430,20 @@ export default function EnglishPage() {
                     className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1 rounded-full transition-all mr-2 mb-2"
                   >
                     {speakingId === item.key
-                      ? isEs
-                        ? "⏹ Parar"
-                        : isEn
-                          ? "⏹ Stop"
-                          : "⏹ Durdur"
-                      : isEs
-                        ? "🔊 Escuchar (EN)"
-                        : isEn
-                          ? "🔊 Listen (EN)"
-                          : "🔊 Dinle (EN)"}
+                      ? isFr
+                        ? "⏹ Arrêter"
+                        : isEs
+                          ? "⏹ Parar"
+                          : isEn
+                            ? "⏹ Stop"
+                            : "⏹ Durdur"
+                      : isFr
+                        ? "🔊 Écouter (EN)"
+                        : isEs
+                          ? "🔊 Escuchar (EN)"
+                          : isEn
+                            ? "🔊 Listen (EN)"
+                            : "🔊 Dinle (EN)"}
                   </button>
                   {!isRead && profile && (
                     <button
@@ -1268,17 +1452,19 @@ export default function EnglishPage() {
                       className="bg-white/30 hover:bg-white/50 text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
                     >
                       ✅ {t("learned")} +10{" "}
-                      {isEs ? "pts" : isEn ? "pts" : "puan"}
+                      {isFr ? "pts" : isEs ? "pts" : isEn ? "pts" : "puan"}
                     </button>
                   )}
                   {isRead && (
                     <span className="text-yellow-300 text-xs font-bold">
                       ✅{" "}
-                      {isEs
-                        ? "Aprendido (+10 pts ganados)"
-                        : isEn
-                          ? "Learned (+10 pts earned)"
-                          : "Öğrenildi (+10 puan kazanıldı)"}
+                      {isFr
+                        ? "Appris (+10 pts gagnés)"
+                        : isEs
+                          ? "Aprendido (+10 pts ganados)"
+                          : isEn
+                            ? "Learned (+10 pts earned)"
+                            : "Öğrenildi (+10 puan kazanıldı)"}
                     </span>
                   )}
                 </div>
