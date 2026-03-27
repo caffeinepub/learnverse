@@ -153,6 +153,51 @@ const WORD_SETS = [
       { word: "TOKYO", row: 1, col: 6, dir: [1, 0] as [number, number] },
     ],
   },
+  // New sets 14-17
+  {
+    label: "Sebzeler",
+    words: ["HAVUC", "PATATES", "SOĞAN", "BEZELYE", "ISPANAK"],
+    placements: [
+      { word: "HAVUC", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "PATATES", row: 2, col: 0, dir: [0, 1] as [number, number] },
+      { word: "SOĞAN", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "BEZELYE", row: 6, col: 0, dir: [0, 1] as [number, number] },
+      { word: "ISPANAK", row: 0, col: 7, dir: [1, 0] as [number, number] },
+    ],
+  },
+  {
+    label: "Uzay",
+    words: ["ROKET", "GEZEGEN", "YILDIZ", "METEOR", "UYDU"],
+    placements: [
+      { word: "ROKET", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "GEZEGEN", row: 2, col: 0, dir: [0, 1] as [number, number] },
+      { word: "YILDIZ", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "METEOR", row: 6, col: 0, dir: [0, 1] as [number, number] },
+      { word: "UYDU", row: 0, col: 7, dir: [1, 0] as [number, number] },
+    ],
+  },
+  {
+    label: "Giysiler",
+    words: ["GOMLEK", "PANTOLON", "ETEK", "CEKET", "SAPKA"],
+    placements: [
+      { word: "GOMLEK", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "PANTOLON", row: 2, col: 0, dir: [0, 1] as [number, number] },
+      { word: "ETEK", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "CEKET", row: 6, col: 0, dir: [0, 1] as [number, number] },
+      { word: "SAPKA", row: 0, col: 7, dir: [1, 0] as [number, number] },
+    ],
+  },
+  {
+    label: "Hava Durumu",
+    words: ["YAGMUR", "FIRTINA", "KARLI", "BULUTLU", "GUNES"],
+    placements: [
+      { word: "YAGMUR", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "FIRTINA", row: 2, col: 0, dir: [0, 1] as [number, number] },
+      { word: "KARLI", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "BULUTLU", row: 6, col: 0, dir: [0, 1] as [number, number] },
+      { word: "GUNES", row: 0, col: 7, dir: [1, 0] as [number, number] },
+    ],
+  },
 ];
 
 const SIZE = 8;
