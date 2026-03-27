@@ -46,6 +46,8 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 const MultiplicationTablePage = lazy(
   () => import("./pages/MultiplicationTablePage"),
 );
+const NoiseMeterPage = lazy(() => import("./pages/NoiseMeterPage"));
+const ReadingFluencyPage = lazy(() => import("./pages/ReadingFluencyPage"));
 const AchievementHistoryPage = lazy(
   () => import("./pages/AchievementHistoryPage"),
 );
@@ -287,6 +289,18 @@ const achievementHistoryRoute = createRoute({
   component: withSuspense(AchievementHistoryPage),
 });
 
+const readingFluencyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/reading-fluency",
+  component: withSuspense(ReadingFluencyPage),
+});
+
+const noiseMeterRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/noise-meter",
+  component: withSuspense(NoiseMeterPage),
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   homeRoute,
@@ -327,6 +341,8 @@ const routeTree = rootRoute.addChildren([
   multiplicationRoute,
   searchRoute,
   achievementHistoryRoute,
+  noiseMeterRoute,
+  readingFluencyRoute,
 ]);
 
 const router = createRouter({ routeTree });

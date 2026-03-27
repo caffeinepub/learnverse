@@ -689,6 +689,13 @@ export default function StoriesPage() {
         <h1 className="text-3xl font-black text-white mb-4">
           📖 {t("stories_title")}
         </h1>
+        <button
+          type="button"
+          onClick={() => navigate({ to: "/reading-fluency" })}
+          className="w-full mb-4 py-2 px-4 bg-white/20 hover:bg-white/30 text-white font-bold rounded-2xl flex items-center justify-center gap-2 text-sm"
+        >
+          📖⏱️ Okuma Akıcılığı Modu
+        </button>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {levelTabs.map((t) => (
             <button

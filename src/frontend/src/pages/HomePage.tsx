@@ -1,7 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import DailyCard from "../components/DailyCard";
-import NoiseMeter from "../components/NoiseMeter";
 import { LANGUAGES, useLanguage } from "../i18n/LanguageContext";
 import type { LangCode } from "../i18n/LanguageContext";
 import { useTheme } from "../i18n/ThemeContext";
@@ -223,7 +222,6 @@ export default function HomePage() {
   const [dailyGoals, setDailyGoals] = useState(
     profile ? getDailyGoals(profile.studentNumber) : null,
   );
-  const [noiseMeterOpen, setNoiseMeterOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [parentMsg, setParentMsg] = useState(() =>
     profile ? getParentMessage(profile.studentNumber) : null,
@@ -735,26 +733,17 @@ export default function HomePage() {
       )}
 
       <div className="px-4 pb-3">
-        <div className="bg-white/10 border border-white/20 rounded-2xl overflow-hidden">
-          <button
-            type="button"
-            data-ocid="home.noisemeter_toggle"
-            onClick={() => setNoiseMeterOpen((prev) => !prev)}
-            className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/5 transition-colors"
-          >
-            <span className="text-white font-black text-sm">
-              🎤 {t("noise_meter")}
-            </span>
-            <span className="text-white/60 text-lg leading-none">
-              {noiseMeterOpen ? "▲" : "▼"}
-            </span>
-          </button>
-          {noiseMeterOpen && (
-            <div className="px-4 pb-4">
-              <NoiseMeter />
-            </div>
-          )}
-        </div>
+        <button
+          type="button"
+          data-ocid="home.noisemeter_toggle"
+          onClick={() => navigate({ to: "/noise-meter" })}
+          className="w-full bg-white/10 border border-white/20 rounded-2xl flex items-center justify-between px-4 py-3 hover:bg-white/15 transition-colors"
+        >
+          <span className="text-white font-black text-sm">
+            🔊 {t("noise_meter")}
+          </span>
+          <span className="text-white/60 text-sm">›</span>
+        </button>
       </div>
 
       {/* Personalized Recommendation Card (new smart card) */}
