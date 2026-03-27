@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { WordDefinitionTooltip } from "../components/WordDefinitionTooltip";
 import { Button } from "../components/ui/button";
 import { poemsEn } from "../data/poems-en";
 import { poemsEs } from "../data/poems-es";
@@ -1022,6 +1023,7 @@ export default function PoemsPage() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [speakingId, setSpeakingId] = useState<string | null>(null);
+  const lookedUpWords = useRef<Set<string>>(new Set());
   const [favKeys, setFavKeys] = useState<Set<string>>(() => {
     if (!profile) return new Set();
     const all = Object.values(poems).flat();
@@ -1186,7 +1188,14 @@ export default function PoemsPage() {
                         key={line}
                         className="text-white/90 text-sm italic leading-relaxed"
                       >
-                        {line}
+                        <WordDefinitionTooltip
+                          text={line}
+                          lookedUpWords={lookedUpWords.current}
+                          onWordLookup={(word) => {
+                            lookedUpWords.current.add(word);
+                            if (profile) updatePoints(profile.studentNumber, 5);
+                          }}
+                        />
                       </p>
                     ))}
                   </div>

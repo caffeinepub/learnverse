@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { WordDefinitionTooltip } from "../components/WordDefinitionTooltip";
 import { Button } from "../components/ui/button";
 import { storiesEn } from "../data/stories-en";
 import { storiesEs } from "../data/stories-es";
@@ -566,6 +567,7 @@ export default function StoriesPage() {
   const [comprStep, setComprStep] = useState(0);
   const [comprScore, setComprScore] = useState(0);
   const [comprDone, setComprDone] = useState(false);
+  const lookedUpWords = useRef<Set<string>>(new Set());
   const [favKeys, setFavKeys] = useState<Set<string>>(() => {
     if (!profile) return new Set();
     return new Set(
@@ -782,7 +784,14 @@ export default function StoriesPage() {
                     )}
                   </div>
                   <p className="text-white/90 text-sm leading-relaxed mb-4">
-                    {s.text}
+                    <WordDefinitionTooltip
+                      text={s.text}
+                      lookedUpWords={lookedUpWords.current}
+                      onWordLookup={(word) => {
+                        lookedUpWords.current.add(word);
+                        if (profile) updatePoints(profile.studentNumber, 5);
+                      }}
+                    />
                   </p>
                   <button
                     type="button"
