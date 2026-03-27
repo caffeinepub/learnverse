@@ -32,6 +32,7 @@ import {
   getCurrentUser,
   getDueSpacedItems,
   hasPlayedQuizToday,
+  incrementWeeklyQuizzes,
   markQuizPlayedToday,
   markSpacedRepCorrect,
   markSpacedRepWrong,
@@ -354,6 +355,7 @@ export default function QuizPage() {
     if (selectedTopic === "all") {
       markQuizPlayedToday(profile.studentNumber);
       updateDailyGoals(profile.studentNumber, { quizDone: true });
+      incrementWeeklyQuizzes(profile.studentNumber);
     }
     updateStreak(profile.studentNumber);
     if (selectedTopic !== "all") {

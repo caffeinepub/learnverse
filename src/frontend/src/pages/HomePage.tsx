@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import DailyCard from "../components/DailyCard";
+import WeeklyGoalsCard from "../components/WeeklyGoalsCard";
 import { LANGUAGES, useLanguage } from "../i18n/LanguageContext";
 import type { LangCode } from "../i18n/LanguageContext";
 import { useTheme } from "../i18n/ThemeContext";
@@ -679,6 +680,8 @@ export default function HomePage() {
           </div>
         </div>
       )}
+
+      <WeeklyGoalsCard lang={lang} />
 
       {/* Pending Assignments Card */}
       {pendingAssignments.length > 0 && (

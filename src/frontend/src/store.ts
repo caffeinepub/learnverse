@@ -850,3 +850,87 @@ export function isFavorite(
 ): boolean {
   return getFavorites(studentNumber).some((f) => f.id === `${type}_${key}`);
 }
+
+// ---- Weekly Goals ----
+export interface WeeklyGoals {
+  year: number;
+  week: number;
+  storiesRead: number; // goal: 5
+  quizzesCompleted: number; // goal: 3
+  wordsLearned: number; // goal: 15
+  bonusAwarded: boolean;
+}
+
+function getWeekNumber(date: Date): { year: number; week: number } {
+  const d = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+  );
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const week = Math.ceil(
+    ((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7,
+  );
+  return { year: d.getUTCFullYear(), week };
+}
+
+function weeklyGoalsKey(
+  studentNumber: string,
+  year: number,
+  week: number,
+): string {
+  return `weeklyGoals_${studentNumber}_${year}_${String(week).padStart(2, "0")}`;
+}
+
+export function getWeeklyGoals(studentNumber: string): WeeklyGoals {
+  const { year, week } = getWeekNumber(new Date());
+  const key = weeklyGoalsKey(studentNumber, year, week);
+  try {
+    const stored = JSON.parse(localStorage.getItem(key) || "null");
+    if (stored && stored.year === year && stored.week === week) return stored;
+  } catch {
+    // ignore
+  }
+  return {
+    year,
+    week,
+    storiesRead: 0,
+    quizzesCompleted: 0,
+    wordsLearned: 0,
+    bonusAwarded: false,
+  };
+}
+
+export function updateWeeklyGoals(
+  studentNumber: string,
+  update: Partial<Omit<WeeklyGoals, "year" | "week">>,
+): WeeklyGoals {
+  const goals = getWeeklyGoals(studentNumber);
+  const { year, week } = goals;
+  const key = weeklyGoalsKey(studentNumber, year, week);
+  const updated = { ...goals, ...update };
+  localStorage.setItem(key, JSON.stringify(updated));
+  return updated;
+}
+
+export function incrementWeeklyStories(studentNumber: string): WeeklyGoals {
+  const g = getWeeklyGoals(studentNumber);
+  return updateWeeklyGoals(studentNumber, { storiesRead: g.storiesRead + 1 });
+}
+
+export function incrementWeeklyQuizzes(studentNumber: string): WeeklyGoals {
+  const g = getWeeklyGoals(studentNumber);
+  return updateWeeklyGoals(studentNumber, {
+    quizzesCompleted: g.quizzesCompleted + 1,
+  });
+}
+
+export function incrementWeeklyWords(
+  studentNumber: string,
+  count = 1,
+): WeeklyGoals {
+  const g = getWeeklyGoals(studentNumber);
+  return updateWeeklyGoals(studentNumber, {
+    wordsLearned: g.wordsLearned + count,
+  });
+}

@@ -12,6 +12,7 @@ import {
   getCurrentUser,
   getReadTopics,
   incrementDailyContentRead,
+  incrementWeeklyWords,
   markTopicRead,
   trackContentVisit,
   updatePoints,
@@ -319,6 +320,7 @@ export default function VocabularyPage() {
     if (profile) {
       updatePoints(profile.studentNumber, known * 5);
       incrementDailyContentRead(profile.studentNumber);
+      incrementWeeklyWords(profile.studentNumber, known);
     }
   };
 
@@ -338,6 +340,7 @@ export default function VocabularyPage() {
     markTopicRead(profile.studentNumber, key);
     updatePoints(profile.studentNumber, 10);
     incrementDailyContentRead(profile.studentNumber);
+    incrementWeeklyWords(profile.studentNumber, 5);
     setReadTopics((prev) => [...prev, key]);
   };
 

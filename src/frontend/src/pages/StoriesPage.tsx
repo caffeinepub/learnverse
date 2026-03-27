@@ -9,6 +9,7 @@ import {
   getCurrentUser,
   getReadTopics,
   incrementDailyContentRead,
+  incrementWeeklyStories,
   isFavorite,
   markTopicRead,
   toggleFavorite,
@@ -670,6 +671,7 @@ export default function StoriesPage() {
     markTopicRead(profile.studentNumber, key);
     updatePoints(profile.studentNumber, 10);
     incrementDailyContentRead(profile.studentNumber);
+    incrementWeeklyStories(profile.studentNumber);
     setReadTopics((prev) => [...prev, key]);
     setComprAnswer(null);
     setComprStep(0);
