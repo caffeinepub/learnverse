@@ -95,6 +95,24 @@ export const storiesEn: Record<
       emoji: "☁️",
       text: "A white cloud floated across the sky. The wind carried it to the mountains. There it turned into rain and the earth drank it joyfully.",
     },
+    {
+      key: "story_kucuk_ari",
+      title: "Little Bee Vızzy",
+      emoji: "🐝",
+      text: "Little bee Vızzy was the smallest bee in the hive. She thought she could not collect much honey. But she worked all day without stopping. In the end her jar was the fullest. Hard work always pays off.",
+    },
+    {
+      key: "story_karli_gun",
+      title: "The Snowy Day",
+      emoji: "☃️",
+      text: "One morning Lena woke up and saw snow covering everything. She ran outside and built a snowman with her little brother. They gave it a carrot nose and a scarf. When they came back inside, warm cocoa was waiting for them.",
+    },
+    {
+      key: "story_gokkusagi_boya",
+      title: "The Rainbow Painter",
+      emoji: "🌈",
+      text: "After the rain, a little girl climbed to the top of a hill with her paintbrush. She painted red, orange, yellow, green, blue, and purple across the sky. 'I made a rainbow!' she cheered. Everyone in the village looked up and smiled.",
+    },
   ],
   ilkokul: [
     {
@@ -169,6 +187,24 @@ export const storiesEn: Record<
       emoji: "♻️",
       text: "The school held a recycling competition. Kerem collected bottles from every corner of the neighborhood. He won first place. 'Protecting nature is everyone's duty,' he said in his speech.",
     },
+    {
+      key: "story_il3_muze",
+      title: "The Museum Trip",
+      emoji: "🏛️",
+      text: "The class visited a history museum. Naz stood in front of an ancient pot and imagined the child who had held it thousands of years ago. 'History is not boring at all,' she told her friends on the bus home.",
+    },
+    {
+      key: "story_il4_kedi_kurtarma",
+      title: "Rescuing the Kitten",
+      emoji: "🐾",
+      text: "A tiny kitten was stuck in a tree. Tuna climbed up carefully and brought it down safely. The kitten purred and the whole street cheered. 'Even small acts of courage matter,' Tuna's grandmother said.",
+    },
+    {
+      key: "story_il5_yagmur",
+      title: "Stuck in the Rain",
+      emoji: "🌧️",
+      text: "The children got caught in heavy rain on the way home. There was only one umbrella. They all crowded under it together, laughing as they got a little wet. Sometimes unexpected moments become the best memories.",
+    },
   ],
   ortaokul: [
     {
@@ -230,6 +266,18 @@ export const storiesEn: Record<
       title: "Empathy",
       emoji: "💛",
       text: "Tamer always made fun of others' mistakes. One day he made a big mistake himself and the whole class laughed. That day he understood what it felt like. From then on he never mocked anyone. Empathy changes people.",
+    },
+    {
+      key: "story_ort4_kütüphane",
+      title: "The Old Library",
+      emoji: "📖",
+      text: "Ula discovered an old library in her town that was about to be torn down. She organized her friends and held a fundraiser to save it. The library was restored and renamed after her. One determined young person can change everything.",
+    },
+    {
+      key: "story_ort5_deprem",
+      title: "After the Earthquake",
+      emoji: "🏗️",
+      text: "After the earthquake, Veli's family lost their home. Neighbors they barely knew opened their doors without hesitation. Months later, when another family lost their home to a fire, Veli's family was the first to help. Kindness passes from hand to hand.",
     },
   ],
 };

@@ -4,6 +4,7 @@ import { useLanguage } from "../i18n/LanguageContext";
 import { contentTranslationsEn } from "../i18n/content-translations";
 import { contentTranslationsEs } from "../i18n/content-translations-es";
 import { contentTranslationsFr } from "../i18n/content-translations-fr";
+import { contentTranslationsHi } from "../i18n/content-translations-hi";
 import { contentTranslationsZh } from "../i18n/content-translations-zh";
 import {
   getCurrentUser,
@@ -226,6 +227,7 @@ export default function GrammarPage() {
     if (lang === "en") return contentTranslationsEn[key];
     if (lang === "fr") return contentTranslationsFr[key];
     if (lang === "zh") return contentTranslationsZh[key];
+    if (lang === "hi") return contentTranslationsHi[key];
     return null;
   };
 

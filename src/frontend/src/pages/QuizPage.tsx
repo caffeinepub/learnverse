@@ -32,6 +32,11 @@ import {
   questionsFrPrimary,
 } from "../data/questions-fr";
 import {
+  questionsHiMiddle,
+  questionsHiPreschool,
+  questionsHiPrimary,
+} from "../data/questions-hi";
+import {
   questionsZhMiddle,
   questionsZhPreschool,
   questionsZhPrimary,
@@ -274,6 +279,11 @@ export default function QuizPage() {
       if (level === "okul_oncesi") return questionsZhPreschool;
       if (level === "ortaokul") return questionsZhMiddle;
       return questionsZhPrimary;
+    }
+    if (lang === "hi") {
+      if (level === "okul_oncesi") return questionsHiPreschool;
+      if (level === "ortaokul") return questionsHiMiddle;
+      return questionsHiPrimary;
     }
     if (lang === "en") {
       if (level === "okul_oncesi") return questionsEnPreschool;

@@ -121,6 +121,28 @@ export const poemsEn: Record<
         "And touch the stars up in the sky!",
       ],
     },
+    {
+      key: "poem_kar",
+      title: "The Snow",
+      emoji: "❄️",
+      lines: [
+        "Snowflakes falling, white and bright,",
+        "Covering the world in light.",
+        "I catch one on my little hand,",
+        "The most beautiful thing in the land!",
+      ],
+    },
+    {
+      key: "poem_ari",
+      title: "Little Bee",
+      emoji: "🐝",
+      lines: [
+        "Little bee, little bee, buzz buzz buzz,",
+        "Gathering honey, that's what it does.",
+        "Flower to flower it hops along,",
+        "All day long with a happy song.",
+      ],
+    },
   ],
   ilkokul: [
     {
@@ -233,6 +255,28 @@ export const poemsEn: Record<
         "Wisdom that soothes the restless mind.",
       ],
     },
+    {
+      key: "poem_sonbahar",
+      title: "Autumn",
+      emoji: "🍂",
+      lines: [
+        "Leaves of gold and red and brown,",
+        "Spinning, twirling, floating down.",
+        "Autumn paints the world with care,",
+        "Color, color everywhere!",
+      ],
+    },
+    {
+      key: "poem_deniz_il",
+      title: "The Sea Calls",
+      emoji: "🌊",
+      lines: [
+        "The sea calls out with a salty roar,",
+        "Come and walk along my shore.",
+        "Shells and pebbles, waves so blue,",
+        "The sea has many gifts for you.",
+      ],
+    },
   ],
   ortaokul: [
     {
@@ -343,6 +387,28 @@ export const poemsEn: Record<
         "A world of wonder, waiting still.",
         "Take up the torch, take up the call,",
         "The future needs the best of all.",
+      ],
+    },
+    {
+      key: "poem_degisim",
+      title: "Change",
+      emoji: "🌀",
+      lines: [
+        "Nothing stays forever the same,",
+        "Even the river is not the same flame.",
+        "Change is the engine that drives us on,",
+        "Embrace it boldly from dusk until dawn.",
+      ],
+    },
+    {
+      key: "poem_merhamet",
+      title: "Compassion",
+      emoji: "💙",
+      lines: [
+        "Look into another's eyes and see,",
+        "A world as real and full as yours or me.",
+        "Reach a hand across the divide,",
+        "Compassion is the truest guide.",
       ],
     },
   ],

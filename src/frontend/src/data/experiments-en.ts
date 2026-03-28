@@ -105,6 +105,25 @@ export const experimentsEn: Record<Level, Experiment[]> = {
       science:
         "Soap reduces the surface tension of water. The water behind the boat pulls less than the water in front, pushing the boat forward!",
     },
+    {
+      key: "exp_yeni_o4",
+      title: "Magic Celery",
+      emoji: "🥬",
+      materials: [
+        "A stalk of celery with leaves",
+        "A glass of water",
+        "Food coloring",
+      ],
+      steps: [
+        "Fill the glass with water.",
+        "Add several drops of food coloring.",
+        "Place the celery stalk in the glass.",
+        "Wait a few hours.",
+        "Look at the leaves -- what color are they now?",
+      ],
+      science:
+        "Plants absorb water through their stems using capillary action. The colored water travels up and tints the leaves!",
+    },
   ],
   ilkokul: [
     {
@@ -245,6 +264,21 @@ export const experimentsEn: Record<Level, Experiment[]> = {
       science:
         "Citric acid in the lemon reacts with the metals (copper and zinc) to produce a small electric current. Enough to light a tiny LED!",
     },
+    {
+      key: "exp_yeni_i4",
+      title: "Spinning Colors",
+      emoji: "🎡",
+      materials: ["White cardboard", "Scissors", "A pencil", "Colored markers"],
+      steps: [
+        "Cut a circle from the cardboard.",
+        "Divide it into 7 equal sections.",
+        "Color each section with the colors of the rainbow.",
+        "Push a pencil through the center.",
+        "Spin it fast. What color do you see?",
+      ],
+      science:
+        "When the disc spins quickly, your eyes blend all the colors together. The brain perceives them as white or light gray -- just like sunlight contains all colors!",
+    },
   ],
   ortaokul: [
     {
@@ -366,6 +400,26 @@ export const experimentsEn: Record<Level, Experiment[]> = {
       ],
       science:
         "This mixture is called a non-Newtonian fluid. It acts like a solid when force is applied quickly and like a liquid when touched slowly. Its viscosity changes with applied force!",
+    },
+    {
+      key: "exp_yeni_o_3",
+      title: "Build a Compass",
+      emoji: "🧭",
+      materials: [
+        "A sewing needle",
+        "A magnet",
+        "A small piece of cork",
+        "A bowl of water",
+      ],
+      steps: [
+        "Stroke the needle with the magnet 50 times in one direction.",
+        "Push the needle through the cork.",
+        "Float the cork in the bowl of water.",
+        "Watch the needle settle.",
+        "Which direction does it point?",
+      ],
+      science:
+        "Stroking the needle with a magnet aligns its iron atoms, making it a temporary magnet. Earth has a magnetic field and the needle aligns with it, always pointing north-south.",
     },
   ],
 };
