@@ -206,6 +206,34 @@ const proverbs: Record<
       text: "Körle yatan şaşı kalkar.",
       meaning: "Çevremiz bizi etkiler.",
     },
+    {
+      key: "pr_gun",
+      title: "Bugün bana, yarın sana",
+      emoji: "🔄",
+      text: "Bugün bana, yarın sana.",
+      meaning: "Hayat değişkendir; bugün güçlü olan yarın zayıf düşebilir.",
+    },
+    {
+      key: "pr_duman",
+      title: "Ateş olmayan yerden duman çıkmaz",
+      emoji: "🔥",
+      text: "Ateş olmayan yerden duman çıkmaz.",
+      meaning: "Her söylentinin bir gerçeği vardır.",
+    },
+    {
+      key: "pr_taş",
+      title: "Taşıma su ile dolmaz",
+      emoji: "🪣",
+      text: "Taşıma su ile dolmaz.",
+      meaning: "Küçük adımlarla büyük işler yapılmaz.",
+    },
+    {
+      key: "pr_soz",
+      title: "Söz gümüşse sükut altındır",
+      emoji: "🥇",
+      text: "Söz gümüşse sükut altındır.",
+      meaning: "Susmak zaman zaman konuşmaktan daha değerlidir.",
+    },
   ],
 };
 

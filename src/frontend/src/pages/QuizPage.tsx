@@ -22,6 +22,11 @@ import {
   extraQuestionsOrtaokul,
 } from "../data/questions-extra";
 import {
+  extraQuestionsIlkokul2,
+  extraQuestionsOkulOncesi2,
+  extraQuestionsOrtaokul2,
+} from "../data/questions-extra2";
+import {
   questionsFrMiddle,
   questionsFrPreschool,
   questionsFrPrimary,
@@ -252,10 +257,22 @@ export default function QuizPage() {
       return questionsEnPrimary;
     }
     if (level === "okul_oncesi")
-      return [...questionsOkulOncesi, ...extraQuestionsOkulOncesi];
+      return [
+        ...questionsOkulOncesi,
+        ...extraQuestionsOkulOncesi,
+        ...extraQuestionsOkulOncesi2,
+      ];
     if (level === "ortaokul")
-      return [...questionsOrtaokul, ...extraQuestionsOrtaokul];
-    return [...questionsIlkokul, ...extraQuestionsIlkokul];
+      return [
+        ...questionsOrtaokul,
+        ...extraQuestionsOrtaokul,
+        ...extraQuestionsOrtaokul2,
+      ];
+    return [
+      ...questionsIlkokul,
+      ...extraQuestionsIlkokul,
+      ...extraQuestionsIlkokul2,
+    ];
   });
 
   const [questions, setQuestions] = useState<Question[]>([]);
