@@ -1217,6 +1217,276 @@ const englishDataFr: Record<Level, EngItem[]> = {
   ],
 };
 
+const englishDataZh: Record<Level, EngItem[]> = {
+  okul_oncesi: [
+    {
+      key: "eng_colors",
+      emoji: "🌈",
+      title: "颜色 / Colors",
+      description:
+        "学习基本颜色：红色、蓝色、黄色、绿色、紫色、橙色 (Red, Blue, Yellow, Green, Purple, Orange)",
+      example: "苹果是红色的。(The apple is red.) 指向蓝色的东西！",
+    },
+    {
+      key: "eng_numbers",
+      emoji: "🔢",
+      title: "数字 / Numbers",
+      description:
+        "从一数到十：一、二、三、四、五、六、七、八、九、十 (One ~ Ten)",
+      example: "我有两只猫。(I have two cats.) 你有几根手指？",
+    },
+    {
+      key: "eng_animals",
+      emoji: "🐶",
+      title: "动物 / Animals",
+      description:
+        "常见动物：狗、猫、鸟、鱼、兔子、狮子、大象 (Dog, Cat, Bird, Fish, Rabbit)",
+      example: "狗说'汪'。猫说'喵'。(The dog says woof. The cat says meow.)",
+    },
+    {
+      key: "eng_family",
+      emoji: "👨‍👩‍👧",
+      title: "家人 / Family",
+      description:
+        "家庭成员：妈妈、爸爸、哥哥/弟弟、姐姐/妹妹 (Mother, Father, Brother, Sister)",
+      example: "我的妈妈很善良。(My mother is kind.)",
+    },
+    {
+      key: "eng_food",
+      emoji: "🥗",
+      title: "食物 / Food",
+      description:
+        "美味食物：苹果、面包、牛奶、鸡蛋、米饭 (Apple, Bread, Milk, Egg, Rice)",
+      example: "我喜欢苹果。(I like apples.) 你最喜欢什么食物？",
+    },
+    {
+      key: "eng_greetings",
+      emoji: "👋",
+      title: "问候语 / Greetings",
+      description:
+        "打招呼：你好、早上好、再见、谢谢、请 (Hello, Good morning, Goodbye, Thank you, Please)",
+      example:
+        "你好！你好吗？我很好，谢谢！(Hello! How are you? I am fine, thank you!)",
+    },
+    {
+      key: "eng_body",
+      emoji: "👁️",
+      title: "身体 / Body",
+      description:
+        "身体部位：眼睛、鼻子、嘴巴、耳朵、手、脚 (Eyes, Nose, Mouth, Ears, Hands, Feet)",
+      example: "我有两只眼睛。(I have two eyes.)",
+    },
+    {
+      key: "eng_weather",
+      emoji: "☀️",
+      title: "天气 / Weather",
+      description:
+        "天气词汇：晴天、雨天、多云、下雪 (Sunny, Rainy, Cloudy, Snowy)",
+      example: "今天是晴天。(Today is sunny.)",
+    },
+    {
+      key: "eng_shapes",
+      emoji: "🔷",
+      title: "形状 / Shapes",
+      description:
+        "基本形状：圆形、正方形、三角形、星形 (Circle, Square, Triangle, Star)",
+      example: "球是圆形的。(A ball is a circle.)",
+    },
+    {
+      key: "eng_clothes",
+      emoji: "👕",
+      title: "衣服 / Clothes",
+      description:
+        "衣物单词：衬衫、裤子、鞋子、帽子 (Shirt, Pants, Shoes, Hat)",
+      example: "我穿红色衬衫。(I wear a red shirt.)",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "eng_school",
+      emoji: "🏫",
+      title: "学校 / School",
+      description:
+        "学校词汇：老师、学生、书本、黑板、教室 (Teacher, Student, Book, Blackboard, Classroom)",
+      example: "我的老师很好。(My teacher is nice.) 我喜欢学校。",
+    },
+    {
+      key: "eng_days",
+      emoji: "📅",
+      title: "星期 / Days of Week",
+      description:
+        "一周七天：星期一、星期二...星期日 (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)",
+      example: "今天是星期一。(Today is Monday.)",
+    },
+    {
+      key: "eng_colors_adv",
+      emoji: "🎨",
+      title: "更多颜色 / More Colors",
+      description:
+        "扩展颜色：粉色、棕色、黑色、白色、灰色 (Pink, Brown, Black, White, Gray)",
+      example:
+        "天空是蓝色的，草是绿色的。(The sky is blue, the grass is green.)",
+    },
+    {
+      key: "eng_sentences",
+      emoji: "💬",
+      title: "简单句子 / Simple Sentences",
+      description:
+        "造句基础：主语 + 动词 + 宾语。例如：我 + 爱 + 你。(I + love + you.)",
+      example: "I eat an apple. She reads a book. He plays football.",
+    },
+    {
+      key: "eng_verbs",
+      emoji: "🏃",
+      title: "动词 / Verbs",
+      description:
+        "常用动词：跑、吃、喝、睡觉、玩、学习 (Run, Eat, Drink, Sleep, Play, Study)",
+      example: "我每天跑步。(I run every day.) 她睡得很好。(She sleeps well.)",
+    },
+    {
+      key: "eng_adjectives",
+      emoji: "✨",
+      title: "形容词 / Adjectives",
+      description:
+        "描述词：大、小、快、慢、热、冷 (Big, Small, Fast, Slow, Hot, Cold)",
+      example: "大象很大。(The elephant is big.) 冰很冷。(Ice is cold.)",
+    },
+    {
+      key: "eng_places",
+      emoji: "🏙️",
+      title: "地点 / Places",
+      description:
+        "常见地点：学校、公园、超市、医院、图书馆 (School, Park, Supermarket, Hospital, Library)",
+      example:
+        "我去公园。(I go to the park.) 她在图书馆。(She is in the library.)",
+    },
+    {
+      key: "eng_time",
+      emoji: "⏰",
+      title: "时间 / Time",
+      description:
+        "时间表达：早上、下午、晚上、现在、之前、之后 (Morning, Afternoon, Evening, Now, Before, After)",
+      example: "我早上七点起床。(I wake up at 7 in the morning.)",
+    },
+    {
+      key: "eng_question",
+      emoji: "❓",
+      title: "疑问词 / Question Words",
+      description:
+        "提问词：什么、谁、哪里、什么时候、为什么、怎么 (What, Who, Where, When, Why, How)",
+      example:
+        "你叫什么名字？(What is your name?) 你住在哪里？(Where do you live?)",
+    },
+    {
+      key: "eng_numbers_adv",
+      emoji: "🔢",
+      title: "大数字 / Larger Numbers",
+      description:
+        "数字扩展：十、二十、五十、一百 (Ten, Twenty, Fifty, One Hundred)",
+      example: "图书馆有一百本书。(The library has one hundred books.)",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "eng_grammar",
+      emoji: "📚",
+      title: "语法基础 / Basic Grammar",
+      description:
+        "英语语法：现在时、过去时、将来时 (Present, Past, Future Tense)",
+      example: "I eat. (现在) I ate. (过去) I will eat. (将来)",
+    },
+    {
+      key: "eng_prepositions",
+      emoji: "📍",
+      title: "介词 / Prepositions",
+      description:
+        "位置介词：在...上面、下面、里面、旁边、前面 (On, Under, In, Next to, In front of)",
+      example:
+        "书在桌子上。(The book is on the table.) 猫在沙发下。(The cat is under the sofa.)",
+    },
+    {
+      key: "eng_reading",
+      emoji: "📖",
+      title: "阅读理解 / Reading",
+      description:
+        "阅读技巧：找主题、理解细节、推断含义 (Find the main idea, understand details, infer meaning)",
+      example:
+        "先通读全文，再回答问题。(Read the whole text first, then answer questions.)",
+    },
+    {
+      key: "eng_writing",
+      emoji: "✍️",
+      title: "写作 / Writing",
+      description:
+        "写作结构：开头、正文、结尾 (Introduction, Body, Conclusion)",
+      example:
+        "好文章有清晰的开头和结尾。(A good essay has a clear beginning and ending.)",
+    },
+    {
+      key: "eng_idioms",
+      emoji: "🗣️",
+      title: "惯用语 / Idioms",
+      description:
+        "常用短语：加油 (Break a leg!)、忙得不可开交 (Busy as a bee)、十分容易 (Piece of cake)",
+      example: "Good luck! = Break a leg! Easy task = It's a piece of cake!",
+    },
+    {
+      key: "eng_vocab_adv",
+      emoji: "🔤",
+      title: "高级词汇 / Advanced Vocabulary",
+      description: "同义词、反义词、多义词 (Synonyms, Antonyms, Homonyms)",
+      example: "快乐的同义词：高兴、开心。(Happy synonyms: joyful, cheerful.)",
+    },
+    {
+      key: "eng_tech",
+      emoji: "💻",
+      title: "科技词汇 / Technology Vocabulary",
+      description:
+        "科技英语：网络、人工智能、软件、应用程序 (Internet, AI, Software, Application)",
+      example: "I use the internet every day. AI is changing the world.",
+    },
+    {
+      key: "eng_environment",
+      emoji: "🌿",
+      title: "环境 / Environment",
+      description:
+        "环保词汇：气候变化、回收利用、可再生能源 (Climate change, Recycling, Renewable energy)",
+      example: "We must protect our environment. Recycle and save energy!",
+    },
+    {
+      key: "eng_debate",
+      emoji: "🎤",
+      title: "表达意见 / Expressing Opinions",
+      description:
+        "观点表达：我认为、在我看来、总的来说 (I think, In my opinion, In conclusion)",
+      example: "In my opinion, education is very important for everyone.",
+    },
+    {
+      key: "eng_interview",
+      emoji: "💼",
+      title: "面试英语 / Interview English",
+      description: "自我介绍和面试常用句 (Introduction and interview phrases)",
+      example:
+        "My name is Li Ming. I am 14 years old. I like reading and coding.",
+    },
+    {
+      key: "eng_science_vocab",
+      emoji: "🔬",
+      title: "科学词汇 / Science Vocabulary",
+      description:
+        "科学英语：实验、假说、证据、结论 (Experiment, Hypothesis, Evidence, Conclusion)",
+      example:
+        "We did an experiment to test our hypothesis. The results showed...",
+    },
+  ],
+};
+
+const levelTabsZh: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 幼儿园" },
+  { key: "ilkokul", label: "📗 小学" },
+  { key: "ortaokul", label: "📘 初中" },
+];
+
 const levelTabsFr: { key: Level; label: string }[] = [
   { key: "okul_oncesi", label: "🌈 Préscolaire" },
   { key: "ilkokul", label: "📗 Primaire" },
@@ -1247,22 +1517,27 @@ export default function EnglishPage() {
   const isEn = lang === "en";
   const isEs = lang === "es";
   const isFr = lang === "fr";
+  const isZh = lang === "zh";
   const profile = getCurrentUser();
 
-  const englishData = isFr
-    ? englishDataFr
-    : isEs
-      ? englishDataEs
-      : isEn
-        ? englishDataEn
-        : englishDataTr;
-  const levelTabs = isFr
-    ? levelTabsFr
-    : isEs
-      ? levelTabsEs
-      : isEn
-        ? levelTabsEn
-        : levelTabsTr;
+  const englishData = isZh
+    ? englishDataZh
+    : isFr
+      ? englishDataFr
+      : isEs
+        ? englishDataEs
+        : isEn
+          ? englishDataEn
+          : englishDataTr;
+  const levelTabs = isZh
+    ? levelTabsZh
+    : isFr
+      ? levelTabsFr
+      : isEs
+        ? levelTabsEs
+        : isEn
+          ? levelTabsEn
+          : levelTabsTr;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {
@@ -1291,7 +1566,7 @@ export default function EnglishPage() {
     } else {
       window.speechSynthesis.cancel();
       const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = "en-US";
+      utt.lang = isZh ? "zh-CN" : "en-US";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);
