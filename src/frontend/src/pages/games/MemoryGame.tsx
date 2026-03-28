@@ -65,6 +65,18 @@ const EMOJI_SETS = [
   ["🐄", "🐖", "🐓", "🐑", "🐴", "🐐"],
   // Set 27: School Supplies
   ["📚", "✏️", "📐", "🖊️", "📏", "🗂️"],
+  // Set 28: Jungle Animals
+  ["🐅", "🦜", "🐍", "🦧", "🦎", "🐆"],
+  // Set 29: Fantasy & Mythical
+  ["🐉", "🦄", "🧙", "🧝", "🧚", "🦸"],
+  // Set 30: Winter & Snow
+  ["⛄", "🎿", "🧊", "🏔️", "🌨️", "🧣"],
+  // Set 31: Tropical Fruits
+  ["🍍", "🥭", "🍈", "🍑", "🫐", "🍒"],
+  // Set 32: Technology
+  ["💻", "📱", "🖥️", "🎮", "📡", "🔋"],
+  // Set 33: Travel & Adventure
+  ["🗺️", "🧭", "🏕️", "🎒", "🗽", "🌋"],
 ];
 
 function shuffle<T>(arr: T[]): T[] {

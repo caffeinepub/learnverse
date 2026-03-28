@@ -31,6 +31,11 @@ import {
   questionsFrPreschool,
   questionsFrPrimary,
 } from "../data/questions-fr";
+import {
+  questionsZhMiddle,
+  questionsZhPreschool,
+  questionsZhPrimary,
+} from "../data/questions-zh";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   addToSpacedRep,
@@ -217,6 +222,20 @@ function getLangLabel(lang: string, key: string): string {
     if (key === "questions_due") return "";
     return map[key] || key;
   }
+  if (lang === "zh") {
+    const map: Record<string, string> = {
+      Choose_Quiz_Topic: "选择测验主题",
+      Select_topic_or_daily: "选择主题或参加每日测验",
+      Already_played: "✅ 今天已完成测验",
+      Daily_quiz_info: "每日测验 • 每天1次 • 获得连续天数",
+      Topic_quiz_info: "主题测验 • 无限次",
+      Play_Again: "再玩一次",
+      Review: "复习",
+      questions_due_sub: "它们将出现在您下一次测验的开始",
+    };
+    if (key === "questions_due") return "";
+    return map[key] || key;
+  }
   const map: Record<string, string> = {
     Choose_Quiz_Topic: "Quiz Konusu Seç",
     Select_topic_or_daily: "Bir konu seç veya günlük quiz oyna",
@@ -250,6 +269,11 @@ export default function QuizPage() {
       if (level === "okul_oncesi") return questionsFrPreschool;
       if (level === "ortaokul") return questionsFrMiddle;
       return questionsFrPrimary;
+    }
+    if (lang === "zh") {
+      if (level === "okul_oncesi") return questionsZhPreschool;
+      if (level === "ortaokul") return questionsZhMiddle;
+      return questionsZhPrimary;
     }
     if (lang === "en") {
       if (level === "okul_oncesi") return questionsEnPreschool;
@@ -431,7 +455,9 @@ export default function QuizPage() {
                       ? `${dueCount} question${dueCount > 1 ? "s" : ""} due for review`
                       : lang === "fr"
                         ? `${dueCount} question${dueCount > 1 ? "s" : ""} à réviser`
-                        : `${dueCount} soru tekrar için bekliyor`}
+                        : lang === "zh"
+                          ? `${dueCount} 道题待复习`
+                          : `${dueCount} soru tekrar için bekliyor`}
                 </div>
                 <div className="text-orange-100 text-xs">
                   {lang === "es"

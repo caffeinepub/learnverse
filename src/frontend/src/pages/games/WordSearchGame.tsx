@@ -198,6 +198,73 @@ const WORD_SETS = [
       { word: "GUNES", row: 0, col: 7, dir: [1, 0] as [number, number] },
     ],
   },
+  undefined,
+  {
+    label: "Uzay Cisimleri",
+    words: ["GEZEGEN", "YILDIZ", "KUYRUKLU", "NEBULA", "GALAKSI"],
+    placements: [
+      { word: "GEZEGEN", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "YILDIZ", row: 2, col: 1, dir: [0, 1] as [number, number] },
+      { word: "KUYRUKLU", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "NEBULA", row: 6, col: 0, dir: [0, 1] as [number, number] },
+      { word: "GALAKSI", row: 0, col: 7, dir: [1, 0] as [number, number] },
+    ],
+  },
+  {
+    label: "Seyahat",
+    words: ["PASAPORT", "BILET", "BAVUL", "OTEL", "HARITA"],
+    placements: [
+      { word: "PASAPORT", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "BILET", row: 2, col: 2, dir: [0, 1] as [number, number] },
+      { word: "BAVUL", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "OTEL", row: 6, col: 3, dir: [0, 1] as [number, number] },
+      { word: "HARITA", row: 1, col: 6, dir: [1, 0] as [number, number] },
+    ],
+  },
+  {
+    label: "Teknoloji",
+    words: ["ROBOT", "YAZILIM", "INTERNET", "BILGISAYAR", "EKRAN"],
+    placements: [
+      { word: "ROBOT", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "YAZILIM", row: 2, col: 0, dir: [0, 1] as [number, number] },
+      { word: "INTERNET", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "BILGISAYAR", row: 6, col: 0, dir: [0, 1] as [number, number] },
+      { word: "EKRAN", row: 0, col: 7, dir: [1, 0] as [number, number] },
+    ],
+  },
+  {
+    label: "Yiyecek ve İçecek",
+    words: ["EKMEK", "SIMIT", "PEYNIR", "ZEYTIN", "SUTLAC"],
+    placements: [
+      { word: "EKMEK", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "SIMIT", row: 2, col: 2, dir: [0, 1] as [number, number] },
+      { word: "PEYNIR", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "ZEYTIN", row: 6, col: 1, dir: [0, 1] as [number, number] },
+      { word: "SUTLAC", row: 1, col: 6, dir: [1, 0] as [number, number] },
+    ],
+  },
+  {
+    label: "Matematik",
+    words: ["TOPLAMA", "CIKARMA", "CARPMA", "BOLME", "KESIR"],
+    placements: [
+      { word: "TOPLAMA", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "CIKARMA", row: 2, col: 0, dir: [0, 1] as [number, number] },
+      { word: "CARPMA", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "BOLME", row: 6, col: 1, dir: [0, 1] as [number, number] },
+      { word: "KESIR", row: 0, col: 7, dir: [1, 0] as [number, number] },
+    ],
+  },
+  {
+    label: "Sanat",
+    words: ["RESIM", "HEYKEL", "MUZIK", "DANS", "TIYATRO"],
+    placements: [
+      { word: "RESIM", row: 0, col: 0, dir: [0, 1] as [number, number] },
+      { word: "HEYKEL", row: 2, col: 1, dir: [0, 1] as [number, number] },
+      { word: "MUZIK", row: 4, col: 0, dir: [0, 1] as [number, number] },
+      { word: "DANS", row: 6, col: 3, dir: [0, 1] as [number, number] },
+      { word: "TIYATRO", row: 1, col: 6, dir: [1, 0] as [number, number] },
+    ],
+  },
 ];
 
 const SIZE = 8;
@@ -242,7 +309,7 @@ export default function WordSearchGame() {
   const [setIdx, setSetIdx] = useState(() =>
     Math.floor(Math.random() * WORD_SETS.length),
   );
-  const currentSet = WORD_SETS[setIdx];
+  const currentSet = WORD_SETS[setIdx]!;
   const { grid, positions } = useMemo(
     () => buildGrid(currentSet.placements),
     // eslint-disable-next-line
