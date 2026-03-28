@@ -4,6 +4,7 @@ import { Button } from "../components/ui/button";
 import { experimentsEn } from "../data/experiments-en";
 import { experimentsEs } from "../data/experiments-es";
 import { experimentsFr } from "../data/experiments-fr";
+import { experimentsZh } from "../data/experiments-zh";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -917,7 +918,9 @@ export default function ExperimentsPage() {
         ? experimentsEs
         : lang === "fr"
           ? experimentsFr
-          : experiments;
+          : lang === "zh"
+            ? experimentsZh
+            : experiments;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking

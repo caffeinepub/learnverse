@@ -4,6 +4,7 @@ import { Button } from "../components/ui/button";
 import { puzzlesEn } from "../data/puzzlesEn";
 import { puzzlesEs } from "../data/puzzlesEs";
 import { puzzlesFr } from "../data/puzzlesFr";
+import { puzzlesZh } from "../data/puzzlesZh";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -582,13 +583,15 @@ export default function PuzzlesPage() {
   const isEn = lang === "en";
   const profile = getCurrentUser();
   const displayPuzzles =
-    lang === "fr"
-      ? puzzlesFr
-      : lang === "es"
-        ? puzzlesEs
-        : isEn
-          ? puzzlesEn
-          : puzzles;
+    lang === "zh"
+      ? puzzlesZh
+      : lang === "fr"
+        ? puzzlesFr
+        : lang === "es"
+          ? puzzlesEs
+          : isEn
+            ? puzzlesEn
+            : puzzles;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {

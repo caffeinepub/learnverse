@@ -28,6 +28,9 @@ interface Region {
   nameFr: string;
   provincesFr: string[];
   featuresFr: string;
+  nameZh: string;
+  provincesZh: string[];
+  featuresZh: string;
 }
 
 const regions: Region[] = [
@@ -52,6 +55,10 @@ const regions: Region[] = [
     provincesFr: ["Istanbul", "Bursa", "Kocaeli", "Tekirdag", "Balikesir"],
     featuresFr:
       "La region la plus peuplee de Turquie. Istanbul est la plus grande ville. Centre industriel et commercial.",
+    nameZh: "马尔马拉地区",
+    provincesZh: ["伊斯坦布尔", "布尔萨", "科贾埃利", "泰基尔达", "巴勒克西尔"],
+    featuresZh:
+      "土耳其人口最多的地区。伊斯坦布尔是最大城市。工业和商业中心。被马尔马拉海环绕。",
   },
   {
     key: "map_ege",
@@ -74,6 +81,10 @@ const regions: Region[] = [
     provincesFr: ["Izmir", "Manisa", "Denizli", "Aydin", "Mugla"],
     featuresFr:
       "Celebre pour ses oliveraies. Izmir est la 3eme plus grande ville de Turquie. Les cites antiques d'Ephese sont ici.",
+    nameZh: "爱琴海地区",
+    provincesZh: ["伊兹密尔", "马尼萨", "代尼兹利", "艾登", "穆拉"],
+    featuresZh:
+      "以橄榄树和葡萄园闻名。伊兹密尔是土耳其第三大城市。以弗所和帕加马古城位于此处。",
   },
   {
     key: "map_akdeniz",
@@ -96,6 +107,10 @@ const regions: Region[] = [
     provincesFr: ["Antalya", "Adana", "Mersin", "Hatay", "Isparta"],
     featuresFr:
       "Tres importante pour le tourisme. Climat mediterraneen. Les monts Taurus sont ici. Leader en production d'agrumes.",
+    nameZh: "地中海地区",
+    provincesZh: ["安塔利亚", "阿达纳", "梅尔辛", "哈塔伊", "伊斯帕尔塔"],
+    featuresZh:
+      "旅游业非常重要。地中海气候。托罗斯山脉在此。柑橘类水果产量领先。",
   },
   {
     key: "map_ic_anadolu",
@@ -118,6 +133,10 @@ const regions: Region[] = [
     provincesFr: ["Ankara", "Konya", "Kayseri", "Eskisehir", "Sivas"],
     featuresFr:
       "La capitale Ankara est ici. Climat steppique et vastes plaines. Les cheminees de fees de Cappadoce sont ici.",
+    nameZh: "中部安纳托利亚地区",
+    provincesZh: ["安卡拉", "科尼亚", "开塞利", "埃斯基谢希尔", "锡瓦斯"],
+    featuresZh:
+      "土耳其首都安卡拉在此。草原气候和广阔平原。卡帕多西亚的仙女烟囱在此。小麦产量领先。",
   },
   {
     key: "map_karadeniz",
@@ -140,6 +159,10 @@ const regions: Region[] = [
     provincesFr: ["Samsun", "Trabzon", "Rize", "Zonguldak", "Ordu"],
     featuresFr:
       "Climat pluvieux et nature verdoyante. Leader mondial en the et noisettes. Sur la cote de la mer Noire.",
+    nameZh: "黑海地区",
+    provincesZh: ["萨姆松", "特拉布宗", "里泽", "宗古尔达克", "奥尔杜"],
+    featuresZh:
+      "多雨气候和郁郁葱葱的自然环境。茶叶和榛子产量世界领先。位于黑海沿岸。",
   },
   {
     key: "map_dogu_anadolu",
@@ -162,6 +185,10 @@ const regions: Region[] = [
     provincesFr: ["Erzurum", "Van", "Malatya", "Elazig", "Agri"],
     featuresFr:
       "Region la plus haute et froide. Le mont Ararat est le point culminant (5165m). Le lac de Van est le plus grand.",
+    nameZh: "东部安纳托利亚地区",
+    provincesZh: ["埃尔祖鲁姆", "凡城", "马拉提亚", "埃拉泽", "阿格里"],
+    featuresZh:
+      "海拔最高、气候最寒冷的地区。亚拉拉特山是土耳其最高点（5165米）。凡湖是土耳其最大的湖泊。",
   },
   {
     key: "map_guneydogu_anadolu",
@@ -184,6 +211,15 @@ const regions: Region[] = [
     provincesFr: ["Gaziantep", "Sanliurfa", "Diyarbakir", "Mardin", "Adiyaman"],
     featuresFr:
       "Le projet GAP a ete mis en oeuvre ici. Les fleuves Euphrate et Tigre traversent cette region.",
+    nameZh: "东南安纳托利亚地区",
+    provincesZh: [
+      "加济安泰普",
+      "尚勒乌尔法",
+      "迪亚巴克尔",
+      "马尔丁",
+      "阿德亚曼",
+    ],
+    featuresZh: "GAP项目在此实施。幼发拉底河和底格里斯河流经此地区。",
   },
   {
     key: "map_samsun",
@@ -206,6 +242,10 @@ const regions: Region[] = [
     provincesFr: ["Samsun", "Ilkadim", "Canik", "Atakum", "Bafra"],
     featuresFr:
       "Connue comme la porte de la mer Noire. Ville historique ou Ataturk lanca la guerre d'independance le 19 mai 1919.",
+    nameZh: "萨姆松",
+    provincesZh: ["萨姆松", "伊尔卡迪姆", "贾尼克", "阿塔库姆", "巴弗拉"],
+    featuresZh:
+      "被称为黑海的门户。凯末尔于1919年5月19日在此城市开始独立战争。烟草和榛子生产重要。",
   },
   {
     key: "map_trabzon",
@@ -228,6 +268,16 @@ const regions: Region[] = [
     provincesFr: ["Trabzon", "Ortahisar", "Akcaabat", "Of", "Arakli"],
     featuresFr:
       "Couverte de jardins de the et noisettiers celebres. Le chateau de Trabzon et le musee Sainte-Sophie sont historiques.",
+    nameZh: "特拉布宗",
+    provincesZh: [
+      "特拉布宗",
+      "奥尔塔希萨尔",
+      "阿克恰阿巴特",
+      "奥夫",
+      "阿拉克利",
+    ],
+    featuresZh:
+      "遍布世界著名的茶园和榛子园。特拉布宗城堡和圣索菲亚博物馆是重要历史遗址。黑海美食中心。",
   },
   {
     key: "map_erzurum",
@@ -250,6 +300,10 @@ const regions: Region[] = [
     provincesFr: ["Erzurum", "Palandoken", "Yakutiye", "Oltu", "Horasan"],
     featuresFr:
       "L'une des villes les plus froides de Turquie. Le tourisme hivernal est important avec le centre de ski Palandoken.",
+    nameZh: "埃尔祖鲁姆",
+    provincesZh: ["埃尔祖鲁姆", "帕兰多肯", "亚库蒂耶", "奥尔图", "霍拉桑"],
+    featuresZh:
+      "土耳其最寒冷、海拔最高的城市之一。帕兰多肯滑雪中心使冬季旅游业发展重要。凯末尔在此主持埃尔祖鲁姆大会的历史城市。",
   },
   {
     key: "map_gaziantep",
@@ -272,6 +326,16 @@ const regions: Region[] = [
     provincesFr: ["Gaziantep", "Sahinbey", "Sehitkamil", "Nizip", "Islahiye"],
     featuresFr:
       "Capitale gastronomique de la Turquie. La baklava et les patisseries a la pistache sont mondialement celebres.",
+    nameZh: "加济安泰普",
+    provincesZh: [
+      "加济安泰普",
+      "沙欣贝伊",
+      "谢希特卡米勒",
+      "尼齐普",
+      "伊斯拉希耶",
+    ],
+    featuresZh:
+      "土耳其的美食之都。果仁蜜饼和开心果甜点举世闻名。土耳其第六大城市。",
   },
   {
     key: "map_diyarbakir",
@@ -294,6 +358,10 @@ const regions: Region[] = [
     provincesFr: ["Diyarbakir", "Baglar", "Kayapinar", "Sur", "Ergani"],
     featuresFr:
       "Connue pour ses remparts en basalte noir inscrits au patrimoine UNESCO. Construite sur les rives du Tigre.",
+    nameZh: "迪亚巴克尔",
+    provincesZh: ["迪亚巴克尔", "巴拉尔", "卡亚皮纳尔", "苏尔", "埃尔加尼"],
+    featuresZh:
+      "以联合国教科文组织世界遗产名录中的黑色玄武岩城墙闻名。建于底格里斯河岸边。以西瓜著名。有5000年历史。",
   },
 ];
 
@@ -307,6 +375,7 @@ export default function TurkeyMapPage() {
   const isEn = lang === "en";
   const isEs = lang === "es";
   const isFr = lang === "fr";
+  const isZh = lang === "zh";
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -366,17 +435,28 @@ export default function TurkeyMapPage() {
           onClick={() => navigate({ to: "/home" })}
           className="text-white mb-4"
         >
-          ← {isEs ? "Volver" : isFr ? "Retour" : isEn ? "Back" : "Geri"}
+          ←{" "}
+          {isZh
+            ? "返回"
+            : isEs
+              ? "Volver"
+              : isFr
+                ? "Retour"
+                : isEn
+                  ? "Back"
+                  : "Geri"}
         </Button>
         <h1 className="text-3xl font-black text-white mb-4">
           🗺️{" "}
-          {isEs
-            ? "Mapa de Turquía"
-            : isFr
-              ? "Carte de Turquie"
-              : isEn
-                ? "Turkey Map"
-                : "Türkiye Haritası"}
+          {isZh
+            ? "土耳其地图"
+            : isEs
+              ? "Mapa de Turquía"
+              : isFr
+                ? "Carte de Turquie"
+                : isEn
+                  ? "Turkey Map"
+                  : "Türkiye Haritası"}
         </h1>
         <div className="grid grid-cols-2 gap-2 mb-4">
           <button
@@ -386,7 +466,15 @@ export default function TurkeyMapPage() {
             className={`py-3 rounded-2xl font-bold text-sm transition-all ${mode === "learn" ? "bg-white text-red-600" : "bg-white/20 text-white hover:bg-white/30"}`}
           >
             📖{" "}
-            {isEs ? "Aprender" : isFr ? "Apprendre" : isEn ? "Learn" : "Öğren"}
+            {isZh
+              ? "学习"
+              : isEs
+                ? "Aprender"
+                : isFr
+                  ? "Apprendre"
+                  : isEn
+                    ? "Learn"
+                    : "Öğren"}
           </button>
           <button
             type="button"
@@ -408,11 +496,13 @@ export default function TurkeyMapPage() {
             <div className="flex-1">
               <div className="flex justify-between text-white text-xs mb-1">
                 <span className="font-bold">
-                  {isEs
-                    ? "Regiones aprendidas"
-                    : isEn
-                      ? "Regions learned"
-                      : "Öğrenilen bölgeler"}
+                  {isZh
+                    ? "已学习地区"
+                    : isEs
+                      ? "Regiones aprendidas"
+                      : isEn
+                        ? "Regions learned"
+                        : "Öğrenilen bölgeler"}
                 </span>
                 <span className="font-black">
                   {learnedCount}/{regions.length}
@@ -445,22 +535,26 @@ export default function TurkeyMapPage() {
                     <span className="text-3xl">{r.emoji}</span>
                     <div className="flex-1">
                       <div className="text-white font-black">
-                        {isEs
-                          ? r.nameEs
-                          : isFr
-                            ? r.nameFr
-                            : isEn
-                              ? r.nameEn
-                              : r.name}
+                        {isZh
+                          ? r.nameZh
+                          : isEs
+                            ? r.nameEs
+                            : isFr
+                              ? r.nameFr
+                              : isEn
+                                ? r.nameEn
+                                : r.name}
                       </div>
                       <div className="text-white/80 text-xs">
-                        {(isEs
-                          ? r.provincesEs
-                          : isFr
-                            ? r.provincesFr
-                            : isEn
-                              ? r.provincesEn
-                              : r.provinces
+                        {(isZh
+                          ? r.provincesZh
+                          : isEs
+                            ? r.provincesEs
+                            : isFr
+                              ? r.provincesFr
+                              : isEn
+                                ? r.provincesEn
+                                : r.provinces
                         )
                           .slice(0, 3)
                           .join(", ")}
@@ -479,18 +573,22 @@ export default function TurkeyMapPage() {
                       <div className="mb-2">
                         <div className="text-white font-bold text-xs mb-1">
                           🏙️{" "}
-                          {isEs
-                            ? "Provincias Clave:"
-                            : isEn
-                              ? "Key Provinces:"
-                              : "Önemli İller:"}
+                          {isZh
+                            ? "重要省份:"
+                            : isEs
+                              ? "Provincias Clave:"
+                              : isEn
+                                ? "Key Provinces:"
+                                : "Önemli İller:"}
                         </div>
                         <div className="flex flex-wrap gap-1">
-                          {(isEs
-                            ? r.provincesEs
-                            : isEn
-                              ? r.provincesEn
-                              : r.provinces
+                          {(isZh
+                            ? r.provincesZh
+                            : isEs
+                              ? r.provincesEs
+                              : isEn
+                                ? r.provincesEn
+                                : r.provinces
                           ).map((p) => (
                             <span
                               key={p}
@@ -504,18 +602,22 @@ export default function TurkeyMapPage() {
                       <div className="mb-3">
                         <div className="text-white font-bold text-xs mb-1">
                           ℹ️{" "}
-                          {isEs
-                            ? "Características:"
-                            : isEn
-                              ? "Features:"
-                              : "Özellikler:"}
+                          {isZh
+                            ? "特点:"
+                            : isEs
+                              ? "Características:"
+                              : isEn
+                                ? "Features:"
+                                : "Özellikler:"}
                         </div>
                         <p className="text-white/80 text-xs">
-                          {isEs
-                            ? r.featuresEs
-                            : isEn
-                              ? r.featuresEn
-                              : r.features}
+                          {isZh
+                            ? r.featuresZh
+                            : isEs
+                              ? r.featuresEs
+                              : isEn
+                                ? r.featuresEn
+                                : r.features}
                         </p>
                       </div>
                       {!isLearned && profile && (
@@ -545,39 +647,55 @@ export default function TurkeyMapPage() {
           <div>
             <div className="bg-white/20 rounded-2xl p-4 mb-4 text-center">
               <div className="text-white/70 text-xs mb-1">
-                {isEs ? "Puntos" : isFr ? "Points" : isEn ? "Score" : "Puan"}:{" "}
-                {score} |{" "}
-                {isEs
-                  ? "Pregunta"
-                  : isFr
-                    ? "Question"
-                    : isEn
+                {isZh
+                  ? "分数"
+                  : isEs
+                    ? "Puntos"
+                    : isFr
+                      ? "Points"
+                      : isEn
+                        ? "Score"
+                        : "Puan"}
+                : {score} |{" "}
+                {isZh
+                  ? "题目"
+                  : isEs
+                    ? "Pregunta"
+                    : isFr
                       ? "Question"
-                      : "Soru"}
+                      : isEn
+                        ? "Question"
+                        : "Soru"}
                 : {quizCount}
               </div>
               <div className="text-white font-black text-lg mb-2">
-                {isEs
-                  ? "¿Qué región es esta?"
-                  : isEn
-                    ? "Which region is this?"
-                    : "Bu bölge hangisidir?"}
+                {isZh
+                  ? "这是哪个地区？"
+                  : isEs
+                    ? "¿Qué región es esta?"
+                    : isEn
+                      ? "Which region is this?"
+                      : "Bu bölge hangisidir?"}
               </div>
               <div className="text-6xl mb-2">{quizRegion.emoji}</div>
               <div className="text-white/80 text-sm">
-                {isEs
-                  ? "Provincias"
-                  : isFr
-                    ? "Provinces"
-                    : isEn
+                {isZh
+                  ? "省份"
+                  : isEs
+                    ? "Provincias"
+                    : isFr
                       ? "Provinces"
-                      : "İller"}
+                      : isEn
+                        ? "Provinces"
+                        : "İller"}
                 :{" "}
-                {(isEs
-                  ? quizRegion.provincesEs
-                  : isEn
-                    ? quizRegion.provincesEn
-                    : quizRegion.provinces
+                {(isZh
+                  ? quizRegion.provincesZh
+                  : isEs
+                    ? quizRegion.provincesEs
+                    : isEn
+                      ? quizRegion.provincesEn
+                      : quizRegion.provinces
                 )
                   .slice(0, 2)
                   .join(", ")}
@@ -603,13 +721,15 @@ export default function TurkeyMapPage() {
                     onClick={() => handleQuizAnswer(choice.key)}
                     className={`rounded-xl p-3 text-sm font-bold transition-all ${btnClass} disabled:cursor-not-allowed`}
                   >
-                    {isEs
-                      ? choice.nameEs
-                      : isFr
-                        ? choice.nameFr
-                        : isEn
-                          ? choice.nameEn
-                          : choice.name}
+                    {isZh
+                      ? choice.nameZh
+                      : isEs
+                        ? choice.nameEs
+                        : isFr
+                          ? choice.nameFr
+                          : isEn
+                            ? choice.nameEn
+                            : choice.name}
                   </button>
                 );
               })}

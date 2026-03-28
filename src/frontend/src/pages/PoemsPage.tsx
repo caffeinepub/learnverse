@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button";
 import { poemsEn } from "../data/poems-en";
 import { poemsEs } from "../data/poems-es";
 import { poemsFr } from "../data/poems-fr";
+import { poemsZh } from "../data/poems-zh";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -1155,7 +1156,9 @@ export default function PoemsPage() {
         ? poemsEs
         : lang === "fr"
           ? poemsFr
-          : poems;
+          : lang === "zh"
+            ? poemsZh
+            : poems;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -1216,7 +1219,9 @@ export default function PoemsPage() {
             ? "es-ES"
             : lang === "fr"
               ? "fr-FR"
-              : "tr-TR";
+              : lang === "zh"
+                ? "zh-CN"
+                : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);

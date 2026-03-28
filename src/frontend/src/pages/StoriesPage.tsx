@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button";
 import { storiesEn } from "../data/stories-en";
 import { storiesEs } from "../data/stories-es";
 import { storiesFr } from "../data/stories-fr";
+import { storiesZh } from "../data/stories-zh";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   getCurrentUser,
@@ -641,7 +642,9 @@ export default function StoriesPage() {
         ? storiesEs
         : lang === "fr"
           ? storiesFr
-          : stories;
+          : lang === "zh"
+            ? storiesZh
+            : stories;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -716,7 +719,9 @@ export default function StoriesPage() {
             ? "es-ES"
             : lang === "fr"
               ? "fr-FR"
-              : "tr-TR";
+              : lang === "zh"
+                ? "zh-CN"
+                : "tr-TR";
       utt.onend = () => setSpeakingId(null);
       setSpeakingId(id);
       window.speechSynthesis.speak(utt);
