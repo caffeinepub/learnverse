@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button";
 import { poemsEn } from "../data/poems-en";
 import { poemsEs } from "../data/poems-es";
 import { poemsFr } from "../data/poems-fr";
+import { poemsHi } from "../data/poems-hi";
 import { poemsZh } from "../data/poems-zh";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
@@ -1158,7 +1159,9 @@ export default function PoemsPage() {
           ? poemsFr
           : lang === "zh"
             ? poemsZh
-            : poems;
+            : lang === "hi"
+              ? poemsHi
+              : poems;
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
