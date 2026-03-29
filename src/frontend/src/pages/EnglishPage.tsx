@@ -1511,6 +1511,226 @@ const levelTabsEs: { key: Level; label: string }[] = [
   { key: "ortaokul", label: "📘 Secundaria" },
 ];
 
+const englishDataHi: Record<Level, EngItem[]> = {
+  okul_oncesi: [
+    {
+      key: "eng_colors_hi",
+      emoji: "🌈",
+      title: "रंग / Colors",
+      description:
+        "मूल रंग सीखें: लाल, नीला, पीला, हरा, बैंगनी, नारंगी (Red, Blue, Yellow, Green, Purple, Orange)",
+      example: "सेब लाल है। (The apple is red.) नीली चीज़ की तरफ इशारा करो!",
+    },
+    {
+      key: "eng_numbers_hi",
+      emoji: "🔢",
+      title: "संख्याएँ / Numbers",
+      description:
+        "एक से दस तक गिनें: One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten",
+      example: "मेरे पास दो बिल्लियाँ हैं। (I have two cats.) तुम्हारी कितनी उँगलियाँ हैं?",
+    },
+    {
+      key: "eng_animals_hi",
+      emoji: "🐶",
+      title: "जानवर / Animals",
+      description:
+        "सामान्य जानवर: कुत्ता, बिल्ली, पक्षी, मछली, खरगोश (Dog, Cat, Bird, Fish, Rabbit)",
+      example:
+        "कुत्ता 'भौं' करता है। बिल्ली 'म्याऊँ' करती है। (The dog says woof. The cat says meow.)",
+    },
+    {
+      key: "eng_family_hi",
+      emoji: "👨‍👩‍👧",
+      title: "परिवार / Family",
+      description:
+        "परिवार के सदस्य: माँ, पिता, भाई, बहन (Mother, Father, Brother, Sister)",
+      example: "मेरी माँ दयालु है। (My mother is kind.)",
+    },
+    {
+      key: "eng_food_hi",
+      emoji: "🥗",
+      title: "खाना / Food",
+      description:
+        "स्वादिष्ट खाना: सेब, रोटी, दूध, अंडा, चावल (Apple, Bread, Milk, Egg, Rice)",
+      example: "मुझे सेब पसंद है। (I like apples.) तुम्हारा पसंदीदा खाना क्या है?",
+    },
+    {
+      key: "eng_greetings_hi",
+      emoji: "👋",
+      title: "अभिवादन / Greetings",
+      description:
+        "मिलना-जुलना: नमस्ते, सुप्रभात, अलविदा, धन्यवाद, कृपया (Hello, Good morning, Goodbye, Thank you, Please)",
+      example:
+        "नमस्ते! आप कैसे हैं? मैं ठीक हूँ, धन्यवाद! (Hello! How are you? I am fine, thank you!)",
+    },
+    {
+      key: "eng_body_hi",
+      emoji: "👁️",
+      title: "शरीर / Body",
+      description:
+        "शरीर के अंग: आँखें, नाक, मुँह, कान, हाथ, पैर (Eyes, Nose, Mouth, Ears, Hands, Feet)",
+      example: "मेरी दो आँखें हैं। (I have two eyes.)",
+    },
+    {
+      key: "eng_weather_hi",
+      emoji: "☀️",
+      title: "मौसम / Weather",
+      description:
+        "मौसम के शब्द: धूपवाला, बरसात, बादलवाला, बर्फीला (Sunny, Rainy, Cloudy, Snowy)",
+      example: "आज धूप है। (Today is sunny.)",
+    },
+  ],
+  ilkokul: [
+    {
+      key: "eng_school_hi",
+      emoji: "🏫",
+      title: "स्कूल / School",
+      description:
+        "स्कूल के शब्द: शिक्षक, छात्र, किताब, ब्लैकबोर्ड, कक्षा (Teacher, Student, Book, Blackboard, Classroom)",
+      example: "मेरे शिक्षक अच्छे हैं। (My teacher is nice.) मुझे स्कूल पसंद है।",
+    },
+    {
+      key: "eng_days_hi",
+      emoji: "📅",
+      title: "दिन / Days of Week",
+      description:
+        "सप्ताह के सात दिन: सोमवार, मंगलवार... रविवार (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)",
+      example: "आज सोमवार है। (Today is Monday.)",
+    },
+    {
+      key: "eng_sentences_hi",
+      emoji: "💬",
+      title: "सरल वाक्य / Simple Sentences",
+      description: "वाक्य बनाना: Subject + Verb + Object। जैसे: I + love + you।",
+      example: "I eat an apple. She reads a book. He plays football.",
+    },
+    {
+      key: "eng_verbs_hi",
+      emoji: "🏃",
+      title: "क्रियाएँ / Verbs",
+      description:
+        "सामान्य क्रियाएँ: दौड़ना, खाना, पीना, सोना, खेलना, पढ़ना (Run, Eat, Drink, Sleep, Play, Study)",
+      example: "मैं हर दिन दौड़ता हूँ। (I run every day.) वह अच्छी नींद लेती है।",
+    },
+    {
+      key: "eng_adjectives_hi",
+      emoji: "✨",
+      title: "विशेषण / Adjectives",
+      description:
+        "वर्णनात्मक शब्द: बड़ा, छोटा, तेज़, धीमा, गर्म, ठंडा (Big, Small, Fast, Slow, Hot, Cold)",
+      example: "हाथी बड़ा है। (The elephant is big.) बर्फ ठंडी है। (Ice is cold.)",
+    },
+    {
+      key: "eng_places_hi",
+      emoji: "🏙️",
+      title: "स्थान / Places",
+      description:
+        "सामान्य स्थान: स्कूल, पार्क, बाज़ार, अस्पताल, पुस्तकालय (School, Park, Supermarket, Hospital, Library)",
+      example: "मैं पार्क जाता हूँ। (I go to the park.) वह पुस्तकालय में है।",
+    },
+    {
+      key: "eng_time_hi",
+      emoji: "⏰",
+      title: "समय / Time",
+      description:
+        "समय के शब्द: सुबह, दोपहर, शाम, अभी, पहले, बाद में (Morning, Afternoon, Evening, Now, Before, After)",
+      example: "मैं सुबह 7 बजे उठता हूँ। (I wake up at 7 in the morning.)",
+    },
+    {
+      key: "eng_questions_hi",
+      emoji: "❓",
+      title: "प्रश्न शब्द / Question Words",
+      description:
+        "प्रश्न पूछना: क्या, कौन, कहाँ, कब, क्यों, कैसे (What, Who, Where, When, Why, How)",
+      example:
+        "तुम्हारा नाम क्या है? (What is your name?) तुम कहाँ रहते हो? (Where do you live?)",
+    },
+    {
+      key: "eng_prepositions_hi",
+      emoji: "📍",
+      title: "पूर्वसर्ग / Prepositions",
+      description:
+        "स्थान और दिशा: ऊपर, नीचे, अंदर, बाहर, पास, दूर (On, Under, In, Out, Near, Far)",
+      example:
+        "किताब मेज़ पर है। (The book is on the table.) बिल्ली बिस्तर के नीचे है।",
+    },
+  ],
+  ortaokul: [
+    {
+      key: "eng_tenses_hi",
+      emoji: "⏳",
+      title: "काल / Tenses",
+      description:
+        "अंग्रेज़ी के तीन मुख्य काल: वर्तमान, भूत और भविष्य (Present, Past, Future Tense)",
+      example: "I eat (Present). I ate (Past). I will eat (Future).",
+    },
+    {
+      key: "eng_conditionals_hi",
+      emoji: "🔀",
+      title: "शर्त वाक्य / Conditionals",
+      description: "If-then वाक्य बनाना: If + condition, then + result",
+      example:
+        "If it rains, I will take an umbrella. अगर बारिश हो तो मैं छाता लूँगा।",
+    },
+    {
+      key: "eng_passive_hi",
+      emoji: "🔄",
+      title: "कर्मवाच्य / Passive Voice",
+      description:
+        "Active से Passive voice बनाना: Subject + be + past participle",
+      example:
+        "Active: She wrote the letter. Passive: The letter was written by her.",
+    },
+    {
+      key: "eng_essay_hi",
+      emoji: "📝",
+      title: "निबंध लेखन / Essay Writing",
+      description:
+        "निबंध की संरचना: परिचय, मुख्य भाग और निष्कर्ष (Introduction, Body, Conclusion)",
+      example:
+        "Introduction: hook + thesis. Body: 3 paragraphs. Conclusion: summary.",
+    },
+    {
+      key: "eng_idioms_hi",
+      emoji: "🎭",
+      title: "मुहावरे / Idioms",
+      description: "अंग्रेज़ी मुहावरे जिनका शाब्दिक अर्थ अलग होता है",
+      example:
+        "Break a leg = शुभकामनाएँ। It's raining cats and dogs = बहुत तेज़ बारिश।",
+    },
+    {
+      key: "eng_reading_hi",
+      emoji: "📖",
+      title: "पठन बोध / Reading Comprehension",
+      description: "पाठ को समझना, मुख्य विचार और विवरण पहचानना",
+      example:
+        "Main idea: passage का केंद्रीय विषय। Supporting details: उदाहरण और प्रमाण।",
+    },
+    {
+      key: "eng_debate_hi",
+      emoji: "🗣️",
+      title: "बहस / Debate",
+      description: "किसी विषय पर तर्क देना और विपरीत विचारों का सामना करना",
+      example: "I agree because... / I disagree because... / In my opinion...",
+    },
+    {
+      key: "eng_vocab_adv_hi",
+      emoji: "📚",
+      title: "उन्नत शब्दावली / Advanced Vocabulary",
+      description:
+        "कठिन अंग्रेज़ी शब्द और उनके अर्थ: Ambiguous, Benevolent, Contemplate",
+      example:
+        "Ambiguous = अस्पष्ट। Benevolent = दयालु। Contemplate = विचार करना।",
+    },
+  ],
+};
+
+const levelTabsHi: { key: Level; label: string }[] = [
+  { key: "okul_oncesi", label: "🌈 पूर्व-प्राथमिक" },
+  { key: "ilkokul", label: "📗 प्राथमिक" },
+  { key: "ortaokul", label: "📘 माध्यमिक" },
+];
+
 export default function EnglishPage() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
@@ -1518,6 +1738,7 @@ export default function EnglishPage() {
   const isEs = lang === "es";
   const isFr = lang === "fr";
   const isZh = lang === "zh";
+  const isHi = lang === "hi";
   const profile = getCurrentUser();
 
   const englishData = isZh
@@ -1526,18 +1747,22 @@ export default function EnglishPage() {
       ? englishDataFr
       : isEs
         ? englishDataEs
-        : isEn
-          ? englishDataEn
-          : englishDataTr;
+        : isHi
+          ? englishDataHi
+          : isEn
+            ? englishDataEn
+            : englishDataTr;
   const levelTabs = isZh
     ? levelTabsZh
     : isFr
       ? levelTabsFr
       : isEs
         ? levelTabsEs
-        : isEn
-          ? levelTabsEn
-          : levelTabsTr;
+        : isHi
+          ? levelTabsHi
+          : isEn
+            ? levelTabsEn
+            : levelTabsTr;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
   useEffect(() => {

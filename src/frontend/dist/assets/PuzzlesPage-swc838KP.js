@@ -1,0 +1,2110 @@
+import { u as useNavigate, a as useLanguage, d as getCurrentUser, r as reactExports, t as trackContentVisit, e as getReadTopics, j as jsxRuntimeExports, B as Button, m as markTopicRead, f as updatePoints, i as incrementDailyContentRead } from "./index-C6v58384.js";
+const puzzlesEn = {
+  okul_oncesi: [
+    {
+      key: "puzzle_renk_1",
+      question: "What color is the sun?",
+      emoji: "☀️",
+      choices: ["Blue", "Red", "Yellow", "Green"],
+      correct: 2
+    },
+    {
+      key: "puzzle_hayvan_1",
+      question: "Which one can fly?",
+      emoji: "🐦",
+      choices: ["Cat", "Bird", "Fish", "Dog"],
+      correct: 1
+    },
+    {
+      key: "puzzle_sayi_1",
+      question: "What is 2 + 3?",
+      emoji: "🔢",
+      choices: ["4", "6", "5", "7"],
+      correct: 2
+    },
+    {
+      key: "puzzle_meyve_1",
+      question: "Which one is NOT a fruit?",
+      emoji: "🍎",
+      choices: ["Apple", "Banana", "Carrot", "Grape"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sekil_1",
+      question: "What shape does a wheel look like?",
+      emoji: "⭕",
+      choices: ["Square", "Circle", "Triangle", "Rectangle"],
+      correct: 1
+    },
+    {
+      key: "puzzle_renk_2",
+      question: "What color is the sky?",
+      emoji: "🌤️",
+      choices: ["Green", "Blue", "Yellow", "Red"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_2",
+      question: "Which animal lays eggs?",
+      emoji: "🐔",
+      choices: ["Cat", "Dog", "Chicken", "Horse"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sayi_2",
+      question: "What is 10 - 4?",
+      emoji: "🔢",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_sekil_2",
+      question: "Which shape has three sides?",
+      emoji: "🔺",
+      choices: ["Square", "Circle", "Triangle", "Rectangle"],
+      correct: 2
+    },
+    {
+      key: "puzzle_meyve_2",
+      question: "Which fruit is yellow?",
+      emoji: "🍌",
+      choices: ["Apple", "Strawberry", "Banana", "Grape"],
+      correct: 2
+    },
+    {
+      key: "puzzle_hayvan_3",
+      question: "Which animal lives in the sea?",
+      emoji: "🐟",
+      choices: ["Cat", "Fish", "Bird", "Dog"],
+      correct: 1
+    },
+    {
+      key: "puzzle_renk_3",
+      question: "What color is an apple usually?",
+      emoji: "🍎",
+      choices: ["Blue", "Yellow", "Purple", "Red"],
+      correct: 3
+    },
+    {
+      key: "puzzle_sayi_3",
+      question: "What is 1 + 1?",
+      emoji: "✌️",
+      choices: ["3", "1", "2", "4"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_o1",
+      question: "I rise every morning and set every evening. What am I?",
+      emoji: "☀️",
+      choices: ["Moon", "Sun", "Star", "Cloud"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o2",
+      question: "I have teeth but cannot bite. What am I?",
+      emoji: "⚙️",
+      choices: ["Saw", "Comb", "Fork", "Spoon"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o3",
+      question: "I carry my house on my back. What am I?",
+      emoji: "🐌",
+      choices: ["Turtle", "Snail", "Crab", "Lobster"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o4",
+      question: "I run but have no legs. What am I?",
+      emoji: "⏰",
+      choices: ["Wind", "Time", "River", "Light"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o5",
+      question: "How many seasons are there?",
+      emoji: "🍂",
+      choices: ["2", "3", "4", "5"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_o6",
+      question: "1, 3, 5, 7, ... What comes next?",
+      emoji: "🔢",
+      choices: ["8", "9", "10", "11"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new1",
+      question: "I come after sunset and bring the stars. What am I?",
+      emoji: "🌙",
+      choices: ["Morning", "Night", "Noon", "Evening"],
+      correct: 3
+    },
+    {
+      key: "puzzle_oo_new2",
+      question: "I have four legs but cannot walk. What am I?",
+      emoji: "🪑",
+      choices: ["Dog", "Table", "Horse", "Chair"],
+      correct: 3
+    },
+    {
+      key: "puzzle_oo_new3",
+      question: "I am white and drunk every morning. What am I?",
+      emoji: "🥛",
+      choices: ["Water", "Milk", "Tea", "Juice"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new4",
+      question: "I fly in the air, I have wings. I love flowers. What am I?",
+      emoji: "🦋",
+      choices: ["Bird", "Bee", "Butterfly", "Fly"],
+      correct: 2
+    },
+    {
+      key: "puzzle_oo_new5",
+      question: "What white thing falls in winter?",
+      emoji: "❄️",
+      choices: ["Rain", "Snow", "Hail", "Fog"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new6",
+      question: "Which animal has horns?",
+      emoji: "🐂",
+      choices: ["Cat", "Dog", "Cow", "Chicken"],
+      correct: 2
+    }
+  ],
+  ilkokul: [
+    {
+      key: "puzzle_matematik_1",
+      question: "What is 7 × 8?",
+      emoji: "🔢",
+      choices: ["54", "56", "58", "64"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_1",
+      question: "What is the capital of Turkey?",
+      emoji: "🏛️",
+      choices: ["Istanbul", "Izmir", "Ankara", "Bursa"],
+      correct: 2
+    },
+    {
+      key: "puzzle_mantik_1",
+      question: "How many days are in a week?",
+      emoji: "📅",
+      choices: ["5", "6", "8", "7"],
+      correct: 3
+    },
+    {
+      key: "puzzle_bilim_1",
+      question: "What do plants use sunlight for?",
+      emoji: "🌿",
+      choices: ["Breathing", "Growing", "Photosynthesis", "Sleeping"],
+      correct: 2
+    },
+    {
+      key: "puzzle_dilbilgisi_1",
+      question: "What type of word is 'run'?",
+      emoji: "📝",
+      choices: ["Noun", "Adjective", "Adverb", "Verb"],
+      correct: 3
+    },
+    {
+      key: "puzzle_matematik_2",
+      question: "What is 9 × 6?",
+      emoji: "🔢",
+      choices: ["54", "48", "56", "63"],
+      correct: 0
+    },
+    {
+      key: "puzzle_matematik_3",
+      question: "What is 48 ÷ 6?",
+      emoji: "➗",
+      choices: ["7", "8", "9", "6"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_2",
+      question: "What is the longest river in Turkey?",
+      emoji: "🏞️",
+      choices: ["Sakarya", "Kızılırmak", "Euphrates", "Tigris"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_2",
+      question: "Which planet is closest to the Sun?",
+      emoji: "🪐",
+      choices: ["Venus", "Mars", "Mercury", "Earth"],
+      correct: 2
+    },
+    {
+      key: "puzzle_dilbilgisi_2",
+      question: "What does the subject of a sentence do?",
+      emoji: "📝",
+      choices: [
+        "Performs the action",
+        "Describes quality",
+        "Shows location",
+        "Defines the object"
+      ],
+      correct: 0
+    },
+    {
+      key: "puzzle_matematik_4",
+      question: "What is half of 125?",
+      emoji: "🔢",
+      choices: ["60", "62", "62.5", "65"],
+      correct: 2
+    },
+    {
+      key: "puzzle_bilim_3",
+      question: "How many bones does the human body have?",
+      emoji: "🦴",
+      choices: ["186", "206", "226", "246"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_3",
+      question: "What is the highest mountain in the world?",
+      emoji: "⛰️",
+      choices: ["K2", "Everest", "Kilimanjaro", "Elbrus"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_i1",
+      question: "A farmer has 17 sheep. All but one run away. How many are left?",
+      emoji: "🐑",
+      choices: ["0", "1", "16", "17"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_i2",
+      question: "What is the driver of a train called?",
+      emoji: "🚂",
+      choices: ["Driver", "Captain", "Engineer/Conductor", "Pilot"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_i3",
+      question: "What is the largest lake in Turkey?",
+      emoji: "🌊",
+      choices: ["Salt Lake", "Lake Van", "Eğirdir Lake", "Burdur Lake"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_i4",
+      question: "If 3 cats catch 3 mice in 3 minutes, how long for 100 cats to catch 100 mice?",
+      emoji: "🐱",
+      choices: ["100", "33", "3", "300"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_i5",
+      question: "How many letters are in the Turkish alphabet?",
+      emoji: "🔤",
+      choices: ["26", "28", "29", "31"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_i6",
+      question: "Which number is both even and prime?",
+      emoji: "🔢",
+      choices: ["1", "2", "4", "6"],
+      correct: 1
+    },
+    {
+      key: "puzzle_il_new1",
+      question: "The more you take, the more you leave behind. What am I?",
+      emoji: "🕳️",
+      choices: ["Earth", "Hole", "Stone", "Water"],
+      correct: 1
+    },
+    {
+      key: "puzzle_il_new2",
+      question: "I have a voice but no tongue. What am I?",
+      emoji: "🥁",
+      choices: ["Sea", "Bell", "Drum", "Canal"],
+      correct: 2
+    },
+    {
+      key: "puzzle_il_new3",
+      question: "Which month has 28 or 29 days?",
+      emoji: "📅",
+      choices: ["January", "February", "March", "April"],
+      correct: 1
+    },
+    {
+      key: "puzzle_il_new4",
+      question: "The more you share it, the less you have. What am I?",
+      emoji: "🤫",
+      choices: ["Secret", "Dream", "Wish", "Knowledge"],
+      correct: 0
+    },
+    {
+      key: "puzzle_matematik_ilk_new1",
+      question: "What is 12 × 12?",
+      emoji: "🔢",
+      choices: ["132", "144", "156", "124"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_ilk_new1",
+      question: "When is Republic Day celebrated in Turkey?",
+      emoji: "🎉",
+      choices: ["April 23", "May 19", "October 29", "August 30"],
+      correct: 2
+    },
+    {
+      key: "puzzle_bilim_ilk_new1",
+      question: "How many planets are in the solar system?",
+      emoji: "🪐",
+      choices: ["7", "8", "9", "10"],
+      correct: 1
+    }
+  ],
+  ortaokul: [
+    {
+      key: "puzzle_fizik_1",
+      question: "What is the approximate speed of light in vacuum (km/s)?",
+      emoji: "💡",
+      choices: ["100,000", "300,000", "500,000", "1,000,000"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_1",
+      question: "In what year was the Republic of Turkey founded?",
+      emoji: "🏛️",
+      choices: ["1919", "1920", "1923", "1925"],
+      correct: 2
+    },
+    {
+      key: "puzzle_kimya_1",
+      question: "What is the chemical formula for water?",
+      emoji: "💧",
+      choices: ["H3O", "H2O", "HO2", "H2O2"],
+      correct: 1
+    },
+    {
+      key: "puzzle_mantik_2",
+      question: "What is the sum of interior angles of a triangle?",
+      emoji: "📐",
+      choices: ["90°", "270°", "360°", "180°"],
+      correct: 3
+    },
+    {
+      key: "puzzle_biyoloji_1",
+      question: "Where is DNA found in a cell?",
+      emoji: "🔬",
+      choices: ["Mitochondria", "Ribosome", "Nucleus", "Lysosome"],
+      correct: 2
+    },
+    {
+      key: "puzzle_fizik_2",
+      question: "How many laws of motion did Newton have?",
+      emoji: "⚙️",
+      choices: ["2", "3", "4", "5"],
+      correct: 1
+    },
+    {
+      key: "puzzle_kimya_2",
+      question: "What is the symbol for Oxygen?",
+      emoji: "🧪",
+      choices: ["Os", "Ox", "O", "On"],
+      correct: 2
+    },
+    {
+      key: "puzzle_biyoloji_2",
+      question: "Where does photosynthesis take place?",
+      emoji: "🌿",
+      choices: ["Mitochondria", "Ribosome", "Chloroplast", "Nucleus"],
+      correct: 2
+    },
+    {
+      key: "puzzle_matematik_5",
+      question: "What is the approximate value of π (pi)?",
+      emoji: "📐",
+      choices: ["2.71", "3.14", "1.41", "1.73"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_2",
+      question: "When did the Turkish War of Independence begin?",
+      emoji: "🏛️",
+      choices: ["1918", "1919", "1921", "1922"],
+      correct: 1
+    },
+    {
+      key: "puzzle_fizik_3",
+      question: "Which material conducts both electricity and heat well?",
+      emoji: "⚡",
+      choices: ["Wood", "Plastic", "Copper", "Glass"],
+      correct: 2
+    },
+    {
+      key: "puzzle_kimya_3",
+      question: "How many naturally occurring elements are there?",
+      emoji: "🧬",
+      choices: ["82", "92", "102", "112"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_3",
+      question: "In what year did the Ottoman Empire fall?",
+      emoji: "🏯",
+      choices: ["1919", "1920", "1922", "1923"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_m1",
+      question: "A clock loses 2 minutes per day. How much will it lose in 2 weeks?",
+      emoji: "⏱️",
+      choices: ["14", "24", "28", "30"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_m2",
+      question: "Which element has the symbol 'Fe'?",
+      emoji: "⚗️",
+      choices: ["Phosphorus", "Fluorine", "Iron", "Fermium"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_m3",
+      question: "What is the minimum number of words in a noun phrase?",
+      emoji: "📝",
+      choices: ["1", "2", "3", "4"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_m4",
+      question: "What is the sum of interior angles of a triangle?",
+      emoji: "📐",
+      choices: ["90°", "180°", "270°", "360°"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_m5",
+      question: "Which organ affects both digestion and blood production?",
+      emoji: "🫀",
+      choices: ["Heart", "Kidney", "Liver", "Spleen"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_m6",
+      question: "What happens when light changes speed between mediums?",
+      emoji: "💡",
+      choices: [
+        "Color changes",
+        "Intensity decreases",
+        "Refraction occurs",
+        "Reflection occurs"
+      ],
+      correct: 2
+    },
+    {
+      key: "puzzle_fizik_ort_new1",
+      question: "What is the approximate speed of sound in air (m/s)?",
+      emoji: "🔊",
+      choices: ["144", "340", "500", "1000"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_ort_new1",
+      question: "How many years did the Ottoman Empire rule?",
+      emoji: "🏰",
+      choices: ["400 years", "600 years", "800 years", "1000 years"],
+      correct: 1
+    },
+    {
+      key: "puzzle_matematik_ort_new1",
+      question: "What is 2^10 (2 to the power of 10)?",
+      emoji: "📐",
+      choices: ["512", "1024", "2048", "256"],
+      correct: 1
+    }
+  ]
+};
+const puzzlesEs = {
+  okul_oncesi: [
+    {
+      key: "puzzle_renk_1",
+      question: "¿De qué color es el sol?",
+      emoji: "☀️",
+      choices: ["Azul", "Rojo", "Amarillo", "Verde"],
+      correct: 2
+    },
+    {
+      key: "puzzle_hayvan_1",
+      question: "¿Cuál puede volar?",
+      emoji: "🐦",
+      choices: ["Gato", "Pájaro", "Pez", "Perro"],
+      correct: 1
+    },
+    {
+      key: "puzzle_sayi_1",
+      question: "¿Cuánto es 2 + 3?",
+      emoji: "🔢",
+      choices: ["4", "6", "5", "7"],
+      correct: 2
+    },
+    {
+      key: "puzzle_meyve_1",
+      question: "¿Cuál NO es una fruta?",
+      emoji: "🍎",
+      choices: ["Manzana", "Plátano", "Zanahoria", "Uva"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sekil_1",
+      question: "¿A qué forma se parece una rueda?",
+      emoji: "⭕",
+      choices: ["Cuadrado", "Círculo", "Triángulo", "Rectángulo"],
+      correct: 1
+    },
+    {
+      key: "puzzle_renk_2",
+      question: "¿De qué color es el cielo?",
+      emoji: "🌤️",
+      choices: ["Verde", "Azul", "Amarillo", "Rojo"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_2",
+      question: "¿Qué animal pone huevos?",
+      emoji: "🐔",
+      choices: ["Gato", "Perro", "Gallina", "Caballo"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sayi_2",
+      question: "¿Cuánto es 10 - 4?",
+      emoji: "🔢",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o1",
+      question: "Salgo cada mañana y me pongo cada tarde. ¿Qué soy?",
+      emoji: "☀️",
+      choices: ["Luna", "Sol", "Estrella", "Nube"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o2",
+      question: "Tengo dientes pero no puedo morder. ¿Qué soy?",
+      emoji: "⚙️",
+      choices: ["Sierra", "Peine", "Tenedor", "Cuchara"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new1",
+      question: "Llego después del atardecer y traigo las estrellas. ¿Qué soy?",
+      emoji: "🌙",
+      choices: ["Mañana", "Noche", "Mediodía", "Tarde"],
+      correct: 3
+    },
+    {
+      key: "puzzle_oo_new5",
+      question: "¿Qué cosa blanca cae en invierno?",
+      emoji: "❄️",
+      choices: ["Lluvia", "Nieve", "Granizo", "Niebla"],
+      correct: 1
+    }
+  ],
+  ilkokul: [
+    {
+      key: "puzzle_matematik_1",
+      question: "¿Cuánto es 7 × 8?",
+      emoji: "🔢",
+      choices: ["54", "56", "58", "64"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_1",
+      question: "¿Cuál es la capital de Turquía?",
+      emoji: "🏛️",
+      choices: ["Estambul", "Ankara", "Esmirna", "Bursa"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_1",
+      question: "¿Qué planeta es el más cercano al Sol?",
+      emoji: "🪐",
+      choices: ["Venus", "Tierra", "Mercurio", "Marte"],
+      correct: 2
+    },
+    {
+      key: "puzzle_dil_1",
+      question: "¿Cuántas letras tiene el alfabeto español?",
+      emoji: "🔤",
+      choices: ["25", "26", "27", "28"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_3",
+      question: "¿Cuál es el animal terrestre más rápido?",
+      emoji: "🐆",
+      choices: ["León", "Guepardo", "Leopardo", "Tigre"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_1",
+      question: "¿Quién descubrió América?",
+      emoji: "⛵",
+      choices: ["Marco Polo", "Magallanes", "Colón", "Vespucio"],
+      correct: 2
+    },
+    {
+      key: "puzzle_matematik_2",
+      question: "¿Cuántos lados tiene un hexágono?",
+      emoji: "🔷",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_2",
+      question: "¿Cuál es el gas más abundante en la atmósfera terrestre?",
+      emoji: "💨",
+      choices: ["Oxígeno", "CO₂", "Nitrógeno", "Argón"],
+      correct: 2
+    },
+    {
+      key: "puzzle_cografi_2",
+      question: "¿Cuál es el océano más grande del mundo?",
+      emoji: "🌊",
+      choices: ["Atlántico", "Índico", "Pacífico", "Ártico"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sanat_1",
+      question: "¿Quién pintó la Mona Lisa?",
+      emoji: "🎨",
+      choices: ["Miguel Ángel", "Rafael", "Da Vinci", "Botticelli"],
+      correct: 2
+    }
+  ],
+  ortaokul: [
+    {
+      key: "puzzle_o_math_1",
+      question: "¿Cuánto es la raíz cuadrada de 144?",
+      emoji: "🔢",
+      choices: ["11", "12", "13", "14"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_science_1",
+      question: "¿Cuál es la fórmula del agua?",
+      emoji: "💧",
+      choices: ["HO", "H₂O", "H₂O₂", "OH"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_geo_1",
+      question: "¿Cuál es el río más largo del mundo?",
+      emoji: "🌍",
+      choices: ["Amazonas", "Yangtsé", "Misisipi", "Nilo"],
+      correct: 3
+    },
+    {
+      key: "puzzle_o_hist_1",
+      question: "¿En qué año comenzó la Primera Guerra Mundial?",
+      emoji: "📅",
+      choices: ["1912", "1914", "1916", "1918"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_lit_1",
+      question: "¿Quién escribió Don Quijote?",
+      emoji: "📚",
+      choices: ["Lope de Vega", "Calderón", "Cervantes", "Quevedo"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_phys_1",
+      question: "¿Cuál es la velocidad de la luz en km/s?",
+      emoji: "💡",
+      choices: ["100.000", "200.000", "300.000", "400.000"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_bio_1",
+      question: "¿Cuántos cromosomas tiene una célula humana normal?",
+      emoji: "🧬",
+      choices: ["23", "44", "46", "48"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_chem_1",
+      question: "¿Cuál es el elemento más ligero de la tabla periódica?",
+      emoji: "⚗️",
+      choices: ["Helio", "Litio", "Hidrógeno", "Berilio"],
+      correct: 2
+    }
+  ]
+};
+const puzzlesFr = {
+  okul_oncesi: [
+    {
+      key: "puzzle_renk_1",
+      question: "De quelle couleur est le soleil ?",
+      emoji: "☀️",
+      choices: ["Bleu", "Rouge", "Jaune", "Vert"],
+      correct: 2
+    },
+    {
+      key: "puzzle_hayvan_1",
+      question: "Lequel peut voler ?",
+      emoji: "🐦",
+      choices: ["Chat", "Oiseau", "Poisson", "Chien"],
+      correct: 1
+    },
+    {
+      key: "puzzle_sayi_1",
+      question: "Combien font 2 + 3 ?",
+      emoji: "🔢",
+      choices: ["4", "6", "5", "7"],
+      correct: 2
+    },
+    {
+      key: "puzzle_meyve_1",
+      question: "Lequel n'est PAS un fruit ?",
+      emoji: "🍎",
+      choices: ["Pomme", "Banane", "Carotte", "Raisin"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sekil_1",
+      question: "Quelle forme ressemble à une roue ?",
+      emoji: "⭕",
+      choices: ["Carré", "Cercle", "Triangle", "Rectangle"],
+      correct: 1
+    },
+    {
+      key: "puzzle_renk_2",
+      question: "De quelle couleur est le ciel ?",
+      emoji: "🌤️",
+      choices: ["Vert", "Bleu", "Jaune", "Rouge"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_2",
+      question: "Quel animal pond des œufs ?",
+      emoji: "🐔",
+      choices: ["Chat", "Chien", "Poule", "Cheval"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sayi_2",
+      question: "Combien font 10 - 4 ?",
+      emoji: "🔢",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o1",
+      question: "Je me lève chaque matin et me couche chaque soir. Qui suis-je ?",
+      emoji: "☀️",
+      choices: ["Lune", "Soleil", "Étoile", "Nuage"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o2",
+      question: "J'ai des dents mais je ne peux pas mordre. Qui suis-je ?",
+      emoji: "⚙️",
+      choices: ["Scie", "Peigne", "Fourchette", "Cuillère"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new1",
+      question: "J'arrive après le coucher du soleil et j'apporte les étoiles. Qui suis-je ?",
+      emoji: "🌙",
+      choices: ["Matin", "Nuit", "Midi", "Soir"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new5",
+      question: "Quelle chose blanche tombe en hiver ?",
+      emoji: "❄️",
+      choices: ["Pluie", "Neige", "Grêle", "Brouillard"],
+      correct: 1
+    }
+  ],
+  ilkokul: [
+    {
+      key: "puzzle_matematik_1",
+      question: "Combien font 7 × 8 ?",
+      emoji: "🔢",
+      choices: ["54", "56", "58", "64"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_1",
+      question: "Quelle est la capitale de la Turquie ?",
+      emoji: "🏛️",
+      choices: ["Istanbul", "Ankara", "Izmir", "Bursa"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_1",
+      question: "Quelle planète est la plus proche du Soleil ?",
+      emoji: "🪐",
+      choices: ["Vénus", "Terre", "Mercure", "Mars"],
+      correct: 2
+    },
+    {
+      key: "puzzle_dil_1",
+      question: "Combien de lettres y a-t-il dans l'alphabet français ?",
+      emoji: "🔤",
+      choices: ["24", "26", "28", "30"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_3",
+      question: "Quel est l'animal terrestre le plus rapide ?",
+      emoji: "🐆",
+      choices: ["Lion", "Guépard", "Léopard", "Tigre"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_1",
+      question: "Qui a découvert l'Amérique ?",
+      emoji: "⛵",
+      choices: ["Marco Polo", "Magellan", "Colomb", "Vespucci"],
+      correct: 2
+    },
+    {
+      key: "puzzle_matematik_2",
+      question: "Combien de côtés a un hexagone ?",
+      emoji: "🔷",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_2",
+      question: "Quel est le gaz le plus abondant dans l'atmosphère terrestre ?",
+      emoji: "💨",
+      choices: ["Oxygène", "CO₂", "Azote", "Argon"],
+      correct: 2
+    },
+    {
+      key: "puzzle_cografi_2",
+      question: "Quel est le plus grand océan du monde ?",
+      emoji: "🌊",
+      choices: ["Atlantique", "Indien", "Pacifique", "Arctique"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sanat_1",
+      question: "Qui a peint la Joconde ?",
+      emoji: "🎨",
+      choices: ["Michel-Ange", "Raphaël", "Da Vinci", "Botticelli"],
+      correct: 2
+    }
+  ],
+  ortaokul: [
+    {
+      key: "puzzle_o_math_1",
+      question: "Quelle est la racine carrée de 144 ?",
+      emoji: "🔢",
+      choices: ["11", "12", "13", "14"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_science_1",
+      question: "Quelle est la formule chimique de l'eau ?",
+      emoji: "💧",
+      choices: ["HO", "H₂O", "H₂O₂", "OH"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_geo_1",
+      question: "Quel est le plus long fleuve du monde ?",
+      emoji: "🌍",
+      choices: ["Amazone", "Yangtsé", "Mississippi", "Nil"],
+      correct: 3
+    },
+    {
+      key: "puzzle_o_hist_1",
+      question: "En quelle année a commencé la Première Guerre mondiale ?",
+      emoji: "📅",
+      choices: ["1912", "1914", "1916", "1918"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_lit_1",
+      question: "Qui a écrit Don Quichotte ?",
+      emoji: "📚",
+      choices: ["Lope de Vega", "Calderón", "Cervantes", "Quevedo"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_phys_1",
+      question: "Quelle est la vitesse de la lumière en km/s ?",
+      emoji: "💡",
+      choices: ["100 000", "200 000", "300 000", "400 000"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_bio_1",
+      question: "Combien de chromosomes a une cellule humaine normale ?",
+      emoji: "🧬",
+      choices: ["23", "44", "46", "48"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_chem_1",
+      question: "Quel est l'élément le plus léger du tableau périodique ?",
+      emoji: "⚗️",
+      choices: ["Hélium", "Lithium", "Hydrogène", "Béryllium"],
+      correct: 2
+    }
+  ]
+};
+const puzzlesHi = {
+  okul_oncesi: [
+    {
+      key: "puzzle_renk_1",
+      question: "सूरज का रंग क्या है?",
+      emoji: "☀️",
+      choices: ["नीला", "लाल", "पीला", "हरा"],
+      correct: 2
+    },
+    {
+      key: "puzzle_hayvan_1",
+      question: "कौन उड़ सकता है?",
+      emoji: "🐦",
+      choices: ["बिल्ली", "चिड़िया", "मछली", "कुत्ता"],
+      correct: 1
+    },
+    {
+      key: "puzzle_sayi_1",
+      question: "2 + 3 = ?",
+      emoji: "🔢",
+      choices: ["4", "6", "5", "7"],
+      correct: 2
+    },
+    {
+      key: "puzzle_meyve_1",
+      question: "कौन सा फल नहीं है?",
+      emoji: "🍎",
+      choices: ["सेब", "केला", "गाजर", "अंगूर"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sekil_1",
+      question: "पहिया किस आकार का होता है?",
+      emoji: "⭕",
+      choices: ["वर्ग", "वृत्त", "त्रिभुज", "आयत"],
+      correct: 1
+    },
+    {
+      key: "puzzle_renk_2",
+      question: "आसमान का रंग क्या है?",
+      emoji: "🌤️",
+      choices: ["हरा", "नीला", "पीला", "लाल"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_2",
+      question: "कौन सा जानवर अंडे देता है?",
+      emoji: "🐔",
+      choices: ["बिल्ली", "कुत्ता", "मुर्गी", "घोड़ा"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sayi_2",
+      question: "10 - 4 = ?",
+      emoji: "🔢",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o1",
+      question: "मैं हर सुबह उगता हूँ और शाम को डूब जाता हूँ। मैं कौन हूँ?",
+      emoji: "☀️",
+      choices: ["चाँद", "सूरज", "तारा", "बादल"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o2",
+      question: "मेरे दाँत हैं पर मैं काट नहीं सकता। मैं क्या हूँ?",
+      emoji: "⚙️",
+      choices: ["आरी", "कंघी", "काँटा", "चम्मच"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new1",
+      question: "मैं शाम के बाद आता हूँ और तारे लाता हूँ। मैं क्या हूँ?",
+      emoji: "🌙",
+      choices: ["सुबह", "रात", "दोपहर", "शाम"],
+      correct: 3
+    },
+    {
+      key: "puzzle_oo_new5",
+      question: "सर्दियों में कौन सी सफेद चीज गिरती है?",
+      emoji: "❄️",
+      choices: ["बारिश", "बर्फ", "ओले", "कोहरा"],
+      correct: 1
+    }
+  ],
+  ilkokul: [
+    {
+      key: "puzzle_matematik_1",
+      question: "7 × 8 = ?",
+      emoji: "🔢",
+      choices: ["54", "56", "58", "64"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_1",
+      question: "तुर्की की राजधानी क्या है?",
+      emoji: "🏛️",
+      choices: ["इस्तांबुल", "अंकारा", "इज़मिर", "बुर्सा"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_1",
+      question: "सूर्य के सबसे निकट कौन सा ग्रह है?",
+      emoji: "🪐",
+      choices: ["शुक्र", "पृथ्वी", "बुध", "मंगल"],
+      correct: 2
+    },
+    {
+      key: "puzzle_dil_1",
+      question: "हिंदी वर्णमाला में कितने स्वर होते हैं?",
+      emoji: "🔤",
+      choices: ["10", "11", "12", "13"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_3",
+      question: "जमीन पर सबसे तेज़ दौड़ने वाला जानवर कौन है?",
+      emoji: "🐆",
+      choices: ["शेर", "चीता", "तेंदुआ", "बाघ"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_1",
+      question: "भारत की राजधानी कौन सी है?",
+      emoji: "🏛️",
+      choices: ["मुंबई", "कोलकाता", "नई दिल्ली", "चेन्नई"],
+      correct: 2
+    },
+    {
+      key: "puzzle_matematik_2",
+      question: "षट्भुज में कितनी भुजाएँ होती हैं?",
+      emoji: "🔷",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_2",
+      question: "पृथ्वी के वायुमंडल में सबसे अधिक कौन सी गैस है?",
+      emoji: "💨",
+      choices: ["ऑक्सीजन", "CO₂", "नाइट्रोजन", "आर्गन"],
+      correct: 2
+    },
+    {
+      key: "puzzle_cografi_2",
+      question: "दुनिया का सबसे बड़ा महासागर कौन सा है?",
+      emoji: "🌊",
+      choices: ["अटलांटिक", "हिंद", "प्रशांत", "आर्कटिक"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sanat_1",
+      question: "मोनालिसा किसने बनाई?",
+      emoji: "🎨",
+      choices: ["माइकल एंजेलो", "राफेल", "दा विंची", "बोतिचेल्ली"],
+      correct: 2
+    }
+  ],
+  ortaokul: [
+    {
+      key: "puzzle_o_math_1",
+      question: "144 का वर्गमूल क्या है?",
+      emoji: "🔢",
+      choices: ["11", "12", "13", "14"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_science_1",
+      question: "पानी का रासायनिक सूत्र क्या है?",
+      emoji: "💧",
+      choices: ["HO", "H₂O", "H₂O₂", "OH"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_geo_1",
+      question: "दुनिया की सबसे लंबी नदी कौन सी है?",
+      emoji: "🌍",
+      choices: ["अमेज़न", "यांग्त्ज़े", "मिसिसिपी", "नील"],
+      correct: 3
+    },
+    {
+      key: "puzzle_o_hist_1",
+      question: "प्रथम विश्व युद्ध कब शुरू हुआ?",
+      emoji: "📅",
+      choices: ["1912", "1914", "1916", "1918"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_lit_1",
+      question: "रामायण किसने लिखी?",
+      emoji: "📚",
+      choices: ["तुलसीदास", "वाल्मीकि", "कालिदास", "व्यास"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_phys_1",
+      question: "प्रकाश की गति (km/s) लगभग कितनी है?",
+      emoji: "💡",
+      choices: ["100,000", "200,000", "300,000", "400,000"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_bio_1",
+      question: "मानव कोशिका में कितने गुणसूत्र होते हैं?",
+      emoji: "🧬",
+      choices: ["23", "44", "46", "48"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_chem_1",
+      question: "आवर्त सारणी का सबसे हल्का तत्व कौन सा है?",
+      emoji: "⚗️",
+      choices: ["हीलियम", "लिथियम", "हाइड्रोजन", "बेरिलियम"],
+      correct: 2
+    }
+  ]
+};
+const puzzlesZh = {
+  okul_oncesi: [
+    {
+      key: "puzzle_renk_1",
+      question: "太阳是什么颜色的？",
+      emoji: "☀️",
+      choices: ["蓝色", "红色", "黄色", "绿色"],
+      correct: 2
+    },
+    {
+      key: "puzzle_hayvan_1",
+      question: "哪个动物会飞？",
+      emoji: "🐦",
+      choices: ["猫", "鸟", "鱼", "狗"],
+      correct: 1
+    },
+    {
+      key: "puzzle_sayi_1",
+      question: "2 + 3 等于多少？",
+      emoji: "🔢",
+      choices: ["4", "6", "5", "7"],
+      correct: 2
+    },
+    {
+      key: "puzzle_meyve_1",
+      question: "哪个不是水果？",
+      emoji: "🍎",
+      choices: ["苹果", "香蕉", "胡萝卜", "葡萄"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sekil_1",
+      question: "车轮像什么形状？",
+      emoji: "⭕",
+      choices: ["正方形", "圆形", "三角形", "长方形"],
+      correct: 1
+    },
+    {
+      key: "puzzle_renk_2",
+      question: "天空是什么颜色的？",
+      emoji: "🌤️",
+      choices: ["绿色", "蓝色", "黄色", "红色"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_2",
+      question: "哪个动物会下蛋？",
+      emoji: "🐔",
+      choices: ["猫", "狗", "母鸡", "马"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sayi_2",
+      question: "10 - 4 等于多少？",
+      emoji: "🔢",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o1",
+      question: "我每天早晨升起，傍晚落下。我是什么？",
+      emoji: "☀️",
+      choices: ["月亮", "太阳", "星星", "云"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o2",
+      question: "我有牙齿但不能咬东西。我是什么？",
+      emoji: "⚙️",
+      choices: ["锯子", "梳子", "叉子", "勺子"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new1",
+      question: "我在日落后出现，带来满天星星。我是什么？",
+      emoji: "🌙",
+      choices: ["早晨", "夜晚", "中午", "傍晚"],
+      correct: 3
+    },
+    {
+      key: "puzzle_oo_new5",
+      question: "冬天什么白色的东西会从天上飘下来？",
+      emoji: "❄️",
+      choices: ["雨", "雪", "冰雹", "雾"],
+      correct: 1
+    }
+  ],
+  ilkokul: [
+    {
+      key: "puzzle_matematik_1",
+      question: "7 × 8 等于多少？",
+      emoji: "🔢",
+      choices: ["54", "56", "58", "64"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_1",
+      question: "土耳其的首都是哪里？",
+      emoji: "🏛️",
+      choices: ["伊斯坦布尔", "安卡拉", "伊兹密尔", "布尔萨"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_1",
+      question: "哪颗行星离太阳最近？",
+      emoji: "🪐",
+      choices: ["金星", "地球", "水星", "火星"],
+      correct: 2
+    },
+    {
+      key: "puzzle_dil_1",
+      question: "中文有多少个声调？",
+      emoji: "🔤",
+      choices: ["3", "4", "5", "6"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_3",
+      question: "陆地上跑得最快的动物是什么？",
+      emoji: "🐆",
+      choices: ["狮子", "猎豹", "豹子", "老虎"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_1",
+      question: "谁发现了美洲？",
+      emoji: "⛵",
+      choices: ["马可波罗", "麦哲伦", "哥伦布", "阿美利哥"],
+      correct: 2
+    },
+    {
+      key: "puzzle_matematik_2",
+      question: "六边形有几条边？",
+      emoji: "🔷",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_2",
+      question: "地球大气层中最多的气体是什么？",
+      emoji: "💨",
+      choices: ["氧气", "二氧化碳", "氮气", "氩气"],
+      correct: 2
+    },
+    {
+      key: "puzzle_cografi_2",
+      question: "世界上最大的海洋是哪个？",
+      emoji: "🌊",
+      choices: ["大西洋", "印度洋", "太平洋", "北冰洋"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sanat_1",
+      question: "谁画了《蒙娜丽莎》？",
+      emoji: "🎨",
+      choices: ["米开朗基罗", "拉斐尔", "达芬奇", "波提切利"],
+      correct: 2
+    }
+  ],
+  ortaokul: [
+    {
+      key: "puzzle_o_math_1",
+      question: "144 的平方根是多少？",
+      emoji: "🔢",
+      choices: ["11", "12", "13", "14"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_science_1",
+      question: "水的化学式是什么？",
+      emoji: "💧",
+      choices: ["HO", "H₂O", "H₂O₂", "OH"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_geo_1",
+      question: "世界上最长的河流是哪条？",
+      emoji: "🌍",
+      choices: ["亚马逊河", "长江", "密西西比河", "尼罗河"],
+      correct: 3
+    },
+    {
+      key: "puzzle_o_hist_1",
+      question: "第一次世界大战是哪年开始的？",
+      emoji: "📅",
+      choices: ["1912", "1914", "1916", "1918"],
+      correct: 1
+    },
+    {
+      key: "puzzle_o_lit_1",
+      question: "谁写了《唐吉诃德》？",
+      emoji: "📚",
+      choices: ["洛佩·德·维加", "卡尔德隆", "塞万提斯", "克维多"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_phys_1",
+      question: "光速大约是每秒多少千米？",
+      emoji: "💡",
+      choices: ["100,000", "200,000", "300,000", "400,000"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_bio_1",
+      question: "正常人体细胞有多少条染色体？",
+      emoji: "🧬",
+      choices: ["23", "44", "46", "48"],
+      correct: 2
+    },
+    {
+      key: "puzzle_o_chem_1",
+      question: "元素周期表中最轻的元素是什么？",
+      emoji: "⚗️",
+      choices: ["氦", "锂", "氢", "铍"],
+      correct: 2
+    }
+  ]
+};
+const puzzles = {
+  okul_oncesi: [
+    {
+      key: "puzzle_renk_1",
+      question: "Güneş hangi renktir?",
+      emoji: "☀️",
+      choices: ["Mavi", "Kırmızı", "Sarı", "Yeşil"],
+      correct: 2
+    },
+    {
+      key: "puzzle_hayvan_1",
+      question: "Hangisi uçar?",
+      emoji: "🐦",
+      choices: ["Kedi", "Kuş", "Balık", "Köpek"],
+      correct: 1
+    },
+    {
+      key: "puzzle_sayi_1",
+      question: "2 + 3 kaçtır?",
+      emoji: "🔢",
+      choices: ["4", "6", "5", "7"],
+      correct: 2
+    },
+    {
+      key: "puzzle_meyve_1",
+      question: "Hangisi bir meyve değil?",
+      emoji: "🍎",
+      choices: ["Elma", "Muz", "Havuç", "Üzüm"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sekil_1",
+      question: "Tekerlek hangi şekle benzer?",
+      emoji: "⭕",
+      choices: ["Kare", "Daire", "Üçgen", "Dikdörtgen"],
+      correct: 1
+    },
+    {
+      key: "puzzle_renk_2",
+      question: "Gökyüzü hangi renktir?",
+      emoji: "🌤️",
+      choices: ["Yeşil", "Mavi", "Sarı", "Kırmızı"],
+      correct: 1
+    },
+    {
+      key: "puzzle_hayvan_2",
+      question: "Hangi hayvan yumurta yumurtlar?",
+      emoji: "🐔",
+      choices: ["Kedi", "Köpek", "Tavuk", "At"],
+      correct: 2
+    },
+    {
+      key: "puzzle_sayi_2",
+      question: "10 - 4 kaçtır?",
+      emoji: "🔢",
+      choices: ["5", "6", "7", "8"],
+      correct: 1
+    },
+    {
+      key: "puzzle_sekil_2",
+      question: "Üç kenarı olan şekil hangisidir?",
+      emoji: "🔺",
+      choices: ["Kare", "Daire", "Üçgen", "Dikdörtgen"],
+      correct: 2
+    },
+    {
+      key: "puzzle_meyve_2",
+      question: "Sarı renkli hangi meyvedir?",
+      emoji: "🍌",
+      choices: ["Elma", "Çilek", "Muz", "Üzüm"],
+      correct: 2
+    },
+    {
+      key: "puzzle_hayvan_3",
+      question: "Hangisi denizde yaşar?",
+      emoji: "🐟",
+      choices: ["Kedi", "Balık", "Kuş", "Köpek"],
+      correct: 1
+    },
+    {
+      key: "puzzle_renk_3",
+      question: "Elma genellikle hangi renktedir?",
+      emoji: "🍎",
+      choices: ["Mavi", "Sarı", "Mor", "Kırmızı"],
+      correct: 3
+    },
+    {
+      key: "puzzle_sayi_3",
+      question: "1 + 1 kaçtır?",
+      emoji: "✌️",
+      choices: ["3", "1", "2", "4"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_o1",
+      question: "Ben her sabah doğarım, her akşam batarım. Ben kimim?",
+      emoji: "☀️",
+      choices: ["Ay", "Güneş", "Yıldız", "Bulut"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o2",
+      question: "Dişleri var ama ısırmaz, ağzı var ama konuşmaz. Bu nedir?",
+      emoji: "⚙️",
+      choices: ["Testere", "Tarak", "Çatal", "Kaşık"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o3",
+      question: "Evi var ama kapısı yok. Her zaman içinde taşır. Bu nedir?",
+      emoji: "🐌",
+      choices: ["Kaplumbağa", "Salyangoz", "Yengeç", "İstakoz"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o4",
+      question: "Koşarım ama bacağım yok, akarım ama suyum değilim. Ben kimim?",
+      emoji: "⏰",
+      choices: ["Rüzgar", "Zaman", "Nehir", "Işık"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_o5",
+      question: "Kaç tane mevsim vardır?",
+      emoji: "🍂",
+      choices: ["2", "3", "4", "5"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_o6",
+      question: "1, 3, 5, 7, ... Sıradaki sayı nedir?",
+      emoji: "🔢",
+      choices: ["8", "9", "10", "11"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new1",
+      question: "Ben güneşten sonra gelir, yıldızları getiririm. Ben kimim?",
+      emoji: "🌙",
+      choices: ["Sabah", "Gece", "Öğle", "Akşam"],
+      correct: 3
+    },
+    {
+      key: "puzzle_oo_new2",
+      question: "Dört bacağım var ama yürüyemem. Ben neyim?",
+      emoji: "🪑",
+      choices: ["Köpek", "Masa", "At", "Sandalye"],
+      correct: 3
+    },
+    {
+      key: "puzzle_oo_new3",
+      question: "Her sabah kahvaltıda içilir, beyaz renktedir. Ben neyim?",
+      emoji: "🥛",
+      choices: ["Su", "Süt", "Çay", "Meyve suyu"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new4",
+      question: "Havada uçarım, kanatlarım var. Çiçekleri severim. Ben kimim?",
+      emoji: "🦋",
+      choices: ["Kuş", "Arı", "Kelebek", "Sinek"],
+      correct: 2
+    },
+    {
+      key: "puzzle_oo_new5",
+      question: "Kışın yağan beyaz şey nedir?",
+      emoji: "❄️",
+      choices: ["Yağmur", "Kar", "Dolu", "Sis"],
+      correct: 1
+    },
+    {
+      key: "puzzle_oo_new6",
+      question: "Hangi hayvanın boynuzları vardır?",
+      emoji: "🐂",
+      choices: ["Kedi", "Köpek", "İnek", "Tavuk"],
+      correct: 2
+    }
+  ],
+  ilkokul: [
+    {
+      key: "puzzle_matematik_1",
+      question: "7 × 8 kaçtır?",
+      emoji: "🔢",
+      choices: ["54", "56", "58", "64"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_1",
+      question: "Türkiye'nin başkenti neresidir?",
+      emoji: "🏛️",
+      choices: ["İstanbul", "İzmir", "Ankara", "Bursa"],
+      correct: 2
+    },
+    {
+      key: "puzzle_mantik_1",
+      question: "Bir haftada kaç gün vardır?",
+      emoji: "📅",
+      choices: ["5", "6", "8", "7"],
+      correct: 3
+    },
+    {
+      key: "puzzle_bilim_1",
+      question: "Bitkilerin güneş ışığını besin üretmek için kullanmasına ne denir?",
+      emoji: "🌿",
+      choices: ["Solunum", "Büyüme", "Fotosentez", "Uyku"],
+      correct: 2
+    },
+    {
+      key: "puzzle_dilbilgisi_1",
+      question: "'Koşmak' hangi sözcük türüdür?",
+      emoji: "📝",
+      choices: ["İsim", "Sıfat", "Zarf", "Fiil"],
+      correct: 3
+    },
+    {
+      key: "puzzle_matematik_2",
+      question: "9 × 6 kaçtır?",
+      emoji: "🔢",
+      choices: ["54", "48", "56", "63"],
+      correct: 0
+    },
+    {
+      key: "puzzle_matematik_3",
+      question: "48 ÷ 6 kaçtır?",
+      emoji: "➗",
+      choices: ["7", "8", "9", "6"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_2",
+      question: "Türkiye'nin en uzun nehri hangisidir?",
+      emoji: "🏞️",
+      choices: ["Sakarya", "Kızılırmak", "Fırat", "Dicle"],
+      correct: 1
+    },
+    {
+      key: "puzzle_bilim_2",
+      question: "Hangi gezegen Güneş'e en yakındır?",
+      emoji: "🪐",
+      choices: ["Venüs", "Mars", "Merkür", "Dünya"],
+      correct: 2
+    },
+    {
+      key: "puzzle_dilbilgisi_2",
+      question: "Cümledeki özne ne görevdedir?",
+      emoji: "📝",
+      choices: [
+        "İşi yapar",
+        "Niteliği anlatır",
+        "Yeri belirtir",
+        "Nesneyi tanımlar"
+      ],
+      correct: 0
+    },
+    {
+      key: "puzzle_matematik_4",
+      question: "125'in yarısı kaçtır?",
+      emoji: "🔢",
+      choices: ["60", "62", "62.5", "65"],
+      correct: 2
+    },
+    {
+      key: "puzzle_bilim_3",
+      question: "İnsan vücudunda kaç kemik vardır?",
+      emoji: "🦴",
+      choices: ["186", "206", "226", "246"],
+      correct: 1
+    },
+    {
+      key: "puzzle_cografi_3",
+      question: "Dünyanın en yüksek dağı hangisidir?",
+      emoji: "⛰️",
+      choices: ["K2", "Everest", "Kilimanjaro", "Elbrus"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_i1",
+      question: "Bir çobanın 17 koyunu var. Biri hariç hepsi kaçtı. Kaç koyun kaldı?",
+      emoji: "🐑",
+      choices: ["0", "1", "16", "17"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_i2",
+      question: "Ankara'dan İstanbul'a giden trenin şoförünün adı nedir?",
+      emoji: "🚂",
+      choices: [
+        "Ahmet",
+        "Mehmet",
+        "Trenin şoförü olmaz, makinisti var",
+        "Bilinmez"
+      ],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_i3",
+      question: "Türkiye'nin en büyük gölü hangisidir?",
+      emoji: "🌊",
+      choices: ["Tuz Gölü", "Van Gölü", "Eğirdir Gölü", "Burdur Gölü"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_i4",
+      question: "3 kedinin 3 fareyi yakalamak için 3 dakikaya ihtiyacı var. 100 kedi, 100 fareyi kaç dakikada yakalar?",
+      emoji: "🐱",
+      choices: ["100", "33", "3", "300"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_i5",
+      question: "Türk alfabesinde kaç harf vardır?",
+      emoji: "🔤",
+      choices: ["26", "28", "29", "31"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_i6",
+      question: "Hangi sayı hem çift hem de asal sayıdır?",
+      emoji: "🔢",
+      choices: ["1", "2", "4", "6"],
+      correct: 1
+    },
+    {
+      key: "puzzle_il_new1",
+      question: "Ne kadar çok alırsan, geride o kadar çok kalır. Ben neyim?",
+      emoji: "🕳️",
+      choices: ["Toprak", "Çukur", "Taş", "Su"],
+      correct: 1
+    },
+    {
+      key: "puzzle_il_new2",
+      question: "Taşırsın ama suyu yoktur, sesin vardır ama dili yoktur. Ben neyim?",
+      emoji: "🥁",
+      choices: ["Deniz", "Çan", "Davul", "Kanal"],
+      correct: 2
+    },
+    {
+      key: "puzzle_il_new3",
+      question: "Hangi ay 28 veya 29 gün çeker?",
+      emoji: "📅",
+      choices: ["Ocak", "Şubat", "Mart", "Nisan"],
+      correct: 1
+    },
+    {
+      key: "puzzle_il_new4",
+      question: "Düşündükçe büyür, söyledikçe küçülür. Ben neyim?",
+      emoji: "🤫",
+      choices: ["Sır", "Hayal", "Düş", "Bilgi"],
+      correct: 0
+    },
+    {
+      key: "puzzle_matematik_ilk_new1",
+      question: "12 × 12 kaçtır?",
+      emoji: "🔢",
+      choices: ["132", "144", "156", "124"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_ilk_new1",
+      question: "Cumhuriyet Bayramı hangi tarihte kutlanır?",
+      emoji: "🎉",
+      choices: ["23 Nisan", "19 Mayıs", "29 Ekim", "30 Ağustos"],
+      correct: 2
+    },
+    {
+      key: "puzzle_bilim_ilk_new1",
+      question: "Güneş sistemi kaç gezegenden oluşur?",
+      emoji: "🪐",
+      choices: ["7", "8", "9", "10"],
+      correct: 1
+    }
+  ],
+  ortaokul: [
+    {
+      key: "puzzle_fizik_1",
+      question: "İşığın boşlukta hızı yaklaşık kaç km/s'dir?",
+      emoji: "💡",
+      choices: ["100.000", "300.000", "500.000", "1.000.000"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_1",
+      question: "Türkiye Cumhuriyeti hangi yılda kuruldu?",
+      emoji: "🏛️",
+      choices: ["1919", "1920", "1923", "1925"],
+      correct: 2
+    },
+    {
+      key: "puzzle_kimya_1",
+      question: "Su molekülünün kimyasal formülü nedir?",
+      emoji: "💧",
+      choices: ["H3O", "H2O", "HO2", "H2O2"],
+      correct: 1
+    },
+    {
+      key: "puzzle_mantik_2",
+      question: "Bir üçgenin iç açıları toplamı kaç derecedir?",
+      emoji: "📐",
+      choices: ["90°", "270°", "360°", "180°"],
+      correct: 3
+    },
+    {
+      key: "puzzle_biyoloji_1",
+      question: "DNA hangi organelde bulunur?",
+      emoji: "🔬",
+      choices: ["Mitokondri", "Ribozom", "Çekirdek", "Lizozom"],
+      correct: 2
+    },
+    {
+      key: "puzzle_fizik_2",
+      question: "Newton'un kaç hareket yasası vardır?",
+      emoji: "⚙️",
+      choices: ["2", "3", "4", "5"],
+      correct: 1
+    },
+    {
+      key: "puzzle_kimya_2",
+      question: "Oksijen elementinin sembolü nedir?",
+      emoji: "🧪",
+      choices: ["Os", "Ox", "O", "On"],
+      correct: 2
+    },
+    {
+      key: "puzzle_biyoloji_2",
+      question: "Fotosentez hangi organelde gerçekleşir?",
+      emoji: "🌿",
+      choices: ["Mitokondri", "Ribozom", "Kloroplast", "Çekirdek"],
+      correct: 2
+    },
+    {
+      key: "puzzle_matematik_5",
+      question: "π (pi) sayısının yaklaşık değeri kaçtır?",
+      emoji: "📐",
+      choices: ["2.71", "3.14", "1.41", "1.73"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_2",
+      question: "Kurtuluş Savaşı hangi yıl başladı?",
+      emoji: "🏛️",
+      choices: ["1918", "1919", "1921", "1922"],
+      correct: 1
+    },
+    {
+      key: "puzzle_fizik_3",
+      question: "Hangi madde hem elektriği hem de ısıyı iyi iletir?",
+      emoji: "⚡",
+      choices: ["Ahşap", "Plastik", "Bakır", "Cam"],
+      correct: 2
+    },
+    {
+      key: "puzzle_kimya_3",
+      question: "Kaç tane doğal element vardır?",
+      emoji: "🧬",
+      choices: ["82", "92", "102", "112"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_3",
+      question: "Osmanlı İmparatorluğu hangi yıl yıkıldı?",
+      emoji: "🏯",
+      choices: ["1919", "1920", "1922", "1923"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_m1",
+      question: "Bir saat günde 2 dakika geri kalıyorsa, 2 haftada kaç dakika geri kalır?",
+      emoji: "⏱️",
+      choices: ["14", "24", "28", "30"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_m2",
+      question: "Hangi kimyasal element simgesi 'Fe' ile gösterilir?",
+      emoji: "⚗️",
+      choices: ["Fosfor", "Flor", "Demir", "Feriyum"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_m3",
+      question: "Türkçede 'isim tamlaması' en az kaç sözcükten oluşur?",
+      emoji: "📝",
+      choices: ["1", "2", "3", "4"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_m4",
+      question: "Bir üçgenin iç açıları toplamı kaç derecedir?",
+      emoji: "📐",
+      choices: ["90°", "180°", "270°", "360°"],
+      correct: 1
+    },
+    {
+      key: "puzzle_t9_m5",
+      question: "Hangi organ hem sindirimi hem de kan üretimini etkiler?",
+      emoji: "🫀",
+      choices: ["Kalp", "Böbrek", "Karaciğer", "Dalak"],
+      correct: 2
+    },
+    {
+      key: "puzzle_t9_m6",
+      question: "Işık bir ortamdan diğerine geçerken hızı değişirse ne olur?",
+      emoji: "💡",
+      choices: [
+        "Rengi değişir",
+        "Şiddeti azalır",
+        "Kırılma olur",
+        "Yansıma olur"
+      ],
+      correct: 2
+    },
+    {
+      key: "puzzle_fizik_ort_new1",
+      question: "Sesin havadaki hızı yaklaşık kaç m/s'dir?",
+      emoji: "🔊",
+      choices: ["144", "340", "500", "1000"],
+      correct: 1
+    },
+    {
+      key: "puzzle_tarih_ort_new1",
+      question: "Osmanlı Devleti kaç yıl hüküm sürdü?",
+      emoji: "🏰",
+      choices: ["400 yıl", "600 yıl", "800 yıl", "1000 yıl"],
+      correct: 1
+    },
+    {
+      key: "puzzle_matematik_ort_new1",
+      question: "2^10 (2 üssü 10) kaçtır?",
+      emoji: "📐",
+      choices: ["512", "1024", "2048", "256"],
+      correct: 1
+    }
+  ]
+};
+const levelTabs = [
+  { key: "okul_oncesi", label: "🌈 Okul Öncesi" },
+  { key: "ilkokul", label: "📗 İlkokul" },
+  { key: "ortaokul", label: "📘 Ortaokul" }
+];
+const levelTabsEn = [
+  { key: "okul_oncesi", label: "🌈 Preschool" },
+  { key: "ilkokul", label: "📗 Primary" },
+  { key: "ortaokul", label: "📘 Middle" }
+];
+function PuzzlesPage() {
+  const navigate = useNavigate();
+  const { t, lang } = useLanguage();
+  const isEn = lang === "en";
+  const profile = getCurrentUser();
+  const displayPuzzles = lang === "zh" ? puzzlesZh : lang === "hi" ? puzzlesHi : lang === "fr" ? puzzlesFr : lang === "es" ? puzzlesEs : isEn ? puzzlesEn : puzzles;
+  reactExports.useEffect(() => {
+    if (profile) trackContentVisit(profile.studentNumber, "puzzles");
+  }, []);
+  const [level, setLevel] = reactExports.useState(
+    (profile == null ? void 0 : profile.level) || "ilkokul"
+  );
+  const [readTopics, setReadTopics] = reactExports.useState(
+    () => profile ? getReadTopics(profile.studentNumber) : []
+  );
+  const [answers, setAnswers] = reactExports.useState({});
+  const [searchTerm, setSearchTerm] = reactExports.useState("");
+  const filteredPuzzles = displayPuzzles[level].filter(
+    (p) => p.question.toLowerCase().includes(searchTerm.toLowerCase()) || p.choices.join(" ").toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const handleAnswer = (puzzleKey, choiceIndex, correctIndex) => {
+    if (answers[puzzleKey] !== void 0) return;
+    setAnswers((prev) => ({ ...prev, [puzzleKey]: choiceIndex }));
+    if (choiceIndex === correctIndex && profile && !readTopics.includes(puzzleKey)) {
+      markTopicRead(profile.studentNumber, puzzleKey);
+      updatePoints(profile.studentNumber, 5);
+      incrementDailyContentRead(profile.studentNumber);
+      setReadTopics((prev) => [...prev, puzzleKey]);
+    }
+  };
+  const tabs = isEn ? levelTabsEn : levelTabs;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "min-h-screen bg-gradient-to-br from-amber-500 to-orange-500", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Button,
+      {
+        "data-ocid": "puzzles.back_button",
+        variant: "ghost",
+        onClick: () => navigate({ to: "/home" }),
+        className: "text-white mb-4",
+        children: [
+          "← ",
+          isEn ? "Back" : "Geri"
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-3xl font-black text-white mb-4", children: [
+      "🧩 ",
+      t("puzzles_title")
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-3 gap-2 mb-6", children: tabs.map((tab) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        type: "button",
+        "data-ocid": "puzzles.tab",
+        onClick: () => {
+          setLevel(tab.key);
+          setAnswers({});
+        },
+        className: `py-3 rounded-2xl font-bold text-xs transition-all ${level === tab.key ? "bg-white text-amber-600" : "bg-white/20 text-white hover:bg-white/30"}`,
+        children: tab.label
+      },
+      tab.key
+    )) }),
+    (() => {
+      const total = displayPuzzles[level].length;
+      const done = displayPuzzles[level].filter(
+        (p) => readTopics.includes(p.key)
+      ).length;
+      const pct = total > 0 ? Math.round(done / total * 100) : 0;
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white/20 rounded-2xl p-3 mb-4 flex items-center gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-2xl", children: "🧩" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-white text-xs mb-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold", children: isEn ? "Progress at this level" : "Bu seviyedeki ilerleme" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-black", children: [
+              done,
+              "/",
+              total
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-white/20 rounded-full h-3 overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "h-full bg-orange-300 rounded-full transition-all duration-500",
+              style: { width: `${pct}%` }
+            }
+          ) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-white font-black text-sm", children: [
+          pct,
+          "%"
+        ] })
+      ] });
+    })(),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative mb-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "input",
+      {
+        type: "text",
+        "data-ocid": "puzzles.search_input",
+        placeholder: `🔍 ${t("search_placeholder")}`,
+        value: searchTerm,
+        onChange: (e) => setSearchTerm(e.target.value),
+        className: "w-full bg-white/20 text-white placeholder-white/50 rounded-2xl px-4 py-3 text-sm font-medium outline-none focus:bg-white/30 transition-all"
+      }
+    ) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-5", children: filteredPuzzles.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-center text-white/60 py-8", children: isEn ? "No results found 🔍" : "Sonuç bulunamadı 🔍" }) : filteredPuzzles.map((puzzle, pIdx) => {
+      const selected = answers[puzzle.key];
+      const answered = selected !== void 0 && selected !== null;
+      const isCorrect = answered && selected === puzzle.correct;
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: `bg-white/20 backdrop-blur rounded-2xl p-5 transition-all ${answered ? isCorrect ? "border-2 border-green-300" : "border-2 border-red-300" : ""}`,
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 items-start mb-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-3xl", children: puzzle.emoji }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-white/60 text-xs mb-1", children: [
+                  isEn ? "Question" : "Soru",
+                  " ",
+                  pIdx + 1
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-white font-black", children: puzzle.question })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 gap-2", children: puzzle.choices.map((choice, cIdx) => {
+              let btnClass = "bg-white/20 text-white hover:bg-white/30";
+              if (answered) {
+                if (cIdx === puzzle.correct)
+                  btnClass = "bg-green-500 text-white";
+                else if (cIdx === selected)
+                  btnClass = "bg-red-500 text-white";
+                else btnClass = "bg-white/10 text-white/50";
+              }
+              return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  "data-ocid": `puzzles.answer_button.${cIdx + 1}`,
+                  disabled: answered,
+                  onClick: () => handleAnswer(puzzle.key, cIdx, puzzle.correct),
+                  className: `rounded-xl py-3 px-4 text-sm font-bold transition-all ${btnClass} disabled:cursor-not-allowed`,
+                  children: choice
+                },
+                choice
+              );
+            }) }),
+            answered && /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: `mt-3 text-sm font-bold ${isCorrect ? "text-green-300" : "text-red-300"}`,
+                children: isCorrect ? isEn ? "✅ Correct! +5 points!" : "✅ Doğru! +5 puan kazandın!" : isEn ? `❌ Wrong. Correct answer: ${puzzle.choices[puzzle.correct]}` : `❌ Yanlış. Doğru cevap: ${puzzle.choices[puzzle.correct]}`
+              }
+            )
+          ]
+        },
+        puzzle.key
+      );
+    }) })
+  ] }) });
+}
+export {
+  PuzzlesPage as default
+};
