@@ -31,6 +31,9 @@ interface Region {
   nameZh: string;
   provincesZh: string[];
   featuresZh: string;
+  nameHi: string;
+  provincesHi: string[];
+  featuresHi: string;
 }
 
 const regions: Region[] = [
@@ -59,6 +62,9 @@ const regions: Region[] = [
     provincesZh: ["伊斯坦布尔", "布尔萨", "科贾埃利", "泰基尔达", "巴勒克西尔"],
     featuresZh:
       "土耳其人口最多的地区。伊斯坦布尔是最大城市。工业和商业中心。被马尔马拉海环绕。",
+    nameHi: "मर्मरा क्षेत्र",
+    provincesHi: ["इस्तांबुल", "बुर्सा", "कोकाएली", "तेकिर्दा", "बालिकेसिर"],
+    featuresHi: "तुर्की का सबसे घनी आबादी वाला क्षेत्र। इस्तांबुल देश का सबसे बड़ा शहर है।",
   },
   {
     key: "map_ege",
@@ -85,6 +91,9 @@ const regions: Region[] = [
     provincesZh: ["伊兹密尔", "马尼萨", "代尼兹利", "艾登", "穆拉"],
     featuresZh:
       "以橄榄树和葡萄园闻名。伊兹密尔是土耳其第三大城市。以弗所和帕加马古城位于此处。",
+    nameHi: "एजियन क्षेत्र",
+    provincesHi: ["इज़मिर", "मानिसा", "देनिज़ली", "आयदिन", "मुगला"],
+    featuresHi: "जैतून के बागों के लिए प्रसिद्ध। इज़मिर तुर्की का तीसरा सबसे बड़ा शहर है।",
   },
   {
     key: "map_akdeniz",
@@ -111,6 +120,9 @@ const regions: Region[] = [
     provincesZh: ["安塔利亚", "阿达纳", "梅尔辛", "哈塔伊", "伊斯帕尔塔"],
     featuresZh:
       "旅游业非常重要。地中海气候。托罗斯山脉在此。柑橘类水果产量领先。",
+    nameHi: "भूमध्यसागरीय क्षेत्र",
+    provincesHi: ["अंताल्या", "अदाना", "मर्सिन", "हताय", "इस्पार्टा"],
+    featuresHi: "पर्यटन का केंद्र। अंताल्या प्रसिद्ध रिसॉर्ट शहर है।",
   },
   {
     key: "map_ic_anadolu",
@@ -137,6 +149,9 @@ const regions: Region[] = [
     provincesZh: ["安卡拉", "科尼亚", "开塞利", "埃斯基谢希尔", "锡瓦斯"],
     featuresZh:
       "土耳其首都安卡拉在此。草原气候和广阔平原。卡帕多西亚的仙女烟囱在此。小麦产量领先。",
+    nameHi: "मध्य अनातोलिया क्षेत्र",
+    provincesHi: ["अंकारा", "कोन्या", "कैसेरी", "एस्किशेहिर", "सिवास"],
+    featuresHi: "अंकारा तुर्की की राजधानी है। अनाज उत्पादन का केंद्र।",
   },
   {
     key: "map_karadeniz",
@@ -163,6 +178,9 @@ const regions: Region[] = [
     provincesZh: ["萨姆松", "特拉布宗", "里泽", "宗古尔达克", "奥尔杜"],
     featuresZh:
       "多雨气候和郁郁葱葱的自然环境。茶叶和榛子产量世界领先。位于黑海沿岸。",
+    nameHi: "काला सागर क्षेत्र",
+    provincesHi: ["सामसुन", "त्राबज़ोन", "रिज़े", "ज़ोंगुलदाक", "ओर्दु"],
+    featuresHi: "चाय और हेज़लनट उत्पादन का केंद्र।",
   },
   {
     key: "map_dogu_anadolu",
@@ -189,6 +207,9 @@ const regions: Region[] = [
     provincesZh: ["埃尔祖鲁姆", "凡城", "马拉提亚", "埃拉泽", "阿格里"],
     featuresZh:
       "海拔最高、气候最寒冷的地区。亚拉拉特山是土耳其最高点（5165米）。凡湖是土耳其最大的湖泊。",
+    nameHi: "पूर्वी अनातोलिया क्षेत्र",
+    provincesHi: ["एर्ज़ुरुम", "वान", "मालात्या", "एलाज़ी", "अग्री"],
+    featuresHi: "तुर्की का सबसे बड़ा क्षेत्र। माउंट अरारात यहाँ स्थित है।",
   },
   {
     key: "map_guneydogu_anadolu",
@@ -220,6 +241,9 @@ const regions: Region[] = [
       "阿德亚曼",
     ],
     featuresZh: "GAP项目在此实施。幼发拉底河和底格里斯河流经此地区。",
+    nameHi: "दक्षिण-पूर्वी अनातोलिया",
+    provincesHi: ["गाज़ियांटेप", "शानलिउर्फा", "दियारबाकिर", "मार्दिन", "अदियामान"],
+    featuresHi: "GAP परियोजना यहाँ लागू है। फुरात और दजला नदियाँ यहाँ से गुज़रती हैं।",
   },
   {
     key: "map_samsun",
@@ -246,6 +270,9 @@ const regions: Region[] = [
     provincesZh: ["萨姆松", "伊尔卡迪姆", "贾尼克", "阿塔库姆", "巴弗拉"],
     featuresZh:
       "被称为黑海的门户。凯末尔于1919年5月19日在此城市开始独立战争。烟草和榛子生产重要。",
+    nameHi: "दक्षिण-पूर्वी अनातोलिया",
+    provincesHi: ["गाज़ियांटेप", "दियारबाकिर", "शानलिउर्फा", "मार्दिन", "बत्मान"],
+    featuresHi: "GAP परियोजना यहाँ लागू है। फुरात और दजला नदियाँ यहाँ से गुज़रती हैं।",
   },
   {
     key: "map_trabzon",
@@ -278,6 +305,10 @@ const regions: Region[] = [
     ],
     featuresZh:
       "遍布世界著名的茶园和榛子园。特拉布宗城堡和圣索菲亚博物馆是重要历史遗址。黑海美食中心。",
+    nameHi: "सामसुन",
+    provincesHi: ["सामसुन", "इल्कादिम", "कानिक", "अताकुम", "बाफरा"],
+    featuresHi:
+      "काला सागर का प्रवेश द्वार। अतातुर्क ने 1919 में यहाँ से स्वतंत्रता संग्राम शुरू किया।",
   },
   {
     key: "map_erzurum",
@@ -304,6 +335,9 @@ const regions: Region[] = [
     provincesZh: ["埃尔祖鲁姆", "帕兰多肯", "亚库蒂耶", "奥尔图", "霍拉桑"],
     featuresZh:
       "土耳其最寒冷、海拔最高的城市之一。帕兰多肯滑雪中心使冬季旅游业发展重要。凯末尔在此主持埃尔祖鲁姆大会的历史城市。",
+    nameHi: "त्राबज़ोन",
+    provincesHi: ["त्राबज़ोन", "ओर्ताहिसार", "अकचाबात", "ओफ", "अराक्ली"],
+    featuresHi: "विश्व प्रसिद्ध चाय बागानों से ढका। त्राबज़ोन किला ऐतिहासिक स्थल है।",
   },
   {
     key: "map_gaziantep",
@@ -336,6 +370,9 @@ const regions: Region[] = [
     ],
     featuresZh:
       "土耳其的美食之都。果仁蜜饼和开心果甜点举世闻名。土耳其第六大城市。",
+    nameHi: "गाज़ियांटेप",
+    provincesHi: ["गाज़ियांटेप", "शहितकामिल", "निज़िप", "इस्लाहिये", "ओगुज़ेली"],
+    featuresHi: "बकलावा और पिस्ते के लिए विश्व प्रसिद्ध।",
   },
   {
     key: "map_diyarbakir",
@@ -362,6 +399,10 @@ const regions: Region[] = [
     provincesZh: ["迪亚巴克尔", "巴拉尔", "卡亚皮纳尔", "苏尔", "埃尔加尼"],
     featuresZh:
       "以联合国教科文组织世界遗产名录中的黑色玄武岩城墙闻名。建于底格里斯河岸边。以西瓜著名。有5000年历史。",
+    nameHi: "दियारबाकिर",
+    provincesHi: ["दियारबाकिर", "बागलार", "कायापिनार", "सुर", "एर्गानी"],
+    featuresHi:
+      "प्राचीन बेसाल्ट दीवारों के लिए UNESCO विश्व धरोहर। तरबूज़ उत्पादन का केंद्र।",
   },
 ];
 
@@ -376,6 +417,7 @@ export default function TurkeyMapPage() {
   const isEs = lang === "es";
   const isFr = lang === "fr";
   const isZh = lang === "zh";
+  const isHi = lang === "hi";
   const profile = getCurrentUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: one-time mount tracking
@@ -537,24 +579,28 @@ export default function TurkeyMapPage() {
                       <div className="text-white font-black">
                         {isZh
                           ? r.nameZh
-                          : isEs
-                            ? r.nameEs
-                            : isFr
-                              ? r.nameFr
-                              : isEn
-                                ? r.nameEn
-                                : r.name}
+                          : isHi
+                            ? r.nameHi
+                            : isEs
+                              ? r.nameEs
+                              : isFr
+                                ? r.nameFr
+                                : isEn
+                                  ? r.nameEn
+                                  : r.name}
                       </div>
                       <div className="text-white/80 text-xs">
                         {(isZh
                           ? r.provincesZh
-                          : isEs
-                            ? r.provincesEs
-                            : isFr
-                              ? r.provincesFr
-                              : isEn
-                                ? r.provincesEn
-                                : r.provinces
+                          : isHi
+                            ? r.provincesHi
+                            : isEs
+                              ? r.provincesEs
+                              : isFr
+                                ? r.provincesFr
+                                : isEn
+                                  ? r.provincesEn
+                                  : r.provinces
                         )
                           .slice(0, 3)
                           .join(", ")}
@@ -723,13 +769,15 @@ export default function TurkeyMapPage() {
                   >
                     {isZh
                       ? choice.nameZh
-                      : isEs
-                        ? choice.nameEs
-                        : isFr
-                          ? choice.nameFr
-                          : isEn
-                            ? choice.nameEn
-                            : choice.name}
+                      : isHi
+                        ? choice.nameHi
+                        : isEs
+                          ? choice.nameEs
+                          : isFr
+                            ? choice.nameFr
+                            : isEn
+                              ? choice.nameEn
+                              : choice.name}
                   </button>
                 );
               })}
